@@ -2,20 +2,20 @@
 
 namespace App\Models;
 
-use App\Traits\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Relations\{HasOne, HasMany};
 use Illuminate\Notifications\Notifiable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
+
+class User extends Model implements AuthenticatableContract
 {
-    use Authenticatable, Authorizable, HasFactory, Notifiable, MustVerifyEmail;
+    use Authenticatable, HasFactory, Notifiable;
 
     /**
      * The attributes that are guarded.
