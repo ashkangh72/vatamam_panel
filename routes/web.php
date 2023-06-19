@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Back\DeveloperController;
+use App\Http\Controllers\Back\MainController;
+use App\Http\Controllers\Back\PermissionController;
+use App\Http\Controllers\Back\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,9 +22,292 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', 'Admin']], function () {
+
+    // ------------------ MainController
+    Route::get('/', [MainController::class, 'index'])->name('dashboard');
+//    Route::get('get-tags', [MainController::class, 'get_tags']);
+//
+    Route::get('notifications', [MainController::class, 'notifications'])->name('notifications');
+//
+//    Route::get('file-manager', [MainController::class, 'fileManager'])->name('file-manager');
+//    Route::get('file-manager-iframe', [MainController::class, 'fileManagerIframe'])->name('file-manager-iframe');
+//
+//    // ------------------ backups
+//    Route::get('backups', [BackupController::class, 'index'])->name('backups.index');
+//    Route::post('backups/create', [BackupController::class, 'create'])->name('backups.create');
+//    Route::get('backups/{backup}/download', [BackupController::class, 'download'])->name('backups.download');
+//    Route::delete('backups/{backup}', [BackupController::class, 'destroy'])->name('backups.destroy');
+//
+//    // ------------------ users
+    Route::get('users/marketing-requests', [MarketingController::class, 'index'])->name('users.marketing-requests.index');
+//    Route::post('users/marketing-requests/reject', [MarketingController::class, 'reject'])->name('users.marketing-requests.reject');
+//    Route::post('users/marketing-requests/accept', [MarketingController::class, 'accept'])->name('users.marketing-requests.accept');
+//
+    Route::get('users/marketing-campaigns', [MarketingCampaignController::class, 'index'])->name('users.marketing-campaigns.index');
+    Route::get('users/marketing-campaigns/create', [MarketingCampaignController::class, 'create'])->name('users.marketing-campaigns.create');
+    Route::post('users/marketing-campaigns', [MarketingCampaignController::class, 'store'])->name('users.marketing-campaigns.store');
+    Route::get('users/marketing-campaigns/{marketingCampaign}/edit', [MarketingCampaignController::class, 'edit'])->name('users.marketing-campaigns.edit');
+    Route::put('users/marketing-campaigns/{marketingCampaign}', [MarketingCampaignController::class, 'update'])->name('users.marketing-campaigns.update');
+
+    Route::get('users/marketing-commissions-deposit-requests', [MarketingCommissionDepositController::class, 'index'])->name('users.marketing-commissions-deposit-requests.index');
+    Route::post('users/marketing-commissions-deposit-requests/reject', [MarketingCommissionDepositController::class, 'reject'])->name('users.marketing-commissions-deposit-requests.reject');
+    Route::post('users/marketing-commissions-deposit-requests/accept', [MarketingCommissionDepositController::class, 'accept'])->name('users.marketing-commissions-deposit-requests.accept');
+//
+    Route::resource('users', UserController::class);
+    Route::post('users/api/index', [UserController::class, 'apiIndex'])->name('users.apiIndex');
+    Route::delete('users/api/multipleDestroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
+    Route::get('users/export/excel', [UserController::class, 'export'])->name('users.export');
+//    Route::get('users/{user}/views', [UserController::class, 'views'])->name('users.views');
+    Route::get('user/profile', [UserController::class, 'showProfile'])->name('user.profile.show');
+//    Route::put('user/profile', [UserController::class, 'updateProfile'])->name('user.profile.update');
+//
+//    // ------------------ wallets
+//    Route::resource('wallets', WalletController::class)->only(['show']);
+//    Route::get('wallets/histories/{history}', [WalletController::class, 'history'])->name('wallets.history');
+//    Route::get('wallets/{wallet}/create', [WalletController::class, 'create'])->name('wallets.create');
+//    Route::post('wallets/{wallet}', [WalletController::class, 'store'])->name('wallets.store');
+//
+//    // ------------------ products
+   // Route::resource('products', ProductController::class)->except('show');
+//    Route::post('products/api/index', [ProductController::class, 'apiIndex'])->name('products.apiIndex');
+//    Route::delete('products/api/multipleDestroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
+//    Route::post('products/image-store', [ProductController::class, 'image_store']);
+//    Route::post('products/image-delete', [ProductController::class, 'image_delete']);
+//    Route::get('product/categories', [ProductController::class, 'categories'])->name('products.categories.index');
+//    Route::post('product/slug', [ProductController::class, 'generate_slug']);
+//    Route::get("products/title",[ProductController::class,"getProductByTitle"])->name('products.search.title');
+//    Route::get('products/ajax/get', [ProductController::class, 'ajax_get']);
+//
+//    Route::get('products/export/create', [ProductController::class, 'export'])->name('products.export');
+//
+//    Route::get('product/prices', [ProductController::class, 'indexPrices'])->name('product.prices.index');
+//    Route::put('product/prices', [ProductController::class, 'updatePrices'])->name('product.prices.update');
+//
+//    // ------------------ refund-requests
+//    Route::resource('refund-requests', RefundRequestController::class)->only(['index', 'show', 'destroy']);
+//    Route::post('refund-requests/accept/{refund_request}', [RefundRequestController::class, 'accept'])->name('refund-requests.accept');
+//    Route::post('refund-requests/reject/{refund_request}', [RefundRequestController::class, 'reject'])->name('refund-requests.reject');
+//    Route::post('refund-requests/receive/{refund_request}', [RefundRequestController::class, 'receive'])->name('refund-requests.receive');
+//
+//    // ------------------ discounts
+//    Route::resource('discounts', DiscountController::class)->except(['show']);
+//
+//    // ------------------ provinces
+//    Route::resource('provinces', ProvinceController::class);
+//    Route::post('provinces/api/index', [ProvinceController::class, 'apiIndex'])->name('provinces.apiIndex');
+//    Route::delete('provinces/api/multipleDestroy', [ProvinceController::class, 'multipleDestroy'])->name('provinces.multipleDestroy');
+//    Route::post('provinces/api/sort', [ProvinceController::class, 'sort'])->name('provinces.sort');
+//
+//    // ------------------ cities
+//    Route::resource('cities', CityController::class)->except(['index']);
+//    Route::post('cities/api/{province}/index', [CityController::class, 'apiIndex'])->name('cities.apiIndex');
+//    Route::delete('cities/api/multipleDestroy', [CityController::class, 'multipleDestroy'])->name('cities.multipleDestroy');
+//    Route::post('cities/api/sort', [CityController::class, 'sort'])->name('cities.sort');
+//
+//    // ------------------ faqs
+//    Route::resource('faqs', FaqController::class)->except(['show']);
+//    Route::post('faqs/api/index', [FaqController::class, 'apiIndex'])->name('faqs.apiIndex');
+//    Route::delete('faqs/api/multipleDestroy', [FaqController::class, 'multipleDestroy'])->name('faqs.multipleDestroy');
+//    Route::post('faqs/api/sort', [FaqController::class, 'sort'])->name('faqs.sort');
+//
+//    // ------------------ brands
+//    Route::resource('brands', BrandController::class)->except('show');
+//    Route::get('brands/ajax/get', [BrandController::class, 'ajax_get']);
+//
+//    // ------------------ filters
+//    Route::resource('filters', FilterController::class)->except('show');
+//
+//    // ------------------ attributeGroups
+//    Route::resource('attributeGroups', AttributeGroupController::class);
+//    Route::get('attributeGroups/{attributeGroup}/attributes', [AttributeGroupController::class, 'attributesIndex'])->name('attributes.index');
+//    Route::post('attributeGroup/sort', [AttributeGroupController::class, 'sort']);
+//
+//    // ------------------ attributes
+//    Route::resource('attributes', AttributeController::class)->except(['index', 'show']);
+//
+//    // ------------------ spec types
+//    Route::get('spectypes/spec-type-data', [SpecTypeController::class, 'getData'])->name('spectypes.getdata');
+//    Route::get('spectypes/ajax/get', [SpecTypeController::class, 'ajax_get']);
+//    Route::resource('spectypes', SpecTypeController::class)->except(['show', 'create']);
+//
+//    // ------------------ size types
+//    Route::resource('size-types', SizeTypeController::class);
+//    Route::get('size-types/{sizeType}/values', [SizeTypeController::class, 'editValues'])->name('size-types.editValues');
+//    Route::put('size-types/{sizeType}/values', [SizeTypeController::class, 'updateValues'])->name('size-types.updateValues');
+//
+//    // ------------------ posts
+//    //Route::resource('posts', PostController::class)->except(['show']);
+//    Route::get('post/categories', [PostController::class, 'categories'])->name('posts.categories.index');
+//    Route::post('post/slug', [PostController::class, 'generate_slug']);
+//
+//    // ------------------ categories
+//    Route::resource('categories', CategoryController::class)->only(['update', 'destroy', 'store', 'edit']);
+//    Route::post('categories/sort', [CategoryController::class, 'sort']);
+//    Route::post('category/slug', [CategoryController::class, 'generate_slug']);
+//    Route::get("categories/title",[CategoryController::class,"getCategoryByTitle"])->name('categories.search.title');
+//
+//    // ------------------ pages
+//    Route::resource('pages', PageController::class)->except(['show']);
+//
+//    // ------------------ tickets
+////    Route::resource('tickets', TicketController::class)->except(['edit']);
+////    Route::post('tickets/file/store', [TicketController::class, 'storeFile'])->name('tickets.file.store');
+////    Route::delete('tickets/file/destroy', [TicketController::class, 'destoryFile'])->name('tickets.file.destroy');
+//
+//    // ------------------ menus
+//    Route::resource('menus', MenuController::class)->except(['edit']);
+//    Route::post('menus/sort', [MenuController::class, 'sort']);
+//
+//    // ------------------ orders
+//    Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');
+//    Route::resource('orders', OrderController::class);
+//    Route::get('orders/api/userInfo', [OrderController::class, 'userInfo'])->name('orders.userInfo');
+//    Route::get('orders/api/productsList', [OrderController::class, 'productsList'])->name('orders.productsList');
+//    Route::post('orders/{order}/shipping-status', [OrderController::class, 'shipping_status'])->name('orders.shipping-status');
+//    Route::get('orders/{order}/factor', [OrderController::class, 'factor'])->name('orders.factor');
+//    Route::get('orders/{order}/post-label', [OrderController::class, 'postLabel'])->name('orders.post-label');
+//    Route::post('orders/api/index', [OrderController::class, 'apiIndex'])->name('orders.apiIndex');
+//    Route::delete('orders/api/multipleDestroy', [OrderController::class, 'multipleDestroy'])->name('orders.multipleDestroy');
+//    Route::post('orders/api/multiple-factors', [OrderController::class, 'multipleFactors'])->name('orders.multipleFactors');
+//    Route::post('orders/api/multiple-shipping-status', [OrderController::class, 'multipleShippingStatus'])->name('orders.multipleShippingStatus');
+//    Route::get('order/not-completed/products', [OrderController::class, 'notCompleted'])->name('orders.notCompleted');
+//
+//    // ------------------ carriers
+//    Route::resource('carriers', CarrierController::class);
+//    Route::get('carriers/{carrier}/cities', [CarrierController::class, 'cities'])->name('carriers.cities');
+//
+//    // ------------------ tariffs
+//    Route::resource('tariffs', TariffController::class);
+//
+//    // ------------------ search engine rules
+//    Route::resource('search-engine-rules', SearchEngineRulesController::class)->only('index', 'store', 'destroy');
+//
+//    // ------------------ redirects
+//    Route::resource('redirects', RedirectController::class)->only('index', 'store', 'destroy');
+//
+//    // ------------------ transactions
+//    Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);
+//    Route::post('transactions/api/index', [TransactionController::class, 'apiIndex'])->name('transactions.apiIndex');
+//    Route::delete('transactions/api/multipleDestroy', [TransactionController::class, 'multipleDestroy'])->name('transactions.multipleDestroy');
+//
+//    // ------------------ sliders
+//    Route::resource('sliders', SliderController::class)->except(['show']);
+//    Route::post('sliders/sort', [SliderController::class, 'sort']);
+//
+//    // ------------------ banners
+//    Route::resource('banners', BannerController::class)->except(['show']);
+//    Route::post('banners/sort', [BannerController::class, 'sort']);
+//
+//    // ------------------ links
+//    Route::resource('links', LinkController::class)->except(['show']);
+//    Route::post('links/sort', [LinkController::class, 'sort']);
+//    Route::get('links/groups', [LinkController::class, 'groups'])->name('links.groups.index');
+//    Route::put('links/groups/update', [LinkController::class, 'updateGroups'])->name('links.groups.update');
+//
+//    // ------------------ statistics
+//    Route::get('statistics/views', [StatisticsController::class, 'views'])->name('statistics.views');
+//    Route::get('statistics/viewers', [StatisticsController::class, 'viewers'])->name('statistics.viewers');
+//
+//    Route::get('statistics/views-charts', [StatisticsController::class, 'viewsCharts'])->name('statistics.viewsCharts');
+//    Route::get('statistics/views-charts/route-views/{period?}', [StatisticsController::class, 'viewsChartsRouteViews'])->name('statistics.viewsCharts.routeViews');
+//    Route::get('statistics/views-charts/views/{period}', [StatisticsController::class, 'viewsChartsViews'])->name('statistics.viewsCharts.views');
+//    Route::get('statistics/views-charts/viewer-platforms', [StatisticsController::class, 'viewsChartsViewersPlatforms'])->name('statistics.viewsCharts.viewersPlatforms');
+//
+//    Route::get('statistics/e-commerce', [StatisticsController::class, 'eCommerce'])->name('statistics.eCommerce');
+//    Route::get('statistics/e-commerce/total-sales', [StatisticsController::class, 'eCommerceTotalSales'])->name('statistics.eCommerce.totalSales');
+//    Route::get('statistics/e-commerce/total-sales-chart', [StatisticsController::class, 'eCommerceTotalSalesChart'])->name('statistics.eCommerce.totalSalesChart');
+//    Route::get('statistics/e-commerce/products-sales', [StatisticsController::class, 'eCommerceProductsSales'])->name('statistics.eCommerce.productsSales');
+//
+//    Route::get('statistics/orders', [StatisticsController::class, 'orders'])->name('statistics.orders');
+//    Route::get('statistics/orderUsers', [StatisticsController::class, 'orderUsers'])->name('statistics.orderUsers');
+//    Route::get('statistics/orderProducts', [StatisticsController::class, 'orderProducts'])->name('statistics.orderProducts');
+//    Route::get('statistics/orderValues', [StatisticsController::class, 'orderValues'])->name('statistics.orderValues');
+//    Route::get('statistics/orderCounts', [StatisticsController::class, 'orderCounts'])->name('statistics.orderCounts');
+//
+//    Route::get('statistics/users', [StatisticsController::class, 'users'])->name('statistics.users');
+//    Route::get('statistics/userCounts', [StatisticsController::class, 'userCounts'])->name('statistics.userCounts');
+//    Route::get('statistics/viewCounts', [StatisticsController::class, 'viewCounts'])->name('statistics.viewCounts');
+//    Route::get('statistics/viewerCounts', [StatisticsController::class, 'viewerCounts'])->name('statistics.viewerCounts');
+//    Route::get('statistics/userPurchaseCounts', [StatisticsController::class, 'userPurchaseCounts'])->name('statistics.userPurchaseCounts');
+//    Route::get('statistics/userPurchaseCounts/export', [StatisticsController::class, 'userPurchaseCountsExport'])->name('statistics.userPurchaseCounts.export');
+//
+//    Route::get('statistics/smsLog', [StatisticsController::class, 'smsLog'])->name('statistics.smsLog');
+//
+//    // ------------------ sms
+//    Route::resource('sms', SmsController::class)->only(['show']);
+//
+//    // ------------------ contacts
+//    Route::resource('contacts', ContactController::class)->only(['index', 'show', 'destroy']);
+//
+//    // ------------------ stock-notifies
+//    Route::resource('stock-notifies', StockNotifyController::class)->only(['index', 'show', 'destroy']);
+//
+//    // ------------------ comments
+//    Route::get('comments/{comment}/replies',[CommentController::class,"replies"])->name("comments.replies");
+//    Route::resource('comments', CommentController::class)->only(['index', 'show', 'destroy', 'update']);
+//
+//    // ------------------ roles
+//    Route::resource('roles', RoleController::class);
+//
+//    // ------------------ permissions
+    Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
+    Route::put('permissions', [PermissionController::class, 'update'])->name('permissions.update');
+//
+//    // ------------------ widgets
+//    Route::resource('widgets', WidgetController::class)->except(['show']);
+//    Route::get('widgets/{key}/template', [WidgetController::class, 'template'])->name('widgets.template');
+//    Route::post('widget/sort', [WidgetController::class, 'sort'])->name('widgets.sort');
+//
+//    // ------------------ themes
+////    Route::resource('themes', ThemeController::class)->except(['edit']);
+////
+////    Route::get('theme/settings', [ThemeController::class, 'showSettings'])->name('themes.settings');
+////    Route::post('theme/settings', [ThemeController::class, 'updateSettings']);
+//
+//    // ------------------ settings
+//    Route::get('settings/information', [SettingController::class, 'showInformation'])->name('settings.information');
+//    Route::post('settings/information', [SettingController::class, 'updateInformation']);
+//
+//    Route::get('settings/socials', [SettingController::class, 'showSocials'])->name('settings.socials');
+//    Route::post('settings/socials', [SettingController::class, 'updateSocials']);
+//
+//    Route::get('settings/gateways', [SettingController::class, 'showGateways'])->name('settings.gateways');
+//    Route::post('settings/gateways', [SettingController::class, 'updateGateways']);
+//
+//    // Route::get('settings/others', [SettingController::class, 'showOthers'])->name('settings.others');
+//    // Route::post('settings/others', [SettingController::class, 'updateOthers']);
+//
+//    Route::get('settings/sms', [SettingController::class, 'showSms'])->name('settings.sms');
+//    Route::post('settings/sms', [SettingController::class, 'updateSms']);
+//
+//    Route::get('settings/ftp', [SettingController::class, 'showFtp'])->name('settings.ftp');
+//    Route::post('settings/ftp', [SettingController::class, 'updateFtp']);
+//
+//    // ------------------ developer routes
+//    Route::group(['middleware' => 'CheckCreator'], function () {
+//
+//        // ------------------ logs
+        Route::get('logs', [LogViewerController::class, 'index'])->name('logs.index');
+//
+//        // ------------------ settings
+        Route::get('developer/settings', [DeveloperController::class, 'showSettings'])->name('developer.settings');
+//        Route::put('developer/settings', [DeveloperController::class, 'updateSettings']);
+//
+//        Route::post('developer/downApplication', [DeveloperController::class, 'downApplication'])->name('developer.downApplication');
+//        Route::post('developer/upApplication', [DeveloperController::class, 'upApplication'])->name('developer.upApplication');
+//
+//        Route::post('developer/webpushNotification', [DeveloperController::class, 'webpushNotification'])->name('developer.webpushNotification');
+//
+//        // ------------------ updater
+
+//    });
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,3 +316,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get("test-rule",function (){
+    dd($valid);
+
+});

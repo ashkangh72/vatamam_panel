@@ -60,71 +60,71 @@
                         </div>
                     </div>--}}
 
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <div class="card text-center">
-                                <div class="card-content">
-                                    <div class="card-body">
-                                        <div class="avatar bg-rgba-info p-50 m-0 mb-1">
-                                            <div class="avatar-content">
-                                                <i class="feather icon-users text-info font-medium-5"></i>
-                                            </div>
-                                        </div>
-                                        <h2 class="text-bold-700">{{ $users_count }}</h2>
-                                        <p class="mb-0 line-ellipsis">تعداد کاربران</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <div class="card text-center">
-                                <div class="card-content">
-                                    <div class="card-body">
-                                        <div class="avatar bg-rgba-warning p-50 m-0 mb-1">
-                                            <div class="avatar-content">
-                                                <i class="feather icon-shopping-cart text-warning font-medium-5"></i>
-                                            </div>
-                                        </div>
-                                        <h2 class="text-bold-700">{{ $products_count }}</h2>
-                                        <p class="mb-0 line-ellipsis">تعداد محصولات</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @can('orders.index')
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="card text-center">
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <div class="avatar bg-rgba-primary p-50 m-0 mb-1">
-                                                <div class="avatar-content">
-                                                    <i class="feather icon-briefcase text-primary font-medium-5"></i>
-                                                </div>
-                                            </div>
-                                            <h2 class="text-bold-700">{{ $orders_count }}</h2>
-                                            <p class="mb-0 line-ellipsis">تعداد سفارشات</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="card text-center">
-                                    <div class="card-content">
-                                        <div class="card-body">
-                                            <div class="avatar bg-rgba-success p-50 m-0 mb-1">
-                                                <div class="avatar-content">
-                                                    <i class="feather icon-credit-card text-success font-medium-5"></i>
-                                                </div>
-                                            </div>
-                                            <h2 class="text-bold-700" title="{{ number_format($total_sell) }} تومان">{{ formatPriceUnits($total_sell) }}</h2>
-                                            <p class="mb-0 line-ellipsis">جمع فروش</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endcan
+{{--                    <div class="row">--}}
+{{--                        <div class="col-lg-3 col-md-4 col-sm-6">--}}
+{{--                            <div class="card text-center">--}}
+{{--                                <div class="card-content">--}}
+{{--                                    <div class="card-body">--}}
+{{--                                        <div class="avatar bg-rgba-info p-50 m-0 mb-1">--}}
+{{--                                            <div class="avatar-content">--}}
+{{--                                                <i class="feather icon-users text-info font-medium-5"></i>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <h2 class="text-bold-700">{{ $users_count }}</h2>--}}
+{{--                                        <p class="mb-0 line-ellipsis">تعداد کاربران</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-3 col-md-4 col-sm-6">--}}
+{{--                            <div class="card text-center">--}}
+{{--                                <div class="card-content">--}}
+{{--                                    <div class="card-body">--}}
+{{--                                        <div class="avatar bg-rgba-warning p-50 m-0 mb-1">--}}
+{{--                                            <div class="avatar-content">--}}
+{{--                                                <i class="feather icon-shopping-cart text-warning font-medium-5"></i>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <h2 class="text-bold-700">{{ $products_count }}</h2>--}}
+{{--                                        <p class="mb-0 line-ellipsis">تعداد محصولات</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        @can('orders.index')--}}
+{{--                            <div class="col-lg-3 col-md-4 col-sm-6">--}}
+{{--                                <div class="card text-center">--}}
+{{--                                    <div class="card-content">--}}
+{{--                                        <div class="card-body">--}}
+{{--                                            <div class="avatar bg-rgba-primary p-50 m-0 mb-1">--}}
+{{--                                                <div class="avatar-content">--}}
+{{--                                                    <i class="feather icon-briefcase text-primary font-medium-5"></i>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <h2 class="text-bold-700">{{ $orders_count }}</h2>--}}
+{{--                                            <p class="mb-0 line-ellipsis">تعداد سفارشات</p>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-lg-3 col-md-4 col-sm-6">--}}
+{{--                                <div class="card text-center">--}}
+{{--                                    <div class="card-content">--}}
+{{--                                        <div class="card-body">--}}
+{{--                                            <div class="avatar bg-rgba-success p-50 m-0 mb-1">--}}
+{{--                                                <div class="avatar-content">--}}
+{{--                                                    <i class="feather icon-credit-card text-success font-medium-5"></i>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <h2 class="text-bold-700" title="{{ number_format($total_sell) }} تومان">{{ formatPriceUnits($total_sell) }}</h2>--}}
+{{--                                            <p class="mb-0 line-ellipsis">جمع فروش</p>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        @endcan--}}
 
-                    </div>
+{{--                    </div>--}}
 
                 </section>
 

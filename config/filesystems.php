@@ -32,16 +32,45 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
-            'throw' => false,
+            'root' => public_path('uploads'),
         ],
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'root' => public_path('/'),
+            'url' => env('APP_URL'),
             'visibility' => 'public',
-            'throw' => false,
+        ],
+
+        'backup' => [
+            'driver' => 'local',
+            'root' => storage_path('app/backups'),
+        ],
+
+        'ftp' => [
+            'driver'   => 'ftp',
+            'host'     => env('FTP_HOST'),
+            'username' => env('FTP_USERNAME'),
+            'password' => env('FTP_PASSWORD'),
+
+            // Optional FTP Settings...
+            'port'     => env('FTP_PORT', 21),
+            'root'     => env('FTP_ROOT', ''),
+            // 'passive'  => true,
+            'ssl'      => env('FTP_SSL', false),
+            // 'timeout'  => 30,
+        ],
+
+        'downloads' => [
+            'driver' => 'local',
+            'root' => storage_path('app/downloads'),
+        ],
+
+        'ckeditor' => [
+            'driver' => 'local',
+            'root' => public_path('uploads/ckeditor'),
+            'url' => '/uploads/ckeditor',
+            'visibility' => 'public',
         ],
 
         's3' => [
@@ -52,8 +81,11 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => false,
+        ],
+
+        'themes' => [
+            'driver' => 'local',
+            'root' => base_path('themes'),
         ],
 
     ],

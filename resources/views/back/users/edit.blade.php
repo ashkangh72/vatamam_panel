@@ -42,17 +42,17 @@
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label>نام</label>
-                                                    <input type="text" class="form-control" name="first_name" value="{{ $user->first_name }}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label>نام خانوادگی</label>
-                                                    <input type="text" class="form-control" name="last_name" value="{{ $user->last_name }}">
+                                                    <label> نام کامل</label>
+                                                    <input type="text" class="form-control" name="name" value="{{ $user->name }}">
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label>شماره همراه</label>
+                                                    <input type="text" class="form-control" name="phone" value="{{ $user->phone }}">
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 col-12">
@@ -63,7 +63,7 @@
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label>شماره همراه <small>( نام کاربری )</small></label>
+                                                    <label>نام کاربری </label>
                                                     <input type="text" class="form-control ltr" name="username" value="{{ $user->username }}">
                                                 </div>
                                             </div>

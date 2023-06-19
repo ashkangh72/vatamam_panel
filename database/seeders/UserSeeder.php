@@ -19,7 +19,8 @@ class UserSeeder extends Seeder
            "username" => "mmd",
            "password" =>bcrypt("123"),
            "email" => "mmd@gmail.com",
-           "gender" => 1
+           "gender" => 1,
+           "level" => "creator"
        ]);
     }
 }

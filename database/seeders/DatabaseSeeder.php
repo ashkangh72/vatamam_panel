@@ -16,6 +16,10 @@ class DatabaseSeeder extends Seeder
 
         Schema::disableForeignKeyConstraints();
         $this->call(UserSeeder::class);
+        $this->call(ProvinceSeeder::class);
+        $this->call(PermissionSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(CitySeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

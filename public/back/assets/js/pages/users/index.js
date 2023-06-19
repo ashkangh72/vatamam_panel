@@ -15,6 +15,7 @@ var user_datatable = function() {
                     url: $('#users_datatable').data('action'),
                     headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     map: function(raw) {
+
                         // sample data mapping
                         var dataSet = raw;
                         if (typeof raw.data !== 'undefined') {
@@ -58,6 +59,7 @@ var user_datatable = function() {
                 sortable: false,
                 width: 80,
                 template: function(row) {
+
                     return '<img class="post-thumb" src="' + row.image + '" alt="' + row.title + '">';
                 }
             },
@@ -71,10 +73,18 @@ var user_datatable = function() {
             },
             {
                 field: 'username',
-                title: 'شماره کاربر',
+                title: 'نام کاربری',
                 width: 200,
                 template: function(row) {
                     return row.username;
+                }
+            },
+            {
+                field: 'phone',
+                title: 'شماره کاربر',
+                width: 200,
+                template: function(row) {
+                    return row.phone;
                 }
             },
             {
