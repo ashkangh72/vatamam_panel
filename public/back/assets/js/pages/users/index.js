@@ -187,6 +187,7 @@ $('#user-multiple-delete-form').on('submit', function(e) {
             xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
         },
         complete: function() {
+
             unblock('#main-card');
         },
         cache: false,

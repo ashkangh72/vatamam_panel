@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\Back\CarrierController;
+use App\Http\Controllers\Back\CityController;
 use App\Http\Controllers\Back\DeveloperController;
 use App\Http\Controllers\Back\MainController;
 use App\Http\Controllers\Back\PermissionController;
+use App\Http\Controllers\Back\ProvinceController;
+use App\Http\Controllers\Back\RoleController;
+use App\Http\Controllers\Back\TariffController;
 use App\Http\Controllers\Back\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -98,17 +103,17 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::resource('discounts', DiscountController::class)->except(['show']);
 //
 //    // ------------------ provinces
-//    Route::resource('provinces', ProvinceController::class);
-//    Route::post('provinces/api/index', [ProvinceController::class, 'apiIndex'])->name('provinces.apiIndex');
-//    Route::delete('provinces/api/multipleDestroy', [ProvinceController::class, 'multipleDestroy'])->name('provinces.multipleDestroy');
-//    Route::post('provinces/api/sort', [ProvinceController::class, 'sort'])->name('provinces.sort');
+    Route::resource('provinces', ProvinceController::class);
+    Route::post('provinces/api/index', [ProvinceController::class, 'apiIndex'])->name('provinces.apiIndex');
+    Route::delete('provinces/api/multipleDestroy', [ProvinceController::class, 'multipleDestroy'])->name('provinces.multipleDestroy');
+    Route::post('provinces/api/sort', [ProvinceController::class, 'sort'])->name('provinces.sort');
 //
 //    // ------------------ cities
-//    Route::resource('cities', CityController::class)->except(['index']);
-//    Route::post('cities/api/{province}/index', [CityController::class, 'apiIndex'])->name('cities.apiIndex');
-//    Route::delete('cities/api/multipleDestroy', [CityController::class, 'multipleDestroy'])->name('cities.multipleDestroy');
-//    Route::post('cities/api/sort', [CityController::class, 'sort'])->name('cities.sort');
-//
+    Route::resource('cities', CityController::class)->except(['index']);
+    Route::post('cities/api/{province}/index', [CityController::class, 'apiIndex'])->name('cities.apiIndex');
+    Route::delete('cities/api/multipleDestroy', [CityController::class, 'multipleDestroy'])->name('cities.multipleDestroy');
+    Route::post('cities/api/sort', [CityController::class, 'sort'])->name('cities.sort');
+
 //    // ------------------ faqs
 //    Route::resource('faqs', FaqController::class)->except(['show']);
 //    Route::post('faqs/api/index', [FaqController::class, 'apiIndex'])->name('faqs.apiIndex');
@@ -178,11 +183,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::get('order/not-completed/products', [OrderController::class, 'notCompleted'])->name('orders.notCompleted');
 //
 //    // ------------------ carriers
-//    Route::resource('carriers', CarrierController::class);
-//    Route::get('carriers/{carrier}/cities', [CarrierController::class, 'cities'])->name('carriers.cities');
+    Route::resource('carriers', CarrierController::class);
+    Route::get('carriers/{carrier}/cities', [CarrierController::class, 'cities'])->name('carriers.cities');
 //
 //    // ------------------ tariffs
-//    Route::resource('tariffs', TariffController::class);
+    Route::resource('tariffs', TariffController::class);
 //
 //    // ------------------ search engine rules
 //    Route::resource('search-engine-rules', SearchEngineRulesController::class)->only('index', 'store', 'destroy');
@@ -252,7 +257,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::resource('comments', CommentController::class)->only(['index', 'show', 'destroy', 'update']);
 //
 //    // ------------------ roles
-//    Route::resource('roles', RoleController::class);
+    Route::resource('roles', RoleController::class);
 //
 //    // ------------------ permissions
     Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');

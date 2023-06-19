@@ -4,6 +4,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasOne, HasMany};
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 
 use Illuminate\Auth\Authenticatable;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model implements AuthenticatableContract
 {
-    use Authenticatable, HasFactory, Notifiable;
+    use Authenticatable, HasFactory, Notifiable,Authorizable;
 
     /**
      * The attributes that are guarded.

@@ -12,11 +12,12 @@ class RoleController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Role::class, 'role');
+       // $this->authorizeResource(Role::class, 'role');
     }
 
     public function index()
     {
+
         $roles = Role::latest()->paginate(20);
 
         return view('back.roles.index', compact('roles'));
@@ -24,6 +25,7 @@ class RoleController extends Controller
 
     public function create()
     {
+        $this->authorize(Role::class,'roles.create');
         $permissions = Permission::whereNull('permission_id')->where('active', true)->orderBy('ordering')->get();
 
         return view('back.roles.create', compact('permissions'));
