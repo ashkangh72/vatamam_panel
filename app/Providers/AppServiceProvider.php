@@ -51,11 +51,11 @@ class AppServiceProvider extends ServiceProvider
 //            $view->with('filters', $filters);
 //        });
 //
-//        view()->composer(['back.menus.index', 'back.sliders.create', 'back.sliders.edit', 'back.banners.create', 'back.banners.edit', 'back.links.create', 'back.links.edit'], function ($view) {
-//
-//            $pages = Page::pluck('slug');
-//
-//            $view->with('pages', $pages);
-//        });
+        view()->composer(['back.menus.index', 'back.sliders.create', 'back.sliders.edit', 'back.banners.create', 'back.banners.edit', 'back.links.create', 'back.links.edit'], function ($view) {
+
+            $pages = Page::pluck('slug');
+
+            $view->with('pages', $pages);
+        });
     }
 }

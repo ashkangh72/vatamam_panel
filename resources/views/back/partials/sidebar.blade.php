@@ -283,29 +283,29 @@
                 </li>
             @endcan
 
-{{--            @can('links')--}}
-{{--                <li class="nav-item has-sub {{ open_class(['admin.links.*']) }}"><a href="#"><i class="feather icon-link"></i><span class="menu-title" > لینک های فوتر</span></a>--}}
-{{--                    <ul class="menu-content">--}}
-{{--                        @can('links.index')--}}
-{{--                            <li class="{{ active_class('admin.links.index') }}">--}}
-{{--                                <a href="{{ route('admin.links.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست لینک ها</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
+            @can('links')
+                <li class="nav-item has-sub {{ open_class(['admin.links.*']) }}"><a href="#"><i class="feather icon-link"></i><span class="menu-title" > لینک های فوتر</span></a>
+                    <ul class="menu-content">
+                        @can('links.index')
+                            <li class="{{ active_class('admin.links.index') }}">
+                                <a href="{{ route('admin.links.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست لینک ها</span></a>
+                            </li>
+                        @endcan
 
-{{--                        @can('links.create')--}}
-{{--                            <li class="{{ active_class('admin.links.create') }}">--}}
-{{--                                <a href="{{ route('admin.links.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد لینک </span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
+                        @can('links.create')
+                            <li class="{{ active_class('admin.links.create') }}">
+                                <a href="{{ route('admin.links.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد لینک </span></a>
+                            </li>
+                        @endcan
 
-{{--                        @can('links.groups')--}}
-{{--                            <li class="{{ active_class('admin.links.groups.index') }}">--}}
-{{--                                <a href="{{ route('admin.links.groups.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست گروه ها </span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--            @endcan--}}
+                        @can('links.groups')
+                            <li class="{{ active_class('admin.links.groups.index') }}">
+                                <a href="{{ route('admin.links.groups.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست گروه ها </span></a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcan
 
 {{--            @can('pages')--}}
 {{--                <li class="nav-item has-sub {{ open_class(['admin.pages.*']) }}"><a href="#"><i class="feather icon-file"></i><span class="menu-title" > صفحات</span></a>--}}

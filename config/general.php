@@ -333,5 +333,7 @@ return [
         'root' => env('FTP_ROOT', ''),
         'username' => env('FTP_USERNAME'),
         'password' => env('FTP_PASSWORD'),
-    ]
+    ],
+
+
 ];

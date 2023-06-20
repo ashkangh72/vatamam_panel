@@ -3,6 +3,7 @@
 use App\Http\Controllers\Back\CarrierController;
 use App\Http\Controllers\Back\CityController;
 use App\Http\Controllers\Back\DeveloperController;
+use App\Http\Controllers\Back\LinkController;
 use App\Http\Controllers\Back\MainController;
 use App\Http\Controllers\Back\PermissionController;
 use App\Http\Controllers\Back\ProvinceController;
@@ -209,10 +210,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::post('banners/sort', [BannerController::class, 'sort']);
 //
 //    // ------------------ links
-//    Route::resource('links', LinkController::class)->except(['show']);
-//    Route::post('links/sort', [LinkController::class, 'sort']);
-//    Route::get('links/groups', [LinkController::class, 'groups'])->name('links.groups.index');
-//    Route::put('links/groups/update', [LinkController::class, 'updateGroups'])->name('links.groups.update');
+    Route::resource('links', LinkController::class)->except(['show']);
+    Route::post('links/sort', [LinkController::class, 'sort']);
+    Route::get('links/groups', [LinkController::class, 'groups'])->name('links.groups.index');
+    Route::put('links/groups/update', [LinkController::class, 'updateGroups'])->name('links.groups.update');
 //
 //    // ------------------ statistics
 //    Route::get('statistics/views', [StatisticsController::class, 'views'])->name('statistics.views');
