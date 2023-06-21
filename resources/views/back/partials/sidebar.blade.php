@@ -307,23 +307,23 @@
                 </li>
             @endcan
 
-{{--            @can('pages')--}}
-{{--                <li class="nav-item has-sub {{ open_class(['admin.pages.*']) }}"><a href="#"><i class="feather icon-file"></i><span class="menu-title" > صفحات</span></a>--}}
-{{--                    <ul class="menu-content">--}}
-{{--                        @can('pages.index')--}}
-{{--                            <li class="{{ active_class('admin.pages.index') }}">--}}
-{{--                                <a href="{{ route('admin.pages.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست صفحات</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
+            @can('pages')
+                <li class="nav-item has-sub {{ open_class(['admin.pages.*']) }}"><a href="#"><i class="feather icon-file"></i><span class="menu-title" > صفحات</span></a>
+                    <ul class="menu-content">
+                        @can('pages.index')
+                            <li class="{{ active_class('admin.pages.index') }}">
+                                <a href="{{ route('admin.pages.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست صفحات</span></a>
+                            </li>
+                        @endcan
 
-{{--                        @can('pages.create')--}}
-{{--                            <li class="{{ active_class('admin.pages.create') }}">--}}
-{{--                                <a href="{{ route('admin.pages.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد صفحه</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--            @endcan--}}
+                        @can('pages.create')
+                            <li class="{{ active_class('admin.pages.create') }}">
+                                <a href="{{ route('admin.pages.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد صفحه</span></a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcan
 
             @can('roles')
                 <li class="nav-item has-sub {{ open_class(['admin.roles.*']) }}"><a href="#"><i class="feather icon-unlock"></i><span class="menu-title" > نقش ها</span></a>
@@ -387,78 +387,78 @@
 {{--                </li>--}}
 {{--            @endcan--}}
 
-{{--            @can('themes')--}}
-{{--                <li class="nav-item has-sub {{ open_class(['admin.themes.*', 'admin.widgets.*', 'admin.sliders.*', 'admin.banners.*']) }}"><a href="#"><i class="feather icon-layout"></i><span class="menu-title" >مدیریت صفحه اصلی</span></a>--}}
-{{--                    <ul class="menu-content">--}}
-{{--                        @can('themes.index')--}}
-{{--                            <li class="{{ active_class('admin.themes.index') }}">--}}
-{{--                                <a href="{{ route('admin.themes.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست قالب ها</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
+            @can('themes')
+                <li class="nav-item has-sub {{ open_class(['admin.themes.*', 'admin.widgets.*', 'admin.sliders.*', 'admin.banners.*']) }}"><a href="#"><i class="feather icon-layout"></i><span class="menu-title" >مدیریت صفحه اصلی</span></a>
+                    <ul class="menu-content">
+                        @can('themes.index')
+                            <li class="{{ active_class('admin.themes.index') }}">
+                                <a href="{{ route('admin.themes.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست قالب ها</span></a>
+                            </li>
+                        @endcan
 
-{{--                        @can('themes.create')--}}
-{{--                            <li class="{{ active_class('admin.themes.create') }}">--}}
-{{--                                <a href="{{ route('admin.themes.create') }}"><i class="feather icon-circle"></i><span class="menu-item">افزودن قالب جدید</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
+                        @can('themes.create')
+                            <li class="{{ active_class('admin.themes.create') }}">
+                                <a href="{{ route('admin.themes.create') }}"><i class="feather icon-circle"></i><span class="menu-item">افزودن قالب جدید</span></a>
+                            </li>
+                        @endcan
 
-{{--                        @can('themes.settings')--}}
-{{--                            @if(config('front.settings.fields'))--}}
-{{--                                <li class="{{ active_class('admin.themes.settings') }}">--}}
-{{--                                    <a href="{{ route('admin.themes.settings') }}"><i class="feather icon-circle"></i><span class="menu-item">تنظیمات قالب</span></a>--}}
-{{--                                </li>--}}
-{{--                            @endcan--}}
-{{--                        @endcan--}}
+                        @can('themes.settings')
+                            @if(config('front.settings.fields'))
+                                <li class="{{ active_class('admin.themes.settings') }}">
+                                    <a href="{{ route('admin.themes.settings') }}"><i class="feather icon-circle"></i><span class="menu-item">تنظیمات قالب</span></a>
+                                </li>
+                            @endcan
+                        @endcan
 
-{{--                        @can('themes.settings')--}}
-{{--                            @if (config('front.home-widgets'))--}}
-{{--                                <li class="{{ active_class('admin.widgets.index') }}">--}}
-{{--                                    <a href="{{ route('admin.widgets.index') }}"><i class="feather icon-circle"></i><span class="menu-item">ابزارک ها</span></a>--}}
-{{--                                </li>--}}
-{{--                            @endif--}}
-{{--                        @endcan--}}
+                        @can('themes.settings')
+                            @if (config('front.home-widgets'))
+                                <li class="{{ active_class('admin.widgets.index') }}">
+                                    <a href="{{ route('admin.widgets.index') }}"><i class="feather icon-circle"></i><span class="menu-item">ابزارک ها</span></a>
+                                </li>
+                            @endif
+                        @endcan
 
-{{--                        @can('sliders')--}}
-{{--                            <li class="{{ open_class(['admin.sliders.*']) }}">--}}
-{{--                                <a href="#"><i class="feather icon-circle"></i><span class="menu-title" > اسلایدرها</span></a>--}}
-{{--                                <ul class="menu-content">--}}
-{{--                                    @can('sliders.index')--}}
-{{--                                        <li class="{{ active_class('admin.sliders.index') }}">--}}
-{{--                                            <a href="{{ route('admin.sliders.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست اسلایدرها</span></a>--}}
-{{--                                        </li>--}}
-{{--                                    @endcan--}}
+                        @can('sliders')
+                            <li class="{{ open_class(['admin.sliders.*']) }}">
+                                <a href="#"><i class="feather icon-circle"></i><span class="menu-title" > اسلایدرها</span></a>
+                                <ul class="menu-content">
+                                    @can('sliders.index')
+                                        <li class="{{ active_class('admin.sliders.index') }}">
+                                            <a href="{{ route('admin.sliders.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست اسلایدرها</span></a>
+                                        </li>
+                                    @endcan
 
-{{--                                    @can('sliders.create')--}}
-{{--                                        <li class="{{ active_class('admin.sliders.create') }}">--}}
-{{--                                            <a href="{{ route('admin.sliders.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد اسلایدر</span></a>--}}
-{{--                                        </li>--}}
-{{--                                    @endcan--}}
+                                    @can('sliders.create')
+                                        <li class="{{ active_class('admin.sliders.create') }}">
+                                            <a href="{{ route('admin.sliders.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد اسلایدر</span></a>
+                                        </li>
+                                    @endcan
 
-{{--                                </ul>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
+                                </ul>
+                            </li>
+                        @endcan
 
-{{--                        @can('banners')--}}
-{{--                            <li class="{{ open_class(['admin.banners.*']) }}">--}}
-{{--                                <a href="#"><i class="feather icon-circle"></i><span class="menu-title" > بنرها</span></a>--}}
-{{--                                <ul class="menu-content">--}}
-{{--                                    @can('banners.index')--}}
-{{--                                        <li class="{{ active_class('admin.banners.index') }}">--}}
-{{--                                            <a href="{{ route('admin.banners.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست بنرها</span></a>--}}
-{{--                                        </li>--}}
-{{--                                    @endcan--}}
+                        @can('banners')
+                            <li class="{{ open_class(['admin.banners.*']) }}">
+                                <a href="#"><i class="feather icon-circle"></i><span class="menu-title" > بنرها</span></a>
+                                <ul class="menu-content">
+                                    @can('banners.index')
+                                        <li class="{{ active_class('admin.banners.index') }}">
+                                            <a href="{{ route('admin.banners.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست بنرها</span></a>
+                                        </li>
+                                    @endcan
 
-{{--                                    @can('banners.create')--}}
-{{--                                        <li class="{{ active_class('admin.banners.create') }}">--}}
-{{--                                            <a href="{{ route('admin.banners.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد بنر</span></a>--}}
-{{--                                        </li>--}}
-{{--                                    @endcan--}}
-{{--                                </ul>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--            @endcan--}}
+                                    @can('banners.create')
+                                        <li class="{{ active_class('admin.banners.create') }}">
+                                            <a href="{{ route('admin.banners.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد بنر</span></a>
+                                        </li>
+                                    @endcan
+                                </ul>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcan
 
 {{--            @can('tickets')--}}
 {{--                <li class="nav-item has-sub {{ open_class(['admin.tickets.*']) }}"><a href="#"><i class="feather icon-inbox"></i><span class="menu-title" > تیکت ها</span></a>--}}

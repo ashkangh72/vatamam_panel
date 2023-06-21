@@ -1,15 +1,20 @@
 <?php
 
+use App\Http\Controllers\Back\BannerController;
 use App\Http\Controllers\Back\CarrierController;
 use App\Http\Controllers\Back\CityController;
 use App\Http\Controllers\Back\DeveloperController;
 use App\Http\Controllers\Back\LinkController;
 use App\Http\Controllers\Back\MainController;
+use App\Http\Controllers\Back\PageController;
 use App\Http\Controllers\Back\PermissionController;
 use App\Http\Controllers\Back\ProvinceController;
 use App\Http\Controllers\Back\RoleController;
+use App\Http\Controllers\Back\SliderController;
 use App\Http\Controllers\Back\TariffController;
+use App\Http\Controllers\Back\ThemeController;
 use App\Http\Controllers\Back\UserController;
+use App\Http\Controllers\Back\WidgetController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -158,7 +163,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::get("categories/title",[CategoryController::class,"getCategoryByTitle"])->name('categories.search.title');
 //
 //    // ------------------ pages
-//    Route::resource('pages', PageController::class)->except(['show']);
+    Route::resource('pages', PageController::class)->except(['show']);
 //
 //    // ------------------ tickets
 ////    Route::resource('tickets', TicketController::class)->except(['edit']);
@@ -202,13 +207,13 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::delete('transactions/api/multipleDestroy', [TransactionController::class, 'multipleDestroy'])->name('transactions.multipleDestroy');
 //
 //    // ------------------ sliders
-//    Route::resource('sliders', SliderController::class)->except(['show']);
-//    Route::post('sliders/sort', [SliderController::class, 'sort']);
+    Route::resource('sliders', SliderController::class)->except(['show']);
+    Route::post('sliders/sort', [SliderController::class, 'sort']);
 //
 //    // ------------------ banners
-//    Route::resource('banners', BannerController::class)->except(['show']);
-//    Route::post('banners/sort', [BannerController::class, 'sort']);
-//
+    Route::resource('banners', BannerController::class)->except(['show']);
+    Route::post('banners/sort', [BannerController::class, 'sort']);
+
 //    // ------------------ links
     Route::resource('links', LinkController::class)->except(['show']);
     Route::post('links/sort', [LinkController::class, 'sort']);
@@ -265,15 +270,15 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::put('permissions', [PermissionController::class, 'update'])->name('permissions.update');
 //
 //    // ------------------ widgets
-//    Route::resource('widgets', WidgetController::class)->except(['show']);
-//    Route::get('widgets/{key}/template', [WidgetController::class, 'template'])->name('widgets.template');
-//    Route::post('widget/sort', [WidgetController::class, 'sort'])->name('widgets.sort');
-//
+    Route::resource('widgets', WidgetController::class)->except(['show']);
+    Route::get('widgets/{key}/template', [WidgetController::class, 'template'])->name('widgets.template');
+    Route::post('widget/sort', [WidgetController::class, 'sort'])->name('widgets.sort');
+
 //    // ------------------ themes
-////    Route::resource('themes', ThemeController::class)->except(['edit']);
-////
-////    Route::get('theme/settings', [ThemeController::class, 'showSettings'])->name('themes.settings');
-////    Route::post('theme/settings', [ThemeController::class, 'updateSettings']);
+    Route::resource('themes', ThemeController::class)->except(['edit']);
+
+    Route::get('theme/settings', [ThemeController::class, 'showSettings'])->name('themes.settings');
+    Route::post('theme/settings', [ThemeController::class, 'updateSettings']);
 //
 //    // ------------------ settings
 //    Route::get('settings/information', [SettingController::class, 'showInformation'])->name('settings.information');

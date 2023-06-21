@@ -21,9 +21,9 @@ class WidgetController extends Controller
 
     public function index()
     {
-        $theme   = get_current_theme();
-        $widgets = Widget::where('theme', $theme['name'] ?? '')
-            ->orderBy('ordering')
+
+        //$theme   = get_current_theme();
+        $widgets = Widget::orderBy('ordering')
             ->get();
 
         return view('back.widgets.index', compact('widgets'));
