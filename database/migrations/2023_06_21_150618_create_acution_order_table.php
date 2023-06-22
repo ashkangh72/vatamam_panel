@@ -16,11 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->unsignedBigInteger('auction_id')->nullable();
-            $table->foreign('auction_id')->references('id')->on('auction')->onDelete('set null');
+            $table->foreign('auction_id')->references('id')->on('auctions')->onDelete('set null');
             $table->string('title');
             $table->bigInteger('price');
             $table->integer('quantity');
-            $table->integer('discount')->nullable();
+            $table->unsignedBigInteger('discount_id')->nullable();
+            $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('set null');
+            $table->enum('status',['pending','paid']);
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('acution_order');
+        Schema::dropIfExists('order_auction');
     }
 };
