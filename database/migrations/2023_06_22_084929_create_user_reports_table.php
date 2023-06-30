@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('user_reports', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedMediumInteger('active_auctions');
-            $table->unsignedMediumInteger('success_orders');
-            $table->unsignedMediumInteger('failed_orders');
+            $table->unsignedMediumInteger('active_auctions')->nullable();
+            $table->unsignedMediumInteger('success_orders')->nullable();
+            $table->unsignedMediumInteger('failed_orders')->nullable();
             $table->unsignedInteger('likes');
             $table->timestamps();
         });

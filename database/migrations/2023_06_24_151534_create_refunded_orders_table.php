@@ -11,29 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('refunded_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('seller_id');
+            $table->unsignedBigInteger('order_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('name');
-
-            $table->unsignedInteger('quantity');
             $table->unsignedBigInteger('discount_id')->nullable();
             $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('set null');
             $table->unsignedBigInteger('discount_amount')->nullable();
-            $table->unsignedBigInteger('carrier_id')->nullable();
-            $table->foreign('carrier_id')->references('id')->on('carriers')->onDelete('set null');
             $table->string('description', 1000)->nullable();
-            $table->string('post_description', 1000)->nullable();
             $table->string('post_track_code', 100)->nullable();
-            $table->unsignedBigInteger('shipping_cost');
+            $table->string('expert_comment', 100)->nullable();
             $table->unsignedBigInteger('price');
-            $table->string('status')->default('unpaid');
+            $table->enum('status', ['waiting', 'waiting_for_track_code','refunded_by_buyer', 'accepted_by_expert','refunded',])->default('waiting');
             $table->string('shipping_status')->default('pending');
-            $table->boolean('is_satisfied')->default(null)->nullable();
-
             $table->timestamps();
         });
     }
@@ -43,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('refunded_orders');
     }
 };
