@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders_feedbacks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('order_id');
+            $table->unsignedBigInteger('order_id');
             $table->boolean('is_delivered');
             $table->text("description")->nullable();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('CASCADE');

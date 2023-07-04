@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        $this->seeder();
+//        $this->seeder();
     }
     private function seeder()
     {
