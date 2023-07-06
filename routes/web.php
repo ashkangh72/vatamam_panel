@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Back\AuctionController;
 use App\Http\Controllers\Back\BannerController;
 use App\Http\Controllers\Back\CarrierController;
 use App\Http\Controllers\Back\CityController;
@@ -83,8 +84,14 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::get('wallets/{wallet}/create', [WalletController::class, 'create'])->name('wallets.create');
 //    Route::post('wallets/{wallet}', [WalletController::class, 'store'])->name('wallets.store');
 //
-//    // ------------------ products
-   // Route::resource('products', ProductController::class)->except('show');
+//    // ------------------ auctions
+    Route::get('auctions',[AuctionController::class,'index'])->name('auctions.index');
+    Route::post('auctions/api/index',[AuctionController::class,'apiIndex'])->name('auctions.apiIndex');
+    Route::post('auctions/accept',[AuctionController::class,'accept'])->name('auctions.accept');
+    Route::post('auctions/reject',[AuctionController::class,'reject'])->name('auctions.reject');
+    Route::delete('auctions/api/multipleDestroy', [AuctionController::class, 'multipleDestroy'])->name('auctions.multipleDestroy');
+
+    // Route::resource('products', ProductController::class)->except('show');
 //    Route::post('products/api/index', [ProductController::class, 'apiIndex'])->name('products.apiIndex');
 //    Route::delete('products/api/multipleDestroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
 //    Route::post('products/image-store', [ProductController::class, 'image_store']);

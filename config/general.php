@@ -31,6 +31,12 @@ return [
                 'marketing-commission-deposit-requests.reject' => 'رد درخواست برداشت کمیسیون',
             ]
         ],
+        'auctions'=>[
+            'title' => "مدیریت مزایده ها",
+            'values'=>[
+                'index' => 'لیست مزایده ها'
+            ]
+        ],
 
         'posts' => [
             'title'  => 'مدیریت نوشته ها',

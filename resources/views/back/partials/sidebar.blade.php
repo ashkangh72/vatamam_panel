@@ -52,6 +52,19 @@
                     </ul>
                 </li>
             @endcan
+{{--            @can('auctions')--}}
+
+                <li class="nav-item has-sub {{ open_class(['admin.auctions.*']) }}"><a href="#"><i class="feather icon-users"></i><span class="menu-title" > مزایده ها</span></a>
+                    <ul class="menu-content">
+{{--                        @can('auctions.index')--}}
+                            <li class="{{ active_class('admin.auctions.index') }}">
+                                <a href="{{ route('admin.auctions.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست مزایده ها</span></a>
+                            </li>
+{{--                        @endcan--}}
+
+                    </ul>
+                </li>
+{{--            @endcan--}}
 
 {{--            @can('posts')--}}
 {{--                <li class="nav-item has-sub {{ open_class(['admin.posts.*']) }}"><a href="#"><i class="feather icon-file-text"></i><span class="menu-title" > وبلاگ</span></a>--}}
