@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('originality', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('title');
+        Schema::table('order_auction', function (Blueprint $table) {
+            $table->unsignedBigInteger('discount_price');
+            $table->unsignedBigInteger('discount_amount');
         });
     }
 
@@ -22,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('originality');
+        Schema::table('auctions', function (Blueprint $table) {
+            $table->dropColumn(['discount_price', 'discount_amount']);
+        });
     }
 };
