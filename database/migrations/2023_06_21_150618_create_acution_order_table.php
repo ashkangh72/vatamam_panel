@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('auction_id')->references('id')->on('auctions')->onDelete('set null');
             $table->string('title');
             $table->bigInteger('price');
+            $table->bigInteger('discount_price');
+            $table->bigInteger('discount_amount');
             $table->integer('quantity');
             $table->unsignedBigInteger('discount_id')->nullable();
             $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('set null');
