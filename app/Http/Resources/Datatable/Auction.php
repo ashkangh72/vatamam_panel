@@ -22,6 +22,7 @@ class Auction extends JsonResource
             'sku'               => htmlspecialchars($this->sku),
             'base_price'        => number_format($this->base_price),
             'status'            => $this->status->name,
+            'reject_reason'     => $this->reject_reason,
             'username'          => $this->user->name,
             'category'          => $this->category->title,
             'created_at'        => tverta($this->created_at)->format('%d %B %Y'),

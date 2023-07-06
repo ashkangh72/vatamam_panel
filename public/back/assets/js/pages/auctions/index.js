@@ -105,6 +105,22 @@ var auction_datatable = function() {
                 }
             },
             {
+                field: 'status',
+                width: 200,
+                sortable: 'desc',
+                title: 'وضعیت',
+                template: function(row) {
+                    let status = ``;
+                    if (row.status==='rejected')
+                        status=`<span class="badg badge-danger">رد شده</span><small>${row.reject_reason}</small>`;
+                    if (row.status==='approved')
+                        status=`<span class="badge badge-success">تایید شده</span>`;
+                    if (row.status==='pending_approval')
+                        status=`<span class="badge badge-info">منتظر تایید</span>`;
+                    return status;
+                }
+            },
+            {
                 field: 'created_at',
                 sortable: 'desc',
                 title: 'تاریخ ثبت',

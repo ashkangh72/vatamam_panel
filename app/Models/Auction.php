@@ -94,19 +94,19 @@ class Auction extends Model
 //            }
 //        }
 
-//        if ($request->sort) {
-//            switch ($request->sort['field']) {
-//                case 'fullname': {
-//                    $query->orderBy('first_name', $request->sort['sort'])->orderBy('last_name', $request->sort['sort']);
-//                    break;
-//                }
-//                default: {
-//                    if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
-//                        $query->orderBy($request->sort['field'], $request->sort['sort']);
-//                    }
-//                }
-//            }
-//        }
+        if ($request->sort) {
+            switch ($request->sort['field']) {
+                case 'status': {
+                    $query->orderBy('status', $request->sort['sort']);
+                    break;
+                }
+                default: {
+                    if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
+                        $query->orderBy($request->sort['field'], $request->sort['sort']);
+                    }
+                }
+            }
+        }
 
         return $query;
     }
