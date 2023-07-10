@@ -2,12 +2,6 @@
 
 return [
 
-    'api_url' => 'https://api.shaniland.com/v1',
-
-    'admin_route_prefix' => env('ADMIN_ROUTE_PREFIX'),
-
-    'current_theme' => env('CURRENT_THEME', 'DefaultTheme'),
-
     'permissions' => [
 
         'users' => [
@@ -19,33 +13,12 @@ return [
                 'update'         => 'ویرایش کاربر',
                 'delete'         => 'حذف کاربر',
                 'export.excel'   => 'خروجی اکسل',
-                'marketing-requests'        => 'مدیریت لیست درخواست های بازاریابی',
-                'marketing-requests.accept' => 'تایید درخواست بازاریابی',
-                'marketing-requests.reject' => 'رد درخواست بازاریابی',
-                'marketing-campaigns'         => 'مدیریت کمپین های بازاریابی',
-                'marketing-campaigns.create'  => 'ایجاد کمپین بازاریابی',
-                'marketing-campaigns.update'  => 'ویرایش کمپین بازاریابی',
-                'marketing-campaigns.tariffs' => 'نمایش تعرفه های کمپین بازاریابی',
-                'marketing-commission-deposit-requests'        => 'مدیریت لیست درخواست های برداشت کمیسیون',
-                'marketing-commission-deposit-requests.accept' => 'تایید درخواست برداشت کمیسیون',
-                'marketing-commission-deposit-requests.reject' => 'رد درخواست برداشت کمیسیون',
             ]
         ],
         'auctions'=>[
             'title' => "مدیریت مزایده ها",
             'values'=>[
                 'index' => 'لیست مزایده ها'
-            ]
-        ],
-
-        'posts' => [
-            'title'  => 'مدیریت نوشته ها',
-            'values' => [
-                'index'      => 'لیست نوشته ها',
-                'create'     => 'ایجاد نوشته',
-                'update'     => 'ویرایش نوشته',
-                'delete'     => 'حذف نوشته',
-                'category'   => 'مدیریت دسته بندی ها',
             ]
         ],
 
@@ -175,16 +148,6 @@ return [
             ]
         ],
 
-        'backups' => [
-            'title'  => 'مدیریت بکاپ ها',
-            'values' => [
-                'index'             => 'لیست بکاپ ها',
-                'create'            => 'ایجاد بکاپ',
-                'download'          => 'دانلود بکاپ',
-                'delete'            => 'حذف بکاپ',
-            ]
-        ],
-
         'pages' => [
             'title'  => 'مدیریت صفحات',
             'values' => [
@@ -215,31 +178,6 @@ return [
                 'orders'        => 'سفارشات',
                 'users'         => 'کاربران',
                 'sms'           => 'لاگ پیامک های ارسالی',
-            ]
-        ],
-
-        'themes' => [
-            'title'  => 'مدیریت قالب ها',
-            'values' => [
-                'index'             => 'لیست قالب ها',
-                'create'            => 'افزودن قالب',
-                'update'            => 'تغییر قالب',
-                'delete'            => 'حذف قالب',
-                'settings'          => 'تنظیمات قالب',
-                'widgets'           => 'مدیریت صفحه اصلی'
-            ]
-        ],
-
-        'file-manager'    => 'مدیریت فایل ها',
-
-        'tickets' => [
-            'title'  => 'مدیریت تیکت ها',
-            'values' => [
-                'index'             => 'لیست تیکت ها',
-                'show'              => 'مشاهده تیکت',
-                'create'            => 'ایجاد تیکت',
-                'update'            => 'ویرایش تیکت',
-                'delete'            => 'حذف تیکت',
             ]
         ],
 
@@ -330,16 +268,5 @@ return [
         'idpay'       => 'آیدی پی',
         'rayanpay'    => 'رایان پی',
     ],
-
-    'ftp' => [
-        'active' => env('FTP_ACTIVE', 0),
-        'ssl' => env('FTP_SSL', 0),
-        'host' => env('FTP_HOST'),
-        'port' => env('FTP_PORT', 21),
-        'root' => env('FTP_ROOT', ''),
-        'username' => env('FTP_USERNAME'),
-        'password' => env('FTP_PASSWORD'),
-    ],
-
 
 ];
