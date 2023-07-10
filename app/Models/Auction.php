@@ -113,18 +113,13 @@ class Auction extends Model
         return $query;
     }
 
-    public function getImageUrlAttribute()
+    public function getImageUrlAttribute(): string
     {
         return $this->imageUrl();
     }
 
-    public function imageUrl()
+    public function imageUrl(): string
     {
-        return $this->image ? asset($this->image) : asset('/back/app-assets/images/portrait/small/default.jpg');
-    }
-
-    public function getPictureAttribute(): string
-    {
-        return env('API_URL') . $this->picture;
+        return $this->picture ? env('API_URL') . $this->picture : asset('/public/back/app-assets/images/portrait/small/default.jpg');
     }
 }
