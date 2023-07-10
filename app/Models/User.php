@@ -2,17 +2,13 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasOne, HasMany};
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
-
 use Illuminate\Auth\Authenticatable;
-
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 
 class User extends Model implements AuthenticatableContract
 {
@@ -112,15 +108,6 @@ class User extends Model implements AuthenticatableContract
         return $this->level == 'admin' || $this->level == 'creator';
     }
 
-    public function getImageUrlAttribute()
-    {
-        return $this->imageUrl();
-    }
-
-    public function imageUrl()
-    {
-        return $this->image ? asset($this->image) : asset('/back/app-assets/images/portrait/small/default.jpg');
-    }
     public function getFullnameAttribute()
     {
         return $this->name;

@@ -17,7 +17,6 @@ class User extends JsonResource
 
         return [
             'id'                => $this->id,
-            'image'             => $this->imageUrl,
             'fullname'          => htmlspecialchars($this->fullname),
             'username'          => $this->username,
             'phone'             => $this->phone,
