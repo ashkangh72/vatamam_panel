@@ -18,6 +18,7 @@ use App\Http\Controllers\Back\{AuctionController,
 };
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,8 +46,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::get('get-tags', [MainController::class, 'get_tags']);
 //
     Route::get('notifications', [MainController::class, 'notifications'])->name('notifications');
-//
-//    // ------------------ users
+
+    // ------------------ users
     Route::resource('users', UserController::class);
     Route::post('users/api/index', [UserController::class, 'apiIndex'])->name('users.apiIndex');
     Route::delete('users/api/multipleDestroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
@@ -60,8 +61,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::get('wallets/histories/{history}', [WalletController::class, 'history'])->name('wallets.history');
 //    Route::get('wallets/{wallet}/create', [WalletController::class, 'create'])->name('wallets.create');
 //    Route::post('wallets/{wallet}', [WalletController::class, 'store'])->name('wallets.store');
-//
-//    // ------------------ auctions
+
+    // ------------------ auctions
     Route::get('auctions', [AuctionController::class, 'index'])->name('auctions.index');
     Route::post('auctions/api/index', [AuctionController::class, 'apiIndex'])->name('auctions.apiIndex');
     Route::post('auctions/accept', [AuctionController::class, 'accept'])->name('auctions.accept');
@@ -91,14 +92,14 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //
 //    // ------------------ discounts
 //    Route::resource('discounts', DiscountController::class)->except(['show']);
-//
-//    // ------------------ provinces
+
+    // ------------------ provinces
     Route::resource('provinces', ProvinceController::class);
     Route::post('provinces/api/index', [ProvinceController::class, 'apiIndex'])->name('provinces.apiIndex');
     Route::delete('provinces/api/multipleDestroy', [ProvinceController::class, 'multipleDestroy'])->name('provinces.multipleDestroy');
     Route::post('provinces/api/sort', [ProvinceController::class, 'sort'])->name('provinces.sort');
-//
-//    // ------------------ cities
+
+    // ------------------ cities
     Route::resource('cities', CityController::class)->except(['index']);
     Route::post('cities/api/{province}/index', [CityController::class, 'apiIndex'])->name('cities.apiIndex');
     Route::delete('cities/api/multipleDestroy', [CityController::class, 'multipleDestroy'])->name('cities.multipleDestroy');
@@ -140,15 +141,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::post('categories/sort', [CategoryController::class, 'sort']);
 //    Route::post('category/slug', [CategoryController::class, 'generate_slug']);
 //    Route::get("categories/title",[CategoryController::class,"getCategoryByTitle"])->name('categories.search.title');
-//
-//    // ------------------ pages
+
+    // ------------------ pages
     Route::resource('pages', PageController::class)->except(['show']);
-//
-//    // ------------------ tickets
-////    Route::resource('tickets', TicketController::class)->except(['edit']);
-////    Route::post('tickets/file/store', [TicketController::class, 'storeFile'])->name('tickets.file.store');
-////    Route::delete('tickets/file/destroy', [TicketController::class, 'destoryFile'])->name('tickets.file.destroy');
-//
+
 //    // ------------------ menus
 //    Route::resource('menus', MenuController::class)->except(['edit']);
 //    Route::post('menus/sort', [MenuController::class, 'sort']);
@@ -166,14 +162,14 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::post('orders/api/multiple-factors', [OrderController::class, 'multipleFactors'])->name('orders.multipleFactors');
 //    Route::post('orders/api/multiple-shipping-status', [OrderController::class, 'multipleShippingStatus'])->name('orders.multipleShippingStatus');
 //    Route::get('order/not-completed/products', [OrderController::class, 'notCompleted'])->name('orders.notCompleted');
-//
-//    // ------------------ carriers
+
+    // ------------------ carriers
     Route::resource('carriers', CarrierController::class);
     Route::get('carriers/{carrier}/cities', [CarrierController::class, 'cities'])->name('carriers.cities');
-//
-//    // ------------------ tariffs
+
+    // ------------------ tariffs
     Route::resource('tariffs', TariffController::class);
-//
+
 //    // ------------------ search engine rules
 //    Route::resource('search-engine-rules', SearchEngineRulesController::class)->only('index', 'store', 'destroy');
 //
@@ -184,16 +180,16 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);
 //    Route::post('transactions/api/index', [TransactionController::class, 'apiIndex'])->name('transactions.apiIndex');
 //    Route::delete('transactions/api/multipleDestroy', [TransactionController::class, 'multipleDestroy'])->name('transactions.multipleDestroy');
-//
-//    // ------------------ sliders
+
+    // ------------------ sliders
     Route::resource('sliders', SliderController::class)->except(['show']);
     Route::post('sliders/sort', [SliderController::class, 'sort']);
 //
-//    // ------------------ banners
+    // ------------------ banners
     Route::resource('banners', BannerController::class)->except(['show']);
     Route::post('banners/sort', [BannerController::class, 'sort']);
 
-//    // ------------------ links
+    // ------------------ links
     Route::resource('links', LinkController::class)->except(['show']);
     Route::post('links/sort', [LinkController::class, 'sort']);
     Route::get('links/groups', [LinkController::class, 'groups'])->name('links.groups.index');
@@ -240,20 +236,19 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    // ------------------ comments
 //    Route::get('comments/{comment}/replies',[CommentController::class,"replies"])->name("comments.replies");
 //    Route::resource('comments', CommentController::class)->only(['index', 'show', 'destroy', 'update']);
-//
-//    // ------------------ roles
+
+    // ------------------ roles
     Route::resource('roles', RoleController::class);
-//
-//    // ------------------ permissions
+
+    // ------------------ permissions
     Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
     Route::put('permissions', [PermissionController::class, 'update'])->name('permissions.update');
-//
-//    // ------------------ widgets
+
+    // ------------------ widgets
     Route::resource('widgets', WidgetController::class)->except(['show']);
     Route::get('widgets/{key}/template', [WidgetController::class, 'template'])->name('widgets.template');
     Route::post('widget/sort', [WidgetController::class, 'sort'])->name('widgets.sort');
 
-//
 //    // ------------------ settings
 //    Route::get('settings/information', [SettingController::class, 'showInformation'])->name('settings.information');
 //    Route::post('settings/information', [SettingController::class, 'updateInformation']);
@@ -275,10 +270,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //
 //    // ------------------ developer routes
 //    Route::group(['middleware' => 'CheckCreator'], function () {
-//
-//        // ------------------ logs
+
+    // ------------------ logs
     Route::get('logs', [LogViewerController::class, 'index'])->name('logs.index');
-//
+
 //        // ------------------ settings
     Route::get('developer/settings', [DeveloperController::class, 'showSettings'])->name('developer.settings');
 //        Route::put('developer/settings', [DeveloperController::class, 'updateSettings']);

@@ -21,7 +21,7 @@
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link"
                             href="#" data-toggle="dropdown">
                             <div class="user-nav d-sm-flex d-none"><span class="user-name text-bold-600">{{ auth()->user()->name }}</span></div><span><img class="round"
-                                    src="{{ auth()->user()->imageUrl }}" alt="avatar"
+                                    src="/public/back/app-assets/images/portrait/small/default.jpg" alt="avatar"
                                     height="40" width="40"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="{{ route('admin.user.profile.show') }}"><i
