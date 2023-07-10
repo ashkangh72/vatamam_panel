@@ -1,21 +1,21 @@
 <?php
 
-use App\Http\Controllers\Back\AuctionController;
-use App\Http\Controllers\Back\BannerController;
-use App\Http\Controllers\Back\CarrierController;
-use App\Http\Controllers\Back\CityController;
-use App\Http\Controllers\Back\DeveloperController;
-use App\Http\Controllers\Back\LinkController;
-use App\Http\Controllers\Back\MainController;
-use App\Http\Controllers\Back\PageController;
-use App\Http\Controllers\Back\PermissionController;
-use App\Http\Controllers\Back\ProvinceController;
-use App\Http\Controllers\Back\RoleController;
-use App\Http\Controllers\Back\SliderController;
-use App\Http\Controllers\Back\TariffController;
-use App\Http\Controllers\Back\ThemeController;
-use App\Http\Controllers\Back\UserController;
-use App\Http\Controllers\Back\WidgetController;
+use App\Http\Controllers\Back\{AuctionController,
+    BannerController,
+    CarrierController,
+    CityController,
+    DeveloperController,
+    LinkController,
+    MainController,
+    PageController,
+    PermissionController,
+    ProvinceController,
+    RoleController,
+    SliderController,
+    TariffController,
+    UserController,
+    WidgetController
+};
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,30 +46,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //
     Route::get('notifications', [MainController::class, 'notifications'])->name('notifications');
 //
-//    Route::get('file-manager', [MainController::class, 'fileManager'])->name('file-manager');
-//    Route::get('file-manager-iframe', [MainController::class, 'fileManagerIframe'])->name('file-manager-iframe');
-//
-//    // ------------------ backups
-//    Route::get('backups', [BackupController::class, 'index'])->name('backups.index');
-//    Route::post('backups/create', [BackupController::class, 'create'])->name('backups.create');
-//    Route::get('backups/{backup}/download', [BackupController::class, 'download'])->name('backups.download');
-//    Route::delete('backups/{backup}', [BackupController::class, 'destroy'])->name('backups.destroy');
-//
 //    // ------------------ users
-    Route::get('users/marketing-requests', [MarketingController::class, 'index'])->name('users.marketing-requests.index');
-//    Route::post('users/marketing-requests/reject', [MarketingController::class, 'reject'])->name('users.marketing-requests.reject');
-//    Route::post('users/marketing-requests/accept', [MarketingController::class, 'accept'])->name('users.marketing-requests.accept');
-//
-    Route::get('users/marketing-campaigns', [MarketingCampaignController::class, 'index'])->name('users.marketing-campaigns.index');
-    Route::get('users/marketing-campaigns/create', [MarketingCampaignController::class, 'create'])->name('users.marketing-campaigns.create');
-    Route::post('users/marketing-campaigns', [MarketingCampaignController::class, 'store'])->name('users.marketing-campaigns.store');
-    Route::get('users/marketing-campaigns/{marketingCampaign}/edit', [MarketingCampaignController::class, 'edit'])->name('users.marketing-campaigns.edit');
-    Route::put('users/marketing-campaigns/{marketingCampaign}', [MarketingCampaignController::class, 'update'])->name('users.marketing-campaigns.update');
-
-    Route::get('users/marketing-commissions-deposit-requests', [MarketingCommissionDepositController::class, 'index'])->name('users.marketing-commissions-deposit-requests.index');
-    Route::post('users/marketing-commissions-deposit-requests/reject', [MarketingCommissionDepositController::class, 'reject'])->name('users.marketing-commissions-deposit-requests.reject');
-    Route::post('users/marketing-commissions-deposit-requests/accept', [MarketingCommissionDepositController::class, 'accept'])->name('users.marketing-commissions-deposit-requests.accept');
-//
     Route::resource('users', UserController::class);
     Route::post('users/api/index', [UserController::class, 'apiIndex'])->name('users.apiIndex');
     Route::delete('users/api/multipleDestroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
@@ -85,10 +62,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::post('wallets/{wallet}', [WalletController::class, 'store'])->name('wallets.store');
 //
 //    // ------------------ auctions
-    Route::get('auctions',[AuctionController::class,'index'])->name('auctions.index');
-    Route::post('auctions/api/index',[AuctionController::class,'apiIndex'])->name('auctions.apiIndex');
-    Route::post('auctions/accept',[AuctionController::class,'accept'])->name('auctions.accept');
-    Route::post('auctions/reject',[AuctionController::class,'reject'])->name('auctions.reject');
+    Route::get('auctions', [AuctionController::class, 'index'])->name('auctions.index');
+    Route::post('auctions/api/index', [AuctionController::class, 'apiIndex'])->name('auctions.apiIndex');
+    Route::post('auctions/accept', [AuctionController::class, 'accept'])->name('auctions.accept');
+    Route::post('auctions/reject', [AuctionController::class, 'reject'])->name('auctions.reject');
     Route::delete('auctions/api/multipleDestroy', [AuctionController::class, 'multipleDestroy'])->name('auctions.multipleDestroy');
 
     // Route::resource('products', ProductController::class)->except('show');
@@ -157,11 +134,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::resource('size-types', SizeTypeController::class);
 //    Route::get('size-types/{sizeType}/values', [SizeTypeController::class, 'editValues'])->name('size-types.editValues');
 //    Route::put('size-types/{sizeType}/values', [SizeTypeController::class, 'updateValues'])->name('size-types.updateValues');
-//
-//    // ------------------ posts
-//    //Route::resource('posts', PostController::class)->except(['show']);
-//    Route::get('post/categories', [PostController::class, 'categories'])->name('posts.categories.index');
-//    Route::post('post/slug', [PostController::class, 'generate_slug']);
 //
 //    // ------------------ categories
 //    Route::resource('categories', CategoryController::class)->only(['update', 'destroy', 'store', 'edit']);
@@ -281,11 +253,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('widgets/{key}/template', [WidgetController::class, 'template'])->name('widgets.template');
     Route::post('widget/sort', [WidgetController::class, 'sort'])->name('widgets.sort');
 
-//    // ------------------ themes
-    Route::resource('themes', ThemeController::class)->except(['edit']);
-
-    Route::get('theme/settings', [ThemeController::class, 'showSettings'])->name('themes.settings');
-    Route::post('theme/settings', [ThemeController::class, 'updateSettings']);
 //
 //    // ------------------ settings
 //    Route::get('settings/information', [SettingController::class, 'showInformation'])->name('settings.information');
@@ -310,10 +277,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::group(['middleware' => 'CheckCreator'], function () {
 //
 //        // ------------------ logs
-        Route::get('logs', [LogViewerController::class, 'index'])->name('logs.index');
+    Route::get('logs', [LogViewerController::class, 'index'])->name('logs.index');
 //
 //        // ------------------ settings
-        Route::get('developer/settings', [DeveloperController::class, 'showSettings'])->name('developer.settings');
+    Route::get('developer/settings', [DeveloperController::class, 'showSettings'])->name('developer.settings');
 //        Route::put('developer/settings', [DeveloperController::class, 'updateSettings']);
 //
 //        Route::post('developer/downApplication', [DeveloperController::class, 'downApplication'])->name('developer.downApplication');
@@ -333,9 +300,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-Route::get("test-rule",function (){
+Route::get("test-rule", function () {
     dd($valid);
 
 });

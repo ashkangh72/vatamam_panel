@@ -70,7 +70,7 @@ class Auction extends Model
             $query->whereRaw("title like '%{$title}%' ");
         }
         if ($sku = $request->input('query.sku')) {
-            $query->where('sku',$sku);
+            $query->where('sku', $sku);
         }
 
 //        if ($email = $request->input('query.email')) {
@@ -96,11 +96,13 @@ class Auction extends Model
 
         if ($request->sort) {
             switch ($request->sort['field']) {
-                case 'status': {
+                case 'status':
+                {
                     $query->orderBy('status', $request->sort['sort']);
                     break;
                 }
-                default: {
+                default:
+                {
                     if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
                         $query->orderBy($request->sort['field'], $request->sort['sort']);
                     }
@@ -110,6 +112,7 @@ class Auction extends Model
 
         return $query;
     }
+
     public function getImageUrlAttribute()
     {
         return $this->imageUrl();
@@ -118,5 +121,10 @@ class Auction extends Model
     public function imageUrl()
     {
         return $this->image ? asset($this->image) : asset('/back/app-assets/images/portrait/small/default.jpg');
+    }
+
+    public function getPictureAttribute(): string
+    {
+        return env('API_URL') . $this->picture;
     }
 }

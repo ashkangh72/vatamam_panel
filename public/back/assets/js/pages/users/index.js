@@ -54,16 +54,6 @@ var user_datatable = function() {
                 textAlign: 'center',
             },
             {
-                field: 'image',
-                title: 'تصویر',
-                sortable: false,
-                width: 80,
-                template: function(row) {
-
-                    return '<img class="post-thumb" src="' + row.image + '" alt="' + row.title + '">';
-                }
-            },
-            {
                 field: 'fullname',
                 title: 'نام',
                 width: 200,
