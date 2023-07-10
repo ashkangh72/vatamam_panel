@@ -1,8 +1,8 @@
 @extends('back.layouts.master')
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
 @endpush
 
 @section('content')
@@ -108,10 +108,10 @@
 @endsection
 
 @push('scripts')
-        <script src="{{ asset('back/app-assets/plugins/ckeditor/ckeditor.js') }}"></script>
-        <script src="{{ asset('back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.js') }}"></script>
-        <script src="{{ asset('back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-        <script src="{{ asset('back/app-assets/plugins/jquery-ui/jquery-ui.js') }}"></script>
+        <script src="{{ asset('public/back/app-assets/plugins/ckeditor/ckeditor.js') }}"></script>
+        <script src="{{ asset('public/back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.js') }}"></script>
+        <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.js') }}"></script>
 
-        <script src="{{ asset('back/assets/js/pages/pages/edit.js') }}"></script>
+        <script src="{{ asset('public/back/assets/js/pages/pages/edit.js') }}"></script>
 @endpush

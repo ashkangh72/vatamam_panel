@@ -92,5 +92,5 @@
 @include('back.partials.plugins', ['plugins' => ['datatable']])
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/orders/index.js') }}?v=1.2"></script>
+    <script src="{{ asset('public/back/assets/js/pages/orders/index.js') }}?v=1.2"></script>
 @endpush

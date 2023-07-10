@@ -147,5 +147,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/carriers/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/carriers/index.js') }}"></script>
 @endpush

@@ -102,6 +102,6 @@
 @include('back.partials.plugins', ['plugins' => ['dropzone', 'jquery.validate']])
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/tickets/all.js') }}"></script>
-    <script src="{{ asset('back/assets/js/pages/tickets/create.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/tickets/all.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/tickets/create.js') }}"></script>
 @endpush

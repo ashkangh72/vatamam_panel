@@ -11,11 +11,11 @@
     <title>{{ config('app.name', 'File Manager') }}</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/bootstrap-rtl.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/vendor/file-manager/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/vendor/file-manager/css/bootstrap-rtl.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
-    <link href="{{ asset('vendor/file-manager/css/file-manager.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('vendor/file-manager/css/styles.css') }}">
+    <link href="{{ asset('public/vendor/file-manager/css/file-manager.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('public/vendor/file-manager/css/styles.css') }}">
 </head>
 
 <body>
@@ -28,7 +28,7 @@
     </div>
 
     <!-- File manager -->
-    <script src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
+    <script src="{{ asset('public/vendor/file-manager/js/file-manager.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // set fm height

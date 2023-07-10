@@ -157,6 +157,6 @@
 @include('back.partials.plugins', ['plugins' => ['ckeditor', 'jquery-tagsinput', 'jquery-ui', 'persian-datepicker', 'jquery.validate']])
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/posts/all.js') }}"></script>
-    <script src="{{ asset('back/assets/js/pages/posts/create.js') }}?v=2"></script>
+    <script src="{{ asset('public/back/assets/js/pages/posts/all.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/posts/create.js') }}?v=2"></script>
 @endpush

@@ -1,7 +1,7 @@
 @extends('back.layouts.master')
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
 @endpush
 
 @section('content')
@@ -131,9 +131,9 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/jquery-ui/jquery-ui.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.js') }}"></script>
 
     <script>
         var pages = [
@@ -142,5 +142,5 @@
             @endforeach
         ];
     </script>
-    <script src="{{ asset('back/assets/js/pages/banners/create.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/banners/create.js') }}"></script>
 @endpush

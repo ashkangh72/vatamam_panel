@@ -182,5 +182,5 @@
 @endphp
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/developer/settings.js') }}?v=2"></script>
+    <script src="{{ asset('public/back/assets/js/pages/developer/settings.js') }}?v=2"></script>
 @endpush

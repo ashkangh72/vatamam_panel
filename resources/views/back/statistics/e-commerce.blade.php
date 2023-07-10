@@ -126,7 +126,7 @@
 @include('back.partials.plugins', ['plugins' => ['jquery-tagsinput', 'jquery.validate', 'jquery-ui', 'jquery-ui-sortable', 'persian-datepicker']])
 
 @push('scripts')
-    <script src="{{ asset('back/app-assets/vendors/js/charts/echarts/echarts.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/vendors/js/charts/echarts/echarts.min.js') }}"></script>
     <script>
         let totalSalesByDayChart;
 

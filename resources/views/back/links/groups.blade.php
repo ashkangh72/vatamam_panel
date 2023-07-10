@@ -1,7 +1,7 @@
 @extends('back.layouts.master')
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
 @endpush
 
 @section('content')
@@ -75,5 +75,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/links/groups.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/links/groups.js') }}"></script>
 @endpush

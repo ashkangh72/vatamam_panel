@@ -171,5 +171,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/search-engine-rules/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/search-engine-rules/index.js') }}"></script>
 @endpush

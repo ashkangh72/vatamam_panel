@@ -169,6 +169,6 @@
 @endphp
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/users/all.js') }}"></script>
-    <script src="{{ asset('back/assets/js/pages/users/create.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/users/all.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/users/create.js') }}"></script>
 @endpush

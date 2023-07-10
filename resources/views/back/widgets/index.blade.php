@@ -126,5 +126,5 @@
 @include('back.partials.plugins', ['plugins' => ['jquery-ui-sortable']])
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/widgets/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/widgets/index.js') }}"></script>
 @endpush

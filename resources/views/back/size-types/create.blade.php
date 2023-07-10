@@ -95,5 +95,5 @@
     <script>
         let sizeCount = 0;
     </script>
-    <script src="{{ asset('back/assets/js/pages/size-types/edit.js') }}?v=1"></script>
+    <script src="{{ asset('public/back/assets/js/pages/size-types/edit.js') }}?v=1"></script>
 @endpush

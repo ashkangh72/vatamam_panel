@@ -98,5 +98,5 @@
 @include('back.partials.plugins', ['plugins' => ['jquery.validate', 'ckeditor']])
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/themes/settings.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/themes/settings.js') }}"></script>
 @endpush

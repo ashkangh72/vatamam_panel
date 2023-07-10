@@ -145,5 +145,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/stocknotifies/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/stocknotifies/index.js') }}"></script>
 @endpush

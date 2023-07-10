@@ -32,15 +32,15 @@
                 </div>
             </div>
             <div class="content-body" id="main-card">
-                
+
                 @if (config('front.bannerGroups'))
 
                     @foreach (config('front.bannerGroups') as $bannerGroup)
                         @include('back.partials.banners', ['banners' => $banners->where('group', $bannerGroup['group']), 'group' => $bannerGroup['group'], 'title' => $bannerGroup['name'] . $bannerGroup['size'] ])
                     @endforeach
-                    
+
                 @endif
-                
+
             </div>
         </div>
     </div>
@@ -71,9 +71,9 @@
     </div>
 @endsection
 
-@push('scripts') 
-    <script src="{{ asset('back/app-assets/plugins/jquery-ui-sortable/jquery-ui.min.js') }}"></script>  
-    
+@push('scripts')
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-ui-sortable/jquery-ui.min.js') }}"></script>
+
     <!-- Page Js codes -->
-    <script src="{{ asset('back/assets/js/pages/banners/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/banners/index.js') }}"></script>
 @endpush

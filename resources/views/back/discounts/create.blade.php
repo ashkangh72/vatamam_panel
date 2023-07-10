@@ -316,6 +316,6 @@
 @include('back.partials.plugins', ['plugins' => ['persian-datepicker', 'jquery.validate']])
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/discounts/all.js') }}?v=2"></script>
-    <script src="{{ asset('back/assets/js/pages/discounts/create.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/discounts/all.js') }}?v=2"></script>
+    <script src="{{ asset('public/back/assets/js/pages/discounts/create.js') }}"></script>
 @endpush

@@ -509,7 +509,7 @@
             </td>
             <td>
                 <div class="shop-logo">
-                    <img src="{{ option('info_logo', theme_asset('img/logo.png')) }}" alt="{{ option('info_site_title') }}" />
+                    <img src="{{ option('info_logo', theme_asset('public/img/logo.png')) }}" alt="{{ option('info_site_title') }}" />
                 </div>
             </td>
             <td>
@@ -709,7 +709,7 @@
 
 <div class="print">
     <a href="#" onclick="print()" class="button">
-        <img src="{{ asset('print.png') }}" alt="print" />
+        <img src="{{ asset('public/print.png') }}" alt="print" />
     </a>
 </div>
 

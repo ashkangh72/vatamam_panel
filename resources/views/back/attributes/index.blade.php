@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="content-body">
-                
+
                 @if($attributes->count())
                     <section class="card">
                         <div class="card-header">
@@ -44,22 +44,22 @@
                                         <tbody>
                                             @foreach ($attributes as $attribute)
                                                 <tr id="attribute-{{ $attribute->id }}-tr">
-                                                    
+
                                                     <td>
                                                         @if ($attribute->group->type == 'color')
                                                             <button type="button" class="btn btn-icon btn-icon rounded-circle waves-effect waves-light" style="background-color: {{ $attribute->value }}"></button>
                                                         @endif
                                                         {{ $attribute->name }}
                                                     </td>
-                                                    
+
                                                     <td class="text-center">
                                                         <a href="{{ route('admin.attributes.edit', ['attribute' => $attribute]) }}" class="btn btn-success mr-1 waves-effect waves-light">ویرایش</a>
-                                                        
+
                                                         <button type="button" data-attribute="{{ $attribute->id }}" data-id="{{ $attribute->id }}" class="btn btn-danger mr-1 waves-effect waves-light btn-delete"  data-toggle="modal" data-target="#delete-modal">حذف</button>
                                                     </td>
                                                 </tr>
                                             @endforeach
-                                            
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -82,7 +82,7 @@
                     </section>
                 @endif
                 {{ $attributes->links() }}
-                
+
             </div>
         </div>
     </div>
@@ -114,6 +114,6 @@
 
 @endsection
 
-@push('scripts') 
-    <script src="{{ asset('back/assets/js/pages/attributes/index.js') }}"></script>
+@push('scripts')
+    <script src="{{ asset('public/back/assets/js/pages/attributes/index.js') }}"></script>
 @endpush

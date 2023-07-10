@@ -2,19 +2,19 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>داشبورد اجیس </title>
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/vendors/css/vendors-rtl.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/vendors/css/vendors-rtl.min.css') }}">
 
 
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/css-rtl/bootstrap.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/css-rtl/bootstrap-extended.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/css-rtl/colors.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/css-rtl/components.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/css-rtl/styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/css-rtl/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/css-rtl/bootstrap-extended.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/css-rtl/colors.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/css-rtl/components.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/css-rtl/styles.css') }}">
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/css-rtl/plugins/extensions/toastr.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/css-rtl/plugins/extensions/toastr.css') }}">
 
 
 

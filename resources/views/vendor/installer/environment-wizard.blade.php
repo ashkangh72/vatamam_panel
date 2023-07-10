@@ -127,7 +127,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('vendor/installer/js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ asset('public/vendor/installer/js/jquery-3.4.1.min.js') }}"></script>
     <script>
         $('.tabs-wrap').on('submit', function () {
             $('#installing-message').show();

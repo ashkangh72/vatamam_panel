@@ -1,7 +1,7 @@
 @extends('back.layouts.master')
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/plugins/datatable/datatable.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/datatable/datatable.css') }}">
 @endpush
 
 @section('content')
@@ -281,10 +281,10 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/app-assets/plugins/datatable/scripts.bundle.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/datatable/core.datatable.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/datatable/datatable.checkbox.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/datatable/scripts.bundle.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/datatable/core.datatable.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/datatable/datatable.checkbox.js') }}"></script>
 
-    <script src="{{ asset('back/assets/js/pages/products/index.js') }}"></script>
-    <script src="{{ asset('back/assets/js/pages/products/filters.js') }}?v=2"></script>
+    <script src="{{ asset('public/back/assets/js/pages/products/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/products/filters.js') }}?v=2"></script>
 @endpush

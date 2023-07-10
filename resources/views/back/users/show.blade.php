@@ -1,7 +1,7 @@
 @extends('back.layouts.master')
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/assets/css/pages/users/show.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/assets/css/pages/users/show.css') }}">
 @endpush
 
 
@@ -516,5 +516,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/users/show.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/users/show.js') }}"></script>
 @endpush

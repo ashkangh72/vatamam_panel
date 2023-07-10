@@ -225,6 +225,6 @@
         var selected_cities = {!! json_encode($carrier->cities->pluck('id')) !!};
     </script>
 
-    <script src="{{ asset('back/assets/js/pages/carriers/all.js') }}"></script>
-    <script src="{{ asset('back/assets/js/pages/carriers/edit.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/carriers/all.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/carriers/edit.js') }}"></script>
 @endpush

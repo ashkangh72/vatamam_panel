@@ -146,6 +146,6 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/products/filters.js') }}?v=2"></script>
-    <script src="{{ asset('back/assets/js/pages/products/prices.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/products/filters.js') }}?v=2"></script>
+    <script src="{{ asset('public/back/assets/js/pages/products/prices.js') }}"></script>
 @endpush

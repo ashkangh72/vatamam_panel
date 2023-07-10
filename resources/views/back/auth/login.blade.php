@@ -17,7 +17,7 @@
                         <div class="row m-0">
 
                             <div class="col-lg-6 d-lg-block d-none text-center align-self-center px-1 py-0">
-                                <img src="{{ asset('back/app-assets/images/pages/login.png') }}" alt="branding logo">
+                                <img src="{{ asset('public/back/app-assets/images/pages/login.png') }}" alt="branding logo">
                             </div>
                             <div id="main-card" class="col-lg-6 col-12 p-0">
                                 <div class="card rounded-0 mb-0 px-2">
@@ -83,5 +83,5 @@
     <script>
         var redirect_url = '{{ Redirect::intended()->getTargetUrl() }}';
     </script>
-    <script src="{{ asset('back/assets/js/pages/login.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/login.js') }}"></script>
 @endpush

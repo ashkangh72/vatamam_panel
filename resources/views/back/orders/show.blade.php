@@ -1,7 +1,7 @@
 @extends('back.layouts.master')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('back/assets/css/pages/order.css') }}">
+<link rel="stylesheet" href="{{ asset('public/back/assets/css/pages/order.css') }}">
 @endpush
 
 @section('content')
@@ -229,9 +229,9 @@
                                                         <td>@if($item->product){{ $item->product->sku }}@else -- @endif</td>
                                                         <td>
                                                             @if($item->product)
-                                                                <a href="{{ Route::has('front.products.show') ? route('front.products.show', ['product' => $item->product]) : '' }}" target="_blank"><img class="table-img" src="{{ $item->product->image ? asset($item->product->image) : asset('/empty.jpg') }}"></a>
+                                                                <a href="{{ Route::has('front.products.show') ? route('front.products.show', ['product' => $item->product]) : '' }}" target="_blank"><img class="table-img" src="{{ $item->product->image ? asset($item->product->image) : asset('public//empty.jpg') }}"></a>
                                                             @else
-                                                                <img class="table-img" src="{{ asset('empty.jpg') }}">
+                                                                <img class="table-img" src="{{ asset('public/empty.jpg') }}">
                                                             @endif
                                                         </td>
                                                         <td class="order-product-name">
@@ -304,5 +304,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/orders/show.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/orders/show.js') }}"></script>
 @endpush

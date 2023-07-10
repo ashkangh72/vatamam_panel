@@ -2,8 +2,8 @@
 
 @push('styles')
     <!-- Page JS Plugins CSS -->
-    <link rel="stylesheet" href="{{ asset('back/app-assets/plugins/nestable2/jquery.nestable.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/back/app-assets/plugins/nestable2/jquery.nestable.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
     <style>
         @media only screen and (max-width: 600px) {
             .dd{
@@ -301,8 +301,8 @@
 
 @push('scripts')
     <!-- Page JS Plugins -->
-    <script src="{{ asset('back/app-assets/plugins/nestable2/jquery.nestable.min.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/jquery-ui/jquery-ui.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/nestable2/jquery.nestable.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.js') }}"></script>
 
     <!-- Page JS Code -->
     <script>
@@ -314,5 +314,5 @@
 
         var megaMenuDepth = {{ config('front.mega_menu_depth') ?: 3 }};
     </script>
-    <script src="{{ asset('back/assets/js/pages/menus.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/menus.js') }}"></script>
 @endpush

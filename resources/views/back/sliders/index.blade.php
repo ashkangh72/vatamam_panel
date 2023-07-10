@@ -73,5 +73,5 @@
 
 @push('scripts')
     <!-- Page Js codes -->
-    <script src="{{ asset('back/assets/js/pages/sliders/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/sliders/index.js') }}"></script>
 @endpush

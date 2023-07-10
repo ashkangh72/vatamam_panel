@@ -23,7 +23,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="content-body">
                 <!-- Description -->
@@ -31,7 +31,7 @@
                     <div class="card-header">
                         <h4 class="card-title">ویرایش فیلتر </h4>
                     </div>
-                    
+
                     <div id="main-card" class="card-content">
                         <div class="card-body">
                             <div class="col-12 col-md-12">
@@ -43,7 +43,7 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <input type="text" class="form-control" name="title" placeholder="عنوان فیلتر" value="{{ $filter->title }}">
-                                                    
+
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -64,14 +64,14 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                            
-                                                            @include('back.filters.partials.filterables')    
+
+                                                            @include('back.filters.partials.filterables')
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="row mt-2">
 
                                             <div class="col-12">
@@ -85,7 +85,7 @@
                     </div>
                 </section>
                 <!--/ Description -->
-                
+
             </div>
         </div>
     </div>
@@ -98,15 +98,15 @@
 
 @endsection
 
-@push('scripts') 
+@push('scripts')
     <script>
         var filtersCount = {{ $filter->related->count() }};
     </script>
 
-    <script src="{{ asset('back/app-assets/plugins/jquery-ui-sortable/jquery-ui.min.js') }}"></script>  
-    <script src="{{ asset('back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-ui-sortable/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
 
-    <script src="{{ asset('back/assets/js/pages/filters/edit.js') }}"></script>
-    <script src="{{ asset('back/assets/js/pages/filters/all.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/filters/edit.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/filters/all.js') }}"></script>
 @endpush

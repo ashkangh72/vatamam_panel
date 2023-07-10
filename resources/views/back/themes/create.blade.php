@@ -70,7 +70,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
-    <script src="{{ asset('back/assets/js/pages/themes/create.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/themes/create.js') }}"></script>
 @endpush

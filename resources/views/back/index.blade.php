@@ -135,7 +135,7 @@
 @endsection
 
 @push('scripts')
-{{--    <script src="{{ asset('back/app-assets/vendors/js/charts/apexcharts.min.js') }}"></script>
+{{--    <script src="{{ asset('public/back/app-assets/vendors/js/charts/apexcharts.min.js') }}"></script>
 
     <script>
         @php
@@ -156,5 +156,5 @@
         var ipChartLabels = [{!! array_to_string($labels) !!}];
         var ipChartData   = [{!! array_to_string($views) !!}];
     </script>
-    <script src="{{ asset('back/assets/js/pages/dashboard-ecommerce.js') }}"></script>--}}
+    <script src="{{ asset('public/back/assets/js/pages/dashboard-ecommerce.js') }}"></script>--}}
 @endpush

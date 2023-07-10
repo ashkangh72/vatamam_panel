@@ -14,7 +14,7 @@
                         <div class="card auth-card bg-transparent shadow-none rounded-0 mb-0 w-100">
                             <div class="card-content">
                                 <div class="card-body text-center">
-                                    <img src="{{ asset('back/app-assets/images/pages/500.png') }}" class="img-fluid align-self-center" alt="branding logo">
+                                    <img src="{{ asset('public/back/app-assets/images/pages/500.png') }}" class="img-fluid align-self-center" alt="branding logo">
                                     <h1 class="font-large-2 mt-1 mb-0">خطای سرور!</h1>
                                     <p class="p-3">
                                         متاسفانه خطایی در سرور رخ داده است لطفا از بخش تماس با ما این خطا را گزارش دهید

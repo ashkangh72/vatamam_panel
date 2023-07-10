@@ -126,8 +126,8 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/app-assets/plugins/jquery-ui-sortable/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-ui-sortable/jquery-ui.min.js') }}"></script>
 
     <!-- Page Js codes -->
-    <script src="{{ asset('back/assets/js/pages/attributeGroups/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/attributeGroups/index.js') }}"></script>
 @endpush

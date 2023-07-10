@@ -14,7 +14,7 @@
                         <div class="card bg-authentication rounded-0 mb-0 w-100">
                             <div class="row m-0">
                                 <div class="col-lg-6 d-lg-block d-none text-center align-self-center p-0">
-                                    <img src="{{ asset('back/app-assets/images/pages/reset-password.png') }}" alt="branding logo">
+                                    <img src="{{ asset('public/back/app-assets/images/pages/reset-password.png') }}" alt="branding logo">
                                 </div>
                                 <div class="col-lg-6 col-12 p-0">
                                     <div class="card rounded-0 mb-0 px-2">
@@ -66,5 +66,5 @@
         var redirect_url = '{{ Redirect::intended()->getTargetUrl() }}';
     </script>
 
-    <script src="{{ asset('back/assets/js/pages/change-password.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/change-password.js') }}"></script>
 @endpush

@@ -114,5 +114,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/marketing-requests/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/marketing-requests/index.js') }}"></script>
 @endpush

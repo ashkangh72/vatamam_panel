@@ -15,7 +15,7 @@
                         <div class="card bg-authentication rounded-0 mb-0">
                             <div class="row m-0">
                                 <div class="col-lg-5 d-lg-block d-none text-center align-self-center pl-0 pr-3 py-0">
-                                    <img src="{{ asset('back/app-assets/images/pages/register.jpg') }}" alt="branding logo">
+                                    <img src="{{ asset('public/back/app-assets/images/pages/register.jpg') }}" alt="branding logo">
                                 </div>
                                 <div id="main-card" class="col-lg-7 col-12 p-0">
                                     <div class="card rounded-0 mb-0 p-2">
@@ -92,7 +92,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
-    <script src="{{ asset('back/assets/js/pages/register.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/register.js') }}"></script>
 @endpush

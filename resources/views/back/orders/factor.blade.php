@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>فاکتور فروش</title>
-    <link rel="stylesheet" href="{{ asset('back/assets/fonts/iransansdn/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/back/assets/fonts/iransansdn/style.css') }}">
     <style>
         html,
         body {
@@ -397,7 +397,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="{{ asset('back/assets/js/jquery-barcode.min.js') }}"></script>
+<script src="{{ asset('public/back/assets/js/jquery-barcode.min.js') }}"></script>
 <script>
     $(document).ready(function () {
         var valuecodeFactor = $("#codeFactor").val();

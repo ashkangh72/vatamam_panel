@@ -262,7 +262,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/app-assets/plugins/autosize-js/autosize.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/autosize-js/autosize.min.js') }}"></script>
 
-    <script src="{{ asset('back/assets/js/pages/comments/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/comments/index.js') }}"></script>
 @endpush

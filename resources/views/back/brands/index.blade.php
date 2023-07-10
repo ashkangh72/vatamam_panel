@@ -46,7 +46,7 @@
                                             @foreach ($brands as $brand)
                                                 <tr id="brand-{{ $brand->id }}-tr">
                                                     <td class="text-center">
-                                                        <img class="post-thumb" src="{{ $brand->image ? asset($brand->image) : asset('/empty.jpg') }}" alt="image">
+                                                        <img class="post-thumb" src="{{ $brand->image ? asset($brand->image) : asset('public//empty.jpg') }}" alt="image">
                                                     </td>
                                                     <td>{{ $brand->name }}</td>
 
@@ -113,5 +113,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/brands/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/brands/index.js') }}"></script>
 @endpush

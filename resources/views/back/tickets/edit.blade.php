@@ -1,8 +1,8 @@
 @extends('back.layouts.master')
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
 @endpush
 
 @section('content')
@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
         <div class="content-body">
             <!-- Description -->
@@ -36,7 +36,7 @@
                 <div class="card-header">
                     <h4 class="card-title">ویرایش صفحه</h4>
                 </div>
-                
+
                 <div id="main-card" class="card-content">
                     <div class="card-body">
                         <div class="col-12 col-md-10 offset-md-1">
@@ -60,7 +60,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <fieldset class="form-group">
@@ -94,18 +94,18 @@
                 </div>
             </section>
             <!--/ Description -->
-            
+
         </div>
     </div>
 </div>
 
 @endsection
 
-@push('scripts') 
-        <script src="{{ asset('back/app-assets/plugins/ckeditor/ckeditor.js') }}"></script>
-        <script src="{{ asset('back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.js') }}"></script>
-        <script src="{{ asset('back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-        <script src="{{ asset('back/app-assets/plugins/jquery-ui/jquery-ui.js') }}"></script>
+@push('scripts')
+        <script src="{{ asset('public/back/app-assets/plugins/ckeditor/ckeditor.js') }}"></script>
+        <script src="{{ asset('public/back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.js') }}"></script>
+        <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.js') }}"></script>
 
-        <script src="{{ asset('back/assets/js/pages/pages/edit.js') }}"></script>
+        <script src="{{ asset('public/back/assets/js/pages/pages/edit.js') }}"></script>
 @endpush

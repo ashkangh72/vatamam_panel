@@ -1,9 +1,9 @@
 @extends('back.layouts.master')
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/vendors/css/file-uploaders/dropzone.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/css-rtl/plugins/file-uploaders/dropzone.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/assets/css/pages/tickets/show.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/vendors/css/file-uploaders/dropzone.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/css-rtl/plugins/file-uploaders/dropzone.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/assets/css/pages/tickets/show.css') }}">
 @endpush
 
 @section('content')
@@ -162,10 +162,10 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/vendors/js/extensions/dropzone.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
 
-    <script src="{{ asset('back/assets/js/pages/tickets/show.js') }}"></script>
-    <script src="{{ asset('back/assets/js/pages/tickets/all.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/tickets/show.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/tickets/all.js') }}"></script>
 @endpush

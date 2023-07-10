@@ -124,6 +124,6 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/roles/all.js') }}"></script>
-    <script src="{{ asset('back/assets/js/pages/roles/create.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/roles/all.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/roles/create.js') }}"></script>
 @endpush

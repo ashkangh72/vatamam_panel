@@ -117,5 +117,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/discounts/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/discounts/index.js') }}"></script>
 @endpush

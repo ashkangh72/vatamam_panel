@@ -47,7 +47,7 @@
                                             @foreach ($posts as $post)
                                                 <tr id="post-{{ $post->id }}-tr">
                                                     <td class="text-center">
-                                                        <img class="post-thumb" src="{{ $post->image ? asset($post->image) : asset('/empty.jpg') }}" alt="image">
+                                                        <img class="post-thumb" src="{{ $post->image ? asset($post->image) : asset('public//empty.jpg') }}" alt="image">
                                                     </td>
                                                     <td><span class="d-inline-block">{{ $post->title }}</span> <a href="{{ Route::has('front.posts.show') ? route('front.posts.show', ['post' => $post]) : '' }}" target="_blank"><i class="feather icon-external-link"></i></a></td>
                                                     <td class="text-center">
@@ -126,5 +126,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/posts/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/posts/index.js') }}"></script>
 @endpush

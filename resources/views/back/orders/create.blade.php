@@ -187,6 +187,6 @@
 @include('back.partials.plugins', ['plugins' => ['jquery-ui', 'persian-datepicker', 'jquery.validate']])
 
 @push('scripts')
-    <script src="{{ asset('back/app-assets/plugins/ejs/ejs.min.js') }}"></script>
-    <script src="{{ asset('back/assets/js/pages/orders/create.js') }}?v=1.1"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/ejs/ejs.min.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/orders/create.js') }}?v=1.1"></script>
 @endpush

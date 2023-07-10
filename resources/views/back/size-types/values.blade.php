@@ -112,5 +112,5 @@
         let valuesCount = {{ $sizeType->values->count() }};
     </script>
 
-    <script src="{{ asset('back/assets/js/pages/size-types/values.js') }}?v=1"></script>
+    <script src="{{ asset('public/back/assets/js/pages/size-types/values.js') }}?v=1"></script>
 @endpush

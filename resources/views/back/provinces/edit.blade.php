@@ -105,5 +105,5 @@
 @include('back.partials.plugins', ['plugins' => ['jquery.validate']])
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/provinces/edit.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/provinces/edit.js') }}"></script>
 @endpush

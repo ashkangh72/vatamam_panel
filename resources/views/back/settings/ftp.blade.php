@@ -126,5 +126,5 @@
 @include('back.partials.plugins', ['plugins' => ['jquery.validate']])
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/settings/ftp.js') }}?v=1"></script>
+    <script src="{{ asset('public/back/assets/js/pages/settings/ftp.js') }}?v=1"></script>
 @endpush

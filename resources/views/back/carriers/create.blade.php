@@ -221,6 +221,6 @@
         var selected_cities = [];
     </script>
 
-    <script src="{{ asset('back/assets/js/pages/carriers/all.js') }}"></script>
-    <script src="{{ asset('back/assets/js/pages/carriers/create.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/carriers/all.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/carriers/create.js') }}"></script>
 @endpush

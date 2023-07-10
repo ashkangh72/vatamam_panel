@@ -80,5 +80,5 @@
 @include('back.partials.plugins', ['plugins' => ['datatable', 'jquery-ui-sortable']])
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/provinces/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/provinces/index.js') }}"></script>
 @endpush

@@ -115,5 +115,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/marketing-commissions-deposit-requests/index.js') }}{{--?v=1.0--}}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/marketing-commissions-deposit-requests/index.js') }}{{--?v=1.0--}}"></script>
 @endpush

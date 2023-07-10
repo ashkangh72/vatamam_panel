@@ -1,7 +1,7 @@
 @extends('back.layouts.master')
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/assets/css/pages/products/all.css') }}?v=2">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/assets/css/pages/products/all.css') }}?v=2">
 @endpush
 
 @section('content')
@@ -580,6 +580,6 @@
         let filesCount = 0;
         let sizesCount = {{ $copy_product ? $copy_product->sizes()->count() : '0' }};
     </script>
-    <script src="{{ asset('back/assets/js/pages/products/all.js') }}?v=6.2"></script>
-    <script src="{{ asset('back/assets/js/pages/products/create.js') }}?v=4"></script>
+    <script src="{{ asset('public/back/assets/js/pages/products/all.js') }}?v=6.2"></script>
+    <script src="{{ asset('public/back/assets/js/pages/products/create.js') }}?v=4"></script>
 @endpush

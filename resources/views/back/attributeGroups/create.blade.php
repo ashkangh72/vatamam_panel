@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
         <div class="content-body">
             <!-- Description -->
@@ -31,7 +31,7 @@
                 <div class="card-header">
                     <h4 class="card-title">ایجاد گروه ویژگی جدید</h4>
                 </div>
-                
+
                 <div id="main-card" class="card-content">
                     <div class="card-body">
                         <div class="col-12 col-md-10 offset-md-1">
@@ -54,10 +54,10 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-12 text-right">
                                             <button type="submit" class="btn btn-primary mb-1 waves-effect waves-light">ایجاد ویژگی</button>
@@ -70,16 +70,16 @@
                 </div>
             </section>
             <!--/ Description -->
-            
+
         </div>
     </div>
 </div>
 
 @endsection
 
-@push('scripts') 
-    <script src="{{ asset('back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
+@push('scripts')
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
 
-    <script src="{{ asset('back/assets/js/pages/attributeGroups/create.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/attributeGroups/create.js') }}"></script>
 @endpush

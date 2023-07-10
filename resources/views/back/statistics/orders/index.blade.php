@@ -155,5 +155,5 @@
 @include('back.partials.plugins', ['plugins' => ['apexcharts', 'persian-datepicker']])
 
 @push('scripts')
-    <script src="{{ asset('back/assets/js/pages/statistics/orders.js') }}?v=1.1"></script>
+    <script src="{{ asset('public/back/assets/js/pages/statistics/orders.js') }}?v=1.1"></script>
 @endpush

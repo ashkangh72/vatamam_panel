@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>فاکتور فروش</title>
-    <link rel="stylesheet" href="{{ asset('back/assets/fonts/iransansdn/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/back/assets/fonts/iransansdn/style.css') }}">
     <style>
         html,
         body {
@@ -218,7 +218,7 @@
             <td style="width: 4.5cm;height: 2cm;">
                 <div class="bordered grow" style="padding: 2mm 5mm;border-right: 0;border-bottom: 0;">
                     <div class="flex" style="align-items: center;height: 100%;">
-                        <img src="{{ asset('logo.png') }}" alt="">
+                        <img src="{{ asset('public/logo.png') }}" alt="">
                     </div>
                 </div>
             </td>
@@ -280,7 +280,7 @@
                         <input type="hidden" id="codeOrder" value="{{ $order->id }}">
                     </div>
                     <div class="flex" style="align-items: center;margin-top: 2rem;">
-                        <img src="{{ asset('logo.png') }}" alt="">
+                        <img src="{{ asset('public/logo.png') }}" alt="">
                     </div>
                 </div>
             </td>
@@ -308,7 +308,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="{{ asset('back/assets/js/jquery-barcode.min.js') }}"></script>
+<script src="{{ asset('public/back/assets/js/jquery-barcode.min.js') }}"></script>
 <script>
     $(document).ready(function () {
         var valuecodeFactor = $("#codePackage").val();
