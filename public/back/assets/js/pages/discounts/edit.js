@@ -2,8 +2,8 @@ $('#discount-edit-form').submit(function(e) {
     e.preventDefault();
 
     if ($(this).valid() && !$(this).data('disabled')) {
-        var formData = new FormData(this);
-        var form = $(this);
+        let formData = new FormData(this);
+        let form = $(this);
 
         $.ajax({
             url: $(this).attr('action'),

@@ -131,12 +131,6 @@
                                                                 <input type="number" class="form-control" name="least_price" value="{{ $discount->least_price }}">
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            <div class="form-group">
-                                                                <label>کمترین تعداد محصول در سبد</label>
-                                                                <input type="number" class="form-control" name="least_products_count" value="{{ $discount->least_products_count }}">
-                                                            </div>
-                                                        </div>
 
                                                         <div class="col-md-6 col-12">
                                                             <div class="form-group">
@@ -190,108 +184,6 @@
                                                                 <input type="number" class="form-control" name="quantity_per_user" value="{{ $discount->quantity_per_user }}">
                                                             </div>
                                                         </div>
-
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>محصولاتی که شامل تخیف میشوند</label>
-                                                                <select id="discount-products-include" class="form-control" name="include_type">
-                                                                    <option value="all" {{ $discount->include_type == 'all' ? 'selected' : '' }}>اعمال روی همه محصولات</option>
-                                                                    <option value="category" {{ $discount->include_type == 'category' ? 'selected' : '' }}>انتخاب دسته بندی</option>
-                                                                    <option value="product" {{ $discount->include_type == 'product' ? 'selected' : '' }}>انتخاب محصول</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <div id="categories-include" class="form-group" style="display: none;">
-                                                                <label>انتخاب دسته بندی</label>
-                                                                <select id="categories-include-select" class="form-control" name="include_categories[]" multiple>
-                                                                    @foreach ($categories as $category)
-                                                                        <option
-                                                                            class="l{{ $category->parents()->count() + 1 }} {{ $category->categories()->count() ? 'non-leaf' : '' }}"
-                                                                            data-pup="{{ $category->category_id }}"
-                                                                            value="{{ $category->id }}" {{ $discount->includeCategories()->find($category->id) ? 'selected' : '' }}>{{ $category->title }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div id="products-include" class="form-group" style="display: none;">
-                                                                <label>انتخاب محصولات</label>
-                                                                <select id="products-include-select" class="form-control" name="include_products[]" multiple>
-                                                                    @foreach ($products as $product)
-                                                                        <option value="{{ $product->id }}" {{ $discount->includeProducts()->find($product->id) ? 'selected' : '' }}>{{ $product->title }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>محصولاتی که شامل تخیف نمی شوند</label>
-                                                                <select id="discount-products-exclude" class="form-control" name="exclude_type">
-                                                                    <option value="none" {{ $discount->exclude_type == 'none' ? 'selected' : '' }}>هیچ کدام</option>
-                                                                    <option value="category" {{ $discount->exclude_type == 'category' ? 'selected' : '' }}>انتخاب دسته بندی</option>
-                                                                    <option value="product" {{ $discount->exclude_type == 'product' ? 'selected' : '' }}>انتخاب محصول</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <div id="categories-exclude" class="form-group" style="display: none;">
-                                                                <label>انتخاب دسته بندی</label>
-                                                                <select id="categories-exclude-select" class="form-control" name="exclude_categories[]" multiple>
-                                                                    @foreach ($categories as $category)
-                                                                        <option
-                                                                            class="l{{ $category->parents()->count() + 1 }} {{ $category->categories()->count() ? 'non-leaf' : '' }}"
-                                                                            data-pup="{{ $category->category_id }}"
-                                                                            value="{{ $category->id }}" {{ $discount->excludeCategories()->find($category->id) ? 'selected' : '' }}>{{ $category->title }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div id="products-exclude" class="form-group" style="display: none;">
-                                                                <label>انتخاب محصولات</label>
-                                                                <select id="products-exclude-select" class="form-control" name="exclude_products[]" multiple>
-                                                                    @foreach ($products as $product)
-                                                                        <option value="{{ $product->id }}" {{ $discount->excludeProducts()->find($product->id) ? 'selected' : '' }}>{{ $product->title }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-4">
-                                                            <fieldset class="checkbox">
-                                                                <div class="vs-checkbox-con vs-checkbox-primary">
-                                                                    <input type="checkbox" name="only_first_purchase" {{ $discount->only_first_purchase ? 'checked' : '' }}>
-                                                                    <span class="vs-checkbox">
-                                                                        <span class="vs-checkbox--check">
-                                                                            <i class="vs-icon feather icon-check"></i>
-                                                                        </span>
-                                                                    </span>
-                                                                    <span>فقط برای اولین خرید</span>
-                                                                </div>
-                                                            </fieldset>
-                                                        </div>
-                                                        <div class="col-12 col-md-4">
-                                                            <fieldset class="checkbox">
-                                                                <div class="vs-checkbox-con vs-checkbox-primary">
-                                                                    <input type="checkbox" name="not_discount_products" {{ $discount->not_discount_products ? 'checked' : '' }}>
-                                                                    <span class="vs-checkbox">
-                                                                        <span class="vs-checkbox--check">
-                                                                            <i class="vs-icon feather icon-check"></i>
-                                                                        </span>
-                                                                    </span>
-                                                                    <span>مستثنی کردن محصولات تخفیف دار</span>
-                                                                </div>
-                                                            </fieldset>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -318,6 +210,6 @@
 @include('back.partials.plugins', ['plugins' => ['persian-datepicker', 'jquery.validate']])
 
 @push('scripts')
-    <script src="{{ asset('public/back/assets/js/pages/discounts/all.js') }}?v=2"></script>
+    <script src="{{ asset('public/back/assets/js/pages/discounts/all.js') }}"></script>
     <script src="{{ asset('public/back/assets/js/pages/discounts/edit.js') }}"></script>
 @endpush

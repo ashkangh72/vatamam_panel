@@ -19,7 +19,7 @@ $("#start_date_picker").pDatepicker({
     altFormat: 'YYYY-MM-DD H:mm:ss',
 
     onSelect: function(unixDate) {
-        var date = $('#start_date').val();
+        let date = $('#start_date').val();
         $('#start_date').val(date.toEnglishDigit());
     }
 });
@@ -51,7 +51,7 @@ $("#end_date_picker").pDatepicker({
     altFormat: 'YYYY-MM-DD H:mm:ss',
 
     onSelect: function(unixDate) {
-        var date = $('#end_date').val();
+        let date = $('#end_date').val();
         $('#end_date').val(date.toEnglishDigit());
     }
 });
@@ -66,8 +66,8 @@ $('#discount-create-form').submit(function(e) {
     e.preventDefault();
 
     if ($(this).valid() && !$(this).data('disabled')) {
-        var formData = new FormData(this);
-        var form = $(this);
+        let formData = new FormData(this);
+        let form = $(this);
 
         $.ajax({
             url: $(this).attr('action'),

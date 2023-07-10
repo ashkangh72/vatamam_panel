@@ -8,7 +8,7 @@ $('#discount-delete-form').submit(function(e) {
 
     $('#delete-modal').modal('hide');
 
-    var formData = new FormData(this);
+    let formData = new FormData(this);
 
     $.ajax({
         url: $(this).attr('action'),
@@ -16,7 +16,7 @@ $('#discount-delete-form').submit(function(e) {
         data: formData,
         success: function(data) {
             //get current url
-            var url = window.location.href;
+            let url = window.location.href;
 
             //remove discount tr
             $('#discount-' + $('#discount-delete-form').data('id') + '-tr').remove();

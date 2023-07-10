@@ -5,6 +5,7 @@ use App\Http\Controllers\Back\{AuctionController,
     CarrierController,
     CityController,
     DeveloperController,
+    DiscountController,
     LinkController,
     MainController,
     PageController,
@@ -14,8 +15,7 @@ use App\Http\Controllers\Back\{AuctionController,
     SliderController,
     TariffController,
     UserController,
-    WidgetController
-};
+    WidgetController};
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
@@ -89,9 +89,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::post('refund-requests/accept/{refund_request}', [RefundRequestController::class, 'accept'])->name('refund-requests.accept');
 //    Route::post('refund-requests/reject/{refund_request}', [RefundRequestController::class, 'reject'])->name('refund-requests.reject');
 //    Route::post('refund-requests/receive/{refund_request}', [RefundRequestController::class, 'receive'])->name('refund-requests.receive');
-//
-//    // ------------------ discounts
-//    Route::resource('discounts', DiscountController::class)->except(['show']);
+
+    // ------------------ discounts
+    Route::resource('discounts', DiscountController::class)->except(['show']);
 
     // ------------------ provinces
     Route::resource('provinces', ProvinceController::class);
@@ -130,12 +130,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::get('spectypes/spec-type-data', [SpecTypeController::class, 'getData'])->name('spectypes.getdata');
 //    Route::get('spectypes/ajax/get', [SpecTypeController::class, 'ajax_get']);
 //    Route::resource('spectypes', SpecTypeController::class)->except(['show', 'create']);
-//
-//    // ------------------ size types
-//    Route::resource('size-types', SizeTypeController::class);
-//    Route::get('size-types/{sizeType}/values', [SizeTypeController::class, 'editValues'])->name('size-types.editValues');
-//    Route::put('size-types/{sizeType}/values', [SizeTypeController::class, 'updateValues'])->name('size-types.updateValues');
-//
+
 //    // ------------------ categories
 //    Route::resource('categories', CategoryController::class)->only(['update', 'destroy', 'store', 'edit']);
 //    Route::post('categories/sort', [CategoryController::class, 'sort']);
@@ -148,7 +143,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    // ------------------ menus
 //    Route::resource('menus', MenuController::class)->except(['edit']);
 //    Route::post('menus/sort', [MenuController::class, 'sort']);
-//
+
 //    // ------------------ orders
 //    Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');
 //    Route::resource('orders', OrderController::class);
@@ -172,10 +167,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 
 //    // ------------------ search engine rules
 //    Route::resource('search-engine-rules', SearchEngineRulesController::class)->only('index', 'store', 'destroy');
-//
+
 //    // ------------------ redirects
 //    Route::resource('redirects', RedirectController::class)->only('index', 'store', 'destroy');
-//
+
 //    // ------------------ transactions
 //    Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);
 //    Route::post('transactions/api/index', [TransactionController::class, 'apiIndex'])->name('transactions.apiIndex');
@@ -184,7 +179,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     // ------------------ sliders
     Route::resource('sliders', SliderController::class)->except(['show']);
     Route::post('sliders/sort', [SliderController::class, 'sort']);
-//
+
     // ------------------ banners
     Route::resource('banners', BannerController::class)->except(['show']);
     Route::post('banners/sort', [BannerController::class, 'sort']);
@@ -194,7 +189,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('links/sort', [LinkController::class, 'sort']);
     Route::get('links/groups', [LinkController::class, 'groups'])->name('links.groups.index');
     Route::put('links/groups/update', [LinkController::class, 'updateGroups'])->name('links.groups.update');
-//
+
 //    // ------------------ statistics
 //    Route::get('statistics/views', [StatisticsController::class, 'views'])->name('statistics.views');
 //    Route::get('statistics/viewers', [StatisticsController::class, 'viewers'])->name('statistics.viewers');
@@ -267,27 +262,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //
 //    Route::get('settings/ftp', [SettingController::class, 'showFtp'])->name('settings.ftp');
 //    Route::post('settings/ftp', [SettingController::class, 'updateFtp']);
-//
-//    // ------------------ developer routes
-//    Route::group(['middleware' => 'CheckCreator'], function () {
 
     // ------------------ logs
     Route::get('logs', [LogViewerController::class, 'index'])->name('logs.index');
-
-//        // ------------------ settings
-    Route::get('developer/settings', [DeveloperController::class, 'showSettings'])->name('developer.settings');
-//        Route::put('developer/settings', [DeveloperController::class, 'updateSettings']);
-//
-//        Route::post('developer/downApplication', [DeveloperController::class, 'downApplication'])->name('developer.downApplication');
-//        Route::post('developer/upApplication', [DeveloperController::class, 'upApplication'])->name('developer.upApplication');
-//
-//        Route::post('developer/webpushNotification', [DeveloperController::class, 'webpushNotification'])->name('developer.webpushNotification');
-//
-//        // ------------------ updater
-
-//    });
 });
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -296,8 +274,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
-
-Route::get("test-rule", function () {
-    dd($valid);
-
-});

@@ -1,28 +1,3 @@
-$('#discount-products-include').on('change', function() {
-    switch ($(this).val()) {
-        case 'all':
-            {
-                $('#categories-include').hide();
-                $('#products-include').hide();
-                break;
-            }
-        case 'category':
-            {
-                $('#categories-include').show();
-                $('#products-include').hide();
-                break;
-            }
-        case 'product':
-            {
-                $('#categories-include').hide();
-                $('#products-include').show();
-                break;
-            }
-    }
-});
-
-$('#discount-products-include').trigger('change');
-
 $('#discount-type').on('change', function() {
     switch ($(this).val()) {
         case 'percent':
@@ -42,42 +17,7 @@ $('#discount-type').on('change', function() {
 
 $('#discount-type').trigger('change');
 
-$('#discount-products-exclude').on('change', function() {
-    switch ($(this).val()) {
-        case 'none':
-            {
-                $('#categories-exclude').hide();
-                $('#products-exclude').hide();
-                break;
-            }
-        case 'category':
-            {
-                $('#categories-exclude').show();
-                $('#products-exclude').hide();
-                break;
-            }
-        case 'product':
-            {
-                $('#categories-exclude').hide();
-                $('#products-exclude').show();
-                break;
-            }
-    }
-});
-
-$('#discount-products-exclude').trigger('change');
-
-$('#categories-include-select').select2ToTree({
-    rtl: true,
-    width: '100%',
-});
-
-$('#categories-exclude-select').select2ToTree({
-    rtl: true,
-    width: '100%',
-});
-
-$('#users-include, #products-include-select, #products-exclude-select').select2({
+$('#users-include').select2({
     rtl: true,
     width: '100%',
 });

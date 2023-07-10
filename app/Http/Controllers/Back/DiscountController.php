@@ -28,29 +28,24 @@ class DiscountController extends Controller
 
     public function create()
     {
-        $users      = User::latest()->get();
-        $products   = Product::latest()->get();
-        $categories = Category::where('type', 'productcat')->orderBy('ordering')->get();
+        $users = User::latest()->get();
 
         return view('back.discounts.create', compact(
             'users',
-            'categories',
-            'products'
         ));
     }
 
     public function store(StoreDiscountRequest $request)
     {
-
         $data = $request->validated();
 
-        $data['amount']        = $data['type'] == 'amount' ? $data['price'] : $data['percent'];
-        $data['start_date']    = Verta::parse($data['start_date'])->datetime();
-        $data['end_date']      = Verta::parse($data['end_date'])->datetime();
+        $data['amount'] = $data['type'] == 'amount' ? $data['price'] : $data['percent'];
+        $data['start_date'] = Verta::parse($data['start_date'])->datetime();
+        $data['end_date'] = Verta::parse($data['end_date'])->datetime();
 
         $discount = Discount::create($data);
 
-        $this->updateRelations($discount, $request);
+        $discount->users()->sync($request->include_users);
 
         toastr()->success('تخفیف با موفقیت ایجاد شد.');
 
@@ -59,24 +54,22 @@ class DiscountController extends Controller
 
     public function edit(Discount $discount)
     {
-        $users      = User::latest()->get();
-        $products   = Product::latest()->get();
-        $categories = Category::where('type', 'productcat')->orderBy('ordering')->get();
+        $users = User::latest()->get();
 
-        return view('back.discounts.edit', compact('users', 'categories', 'products', 'discount'));
+        return view('back.discounts.edit', compact('users', 'discount'));
     }
 
     public function update(Discount $discount, UpdateDiscountRequest $request)
     {
         $data = $request->validated();
 
-        $data['amount']         = $data['type'] == 'amount' ? $data['price'] : $data['percent'];
-        $data['start_date']     = Verta::parse($data['start_date'])->datetime();
-        $data['end_date']       = Verta::parse($data['end_date'])->datetime();
+        $data['amount'] = $data['type'] == 'amount' ? $data['price'] : $data['percent'];
+        $data['start_date'] = Verta::parse($data['start_date'])->datetime();
+        $data['end_date'] = Verta::parse($data['end_date'])->datetime();
 
         $discount->update($data);
 
-        $this->updateRelations($discount, $request);
+        $discount->users()->sync($request->include_users);
 
         toastr()->success('تخفیف با موفقیت ویرایش شد.');
 
@@ -88,29 +81,5 @@ class DiscountController extends Controller
         $discount->delete();
 
         return response('success');
-    }
-
-    private function updateRelations(Discount $discount, $request)
-    {
-        $discount->includeCategories()->detach();
-        $discount->includeProducts()->detach();
-
-        if ($request->include_type == 'category') {
-            $discount->includeCategories()->attach($request->include_categories, ['type' => 'include']);
-        }
-
-        if ($request->exclude_type == 'category') {
-            $discount->excludeCategories()->attach($request->exclude_categories, ['type' => 'exclude']);
-        }
-
-        if ($request->include_type == 'product') {
-            $discount->includeProducts()->attach($request->include_products, ['type' => 'include']);
-        }
-
-        if ($request->exclude_type == 'product') {
-            $discount->excludeProducts()->attach($request->exclude_products, ['type' => 'exclude']);
-        }
-
-        $discount->users()->sync($request->include_users);
     }
 }

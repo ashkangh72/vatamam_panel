@@ -66,30 +66,6 @@
                 </li>
 {{--            @endcan--}}
 
-{{--            @can('posts')--}}
-{{--                <li class="nav-item has-sub {{ open_class(['admin.posts.*']) }}"><a href="#"><i class="feather icon-file-text"></i><span class="menu-title" > وبلاگ</span></a>--}}
-{{--                    <ul class="menu-content">--}}
-{{--                        @can('posts.index')--}}
-{{--                            <li class="{{ active_class('admin.posts.index') }}">--}}
-{{--                                <a href="{{ route('admin.posts.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست نوشته ها</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-
-{{--                        @can('posts.create')--}}
-{{--                            <li class="{{ active_class('admin.posts.create') }}">--}}
-{{--                                <a href="{{ route('admin.posts.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد نوشته</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-
-{{--                        @can('posts.category')--}}
-{{--                            <li class="{{ active_class('admin.posts.categories.index') }}">--}}
-{{--                                <a href="{{ route('admin.posts.categories.index') }}"><i class="feather icon-circle"></i><span class="menu-item">دسته بندی ها</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--            @endcan--}}
-
 {{--            @can('products')--}}
 {{--                <li class="nav-item has-sub {{ open_class(['admin.products.*', 'admin.spectypes.*', 'admin.stock-notifies.*',--}}
 {{--                        'admin.refund-requests.*', 'admin.product.prices.*', 'admin.brands.*', 'admin.attributeGroups.*',--}}
@@ -207,17 +183,17 @@
 {{--            @endcan--}}
 
 {{--            @can('discounts')--}}
-{{--                <li class="nav-item has-sub {{ open_class(['admin.discounts.*']) }}"><a href="#"><i class="feather icon-tag"></i><span class="menu-title"> تخفیف ها</span></a>--}}
-{{--                    <ul class="menu-content">--}}
-{{--                        <li class="{{ active_class('admin.discounts.index') }}">--}}
-{{--                            <a class="{{ active_class('admin.discounts.index') }}" href="{{ route('admin.discounts.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست تخفیف ها</span></a>--}}
-{{--                        </li>--}}
+                <li class="nav-item has-sub {{ open_class(['admin.discounts.*']) }}"><a href="#"><i class="feather icon-tag"></i><span class="menu-title"> تخفیف ها</span></a>
+                    <ul class="menu-content">
+                        <li class="{{ active_class('admin.discounts.index') }}">
+                            <a class="{{ active_class('admin.discounts.index') }}" href="{{ route('admin.discounts.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست تخفیف ها</span></a>
+                        </li>
 
-{{--                        <li class="{{ active_class('admin.discounts.create') }}">--}}
-{{--                            <a class="{{ active_class('admin.discounts.create') }}" href="{{ route('admin.discounts.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد تخفیف</span></a>--}}
-{{--                        </li>--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
+                        <li class="{{ active_class('admin.discounts.create') }}">
+                            <a class="{{ active_class('admin.discounts.create') }}" href="{{ route('admin.discounts.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد تخفیف</span></a>
+                        </li>
+                    </ul>
+                </li>
 {{--            @endcan--}}
 
 {{--            @can('orders')--}}
@@ -641,10 +617,6 @@
                     <ul class="menu-content">
                         <li class="{{ active_class('admin.permissions.*') }}">
                             <a href="{{ route('admin.permissions.index') }}"><i class="feather icon-circle"></i><span class="menu-item">دسترسی ها</span></a>
-                        </li>
-
-                        <li class="{{ active_class('admin.developer.settings.*') }}">
-                            <a href="{{ route('admin.developer.settings') }}"><i class="feather icon-circle"></i><span class="menu-item">تنظیمات توسعه دهنده</span></a>
                         </li>
 
                         <li class="{{ active_class('admin.logs.*') }}">
