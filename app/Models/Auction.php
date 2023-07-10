@@ -120,6 +120,6 @@ class Auction extends Model
 
     public function imageUrl(): string
     {
-        return $this->picture ? env('API_URL') . $this->picture : asset('/public/back/app-assets/images/portrait/small/default.jpg');
+        return $this->picture ? env('API_URL') . '/public' . $this->picture : asset('/public/back/app-assets/images/portrait/small/default.jpg');
     }
 }
