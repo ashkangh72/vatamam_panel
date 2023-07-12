@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back;
 use App\Enums\AuctionStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Datatable\AuctionCollection;
+use App\Jobs\AuctionWinnerJob;
 use App\Models\Auction;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class AuctionController extends Controller
     {
         //$this->authorize('auctions.index');
 
-        $auctions = Auction::with(['user','category'])->filter($request);
+        $auctions = Auction::with(['user', 'category'])->filter($request);
 
         $auctions = datatable($request, $auctions);
 
@@ -34,7 +35,7 @@ class AuctionController extends Controller
         //$this->authorize('users.delete');
 
         $request->validate([
-            'ids'   => 'required|array',
+            'ids' => 'required|array',
             'ids.*' => [
                 Rule::exists('users', 'id')->where(function ($query) {
                     $query->where('id', '!=', auth()->user()->id)->where('level', '!=', 'creator');
@@ -52,22 +53,26 @@ class AuctionController extends Controller
 
     public function accept(Request $request)
     {
-        $validated=$request->validate([
-            'id'=>['required','numeric','exists:auctions,id']
+        $validated = $request->validate([
+            'id' => ['required', 'numeric', 'exists:auctions,id']
         ]);
-        Auction::where('id',$validated['id'])->update([
-            'status' =>AuctionStatusEnum::approved
+
+        Auction::where('id', $validated['id'])->update([
+            'status' => AuctionStatusEnum::approved
         ]);
+
+        AuctionWinnerJob::dispatchAfterResponse($request->id);
+
         return response('success');
     }
 
     public function reject(Request $request)
     {
-        $validated=$request->validate([
-            'id'=>['required','numeric','exists:auctions,id'],
-            'reason'=>['required','string'],
+        $validated = $request->validate([
+            'id' => ['required', 'numeric', 'exists:auctions,id'],
+            'reason' => ['required', 'string'],
         ]);
-        Auction::where('id',$validated['id'])->update([
+        Auction::where('id', $validated['id'])->update([
             'status' => AuctionStatusEnum::rejected,
             'reject_reason' => $validated['reason']
         ]);

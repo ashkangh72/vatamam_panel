@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model implements AuthenticatableContract
 {
-    use Authenticatable, HasFactory, Notifiable,Authorizable;
+    use Authenticatable, HasFactory, Notifiable, Authorizable;
 
     /**
      * The attributes that are guarded.
@@ -92,6 +92,10 @@ class User extends Model implements AuthenticatableContract
         return $this->belongsToMany(Role::class);
     }
 
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
 
     public function isNewsExcluded(): bool
     {
@@ -113,7 +117,6 @@ class User extends Model implements AuthenticatableContract
         return $this->name;
     }
 
-
     //scopes
     public function scopeFilter($query, $request)
     {
@@ -131,11 +134,13 @@ class User extends Model implements AuthenticatableContract
 
         if ($level = $request->input('query.level')) {
             switch ($level) {
-                case "admin": {
+                case "admin":
+                {
                     $query->where('level', 'admin');
                     break;
                 }
-                case "user": {
+                case "user":
+                {
                     $query->where('level', 'user');
                     break;
                 }
@@ -144,11 +149,13 @@ class User extends Model implements AuthenticatableContract
 
         if ($request->sort) {
             switch ($request->sort['field']) {
-                case 'fullname': {
+                case 'fullname':
+                {
                     $query->orderBy('first_name', $request->sort['sort'])->orderBy('last_name', $request->sort['sort']);
                     break;
                 }
-                default: {
+                default:
+                {
                     if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
                         $query->orderBy($request->sort['field'], $request->sort['sort']);
                     }

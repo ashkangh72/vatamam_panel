@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\OrderStatusEnum;
-use App\Enums\WalletHistoryTypeEnum;
 use Illuminate\Database\Eloquent\{Model,
     Relations\BelongsTo,
     Relations\BelongsToMany,
@@ -240,7 +239,7 @@ class Order extends Model
 
     public function scopePaid($query)
     {
-        return $query->whereIn('status', [OrderStatusEnum::paid, OrderStatusEnum::locked, OrderStatusEnum::sending, OrderStatusEnum::send_request]);
+        return $query->where('status', 'paid');
     }
 
     public function scopeNotPaid($query)
@@ -259,33 +258,6 @@ class Order extends Model
             if ($product->isPhysical()) {
                 return true;
             }
-        }
-
-        return false;
-    }
-
-    public function payUsingWallet($price): bool
-    {
-        $user = $this->user;
-        $wallet = $user->wallet;
-
-        if ($wallet->balance() >= $price) {
-            DB::transaction(function () use ($wallet, $price) {
-                $this->update([
-                    'status' => OrderStatusEnum::paid
-                ]);
-
-                $wallet->histories()->create([
-                    'type' => WalletHistoryTypeEnum::withdraw,
-                    'amount' => $price,
-                    'description' => 'ثبت سفارش شماره ' . $this->id . ' به مبلغ ' . $price . ' تومان',
-                    'success' => true,
-                ]);
-
-                $wallet->refereshBalance();
-            });
-
-            return true;
         }
 
         return false;

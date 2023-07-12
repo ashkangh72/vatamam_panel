@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Enums\AuctionBidEnum;
+use App\Enums\AuctionBidTypeEnum;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasOne};
 
 class AuctionBid extends Model
 {
     protected $guarded = ['id'];
     protected $casts = [
         'is_winner' => 'boolean',
-        'type' => AuctionBidEnum::class,
+        'type' => AuctionBidTypeEnum::class,
     ];
 
     /**
@@ -21,4 +21,21 @@ class AuctionBid extends Model
     {
         return $this->belongsTo(Auction::class);
     }
+
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function loser(): HasOne
+    {
+        return $this->hasOne(AuctionLoser::class, 'auction_bid_id');
+    }
+
 }

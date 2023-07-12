@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Enums\WalletHistoryTypeEnum;
+use App\Enums\SafeBoxHistoryTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
 
-class Wallet extends Model
+class SafeBox extends Model
 {
     protected $guarded = ['id'];
 
@@ -17,19 +17,19 @@ class Wallet extends Model
 
     public function histories(): HasMany
     {
-        return $this->hasMany(WalletHistory::class);
+        return $this->hasMany(SafeBoxHistory::class);
     }
 
     public function balance()
     {
         $totalDeposit = $this->histories()
             ->where('success', true)
-            ->whereIn('type', [WalletHistoryTypeEnum::admin_deposit->value, WalletHistoryTypeEnum::deposit->value])
+            ->whereIn('type', [SafeBoxHistoryTypeEnum::auction_guarantee->value, SafeBoxHistoryTypeEnum::order->value])
             ->sum('amount');
 
         $totalWithdraw = $this->histories()
             ->where('success', true)
-            ->where('type', WalletHistoryTypeEnum::withdraw->value)
+            ->where('type', SafeBoxHistoryTypeEnum::checkout->value)
             ->sum('amount');
 
         return $totalDeposit - $totalWithdraw;

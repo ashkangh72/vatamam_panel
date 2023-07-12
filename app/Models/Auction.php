@@ -2,19 +2,53 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany, MorphToMany};
-use App\Enums\{AuctionConditionEnum, AuctionShippingMethodEnum, AuctionStatusEnum, AuctionTimezoneEnum};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, MorphMany, MorphToMany};
+use App\Enums\{AuctionConditionEnum,
+    AuctionShippingMethodEnum,
+    AuctionStatusEnum,
+    AuctionTimezoneEnum,
+    AuctionBidTypeEnum,
+    SafeBoxHistoryTypeEnum,
+    WalletHistoryTypeEnum};
+use Illuminate\Support\Facades\DB;
 
 class Auction extends Model
 {
+    use sluggable;
+
     protected $guarded = ['id'];
     protected $casts = [
         'condition' => AuctionConditionEnum::class,
-        'status' => AuctionStatusEnum::class,
         'timezone' => AuctionTimezoneEnum::class,
         'shipping_method' => AuctionShippingMethodEnum::class,
+        'status' => AuctionStatusEnum::class,
     ];
+
+    public static function generateSku(): string
+    {
+        $sku = rand(1000, 9999) . rand(1000, 9999);
+        if (self::where('sku', $sku)->exists()) {
+            return self::generateSku();
+        }
+
+        return $sku;
+    }
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 
     /**
      * @return BelongsTo
@@ -64,62 +98,187 @@ class Auction extends Model
         return $this->hasMany(AuctionBid::class);
     }
 
-    public function scopeFilter($query, $request)
+    /**
+     * @return Model|null
+     */
+    public function highestBid(): Model|null
     {
-        if ($title = $request->input('query.title')) {
-            $query->whereRaw("title like '%{$title}%' ");
-        }
-        if ($sku = $request->input('query.sku')) {
-            $query->where('sku', $sku);
+        return $this->bids()->orderBy('amount', 'desc')->first();
+    }
+
+    public function winnerBid(): Model|null
+    {
+        return $this->bids()->where('is_winner', true)->first();
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function originality(): BelongsTo
+    {
+        return $this->belongsTo(Originality::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function historicalPeriod(): BelongsTo
+    {
+        return $this->belongsTo(HistoricalPeriod::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function followers(): HasMany
+    {
+        return $this->hasMany(AuctionFollower::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function order(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class, 'order_auction', 'auction_id', 'order_id');
+    }
+
+    public function favorites(): MorphMany
+    {
+        return $this->morphMany(Favorite::class, 'favoritable');
+    }
+
+    public function winnerOrder()
+    {
+        $winnerBid = $this->winnerBid();
+
+        if (!$winnerBid) return null;
+
+        return $this->order()
+            ->where('order_auction.auction_id', $winnerBid->auction_id)
+            ->where('order_auction.user_id', $winnerBid->user_id)
+            ->first();
+    }
+
+    public function isLoser(): bool
+    {
+        $loser = $this->bids()
+            ->whereHas('loser')
+            ->first();
+
+        return $loser && $loser->user_id === auth()->id();
+    }
+
+    public function userBidRank($bids): string
+    {
+        $rank = 1;
+        foreach ($bids as $bid) {
+            if ($bid->user_id == auth()->id()) return (string)$rank;
+            $rank++;
         }
 
-//        if ($email = $request->input('query.email')) {
-//            $query->where('email', 'like', '%' . $email . '%');
-//        }
-//
-//        if ($username = $request->input('query.username')) {
-//            $query->where('username', 'like', '%' . $username . '%');
-//        }
-//
-//        if ($level = $request->input('query.level')) {
-//            switch ($level) {
-//                case "admin": {
-//                    $query->where('level', 'admin');
-//                    break;
-//                }
-//                case "user": {
-//                    $query->where('level', 'user');
-//                    break;
-//                }
-//            }
-//        }
+        return '+10';
+    }
 
-        if ($request->sort) {
-            switch ($request->sort['field']) {
-                case 'status':
-                {
-                    $query->orderBy('status', $request->sort['sort']);
-                    break;
-                }
-                default:
-                {
-                    if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
-                        $query->orderBy($request->sort['field'], $request->sort['sort']);
-                    }
-                }
+    public function canBeQuickSold(): bool
+    {
+        if (!auth()->user()) return false;
+        if ($this->is_ended) return false;
+
+        if (auth()->user()->isVendor()) {
+            if ($this->partner_quick_sale_price && $this->bids()->where('amount', '>=', $this->partner_quick_sale_price * 0.75)->exists()) {
+                return false;
+            }
+        } else {
+            if ($this->bids()->where('amount', '>=', $this->quick_sale_price * 0.75)->exists()) {
+                return false;
             }
         }
 
-        return $query;
+        return true;
     }
 
-    public function getImageUrlAttribute(): string
+    public function canBeBidded(): bool
     {
-        return $this->imageUrl();
+        if (auth()->check() || $this->is_ended || $this->isBlacklisted() || $this->user_id !== auth()->id() || !$this->guaranteePricePaid()) return false;
+
+        $userParticipatedAuctionsCount = auth()->user()->auctionBids()->groupBy('auction_id')->count();
+
+        return $userParticipatedAuctionsCount < auth()->user()->vendor->minimum_auction_participation
+            && !$this->bids()->whereIn('type', [AuctionBidTypeEnum::quick_sale_bid, AuctionBidTypeEnum::partner_quick_sale_bid])->exists();
     }
 
-    public function imageUrl(): string
+    public function guaranteePricePaid(): bool
     {
-        return $this->picture ? env('API_URL') . '/public' . $this->picture : asset('/public/back/app-assets/images/portrait/small/default.jpg');
+        if (!auth()->check()) return false;
+
+        return $this->safeBoxHistory()
+            ->whereHas('safeBox', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->where('type', SafeBoxHistoryTypeEnum::auction_guarantee)
+            ->where('success', true)
+            ->exists();
+    }
+
+    public function increaseFactorPrice(): float|int
+    {
+        return ceil($this->base_price * ($this->increase_factor_percent / 100) / 1000) * 1000;
+    }
+
+    public function guaranteePrice(): float|int
+    {
+        return ceil($this->base_price * 0.1 / 1000) * 1000;
+    }
+
+    public function payUsingWallet($price): bool
+    {
+        $user = $this->user;
+        $wallet = $user->wallet;
+        $safeBox = $user->safeBox;
+
+        if ($wallet->balance() >= $price) {
+            DB::transaction(function () use ($wallet, $safeBox, $price) {
+                $wallet->histories()->create([
+                    'type' => WalletHistoryTypeEnum::withdraw,
+                    'amount' => $price,
+                    'description' => 'پرداخت هزینه گارانتی برای مزایده ' . $this->title,
+                    'success' => true,
+                ]);
+                $wallet->refereshBalance();
+
+                $safeBox->histories()->create([
+                    'type' => SafeBoxHistoryTypeEnum::auction_guarantee,
+                    'amount' => $price,
+                    'description' => 'پرداخت هزینه گارانتی برای مزایده ' . $this->title,
+                    'success' => true,
+                ]);
+                $safeBox->refereshBalance();
+            });
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isFavorite(): bool
+    {
+        return $this->favorites()->where('user_id', auth()->id())->exists();
+    }
+
+    public function isFollowing(): bool
+    {
+        return $this->followers()->where('user_id', auth()->id())->exists();
+    }
+
+    public function isBlacklisted(): bool
+    {
+        return $this->user->blacklist()->where('user_id', auth()->id())->exists();
+    }
+
+    public function safeBoxHistory(): MorphMany
+    {
+        return $this->morphMany(SafeBoxHistory::class, 'historiable');
     }
 }

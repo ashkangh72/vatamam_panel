@@ -13,4 +13,5 @@ enum OrderStatusEnum: int
     case locked = 3;
     case sending = 4;
     case send_request = 5;
+    case canceled = 6;
 }
