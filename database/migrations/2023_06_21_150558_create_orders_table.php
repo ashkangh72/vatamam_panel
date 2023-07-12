@@ -13,27 +13,31 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('seller_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('name');
 
-            $table->unsignedInteger('quantity');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('seller_id');
+            $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->unsignedBigInteger('discount_id')->nullable();
             $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('set null');
-            $table->unsignedBigInteger('discount_amount')->nullable();
+
             $table->unsignedBigInteger('carrier_id')->nullable();
             $table->foreign('carrier_id')->references('id')->on('carriers')->onDelete('set null');
-            $table->string('description', 1000)->nullable();
-            $table->string('post_description', 1000)->nullable();
-            $table->string('post_track_code', 100)->nullable();
-            $table->unsignedBigInteger('shipping_cost');
-            $table->unsignedBigInteger('price');
-            $table->string('status')->default('unpaid');
-            $table->string('shipping_status')->default('pending');
-            $table->boolean('is_satisfied')->default(null)->nullable();
 
+            $table->string('name');
+            $table->unsignedInteger('quantity');
+            $table->unsignedBigInteger('price');
+            $table->unsignedBigInteger('discount_amount')->nullable();
+            $table->unsignedBigInteger('discount_price')->nullable();
+            $table->string('description', 1000)->nullable();
+            $table->string('post_track_ code', 100)->nullable();
+            $table->string('post_description', 1000)->nullable();
+            $table->unsignedTinyInteger('status')->default(1);
+            $table->unsignedBigInteger('shipping_cost')->nullable();
+            $table->string('shipping_status')->default(null);
+            $table->boolean('is_satisfied')->default(false);
             $table->timestamps();
         });
     }
