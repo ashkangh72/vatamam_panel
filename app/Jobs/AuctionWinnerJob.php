@@ -42,11 +42,8 @@ class AuctionWinnerJob implements ShouldQueue
         if (!$order) {
             $order = $winner->order()->create([
                 'seller_id' => $auction->user_id,
-                'name' => $winner->name,
                 'quantity' => 1,
-                'shipping_cost' => 0,
                 'price' => $winnerBid->amount,
-                'is_satisfied' => false,
             ]);
         }
 
@@ -54,9 +51,6 @@ class AuctionWinnerJob implements ShouldQueue
             'order_id' => $order->id,
             'auction_id' => $auction->id,
             'price' => $winnerBid->amount,
-            'title' => $auction->title,
-            'quantity' => 1,
-            'status' => 'pending',
         ]);
 
         $winnerBid->update([

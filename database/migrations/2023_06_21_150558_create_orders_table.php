@@ -26,18 +26,17 @@ return new class extends Migration
             $table->unsignedBigInteger('carrier_id')->nullable();
             $table->foreign('carrier_id')->references('id')->on('carriers')->onDelete('set null');
 
-            $table->string('name');
-            $table->unsignedInteger('quantity');
+            $table->unsignedInteger('quantity')->default(1);
             $table->unsignedBigInteger('price');
             $table->unsignedBigInteger('discount_amount')->nullable();
             $table->unsignedBigInteger('discount_price')->nullable();
-            $table->string('description', 1000)->nullable();
-            $table->string('post_track_ code', 100)->nullable();
-            $table->string('post_description', 1000)->nullable();
+            $table->string('description')->nullable();
+            $table->string('post_track_code', 32)->nullable();
+            $table->string('post_description')->nullable();
             $table->unsignedTinyInteger('status')->default(1);
+            $table->string('shipping_status', 64)->nullable();
             $table->unsignedBigInteger('shipping_cost')->nullable();
-            $table->string('shipping_status')->default(null);
-            $table->boolean('is_satisfied')->default(false);
+            $table->boolean('is_satisfied')->nullable();
             $table->timestamps();
         });
     }

@@ -17,18 +17,18 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
 
-            $table->unsignedBigInteger('auction_id')->nullable();
-            $table->foreign('auction_id')->references('id')->on('auctions')->onDelete('set null');
+            $table->unsignedBigInteger('auction_id');
+            $table->foreign('auction_id')->references('id')->on('auctions')
+                ->onUpdate('RESTRICT')->onDelete('RESTRICT');
 
             $table->unsignedBigInteger('discount_id')->nullable();
             $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('set null');
 
-            $table->string('title');
-            $table->bigInteger('price');
-            $table->bigInteger('discount_price')->nullable();
-            $table->bigInteger('discount_amount')->nullable();
-            $table->integer('quantity');
-            $table->enum('status',['pending','paid']);
+            $table->unsignedBigInteger('price');
+            $table->unsignedBigInteger('discount_price')->nullable();
+            $table->unsignedBigInteger('discount_amount')->nullable();
+            $table->unsignedInteger('quantity')->default(1);
+            $table->enum('status',['pending','paid'])->default('pending');
             $table->timestamps();
         });
     }
