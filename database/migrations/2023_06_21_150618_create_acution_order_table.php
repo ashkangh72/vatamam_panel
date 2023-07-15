@@ -21,12 +21,7 @@ return new class extends Migration
             $table->foreign('auction_id')->references('id')->on('auctions')
                 ->onUpdate('RESTRICT')->onDelete('RESTRICT');
 
-            $table->unsignedBigInteger('discount_id')->nullable();
-            $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('set null');
-
             $table->unsignedBigInteger('price');
-            $table->unsignedBigInteger('discount_price')->nullable();
-            $table->unsignedBigInteger('discount_amount')->nullable();
             $table->unsignedInteger('quantity')->default(1);
             $table->enum('status',['pending','paid'])->default('pending');
             $table->timestamps();

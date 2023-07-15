@@ -44,6 +44,8 @@ class AuctionWinnerJob implements ShouldQueue
                 'seller_id' => $auction->user_id,
                 'quantity' => 1,
                 'price' => $winnerBid->amount,
+                'discount_price' => $winnerBid->amount,
+                'discount_amount' => 0,
             ]);
         }
 
@@ -51,6 +53,11 @@ class AuctionWinnerJob implements ShouldQueue
             'order_id' => $order->id,
             'auction_id' => $auction->id,
             'price' => $winnerBid->amount,
+        ]);
+
+        $order->update([
+            'price' => $order->price + $winnerBid->amount,
+            'discount_price' => $order->discount_price + $winnerBid->amount,
         ]);
 
         $winnerBid->update([

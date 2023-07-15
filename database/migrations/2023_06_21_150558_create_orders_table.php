@@ -28,8 +28,8 @@ return new class extends Migration
 
             $table->unsignedInteger('quantity')->default(1);
             $table->unsignedBigInteger('price');
-            $table->unsignedBigInteger('discount_amount')->nullable();
-            $table->unsignedBigInteger('discount_price')->nullable();
+            $table->unsignedBigInteger('discount_price');
+            $table->unsignedBigInteger('discount_amount');
             $table->string('description')->nullable();
             $table->string('post_track_code', 32)->nullable();
             $table->string('post_description')->nullable();
