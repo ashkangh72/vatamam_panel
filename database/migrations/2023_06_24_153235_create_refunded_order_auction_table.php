@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('refunded_order_auction', function (Blueprint $table) {
             $table->bigIncrements('id');
+
             $table->unsignedBigInteger('refunded_order_id');
             $table->foreign('refunded_order_id')->references('id')->on('refunded_orders')->onDelete('cascade');
+
             $table->unsignedBigInteger('auction_id')->nullable();
             $table->foreign('auction_id')->references('id')->on('auctions')->onDelete('set null');
-            $table->string('title');
-            $table->bigInteger('price');
+
             $table->integer('quantity');
-            $table->unsignedBigInteger('discount_id')->nullable();
-            $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('set null');
             $table->enum('reason', ['fracture', 'intact', 'incompatibility']);
             $table->timestamps();
         });
