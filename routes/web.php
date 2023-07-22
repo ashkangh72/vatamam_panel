@@ -2,18 +2,22 @@
 
 use App\Http\Controllers\Back\{AuctionController,
     BannerController,
-    CarrierController,
+    CategoryController,
     CityController,
+    CommentController,
     DeveloperController,
     DiscountController,
     LinkController,
     MainController,
+    MenuController,
     PageController,
     PermissionController,
     ProvinceController,
+    RedirectController,
     RoleController,
+    SearchEngineRulesController,
     SliderController,
-    TariffController,
+    TransactionController,
     UserController,
     WidgetController};
 use App\Http\Controllers\ProfileController;
@@ -52,10 +56,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('users/api/index', [UserController::class, 'apiIndex'])->name('users.apiIndex');
     Route::delete('users/api/multipleDestroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
     Route::get('users/export/excel', [UserController::class, 'export'])->name('users.export');
-//    Route::get('users/{user}/views', [UserController::class, 'views'])->name('users.views');
-    Route::get('user/profile', [UserController::class, 'showProfile'])->name('user.profile.show');
-//    Route::put('user/profile', [UserController::class, 'updateProfile'])->name('user.profile.update');
-//
+    Route::get('users/{user}/views', [UserController::class, 'views'])->name('users.views');
+    Route::get('user/profile', [UserController::class, 'showProfile'])->name('user.profile.show');#
+    Route::put('user/profile', [UserController::class, 'updateProfile'])->name('user.profile.update');#
+
 //    // ------------------ wallets
 //    Route::resource('wallets', WalletController::class)->only(['show']);
 //    Route::get('wallets/histories/{history}', [WalletController::class, 'history'])->name('wallets.history');
@@ -81,9 +85,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //
 //    Route::get('products/export/create', [ProductController::class, 'export'])->name('products.export');
 //
-//    Route::get('product/prices', [ProductController::class, 'indexPrices'])->name('product.prices.index');
-//    Route::put('product/prices', [ProductController::class, 'updatePrices'])->name('product.prices.update');
-//
 //    // ------------------ refund-requests
 //    Route::resource('refund-requests', RefundRequestController::class)->only(['index', 'show', 'destroy']);
 //    Route::post('refund-requests/accept/{refund_request}', [RefundRequestController::class, 'accept'])->name('refund-requests.accept');
@@ -105,19 +106,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::delete('cities/api/multipleDestroy', [CityController::class, 'multipleDestroy'])->name('cities.multipleDestroy');
     Route::post('cities/api/sort', [CityController::class, 'sort'])->name('cities.sort');
 
-//    // ------------------ faqs
-//    Route::resource('faqs', FaqController::class)->except(['show']);
-//    Route::post('faqs/api/index', [FaqController::class, 'apiIndex'])->name('faqs.apiIndex');
-//    Route::delete('faqs/api/multipleDestroy', [FaqController::class, 'multipleDestroy'])->name('faqs.multipleDestroy');
-//    Route::post('faqs/api/sort', [FaqController::class, 'sort'])->name('faqs.sort');
-//
-//    // ------------------ brands
-//    Route::resource('brands', BrandController::class)->except('show');
-//    Route::get('brands/ajax/get', [BrandController::class, 'ajax_get']);
-//
-//    // ------------------ filters
-//    Route::resource('filters', FilterController::class)->except('show');
-//
 //    // ------------------ attributeGroups
 //    Route::resource('attributeGroups', AttributeGroupController::class);
 //    Route::get('attributeGroups/{attributeGroup}/attributes', [AttributeGroupController::class, 'attributesIndex'])->name('attributes.index');
@@ -125,26 +113,21 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //
 //    // ------------------ attributes
 //    Route::resource('attributes', AttributeController::class)->except(['index', 'show']);
-//
-//    // ------------------ spec types
-//    Route::get('spectypes/spec-type-data', [SpecTypeController::class, 'getData'])->name('spectypes.getdata');
-//    Route::get('spectypes/ajax/get', [SpecTypeController::class, 'ajax_get']);
-//    Route::resource('spectypes', SpecTypeController::class)->except(['show', 'create']);
 
-//    // ------------------ categories
-//    Route::resource('categories', CategoryController::class)->only(['update', 'destroy', 'store', 'edit']);
-//    Route::post('categories/sort', [CategoryController::class, 'sort']);
-//    Route::post('category/slug', [CategoryController::class, 'generate_slug']);
-//    Route::get("categories/title",[CategoryController::class,"getCategoryByTitle"])->name('categories.search.title');
+    // ------------------ categories
+    Route::resource('categories', CategoryController::class)->only(['update', 'destroy', 'store', 'edit']);
+    Route::post('categories/sort', [CategoryController::class, 'sort']);
+    Route::post('category/slug', [CategoryController::class, 'generate_slug']);
+    Route::get("categories/title",[CategoryController::class,"getCategoryByTitle"])->name('categories.search.title');
 
     // ------------------ pages
     Route::resource('pages', PageController::class)->except(['show']);
 
-//    // ------------------ menus
-//    Route::resource('menus', MenuController::class)->except(['edit']);
-//    Route::post('menus/sort', [MenuController::class, 'sort']);
+    // ------------------ menus
+    Route::resource('menus', MenuController::class)->except(['edit']);
+    Route::post('menus/sort', [MenuController::class, 'sort']);
 
-//    // ------------------ orders
+    // ------------------ orders
 //    Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');
 //    Route::resource('orders', OrderController::class);
 //    Route::get('orders/api/userInfo', [OrderController::class, 'userInfo'])->name('orders.userInfo');
@@ -158,23 +141,16 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::post('orders/api/multiple-shipping-status', [OrderController::class, 'multipleShippingStatus'])->name('orders.multipleShippingStatus');
 //    Route::get('order/not-completed/products', [OrderController::class, 'notCompleted'])->name('orders.notCompleted');
 
-    // ------------------ carriers
-    Route::resource('carriers', CarrierController::class);
-    Route::get('carriers/{carrier}/cities', [CarrierController::class, 'cities'])->name('carriers.cities');
+    // ------------------ search engine rules
+    Route::resource('search-engine-rules', SearchEngineRulesController::class)->only('index', 'store', 'destroy');
 
-    // ------------------ tariffs
-    Route::resource('tariffs', TariffController::class);
+    // ------------------ redirects
+    Route::resource('redirects', RedirectController::class)->only('index', 'store', 'destroy');
 
-//    // ------------------ search engine rules
-//    Route::resource('search-engine-rules', SearchEngineRulesController::class)->only('index', 'store', 'destroy');
-
-//    // ------------------ redirects
-//    Route::resource('redirects', RedirectController::class)->only('index', 'store', 'destroy');
-
-//    // ------------------ transactions
-//    Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);
-//    Route::post('transactions/api/index', [TransactionController::class, 'apiIndex'])->name('transactions.apiIndex');
-//    Route::delete('transactions/api/multipleDestroy', [TransactionController::class, 'multipleDestroy'])->name('transactions.multipleDestroy');
+    // ------------------ transactions
+    Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);
+    Route::post('transactions/api/index', [TransactionController::class, 'apiIndex'])->name('transactions.apiIndex');
+    Route::delete('transactions/api/multipleDestroy', [TransactionController::class, 'multipleDestroy'])->name('transactions.multipleDestroy');
 
     // ------------------ sliders
     Route::resource('sliders', SliderController::class)->except(['show']);
@@ -222,15 +198,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    // ------------------ sms
 //    Route::resource('sms', SmsController::class)->only(['show']);
 //
-//    // ------------------ contacts
-//    Route::resource('contacts', ContactController::class)->only(['index', 'show', 'destroy']);
-//
-//    // ------------------ stock-notifies
-//    Route::resource('stock-notifies', StockNotifyController::class)->only(['index', 'show', 'destroy']);
-//
-//    // ------------------ comments
-//    Route::get('comments/{comment}/replies',[CommentController::class,"replies"])->name("comments.replies");
-//    Route::resource('comments', CommentController::class)->only(['index', 'show', 'destroy', 'update']);
+    // ------------------ comments
+    Route::get('comments/{comment}/replies',[CommentController::class,"replies"])->name("comments.replies");
+    Route::resource('comments', CommentController::class)->only(['index', 'show', 'destroy', 'update']);
 
     // ------------------ roles
     Route::resource('roles', RoleController::class);
@@ -259,9 +229,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //
 //    Route::get('settings/sms', [SettingController::class, 'showSms'])->name('settings.sms');
 //    Route::post('settings/sms', [SettingController::class, 'updateSms']);
-//
-//    Route::get('settings/ftp', [SettingController::class, 'showFtp'])->name('settings.ftp');
-//    Route::post('settings/ftp', [SettingController::class, 'updateFtp']);
 
     // ------------------ logs
     Route::get('logs', [LogViewerController::class, 'index'])->name('logs.index');

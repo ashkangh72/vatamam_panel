@@ -32,19 +32,6 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-10 offset-md-1">
-                                     <!-- users edit media object start -->
-                                    <div class="media mb-2">
-                                        <a class="mr-2 my-25" href="#">
-                                            <img id="profile-pic" src="{{ auth()->user()->imageUrl }}" alt="users avatar" class="users-avatar-shadow rounded" height="90" width="90">
-                                        </a>
-                                        <div class="media-body mt-50">
-
-                                            <div class="col-12 d-flex mt-1 px-0">
-                                                <button id="edit-image-btn" class="btn btn-primary mr-75">ویرایش تصویر</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- users edit media object ends -->
                                     <form id="profile-form" action="{{ route('admin.user.profile.update') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                                         @csrf
                                         @method('put')
@@ -52,24 +39,17 @@
                                             <input type="file" name="image" id="profile-image" accept="image/*" style="display: none;">
                                             <div class="col-12 col-sm-6">
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-6">
+                                                    <div class="form-group col-md-12">
                                                         <div class="controls">
                                                             <label>نام</label>
-                                                            <input name="first_name" type="text" class="form-control" placeholder="نام" value="{{ auth()->user()->first_name }}" required >
+                                                            <input name="name" type="text" class="form-control" placeholder="نام" value="{{ auth()->user()->name }}" required >
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-md-6">
-                                                        <div class="controls">
-                                                            <label>نام خانوادگی</label>
-                                                            <input name="last_name" type="text" class="form-control" placeholder="نام خانوادگی" value="{{ auth()->user()->last_name }}" required >
-                                                        </div>
-                                                    </div>
-
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="controls">
                                                         <label>نام کاربری</label>
-                                                        <input name="username" type="text" class="form-control" placeholder="نام کاربری" value="{{ auth()->user()->username }}" required >
+                                                        <input disabled name="username" type="text" class="form-control" placeholder="نام کاربری" value="{{ auth()->user()->username }}" required >
                                                     </div>
                                                 </div>
                                             </div>
@@ -126,12 +106,6 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>درباره خودتان</label>
-                                                    <textarea name="bio" id="bio" rows="3" class="form-control">{{ auth()->user()->bio }}</textarea>
-                                                </div>
-                                            </div>
 {{--                                            <div class="col-12">--}}
 {{--                                                <div class="custom-control custom-switch custom-control-inline">--}}
 {{--                                                    <input type="checkbox" class="custom-control-input" id="subscribe-to-webpush" {{ auth()->user()->pushSubscriptions()->first() ? 'checked' : '' }}>--}}

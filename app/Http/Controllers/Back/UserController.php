@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Rules\ValidaPhone;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -217,9 +218,7 @@ class UserController extends Controller
         $user = auth()->user();
 
         $this->validate($request, [
-            'first_name' => 'required|string|max:191',
-            'last_name' => 'required|string|max:191',
-            'username' => 'required|string|max:191',
+            'name' => 'required|string|max:191',
         ]);
 
         if ($request->password || $request->password_confirmation) {
@@ -231,31 +230,12 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
 
-        if ($request->hasFile('image')) {
-            $this->validate($request, [
-                'image' => 'image|max:2048',
-            ]);
-
-            $imageName = time() . '_' . $user->id . '.' . $request->image->getClientOriginalExtension();
-            $request->image->move(public_path('uploads/users/'), $imageName);
-
-            if ($user->image && file_exists(public_path($user->image))) {
-                unlink(public_path($user->image));
-            }
-
-            $user->image = '/uploads/users/' . $imageName;
-        }
-
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->username = $request->username;
-        $user->bio = $request->bio;
+        $user->name = $request->name;
         $user->save();
 
         if ($request->password) {
             DB::table('sessions')->where('user_id', auth()->user()->id)->delete();
         }
-
 
         $options = $request->only([
             'theme_color',

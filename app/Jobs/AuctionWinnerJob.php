@@ -46,6 +46,7 @@ class AuctionWinnerJob implements ShouldQueue
                 'price' => $winnerBid->amount,
                 'discount_price' => $winnerBid->amount,
                 'discount_amount' => 0,
+                'shipping_cost' => $auction->shipping_cost,
             ]);
         }
 

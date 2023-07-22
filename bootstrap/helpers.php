@@ -75,7 +75,7 @@ function option($option_name, $default_value = '')
     return  $value;
 }
 
-function user_option_update($option_name, $option_value, $user_id = null)
+function user_option_update($option_name, $option_value, $user_id = null): void
 {
     if (!$user_id) {
         $user_id = auth()->user()->id;

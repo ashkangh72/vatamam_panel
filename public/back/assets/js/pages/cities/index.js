@@ -82,13 +82,6 @@ var city_datatable = function () {
                 }
             },
             {
-                field: 'is_active',
-                title: 'وضعیت',
-                template: function (row) {
-                    return row.is_active ? 'فعال' : 'غیرفعال';
-                }
-            },
-            {
                 field: 'actions',
                 title: 'عملیات',
                 textAlign: 'center',

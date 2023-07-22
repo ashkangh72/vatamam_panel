@@ -29,15 +29,8 @@ $(document).ready(function() {
 
         },
         rules: {
-            'first_name': {
+            'name': {
                 required: true,
-            },
-            'last_name': {
-                required: true,
-            },
-            'username': {
-                required: true,
-                maxlength: 191,
             },
             'password': {
                 minlength: 6,
@@ -47,14 +40,8 @@ $(document).ready(function() {
             },
         },
         messages: {
-            'first_name': {
+            'name': {
                 required: 'لطفا نام خودتان را وارد کنید',
-            },
-            'last_name': {
-                required: 'لطفا نام خانوادگی خودتان را وارد کنید',
-            },
-            'username': {
-                required: 'لطفا نام کاربری را وارد کنید',
             },
             'password': {
                 minlength: 'گذرواژه باید حداقل 6 کاراکتر باشد',
@@ -63,23 +50,6 @@ $(document).ready(function() {
                 equalTo: 'تکرار گذرواژه با گذرواژه برابر نیست',
             },
 
-        }
-    });
-
-    $('#edit-image-btn').click(function() {
-        $('#profile-image').trigger('click');
-    });
-
-    $('#profile-image').change(function() {
-        if (this.files && this.files[0]) {
-
-            var FR = new FileReader();
-
-            FR.addEventListener("load", function(e) {
-                document.getElementById("profile-pic").src = e.target.result;
-            });
-
-            FR.readAsDataURL(this.files[0]);
         }
     });
 
