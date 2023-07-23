@@ -1,61 +1,39 @@
 // validate form with jquery validation plugin
 jQuery('#user-create-form').validate({
-
     rules: {
-        'first_name': {
+        'name': {
             required: true,
         },
-        'last_name': {
-            required: true,
-        },
-
-        'username': {
-            required: true,
-            // regex: "(09)[0-9]{9}"
-        },
-
         'password': {
             required: true,
         },
-
         'password_confirmation': {
             required: true,
             equalTo: "#password"
         },
-
     },
 });
 jQuery('#user-edit-form').validate({
     rules: {
-        'first_name': {
+        'name': {
             required: true,
         },
-        'last_name': {
-            required: true,
-        },
-
-        'username': {
-            required: true,
-            // regex: "(09)[0-9]{9}"
-        },
-
         'password_confirmation': {
             equalTo: "#password"
         },
-
     },
 });
 
 $.validator.addMethod(
     "regex",
-    function(value, element, regexp) {
+    function (value, element, regexp) {
         var re = new RegExp(regexp);
         return this.optional(element) || re.test(value);
     },
     "لطفا یک مقدار معتبر وارد کنید"
 );
 
-$('#user-create-form, #user-edit-form').submit(function(e) {
+$('#user-create-form, #user-edit-form').submit(function (e) {
     e.preventDefault();
     var form = $(this);
 
@@ -66,15 +44,15 @@ $('#user-create-form, #user-edit-form').submit(function(e) {
             url: $(this).attr('action'),
             type: 'POST',
             data: formData,
-            success: function(data) {
+            success: function (data) {
                 form.data('disabled', true);
                 window.location.href = BASE_URL + "/users";
             },
-            beforeSend: function(xhr) {
+            beforeSend: function (xhr) {
                 block('#main-card');
                 xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
             },
-            complete: function() {
+            complete: function () {
                 unblock('#main-card');
             },
             cache: false,

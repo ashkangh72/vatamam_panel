@@ -97,26 +97,6 @@
                         <div class="card user-statistics-card">
                             <div class="card-header d-flex align-items-start pb-0">
                                 <div>
-                                    <h2 class="text-bold-700 mb-0">{{ $user->cart ? $user->cart->products()->count() : 0 }}</h2>
-                                    <p>سبد خرید</p>
-                                </div>
-                                <div class="avatar bg-rgba-danger p-50 m-0">
-                                    <div class="avatar-content">
-                                        <i class="feather icon-shopping-cart text-danger font-medium-5"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <span>
-                                    <a href="#" class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-12">
-                        <div class="card user-statistics-card">
-                            <div class="card-header d-flex align-items-start pb-0">
-                                <div>
                                     <h2 title="کل بازدید: {{ $user->views()->count() }}" class="text-bold-700 mb-0">{{ $user->views()->whereDate('created_at', now())->count() }}</h2>
                                     <p>بازدید امروز</p>
                                 </div>
@@ -173,22 +153,19 @@
                                         <div class="card mb-0">
                                             <div class="card-body">
                                                 <div class="row">
-                                                    <div class="users-view-image">
-                                                        <img src="{{ $user->imageUrl }}" class="users-avatar-shadow w-100 rounded mb-2 pr-2 ml-1" alt="avatar">
-                                                    </div>
                                                     <div class="col-12 col-sm-9 col-md-6 col-lg-5">
                                                         <table>
                                                             <tr>
                                                                 <td class="font-weight-bold">نام</td>
-                                                                <td>{{ $user->first_name }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="font-weight-bold">نام خانوادگی</td>
-                                                                <td>{{ $user->last_name }}</td>
+                                                                <td>{{ $user->name }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">ایمیل</td>
                                                                 <td>{{ $user->email ?: '--' }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="font-weight-bold">شماره تماس</td>
+                                                                <td>{{ $user->phone }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">نام کاربری</td>
@@ -198,7 +175,7 @@
                                                             <tr>
                                                                 <td class="font-weight-bold">تاریخ ثبت نام</td>
                                                                 <td>
-                                                                    <abbr title="{{ jdate($user->created_at) }}">{{ jdate($user->created_at)->ago() }}</abbr>
+                                                                    <abbr title="{{ tverta($user->created_at) }}">{{ tverta($user->created_at) }}</abbr>
                                                                 </td>
                                                             </tr>
 
@@ -288,7 +265,7 @@
                                                 @foreach ($user->orders()->latest()->take(5)->get() as $order)
                                                     <tr>
                                                         <td>{{ $order->id }}</td>
-                                                        <td title="{{ jdate($order->created_at) }}">{{ jdate($order->created_at)->ago() }}</td>
+                                                        <td title="{{ tverta($order->created_at) }}">{{ tverta($order->created_at) }}</td>
                                                         <td title="{{ convert_number($order->price) }} تومان">{{ number_format($order->price) }}</td>
                                                         <td>{{ $order->statusText() }}</td>
                                                         <td class="text-center">
@@ -308,7 +285,7 @@
                         </div>
                     @endif
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <section class="card">
                             <div class="card-header">
                                 <h4 class="card-title">آخرین نظرات</h4>
@@ -349,57 +326,6 @@
                                             <a href="#" class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
                                         </span>
                                     </div>
-                                @else
-                                    <div class="card-body">
-                                        <div class="card-text">
-                                            <p>چیزی برای نمایش وجود ندارد!</p>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </section>
-                    </div>
-
-                    <div class="col-md-6">
-                        <section class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">سبد خرید</h4>
-                            </div>
-                            <div class="card-content">
-                                @if ($user->cart && $user->cart->products()->count())
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped mb-0">
-                                                <thead>
-                                                <tr>
-                                                    <th>تصویر</th>
-                                                    <th>نام محصول</th>
-                                                    <th>تعداد</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                @foreach ($user->cart->products as $product)
-                                                    <tr>
-                                                        <td>
-                                                            <img class="post-thumb" src="{{ $product->imageUrl() }}" alt="image">
-                                                        </td>
-                                                        <td >{{ $product->title }}
-                                                            <a href="{{ Route::has('front.products.show') ? route('front.products.show', ['product' => $product]) : '' }}" target="_blank">
-                                                                <i class="feather icon-external-link"></i>
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            {{ $product->pivot->quantity }}
-                                                        </td>
-
-                                                    </tr>
-                                                @endforeach
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
                                 @else
                                     <div class="card-body">
                                         <div class="card-text">

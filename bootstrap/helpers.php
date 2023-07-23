@@ -105,98 +105,6 @@ function user_option($option_name, $default_value = '', $user_id = null)
     return $option ? $option->option_value : $default_value;
 }
 
-// add new tags and return tags id
-function addTags($tags)
-{
-    $tags = explode(',', $tags);
-    $tags_id = [];
-
-    foreach ($tags as $item) {
-        $tag = Tag::where('name', $item)->first();
-        if (!$tag) {
-            $tag = Tag::create([
-                'name' => $item,
-            ]);
-        }
-        $tags_id[] = $tag->id;
-    }
-
-    return $tags_id;
-}
-
-function get_cart()
-{
-    $cart = null;
-
-    if (auth()->check()) {
-        $cart = Cart::where('user_id', auth()->user()->id)->first();
-    } else {
-        $cart_id = Cookie::get('cart_id');
-
-        if ($cart_id) {
-            $cart = Cart::where('id', $cart_id)->first();
-        }
-    }
-
-    return $cart;
-}
-
-/* return true if cart products quantity is ok
- * and return false if cart products quantity is more than product stock
- */
-function check_cart_quantity()
-{
-    $cart = get_cart();
-
-    if (!$cart || !$cart->products()->count()) {
-        return true;
-    }
-
-    foreach ($cart->products as $product) {
-        $productQuantityInCart = $cart->products()->where('product_id', $product->id)->where('price_id', '!=', $product->pivot->price_id)->sum('quantity');
-        $price     = $product->prices()->find($product->pivot->price_id);
-        $has_stock = $price->hasStock($product->pivot->quantity, $productQuantityInCart);
-
-        if (!$has_stock['status']) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-function check_cart_discount()
-{
-    $cart = get_cart();
-
-    if (!$cart || !$cart->products()->count()) {
-        return ['status' => true];
-    }
-
-    if ($cart->discount) {
-
-        $status = $cart->canUseDiscount();
-        return $status;
-    }
-
-    return ['status' => true];
-}
-
-function check_cart()
-{
-    return check_cart_quantity() && check_cart_discount()['status'];
-}
-
-//get user address
-function user_address($key)
-{
-    if (old($key)) {
-        return old($key);
-    }
-
-    return auth()->user()->address ? auth()->user()->address->$key : '';
-}
-
 function short_content($str, $words = 20, $strip_tags = true)
 {
     if ($strip_tags) {
@@ -204,53 +112,6 @@ function short_content($str, $words = 20, $strip_tags = true)
     }
 
     return Str::words($str, $words);
-}
-
-
-function spec_type($request)
-{
-    if (!$request->spec_type || !$request->specification_group) {
-        return null;
-    }
-
-    $spec_type = SpecType::firstOrCreate([
-        'name' => $request->spec_type
-    ]);
-
-    $group_ordering = 0;
-
-    foreach ($request->specification_group as $group) {
-
-        if (!isset($group['specifications'])) {
-            continue;
-        }
-
-        $spec_group = SpecificationGroup::firstOrCreate([
-            'name' => $group['name'],
-        ]);
-
-        $specification_ordering = 0;
-
-        foreach ($group['specifications'] as $specification) {
-            $spec = Specification::firstOrCreate([
-                'name' => $specification['name']
-            ]);
-
-            if (!$spec_type->specifications()->where('specification_id', $spec->id)->where('specification_group_id', $spec_group->id)->first()) {
-                $spec_type->specifications()->attach([
-                    $spec->id => [
-                        'specification_group_id' => $spec_group->id,
-                        'group_ordering'         => $group_ordering,
-                        'specification_ordering' => $specification_ordering++,
-                    ]
-                ]);
-            }
-        }
-
-        $group_ordering++;
-    }
-
-    return $spec_type->id;
 }
 
 function viewers_data($number = 7)
@@ -288,65 +149,6 @@ function array_to_string($array)
     $comma_separated = implode("','", $array);
     $comma_separated = "'" . $comma_separated . "'";
     return $comma_separated;
-}
-
-function get_discount_price($price, $discount, $product = null): float
-{
-
-    $price = $price - ($price * ($discount / 100));
-
-    return to_round_price($price, $product);
-}
-
-function to_round_price($price, $product): float
-{
-    if ($product && $product->currency) {
-        $price = $price * $product->currency->amount;
-    }
-
-    if ($product) {
-        $rounding_amount = $product->rounding_amount;
-
-        if ($rounding_amount == 'default') {
-            $rounding_amount = option('default_rounding_amount', 'no');
-        }
-
-        $rounding_type = $product->rounding_type;
-
-        if ($rounding_type == 'default') {
-            $rounding_type = option('default_rounding_type', 'close');
-        }
-
-        switch ($rounding_amount) {
-            case "100":
-            case "1000":
-            case "10000":
-            case "100000": {
-                if ($rounding_type == 'up') {
-                    $price = ceil($price / $rounding_amount) * $rounding_amount;
-                } else if ($rounding_type == 'down') {
-                    $price = floor($price / $rounding_amount) * $rounding_amount;
-                } else {
-                    $price = round($price / $rounding_amount) * $rounding_amount;
-                }
-                break;
-            }
-        }
-    }
-
-    return (float) $price;
-}
-
-function category_group($key)
-{
-    switch ($key) {
-        case 'postcat': {
-                return 'دسته بندی وبلاگ';
-            }
-        case 'productcat': {
-                return 'دسته بندی محصول';
-            }
-    }
 }
 
 function convert2english($string)
@@ -421,74 +223,6 @@ function sendSms($pattern_code, $mobile, $params, $type = null, $user_id = null)
     return $response;
 }
 
-function cart_min($selected_price)
-{
-    if ($selected_price->cart_min !== null) {
-        return min($selected_price->cart_min, $selected_price->stock);
-    }
-
-    return min($selected_price->stock, 1);
-}
-
-function cart_max($selected_price)
-{
-    if ($selected_price->cart_max !== null) {
-        return min($selected_price->cart_max, $selected_price->stock);
-    }
-
-    return $selected_price->stock;
-}
-
-function get_category_products_id(Category $category)
-{
-    $allChildCategories = $category->allChildCategories();
-    $product_ids = Product::whereIn('category_id', $allChildCategories)->pluck('id');
-    return $product_ids;
-}
-
-function remove_id_from_url($id)
-{
-    $segments = request()->segments();
-
-    if (($key = array_search($id, $segments)) !== false) {
-        unset($segments[$key]);
-    }
-
-    return url(implode('/', $segments));
-}
-
-function get_separated_values($array, $separator)
-{
-    if (!$separator) {
-        return $array;
-    }
-
-    $result = [];
-
-    foreach ($array as $item) {
-        foreach (explode($separator, $item) as $val) {
-            $result[] = trim($val);
-        }
-    }
-
-    return array_unique($result);
-}
-
-function get_option_property($obj, $property)
-{
-    $obj = json_decode($obj);
-
-    if (!is_object($obj)) {
-        return null;
-    }
-
-    if (property_exists($obj, $property)) {
-        return $obj->$property;
-    }
-
-    return null;
-}
-
 function tverta($date)
 {
     return verta($date)->timezone(config('app.timezone'));
@@ -497,11 +231,6 @@ function tverta($date)
 function todayVerta()
 {
     return verta()->timezone(config('app.timezone'));
-}
-
-function application_installed()
-{
-    return file_exists(storage_path('installed'));
 }
 
 function change_env($key, $value)
@@ -543,147 +272,6 @@ function change_env($key, $value)
     file_put_contents(base_path() . '/.env', $env);
 
     Artisan::call('config:cache');
-}
-
-function get_current_theme()
-{
-    $current_theme = config('general.current_theme');
-
-    if (file_exists(base_path() . '/themes/' . $current_theme)) {
-        $theme = [];
-        $theme['name'] = $current_theme;
-        $theme['service_provider'] = "Themes\\$current_theme\src\ThemeServiceProvider";
-        return $theme;
-    }
-
-    return null;
-}
-
-function current_theme_name()
-{
-    return config('front.theme_name');
-}
-
-function customConfig($path)
-{
-    if (file_exists($path)) {
-        $config = include $path;
-        return $config;
-    }
-}
-
-function str_random($length)
-{
-    return Str::random($length);
-}
-
-function get_svg_contents($path, $default = '')
-{
-    if (file_exists(public_path($path))) {
-
-        $file_parts = pathinfo($path);
-
-        if ($file_parts['extension'] == 'svg') {
-            return file_get_contents(public_path($path));
-        }
-    }
-
-    return $default;
-}
-
-function to_sql($query)
-{
-    return vsprintf(str_replace(['?'], ['\'%s\''], $query->toSql()), $query->getBindings());
-}
-
-function store_user_cart(User $user)
-{
-    $cart_id = Cookie::get('cart_id');
-
-    if ($cart_id) {
-        $cart = Cart::find($cart_id);
-
-        if ($cart && $cart->user_id == null) {
-
-            $user_cart = Cart::where('user_id', $user->id)->first();
-
-            if (!$user_cart) {
-                $cart->update([
-                    'user_id' => $user->id,
-                ]);
-            } else {
-                foreach ($cart->products as $product) {
-                    $query = DB::table('cart_product')->where('cart_id', $user_cart->id)->where('product_id', $product->id)->where('price_id', $product->pivot->price_id);
-                    $user_cart_product = $query->first();
-
-                    if (!$user_cart_product) {
-
-                        DB::table('cart_product')->insert([
-                            'cart_id'    => $user_cart->id,
-                            'product_id' => $product->id,
-                            'quantity'   => $product->pivot->quantity,
-                            'price_id'   => $product->pivot->price_id,
-                        ]);
-                    } else {
-
-                        $query->update([
-                            'quantity' => $product->pivot->quantity,
-                        ]);
-                    }
-                }
-
-                $cart->delete();
-            }
-
-            Cookie::queue(Cookie::forget('cart_id'));
-        }
-    }
-}
-
-function ellips_text($str, $char)
-{
-    $out = mb_strlen($str, 'utf-8') > $char ? mb_substr($str, 0, $char, 'utf-8') . "..." : $str;
-
-    return $out;
-}
-
-function gateway_key($driver_name)
-{
-    if ($driver_name == 'behpardakht') {
-        return 'mellat';
-    }
-
-    return $driver_name;
-}
-
-function get_gateway_configs($gateway)
-{
-    $gateway = Gateway::where('key', $gateway)->first();
-    $configs = [];
-
-    switch ($gateway->key) {
-        case "payping":
-        case "idpay":
-        case "saman":
-        case "payir":
-        case "zarinpal":
-        case "rayanpay": {
-            $configs['merchantId'] = $gateway->config('merchantId');
-            break;
-        }
-        case "behpardakht": {
-            $configs['terminalId'] = $gateway->config('terminalId');
-            $configs['username']   = $gateway->config('username');
-            $configs['password']   = $gateway->config('password');
-            break;
-        }
-        case "sepehr": {
-            $configs['terminalId'] = $gateway->config('terminalId');
-            break;
-        }
-    }
-
-    return $configs;
 }
 
 function sluggable_helper_function($string, $separator = '-')
@@ -750,43 +338,6 @@ function sluggable_helper_function($string, $separator = '-')
     return preg_replace(array_keys($map), array_values($map), $string);
 }
 
-function admin_route_prefix()
-{
-    return env('ADMIN_ROUTE_PREFIX');
-}
-
-function formatSizeUnits($bytes)
-{
-    if ($bytes >= 1073741824) {
-        $bytes = number_format($bytes / 1073741824, 2) . ' GB';
-    } elseif ($bytes >= 1048576) {
-        $bytes = number_format($bytes / 1048576, 2) . ' MB';
-    } elseif ($bytes >= 1024) {
-        $bytes = number_format($bytes / 1024, 2) . ' KB';
-    } elseif ($bytes > 1) {
-        $bytes = $bytes . ' bytes';
-    } elseif ($bytes == 1) {
-        $bytes = $bytes . ' byte';
-    } else {
-        $bytes = '0 bytes';
-    }
-
-    return $bytes;
-}
-
-function formatPriceUnits($price)
-{
-    if ($price >= 1000000000) {
-        $price = number_format($price / 1000000000, 2) . ' میلیارد';
-    } elseif ($price >= 1000000) {
-        $price = number_format($price / 1000000, 2) . ' میلیون';
-    } elseif ($price >= 1000) {
-        $price = number_format($price / 1000, 2) . ' هزار';
-    }
-
-    return $price;
-}
-
 function convertPersianToEnglish($string)
 {
     $persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
@@ -794,23 +345,6 @@ function convertPersianToEnglish($string)
 
     $output = str_replace($persian, $english, $string);
     return $output;
-}
-
-function aparat_iframe($string)
-{
-    $p = '/^(?:https?:\/\/)?(?:www\.)?(?:aparat\.com\/v\/)(\w*)(?:\S+)?$/';
-    preg_match($p, $string, $matches);
-
-    if (empty($matches)) {
-        return '';
-    }
-
-    return '<div class="h_iframe-aparat_embed_frame"><span style="display: block;padding-top: 57%">.</span><iframe data-src="https://www.aparat.com/video/video/embed/videohash/' . $matches[1] . '/vt/frame" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe></div>';
-}
-
-function theme_asset($path)
-{
-    return asset(config('front.asset_path') . $path);
 }
 
 function convert_number($number)
@@ -890,14 +424,6 @@ function convert_number($number)
     return $res;
 }
 
-function run_theme_config()
-{
-    if (function_exists('theme_first_config')) {
-        theme_first_config();
-
-    }
-}
-
 function convertToPersianCharacter(string $string): string
 {
     return str_replace(
@@ -905,4 +431,17 @@ function convertToPersianCharacter(string $string): string
         ['ک', 'د', 'ب', 'ز', 'ذ', 'ش', 'س', 'ی', 'ی', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '۰'],
         $string
     );
+}
+
+function formatPriceUnits($price)
+{
+    if ($price >= 1000000000) {
+        $price = number_format($price / 1000000000, 2) . ' میلیارد';
+    } elseif ($price >= 1000000) {
+        $price = number_format($price / 1000000, 2) . ' میلیون';
+    } elseif ($price >= 1000) {
+        $price = number_format($price / 1000, 2) . ' هزار';
+    }
+
+    return $price;
 }

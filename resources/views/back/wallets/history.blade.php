@@ -13,7 +13,7 @@
             <tr>
                 <th scope="row">نوع تراکنش</th>
                 <td>
-                    @if ($history->type == 'deposit')
+                    @if (in_array($history->type, [\App\Enums\WalletHistoryTypeEnum::deposit, \App\Enums\WalletHistoryTypeEnum::admin_deposit]))
                         افزایش اعتبار
                         <div class="badge badge-success ml-1">
                             <i class="feather icon-arrow-up"></i>
@@ -29,12 +29,12 @@
 
             <tr>
                 <th scope="row">تاریخ تراکنش</th>
-                <td>{{ jdate($history->created_at) }}</td>
+                <td>{{ tverta($history->created_at) }}</td>
             </tr>
             <tr>
                 <th scope="row">وضعیت</th>
                 <td>
-                    @if($history->status == 'success')
+                    @if($history->success)
                         <div class="badge badge-pill badge-success badge-md">موفق</div>
                     @else
                         <div class="badge badge-pill badge-danger badge-md">ناموفق</div>

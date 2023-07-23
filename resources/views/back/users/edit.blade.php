@@ -64,7 +64,7 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label>نام کاربری </label>
-                                                    <input type="text" class="form-control ltr" name="username" value="{{ $user->username }}">
+                                                    <input disabled type="text" class="form-control ltr" name="username" value="{{ $user->username }}">
                                                 </div>
                                             </div>
 
@@ -79,16 +79,6 @@
                                                         <option {{ $user->level == 'admin' ? 'selected' : '' }} value="admin">مدیر وبسایت</option>
                                                     </select>
                                                 </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <fieldset class="form-group">
-                                                    <label>تصویر</label>
-                                                    <div class="custom-file">
-                                                        <input id="image" type="file" accept="image/*" name="image" class="custom-file-input">
-                                                        <label class="custom-file-label" for="image"></label>
-                                                    </div>
-                                                </fieldset>
                                             </div>
                                         </div>
 
@@ -118,21 +108,6 @@
                                                     <input type="password" class="form-control ltr" name="password_confirmation">
                                                 </div>
                                             </div>
-
-                                            <div class="col-md-3 mb-2">
-                                                <fieldset class="checkbox">
-                                                    <div class="vs-checkbox-con vs-checkbox-primary">
-                                                        <input type="checkbox" name="verified_at" {{ $user->verified_at ? 'checked' : '' }}>
-                                                        <span class="vs-checkbox">
-                                                            <span class="vs-checkbox--check">
-                                                                <i class="vs-icon feather icon-check"></i>
-                                                            </span>
-                                                        </span>
-                                                        <span>شماره تلفن تایید شده</span>
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-
                                         </div>
 
                                         <div class="row">

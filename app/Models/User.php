@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasOne, HasMany};
+use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasOne, HasMany, MorphMany};
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Authenticatable;
@@ -97,6 +97,17 @@ class User extends Model implements AuthenticatableContract
         return $this->hasMany(Order::class);
     }
 
+    public function getWallet(): Model
+    {
+        return $this->wallet()->firstOrCreate(
+            [],
+            [
+                'balance'   => 0,
+                'is_active' => true
+            ]
+        );
+    }
+
     public function isNewsExcluded(): bool
     {
         return $this->newsExcludedUser()->exists();
@@ -110,11 +121,6 @@ class User extends Model implements AuthenticatableContract
     public function isAdmin()
     {
         return $this->level == 'admin' || $this->level == 'creator';
-    }
-
-    public function getFullnameAttribute()
-    {
-        return $this->name;
     }
 
     //scopes
@@ -181,5 +187,80 @@ class User extends Model implements AuthenticatableContract
     public function scopeExcludeCreator($query)
     {
         return $query->where('level', '!=', 'creator');
+    }
+
+    public function wallet(): HasOne
+    {
+        return $this->hasOne(Wallet::class);
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+//        $this->notify(new VerifyEmailNotification());
+    }
+
+    public function auctions(): HasMany
+    {
+        return $this->hasMany(Auction::class,'user_id','id');
+    }
+
+    public function reports(): HasOne
+    {
+        return $this->hasOne(UserReport::class,'user_id','id');
+    }
+
+    public function auctionBids(): HasMany
+    {
+        return $this->hasMany(AuctionBid::class);
+    }
+
+    public function freeTimes(): HasMany
+    {
+        return $this->hasMany(FreeTime::class);
+    }
+
+    public function blacklist(): HasMany
+    {
+        return $this->hasMany(BlackList::class);
+    }
+
+    public function favorites(): MorphMany
+    {
+        return $this->morphMany(Favorite::class, 'favoritable');
+    }
+
+    public function bankAccounts(): HasMany
+    {
+        return $this->hasMany(UserBankAccount::class);
+    }
+
+    public function safeBox(): HasOne
+    {
+        return $this->hasOne(SafeBox::class);
+    }
+
+    public function walletCheckouts(): HasMany
+    {
+        return $this->hasMany(WalletCheckout::class);
+    }
+
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id');
+    }
+
+    public function sales(): HasMany
+    {
+        return $this->hasMany(Order::class, 'seller_id', 'id');
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function views(): HasMany
+    {
+        return $this->hasMany(Viewer::class);
     }
 }

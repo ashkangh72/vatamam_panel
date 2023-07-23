@@ -2,32 +2,30 @@
 
 namespace App\Http\Controllers\Back;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Rules\ValidaPhone;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use App\Exports\UsersExport;
-use App\Http\Resources\Datatable\UserCollection;
-use App\Models\Role;
-use App\Rules\NotSpecialChar;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
+use App\Models\{Role, User};
+use App\Rules\{ValidaPhone, NotSpecialChar};
+use Illuminate\Auth\Access\AuthorizationException;
+use App\Exports\UsersExport;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\{Hash, Storage};
+use App\Http\Resources\Datatable\UserCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
     public function __construct()
     {
-       // $this->authorizeResource(User::class, 'user');
+        // $this->authorizeResource(User::class, 'user');
     }
 
     public function index()
     {
-        $this->authorize('users.index',User::class);
+        $this->authorize('users.index', User::class);
         return view('back.users.index');
     }
 
@@ -44,7 +42,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $this->authorize('users.create',User::class);
+        $this->authorize('users.create', User::class);
 
         $roles = Role::latest()->get();
 
@@ -53,7 +51,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $this->authorize('users.update',User::class);
+        $this->authorize('users.update', User::class);
         $roles = Role::latest()->get();
 
         return view('back.users.edit', compact('user', 'roles'));
@@ -61,38 +59,25 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorize('users.create',User::class);
+        $this->authorize('users.create', User::class);
 
         $this->validate($request, [
-            'first_name' => ['required', 'string', 'max:255', new NotSpecialChar()],
-            'last_name'  => ['required', 'string', 'max:255', new NotSpecialChar()],
-            'level'      => 'in:user,admin',
-            'username'   => ['required', 'string', 'unique:users','max:8'],
-            'phone'   => ['nullable', 'numeric', 'unique:users'],
-            'email'      => ['string', 'email', 'max:255', 'unique:users', 'nullable'],
-            'password'   => ['required', 'string', 'confirmed:confirmed'],
-            'roles'      => 'nullable|array',
-            'roles.*'    => 'exists:roles,id'
+            'name' => ['required', 'string', 'max:255', new NotSpecialChar()],
+            'level' => 'in:user,admin',
+            'phone' => ['nullable', 'numeric', 'unique:users'],
+            'email' => ['string', 'email', 'max:255', 'unique:users', 'nullable'],
+            'password' => ['required', 'string', 'confirmed:confirmed'],
+            'roles' => 'nullable|array',
+            'roles.*' => 'exists:roles,id'
         ]);
-
 
         $user = User::create([
-            'name'  => $this->getFullname($request),
-            'username'    => $request->username,
-            'email'       => $request->email,
-            'level'       => $request->level,
-            'password'    => Hash::make($request->password),
-            'verified_at' => $request->verified_at ? Carbon::now() : null,
+            'name' => $request->name,
+            'username' => $this->generateUsername(),
+            'email' => $request->email,
+            'level' => $request->level,
+            'password' => Hash::make($request->password),
         ]);
-
-        if ($request->hasFile('image')) {
-            $file = $request->image;
-            $name = uniqid() . '_' . $user->id . '.' . $file->getClientOriginalExtension();
-            $request->image->storeAs('users', $name);
-
-            $user->image = '/uploads/users/' . $name;
-            $user->save();
-        }
 
         $user->roles()->attach($request->roles);
 
@@ -103,27 +88,25 @@ class UserController extends Controller
 
     public function update(User $user, Request $request)
     {
-        $this->authorize('users.update',User::class);
+        $this->authorize('users.update', User::class);
 
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255', new NotSpecialChar()],
             'phone' => ['required', 'string', 'max:255', new ValidaPhone()],
-            'level'      => 'in:user,admin',
-            'username'   => ['required', 'string', "unique:users,username,$user->id"],
-            'email'      => ['string', 'email', 'max:255', "unique:users,email,$user->id", 'nullable'],
-            'password'   => ['nullable', 'string', 'min:6', 'confirmed:confirmed'],
-            'roles'      => 'nullable|array',
-            'roles.*'    => 'exists:roles,id'
+            'level' => 'in:user,admin',
+            'email' => ['string', 'email', 'max:255', "unique:users,email,$user->id", 'nullable'],
+            'password' => ['nullable', 'string', 'min:6', 'confirmed:confirmed'],
+            'roles' => 'nullable|array',
+            'roles.*' => 'exists:roles,id'
         ]);
 
         $verified_at = $user->verified_at ?: Carbon::now();
 
         $user->update([
-            'name'  => $request->name,
-            'username'    => $request->username,
-            'phone'    => $request->phone,
-            'email'       => $request->email,
-            'level'       => $request->level,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'level' => $request->level,
             'verified_at' => $request->verified_at ? $verified_at : null,
         ]);
 
@@ -135,15 +118,6 @@ class UserController extends Controller
             ]);
 
             DB::table('sessions')->where('user_id', $user->id)->delete();
-        }
-
-        if ($request->hasFile('image')) {
-            $file = $request->image;
-            $name = uniqid() . '_' . $user->id . '.' . $file->getClientOriginalExtension();
-            $request->image->storeAs('users', $name);
-
-            $user->image = '/uploads/users/' . $name;
-            $user->save();
         }
 
         $user->roles()->sync($request->roles);
@@ -160,10 +134,6 @@ class UserController extends Controller
 
     public function destroy(User $user, $multiple = false)
     {
-        if ($user->image) {
-            Storage::disk('public')->delete($user->image);
-        }
-
         $user->delete();
 
         if (!$multiple) {
@@ -178,7 +148,7 @@ class UserController extends Controller
         $this->authorize('users.delete');
 
         $request->validate([
-            'ids'   => 'required|array',
+            'ids' => 'required|array',
             'ids.*' => [
                 Rule::exists('users', 'id')->where(function ($query) {
                     $query->where('id', '!=', auth()->user()->id)->where('level', '!=', 'creator');
@@ -250,12 +220,13 @@ class UserController extends Controller
         return response()->json('success');
     }
 
-    /**
-     * @param Request $request
-     * @return string
-     */
-    public function getFullname(Request $request): string
+    private function generateUsername(): string
     {
-        return $request->first_name . " " . $request->last_name;
+        do {
+            $username = Str::upper(Str::random(2)) . mt_rand(100000, 999999);
+            $exists = User::where('username', $username)->exists();
+        } while ($exists);
+
+        return $username;
     }
 }

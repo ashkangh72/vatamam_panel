@@ -55,13 +55,13 @@ var auction_datatable = function() {
                 textAlign: 'center',
             },
             {
-                field: 'image',
+                field: 'picture',
                 title: 'تصویر',
                 sortable: false,
                 width: 80,
                 template: function(row) {
 
-                    return '<img class="post-thumb" src="' + row.image + '" alt="' + row.title + '">';
+                    return '<img class="post-thumb" src="' + row.picture + '" alt="' + row.title + '">';
                 }
             },
             {
@@ -69,7 +69,7 @@ var auction_datatable = function() {
                 title: 'عنوان',
                 width: 200,
                 template: function(row) {
-                    return row.title;
+                    return '<a href="' + row.url + '">' + row.title + '</a>';
                 }
             },
             {

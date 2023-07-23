@@ -20,7 +20,7 @@
                                     <p class="p-2">
                                         شما اجازه ی دسترسی به این صفحه را ندارید.
                                     </p>
-                                    <a class="btn btn-primary btn-lg mt-2" href="{{ url('/') }}">بازگشت به صفحه اصلی</a>
+                                    <a class="btn btn-primary btn-lg mt-2" href="{{ env('WEBSITE_URL') }}">بازگشت به صفحه اصلی</a>
                                 </div>
                             </div>
                         </div>

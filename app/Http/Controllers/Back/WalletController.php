@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Enums\WalletHistoryTypeEnum;
 use App\Http\Controllers\Controller;
-use App\Models\Wallet;
-use App\Models\WalletHistory;
+use App\Models\{Wallet, WalletHistory};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,15 +25,14 @@ class WalletController extends Controller
     public function store(Wallet $wallet, Request $request)
     {
         $data = $request->validate([
-            'type'        => 'required|in:deposit,withdraw',
+            'type'        => 'required|in:'. implode(',', WalletHistoryTypeEnum::getValues(['admin_withdraw', 'admin_deposit'])) ,
             'amount'      => 'required|numeric|max:100000000',
             'description' => 'nullable'
         ]);
 
-        $data['source'] = 'admin';
-        $data['status'] = 'success';
+        $data['success'] = true;
 
-        if ($data['type'] == 'withdraw') {
+        if ($data['type'] == WalletHistoryTypeEnum::admin_withdraw) {
             $request->validate([
                 'amount' => 'numeric|max:' . $wallet->balance
             ]);
@@ -42,10 +41,10 @@ class WalletController extends Controller
         DB::transaction(function () use ($wallet, $data) {
             $wallet->histories()->create($data);
 
-            if ($data['type'] == 'deposit') {
-                $wallet->balance += $data['amount'];
-            } else {
+            if ($data['type'] == WalletHistoryTypeEnum::admin_withdraw) {
                 $wallet->balance -= $data['amount'];
+            } else {
+                $wallet->balance += $data['amount'];
             }
 
             $wallet->save();

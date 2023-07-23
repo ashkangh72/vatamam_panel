@@ -54,11 +54,11 @@ var user_datatable = function() {
                 textAlign: 'center',
             },
             {
-                field: 'fullname',
+                field: 'name',
                 title: 'نام',
                 width: 200,
                 template: function(row) {
-                    return row.fullname;
+                    return row.name ? row.name : '---';
                 }
             },
             {
@@ -74,7 +74,15 @@ var user_datatable = function() {
                 title: 'شماره کاربر',
                 width: 200,
                 template: function(row) {
-                    return row.phone;
+                    return row.phone ? row.phone : '---';
+                }
+            },
+            {
+                field: 'email',
+                title: 'ایمیل کاربر',
+                width: 200,
+                template: function(row) {
+                    return row.email ? row.email : '---';
                 }
             },
             {

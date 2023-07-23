@@ -31,7 +31,6 @@
                 <section id="main-card" class="card">
                     <div class="card-header">
                         <h4 class="card-title">لیست مزایده ها</h4>
-
                     </div>
                     <div class="card-content">
                         <div class="card-body">
@@ -85,7 +84,7 @@
                     </button>
                 </div>
                 <div class="modal-body" data-id="">
-{{--                    با حذف مزایده ها دیگر قادر به بازیابی آنها نخواهید بود--}}
+                    با حذف مزایده ها دیگر قادر به بازیابی آنها نخواهید بود
                 </div>
                 <div class="modal-footer">
                     <form action="{{ route('admin.auctions.accept') }}" id="auction-accept-form">

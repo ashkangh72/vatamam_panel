@@ -19,6 +19,7 @@ use App\Http\Controllers\Back\{AuctionController,
     SliderController,
     TransactionController,
     UserController,
+    WalletController,
     WidgetController};
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +37,7 @@ use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    abort(404);
 });
 
 //Route::get('/dashboard', function () {
@@ -60,11 +61,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('user/profile', [UserController::class, 'showProfile'])->name('user.profile.show');#
     Route::put('user/profile', [UserController::class, 'updateProfile'])->name('user.profile.update');#
 
-//    // ------------------ wallets
-//    Route::resource('wallets', WalletController::class)->only(['show']);
-//    Route::get('wallets/histories/{history}', [WalletController::class, 'history'])->name('wallets.history');
-//    Route::get('wallets/{wallet}/create', [WalletController::class, 'create'])->name('wallets.create');
-//    Route::post('wallets/{wallet}', [WalletController::class, 'store'])->name('wallets.store');
+    // ------------------ wallets
+    Route::resource('wallets', WalletController::class)->only(['show']);
+    Route::get('wallets/histories/{history}', [WalletController::class, 'history'])->name('wallets.history');
+    Route::get('wallets/{wallet}/create', [WalletController::class, 'create'])->name('wallets.create');
+    Route::post('wallets/{wallet}', [WalletController::class, 'store'])->name('wallets.store');
 
     // ------------------ auctions
     Route::get('auctions', [AuctionController::class, 'index'])->name('auctions.index');
@@ -82,9 +83,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::post('product/slug', [ProductController::class, 'generate_slug']);
 //    Route::get("products/title",[ProductController::class,"getProductByTitle"])->name('products.search.title');
 //    Route::get('products/ajax/get', [ProductController::class, 'ajax_get']);
-//
+
 //    Route::get('products/export/create', [ProductController::class, 'export'])->name('products.export');
-//
+
 //    // ------------------ refund-requests
 //    Route::resource('refund-requests', RefundRequestController::class)->only(['index', 'show', 'destroy']);
 //    Route::post('refund-requests/accept/{refund_request}', [RefundRequestController::class, 'accept'])->name('refund-requests.accept');
@@ -110,7 +111,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::resource('attributeGroups', AttributeGroupController::class);
 //    Route::get('attributeGroups/{attributeGroup}/attributes', [AttributeGroupController::class, 'attributesIndex'])->name('attributes.index');
 //    Route::post('attributeGroup/sort', [AttributeGroupController::class, 'sort']);
-//
+
 //    // ------------------ attributes
 //    Route::resource('attributes', AttributeController::class)->except(['index', 'show']);
 
@@ -128,18 +129,18 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('menus/sort', [MenuController::class, 'sort']);
 
     // ------------------ orders
-//    Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');
-//    Route::resource('orders', OrderController::class);
-//    Route::get('orders/api/userInfo', [OrderController::class, 'userInfo'])->name('orders.userInfo');
-//    Route::get('orders/api/productsList', [OrderController::class, 'productsList'])->name('orders.productsList');
-//    Route::post('orders/{order}/shipping-status', [OrderController::class, 'shipping_status'])->name('orders.shipping-status');
-//    Route::get('orders/{order}/factor', [OrderController::class, 'factor'])->name('orders.factor');
-//    Route::get('orders/{order}/post-label', [OrderController::class, 'postLabel'])->name('orders.post-label');
-//    Route::post('orders/api/index', [OrderController::class, 'apiIndex'])->name('orders.apiIndex');
-//    Route::delete('orders/api/multipleDestroy', [OrderController::class, 'multipleDestroy'])->name('orders.multipleDestroy');
-//    Route::post('orders/api/multiple-factors', [OrderController::class, 'multipleFactors'])->name('orders.multipleFactors');
-//    Route::post('orders/api/multiple-shipping-status', [OrderController::class, 'multipleShippingStatus'])->name('orders.multipleShippingStatus');
-//    Route::get('order/not-completed/products', [OrderController::class, 'notCompleted'])->name('orders.notCompleted');
+    Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');
+    Route::resource('orders', OrderController::class);
+    Route::get('orders/api/userInfo', [OrderController::class, 'userInfo'])->name('orders.userInfo');
+    Route::get('orders/api/productsList', [OrderController::class, 'productsList'])->name('orders.productsList');
+    Route::post('orders/{order}/shipping-status', [OrderController::class, 'shipping_status'])->name('orders.shipping-status');
+    Route::get('orders/{order}/factor', [OrderController::class, 'factor'])->name('orders.factor');
+    Route::get('orders/{order}/post-label', [OrderController::class, 'postLabel'])->name('orders.post-label');
+    Route::post('orders/api/index', [OrderController::class, 'apiIndex'])->name('orders.apiIndex');
+    Route::delete('orders/api/multipleDestroy', [OrderController::class, 'multipleDestroy'])->name('orders.multipleDestroy');
+    Route::post('orders/api/multiple-factors', [OrderController::class, 'multipleFactors'])->name('orders.multipleFactors');
+    Route::post('orders/api/multiple-shipping-status', [OrderController::class, 'multipleShippingStatus'])->name('orders.multipleShippingStatus');
+    Route::get('order/not-completed/products', [OrderController::class, 'notCompleted'])->name('orders.notCompleted');
 
     // ------------------ search engine rules
     Route::resource('search-engine-rules', SearchEngineRulesController::class)->only('index', 'store', 'destroy');

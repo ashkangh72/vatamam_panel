@@ -18,7 +18,7 @@
                                     <img src="{{ asset('public/back/app-assets/images/pages/404.png') }}" class="img-fluid align-self-center" alt="branding logo">
                                     <h1 class="font-large-2 my-1">404 - صفحه یافت نشد!</h1>
 
-                                    <a class="btn btn-primary btn-lg mt-2" href="{{ url('/') }}">بازگشت به صفحه اصلی</a>
+                                    <a class="btn btn-primary btn-lg mt-2" href="{{ env('WEBSITE_URL') }}">بازگشت به صفحه اصلی</a>
                                 </div>
                             </div>
                         </div>

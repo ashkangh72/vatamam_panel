@@ -19,7 +19,7 @@
                                     <p class="p-3">
                                         متاسفانه خطایی در سرور رخ داده است لطفا از بخش تماس با ما این خطا را گزارش دهید
                                     </p>
-                                    <a class="btn btn-primary btn-lg" href="{{ url('/') }}">بازگشت به صفحه اصلی</a>
+                                    <a class="btn btn-primary btn-lg" href="{{ env('WEBSITE_URL') }}">بازگشت به صفحه اصلی</a>
                                 </div>
                             </div>
                         </div>

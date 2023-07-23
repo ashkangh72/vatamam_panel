@@ -12,6 +12,7 @@ use App\Enums\{AuctionConditionEnum,
     AuctionBidTypeEnum,
     SafeBoxHistoryTypeEnum,
     WalletHistoryTypeEnum};
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class Auction extends Model
@@ -148,6 +149,11 @@ class Auction extends Model
         return $this->morphMany(Favorite::class, 'favoritable');
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function winnerOrder()
     {
         $winnerBid = $this->winnerBid();
@@ -245,15 +251,17 @@ class Auction extends Model
                     'description' => 'پرداخت هزینه گارانتی برای مزایده ' . $this->title,
                     'success' => true,
                 ]);
-                $wallet->refereshBalance();
+                $wallet->refreshBalance();
 
                 $safeBox->histories()->create([
                     'type' => SafeBoxHistoryTypeEnum::auction_guarantee,
                     'amount' => $price,
                     'description' => 'پرداخت هزینه گارانتی برای مزایده ' . $this->title,
                     'success' => true,
+                    'historiable_type' => Auction::class,
+                    'historiable_id' => $this->id,
                 ]);
-                $safeBox->refereshBalance();
+                $safeBox->refreshBalance();
             });
 
             return true;
@@ -280,5 +288,51 @@ class Auction extends Model
     public function safeBoxHistory(): MorphMany
     {
         return $this->morphMany(SafeBoxHistory::class, 'historiable');
+    }
+
+    public function getPictureAttribute($value): ?string
+    {
+        return $value ? env('API_URL') . '/public' . $value : null;
+    }
+
+    public function getUrl(): string
+    {
+        return env('WEBSITE_URL') . '/auction/' . $this->slug;
+    }
+
+    public function scopeFilter($query, Request $request)
+    {
+        if ($title = $request->input('query.title')) {
+            $query->where('title', 'like', "%$title%");
+        }
+        if ($sku = $request->input('query.sku')) {
+            $query->where('sku', 'like', "%$sku%");
+        }
+
+        if ($request->sort) {
+            switch ($request->sort['field']) {
+                case 'fullname':
+                {
+                    $query->join('users', 'orders.user_id', '=', 'users.id')
+                        ->orderBy('users.first_name', $request->sort['sort'])
+                        ->orderBy('users.last_name', $request->sort['sort'])
+                        ->select('orders.*');
+                    break;
+                }
+                case 'order_id':
+                {
+                    $query->orderBy('id', $request->sort['sort']);
+                    break;
+                }
+                default:
+                {
+                    if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
+                        $query->orderBy($request->sort['field'], $request->sort['sort']);
+                    }
+                }
+            }
+        }
+
+        return $query;
     }
 }

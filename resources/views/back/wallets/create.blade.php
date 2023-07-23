@@ -16,7 +16,7 @@
                                     </li>
                                     <li class="breadcrumb-item">مدیریت کاربران
                                     </li>
-                                    <li class="breadcrumb-item"><a href="{{ route('admin.users.show', ['user' => $wallet->user]) }}">{{ $wallet->user->fullname }}</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('admin.users.show', ['user' => $wallet->user]) }}">{{ $wallet->user->name }}</a></li>
                                     <li class="breadcrumb-item active">ایجاد تراکنش کیف پول
                                     </li>
                                 </ol>
@@ -54,8 +54,13 @@
                                                 <div class="form-group">
                                                     <label>نوع عملیات</label>
                                                     <select class="form-control" name="type">
-                                                        <option value="deposit">افزایش اعتبار</option>
-                                                        <option value="withdraw">کاهش اعتبار</option>
+                                                        @foreach([\App\Enums\WalletHistoryTypeEnum::admin_deposit, \App\Enums\WalletHistoryTypeEnum::admin_withdraw] as $type)
+                                                            @if($type == \App\Enums\WalletHistoryTypeEnum::admin_deposit)
+                                                                <option value="{{ $type }}" selected>افزایش اعتبار</option>
+                                                            @else
+                                                                <option value="{{ $type }}" selected>کاهش اعتبار</option>
+                                                            @endif
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>

@@ -16,8 +16,12 @@ trait EnumTrait
         return collect(self::cases())->pluck('name')->toArray();
     }
 
-    public static function getValues(): array
+    public static function getValues(array $names = null): array
     {
+        if ($names) {
+            return collect(self::cases())->whereIn('name', $names)->pluck('value')->toArray();
+        }
+
         return collect(self::cases())->pluck('value')->toArray();
     }
 }

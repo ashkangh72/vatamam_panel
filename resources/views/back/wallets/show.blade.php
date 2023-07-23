@@ -16,7 +16,7 @@
                                     </li>
                                     <li class="breadcrumb-item">مدیریت کاربران
                                     </li>
-                                    <li class="breadcrumb-item"><a href="{{ route('admin.users.show', ['user' => $wallet->user]) }}">{{ $wallet->user->fullname }}</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('admin.users.show', ['user' => $wallet->user]) }}">{{ $wallet->user->name }}</a></li>
                                     <li class="breadcrumb-item active">تاریخچه کیف پول
                                     </li>
                                 </ol>
@@ -52,7 +52,7 @@
                                     <tbody>
                                         @foreach ($histories as $history)
                                             @php
-                                                $is_deposit = $history->type == 'deposit';
+                                                $is_deposit = in_array($history->type, [\App\Enums\WalletHistoryTypeEnum::deposit, \App\Enums\WalletHistoryTypeEnum::admin_deposit]);
                                             @endphp
 
                                             <tr>
@@ -71,9 +71,9 @@
                                                         </div>
                                                     @endif
                                                 </td>
-                                                <td>{{ jdate($history->created_at) }}</td>
+                                                <td>{{ tverta($history->created_at) }}</td>
                                                 <td class="text-center">
-                                                    @if($history->status == 'success')
+                                                    @if($history->success)
                                                         <div class="badge badge-pill badge-success badge-md">موفق</div>
                                                     @else
                                                         <div class="badge badge-pill badge-danger badge-md">ناموفق</div>

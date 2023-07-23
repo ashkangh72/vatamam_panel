@@ -41,17 +41,10 @@
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label>نام</label>
-                                                    <input type="text" class="form-control" name="first_name">
+                                                    <label>نام کامل</label>
+                                                    <input type="text" class="form-control" name="name">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="form-group">
-                                                    <label>نام خانوادگی</label>
-                                                    <input type="text" class="form-control" name="last_name">
-                                                </div>
-                                            </div>
-
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6 col-12">
@@ -62,8 +55,8 @@
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
-                                                    <label>شماره همراه <small>( نام کاربری )</small></label>
-                                                    <input type="text" class="form-control ltr" name="username">
+                                                    <label>شماره همراه</label>
+                                                    <input type="text" class="form-control ltr" name="phone">
                                                 </div>
                                             </div>
 
@@ -78,16 +71,6 @@
                                                         <option value="admin">مدیر وبسایت</option>
                                                     </select>
                                                 </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <fieldset class="form-group">
-                                                    <label>تصویر</label>
-                                                    <div class="custom-file">
-                                                        <input id="image" type="file" accept="image/*" name="image" class="custom-file-input">
-                                                        <label class="custom-file-label" for="image"></label>
-                                                    </div>
-                                                </fieldset>
                                             </div>
                                         </div>
 
@@ -116,19 +99,6 @@
                                                     <label>تکرار گذرواژه</label>
                                                     <input type="password" class="form-control user-link ltr" name="password_confirmation">
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3 mb-2">
-                                                <fieldset class="checkbox">
-                                                    <div class="vs-checkbox-con vs-checkbox-primary">
-                                                        <input type="checkbox" name="verified_at">
-                                                        <span class="vs-checkbox">
-                                                            <span class="vs-checkbox--check">
-                                                                <i class="vs-icon feather icon-check"></i>
-                                                            </span>
-                                                        </span>
-                                                        <span>شماره تلفن تایید شده</span>
-                                                    </div>
-                                                </fieldset>
                                             </div>
                                         </div>
 
