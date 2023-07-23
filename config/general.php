@@ -88,6 +88,15 @@ return [
             ]
         ],
 
+        'search-engine-rules' => [
+            'title'  => 'robots.txt مدیریت',
+            'values' => [
+                'index'     => 'لیست قوانین robots.txt',
+                'create'    => 'robots.txt ایجاد قانون',
+                'delete'    => 'robots.txt حذف قانون',
+            ]
+        ],
+
 //        'attributes' => [
 //            'title'  => 'مدیریت ویژگی ها',
 //            'values' => [
@@ -187,14 +196,7 @@ return [
 //                'ftp'                => 'تنظیمات ftp',
 //            ]
 //        ],
-//
-//        'search-engine-rules' => [
-//            'title'  => 'robots.txt مدیریت',
-//            'values' => [
-//                'create'    => 'robots.txt ایجاد قانون',
-//                'delete'    => 'robots.txt حذف قانون',
-//            ]
-//        ],
+
 
 
     ],

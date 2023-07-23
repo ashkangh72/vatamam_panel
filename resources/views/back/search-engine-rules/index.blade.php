@@ -1,8 +1,6 @@
 @extends('back.layouts.master')
 
-
 @section('content')
-
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -36,7 +34,7 @@
                         <div class="card-body">
                             <div class="col-12 col-md-10 offset-md-1">
                                 <form class="form" id="search_engine_rule-create-form"
-                                    action="{{ route('admin.search-engine-rules.store') }}" method="post">
+                                      action="{{ route('admin.search-engine-rules.store') }}" method="post">
                                     @csrf
                                     <div class="form-body">
                                         <div class="row">
@@ -45,7 +43,7 @@
                                                     <input type="text" class="form-control" name="slug">
                                                     <div class="input-group-append">
                                                         <div class="input-group-text">
-                                                            shaniland.com
+                                                            {{ env('WEBSITE_URL') }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -68,7 +66,7 @@
                                         <div class="row">
                                             <div class="col-12 text-right">
                                                 <button type="submit"
-                                                    class="btn btn-primary mb-1 waves-effect waves-light">افزودن
+                                                        class="btn btn-primary mb-1 waves-effect waves-light">افزودن
                                                 </button>
                                             </div>
                                         </div>
@@ -91,31 +89,32 @@
                                     <div class="table-responsive">
                                         <table class="table table-striped mb-0">
                                             <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th class="text-center">لینک</th>
-                                                    <th class="text-center">noindex, nofollow</th>
-                                                </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th class="text-center">لینک</th>
+                                                <th class="text-center">noindex, nofollow</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($searchEngineRules as $searchEngineRule)
-                                                    <tr id="search_engine_rule-{{ $searchEngineRule->id }}-tr">
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td class="text-center">{{ $searchEngineRule->slug }}</td>
-                                                        <td class="text-center">
-                                                            @if(!$searchEngineRule->index)
-                                                                بله
-                                                            @else
-                                                                خیر
-                                                            @endif
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <button type="button" data-id="{{ $searchEngineRule->id }}"
+                                            @foreach ($searchEngineRules as $searchEngineRule)
+                                                <tr id="search_engine_rule-{{ $searchEngineRule->id }}-tr">
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td class="text-center">{{ $searchEngineRule->slug }}</td>
+                                                    <td class="text-center">
+                                                        @if(!$searchEngineRule->index)
+                                                            بله
+                                                        @else
+                                                            خیر
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button type="button" data-id="{{ $searchEngineRule->id }}"
                                                                 class="btn btn-danger mr-1 waves-effect waves-light btn-delete"
-                                                                data-toggle="modal" data-target="#delete-modal">حذف</button>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
+                                                                data-toggle="modal" data-target="#delete-modal">حذف
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -145,7 +144,7 @@
 
     {{-- delete shipping_cost modal --}}
     <div class="modal fade text-left" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel19"
-        style="display: none;" aria-hidden="true">
+         style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -160,7 +159,8 @@
                         @csrf
                         @method('delete')
                         <button type="button" class="btn btn-success waves-effect waves-light"
-                            data-dismiss="modal">خیر</button>
+                                data-dismiss="modal">خیر
+                        </button>
                         <button type="submit" class="btn btn-danger waves-effect waves-light">بله حذف شود</button>
                     </form>
                 </div>

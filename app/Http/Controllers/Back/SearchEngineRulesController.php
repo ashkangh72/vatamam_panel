@@ -10,7 +10,7 @@ class SearchEngineRulesController extends Controller
 {
     public function index()
     {
-        $this->authorize('search-engine-rules');
+        $this->authorize('search-engine-rules.index');
 
         $searchEngineRules = SearchEngineRule::all();
 

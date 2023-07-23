@@ -101,6 +101,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     // ------------------ redirects
     Route::resource('redirects', RedirectController::class)->only('index', 'store', 'destroy');
 
+    // ------------------ search engine rules
+    Route::resource('search-engine-rules', SearchEngineRulesController::class)->only('index', 'store', 'destroy');
+
 //    Route::get('get-tags', [MainController::class, 'get_tags']);
 
     // Route::resource('products', ProductController::class)->except('show');
@@ -154,9 +157,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('orders/api/multiple-factors', [OrderController::class, 'multipleFactors'])->name('orders.multipleFactors');
     Route::post('orders/api/multiple-shipping-status', [OrderController::class, 'multipleShippingStatus'])->name('orders.multipleShippingStatus');
     Route::get('order/not-completed/products', [OrderController::class, 'notCompleted'])->name('orders.notCompleted');
-
-    // ------------------ search engine rules
-    Route::resource('search-engine-rules', SearchEngineRulesController::class)->only('index', 'store', 'destroy');
 
     // ------------------ transactions
     Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);

@@ -148,6 +148,14 @@
                     </a>
                 </li>
             @endcan
+            @can('search-engine-rules')
+                <li class="{{ active_class('admin.search-engine-rules.*') }} nav-item">
+                    <a href="{{ route('admin.search-engine-rules.index') }}">
+                        <i class="feather icon-globe"></i>
+                        <span class="menu-title">robots.txt</span>
+                    </a>
+                </li>
+            @endcan
 
 {{--            @can('products')--}}
 {{--                <li class="nav-item has-sub {{ open_class(['admin.products.*', 'admin.spectypes.*', 'admin.stock-notifies.*',--}}
@@ -357,15 +365,6 @@
                     <a href="{{ route('admin.menus.index') }}">
                         <i class="feather icon-menu"></i>
                         <span class="menu-title"> منوها</span>
-                    </a>
-                </li>
-{{--            @endcan--}}
-
-{{--            @can('search-engine-rules')--}}
-                <li class="{{ active_class('admin.search-engine-rules.*') }} nav-item">
-                    <a href="{{ route('admin.search-engine-rules.index') }}">
-                        <i class="feather icon-globe"></i>
-                        <span class="menu-title">robots.txt</span>
                     </a>
                 </li>
 {{--            @endcan--}}
