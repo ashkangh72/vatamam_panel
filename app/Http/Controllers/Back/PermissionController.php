@@ -10,13 +10,11 @@ class PermissionController extends Controller
 {
     public function __construct()
     {
-
         $this->middleware('CheckCreator');
     }
 
     public function index()
     {
-
         $permissions = Permission::whereNull('permission_id')->orderBy('ordering')->get();
 
         return view('back.permissions.index', compact('permissions'));
@@ -25,7 +23,7 @@ class PermissionController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'permission'   => 'required|array',
+            'permission' => 'required|array',
             'permission.*' => 'exists:permissions,id'
         ]);
 

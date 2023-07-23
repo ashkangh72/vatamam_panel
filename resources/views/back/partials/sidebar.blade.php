@@ -123,7 +123,23 @@
                     </ul>
                 </li>
             @endcan
+            @can('roles')
+                <li class="nav-item has-sub {{ open_class(['admin.roles.*']) }}"><a href="#"><i class="feather icon-unlock"></i><span class="menu-title" > نقش ها</span></a>
+                    <ul class="menu-content">
+                        @can('roles.index')
+                            <li class="{{ active_class('admin.roles.index') }}">
+                                <a href="{{ route('admin.roles.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست نقش ها</span></a>
+                            </li>
+                        @endcan
 
+                        @can('roles.create')
+                            <li class="{{ active_class('admin.roles.create') }}">
+                                <a href="{{ route('admin.roles.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد نقش</span></a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcan
 {{--            @can('products')--}}
 {{--                <li class="nav-item has-sub {{ open_class(['admin.products.*', 'admin.spectypes.*', 'admin.stock-notifies.*',--}}
 {{--                        'admin.refund-requests.*', 'admin.product.prices.*', 'admin.brands.*', 'admin.attributeGroups.*',--}}
@@ -226,25 +242,6 @@
 {{--                                <a href="{{ route('admin.orders.create') }}"><i class="feather icon-circle"></i><span class="menu-item">افزودن سفارش</span></a>--}}
 {{--                            </li>--}}
 {{--                        @endcan--}}
-                    </ul>
-                </li>
-{{--            @endcan--}}
-
-{{--            @can('roles')--}}
-                <li class="nav-item has-sub {{ open_class(['admin.roles.*']) }}"><a href="#"><i class="feather icon-unlock"></i><span class="menu-title" > نقش ها</span></a>
-                    <ul class="menu-content">
-{{--                        @can('roles.index')--}}
-                            <li class="{{ active_class('admin.roles.index') }}">
-                                <a href="{{ route('admin.roles.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست نقش ها</span></a>
-                            </li>
-{{--                        @endcan--}}
-
-{{--                        @can('roles.create')--}}
-                            <li class="{{ active_class('admin.roles.create') }}">
-                                <a href="{{ route('admin.roles.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد نقش</span></a>
-                            </li>
-{{--                        @endcan--}}
-
                     </ul>
                 </li>
 {{--            @endcan--}}

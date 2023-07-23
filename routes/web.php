@@ -45,8 +45,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     // ------------------ MainController
     Route::get('/', [MainController::class, 'index'])->name('dashboard');
 
-    Route::get('notifications', [MainController::class, 'notifications'])->name('notifications');
-
     // ------------------ users
     Route::resource('users', UserController::class);
     Route::post('users/api/index', [UserController::class, 'apiIndex'])->name('users.apiIndex');
@@ -93,6 +91,14 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     // ------------------ pages
     Route::resource('pages', PageController::class)->except(['show']);
 
+    // ------------------ roles
+    Route::resource('roles', RoleController::class);
+
+    // ------------------ permissions
+    Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
+    Route::put('permissions', [PermissionController::class, 'update'])->name('permissions.update');
+
+
 //    Route::get('get-tags', [MainController::class, 'get_tags']);
 
     // Route::resource('products', ProductController::class)->except('show');
@@ -120,6 +126,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 
 //    // ------------------ attributes
 //    Route::resource('attributes', AttributeController::class)->except(['index', 'show']);
+
+    Route::get('notifications', [MainController::class, 'notifications'])->name('notifications');
 
     // ------------------ categories
     Route::resource('categories', CategoryController::class)->only(['update', 'destroy', 'store', 'edit']);
@@ -199,13 +207,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     // ------------------ comments
     Route::get('comments/{comment}/replies',[CommentController::class,"replies"])->name("comments.replies");
     Route::resource('comments', CommentController::class)->only(['index', 'show', 'destroy', 'update']);
-
-    // ------------------ roles
-    Route::resource('roles', RoleController::class);
-
-    // ------------------ permissions
-    Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
-    Route::put('permissions', [PermissionController::class, 'update'])->name('permissions.update');
 
     // ------------------ widgets
     Route::resource('widgets', WidgetController::class)->except(['show']);

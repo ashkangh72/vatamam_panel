@@ -3,20 +3,16 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
-use App\Models\Permission;
-use App\Models\Role;
+use Cviebrock\EloquentSluggable\Services\SlugService;
+use App\Models\{Permission, Role};
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class RoleController extends Controller
 {
-    public function __construct()
-    {
-       // $this->authorizeResource(Role::class, 'role');
-    }
-
     public function index()
     {
+        $this->authorize('roles.index');
 
         $roles = Role::latest()->paginate(20);
 
@@ -25,7 +21,8 @@ class RoleController extends Controller
 
     public function create()
     {
-        $this->authorize(Role::class,'roles.create');
+        $this->authorize('roles.create');
+
         $permissions = Permission::whereNull('permission_id')->where('active', true)->orderBy('ordering')->get();
 
         return view('back.roles.create', compact('permissions'));
@@ -33,18 +30,21 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('roles.create');
+
         $request->validate([
-            'permissions'   => 'array',
+            'permissions' => 'array',
             'permissions.*' => [
                 Rule::exists('permissions', 'id')->where(function ($query) {
                     $query->where('active', true);
                 }),
             ],
-            'title'        => 'required|unique:roles,title'
+            'title' => 'required|unique:roles,title'
         ]);
 
         $role = Role::create([
-            'title'       => $request->title,
+            'title' => $request->title,
+            'slug' => SlugService::createSlug(Role::class, 'slug', $request->title),
             'description' => $request->description
         ]);
 
@@ -57,6 +57,8 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
+        $this->authorize('roles.update');
+
         $permissions = Permission::whereNull('permission_id')->where('active', true)->orderBy('ordering')->get();
 
         return view('back.roles.edit', compact('permissions', 'role'));
@@ -64,21 +66,24 @@ class RoleController extends Controller
 
     public function update(Role $role, Request $request)
     {
+        $this->authorize('roles.update');
+
         $request->validate([
-            'permissions'   => 'array',
+            'permissions' => 'array',
             'permissions.*' => [
                 Rule::exists('permissions', 'id')->where(function ($query) {
                     $query->where('active', true);
                 }),
             ],
-            'title'        => [
+            'title' => [
                 'required',
                 Rule::unique('roles', 'title')->ignore($role->id),
             ],
         ]);
 
         $role->update([
-            'title'       => $request->title,
+            'title' => $request->title,
+            'slug' => SlugService::createSlug(Role::class, 'slug', $request->title),
             'description' => $request->description
         ]);
 
@@ -91,6 +96,8 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
+        $this->authorize('roles.delete');
+
         $role->permissions()->detach();
         $role->delete();
 
