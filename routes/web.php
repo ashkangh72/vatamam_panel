@@ -40,16 +40,11 @@ Route::get('/', function () {
     abort(404);
 });
 
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', 'Admin']], function () {
 
     // ------------------ MainController
     Route::get('/', [MainController::class, 'index'])->name('dashboard');
-//    Route::get('get-tags', [MainController::class, 'get_tags']);
-//
+
     Route::get('notifications', [MainController::class, 'notifications'])->name('notifications');
 
     // ------------------ users
@@ -74,6 +69,30 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('auctions/reject', [AuctionController::class, 'reject'])->name('auctions.reject');
     Route::delete('auctions/api/multipleDestroy', [AuctionController::class, 'multipleDestroy'])->name('auctions.multipleDestroy');
 
+    // ------------------ discounts
+    Route::resource('discounts', DiscountController::class)->except(['show']);
+
+    // ------------------ provinces
+    Route::resource('provinces', ProvinceController::class);
+    Route::post('provinces/api/index', [ProvinceController::class, 'apiIndex'])->name('provinces.apiIndex');
+    Route::delete('provinces/api/multipleDestroy', [ProvinceController::class, 'multipleDestroy'])->name('provinces.multipleDestroy');
+    Route::post('provinces/api/sort', [ProvinceController::class, 'sort'])->name('provinces.sort');
+
+    // ------------------ cities
+    Route::resource('cities', CityController::class)->except(['index']);
+    Route::post('cities/api/{province}/index', [CityController::class, 'apiIndex'])->name('cities.apiIndex');
+    Route::delete('cities/api/multipleDestroy', [CityController::class, 'multipleDestroy'])->name('cities.multipleDestroy');
+    Route::post('cities/api/sort', [CityController::class, 'sort'])->name('cities.sort');
+
+    // ------------------ links
+    Route::resource('links', LinkController::class)->except(['show']);
+    Route::post('links/sort', [LinkController::class, 'sort']);
+    Route::get('links/groups', [LinkController::class, 'groups'])->name('links.groups.index');
+    Route::put('links/groups/update', [LinkController::class, 'updateGroups'])->name('links.groups.update');
+
+
+//    Route::get('get-tags', [MainController::class, 'get_tags']);
+
     // Route::resource('products', ProductController::class)->except('show');
 //    Route::post('products/api/index', [ProductController::class, 'apiIndex'])->name('products.apiIndex');
 //    Route::delete('products/api/multipleDestroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
@@ -91,21 +110,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::post('refund-requests/accept/{refund_request}', [RefundRequestController::class, 'accept'])->name('refund-requests.accept');
 //    Route::post('refund-requests/reject/{refund_request}', [RefundRequestController::class, 'reject'])->name('refund-requests.reject');
 //    Route::post('refund-requests/receive/{refund_request}', [RefundRequestController::class, 'receive'])->name('refund-requests.receive');
-
-    // ------------------ discounts
-    Route::resource('discounts', DiscountController::class)->except(['show']);
-
-    // ------------------ provinces
-    Route::resource('provinces', ProvinceController::class);
-    Route::post('provinces/api/index', [ProvinceController::class, 'apiIndex'])->name('provinces.apiIndex');
-    Route::delete('provinces/api/multipleDestroy', [ProvinceController::class, 'multipleDestroy'])->name('provinces.multipleDestroy');
-    Route::post('provinces/api/sort', [ProvinceController::class, 'sort'])->name('provinces.sort');
-
-    // ------------------ cities
-    Route::resource('cities', CityController::class)->except(['index']);
-    Route::post('cities/api/{province}/index', [CityController::class, 'apiIndex'])->name('cities.apiIndex');
-    Route::delete('cities/api/multipleDestroy', [CityController::class, 'multipleDestroy'])->name('cities.multipleDestroy');
-    Route::post('cities/api/sort', [CityController::class, 'sort'])->name('cities.sort');
 
 //    // ------------------ attributeGroups
 //    Route::resource('attributeGroups', AttributeGroupController::class);
@@ -160,12 +164,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     // ------------------ banners
     Route::resource('banners', BannerController::class)->except(['show']);
     Route::post('banners/sort', [BannerController::class, 'sort']);
-
-    // ------------------ links
-    Route::resource('links', LinkController::class)->except(['show']);
-    Route::post('links/sort', [LinkController::class, 'sort']);
-    Route::get('links/groups', [LinkController::class, 'groups'])->name('links.groups.index');
-    Route::put('links/groups/update', [LinkController::class, 'updateGroups'])->name('links.groups.update');
 
 //    // ------------------ statistics
 //    Route::get('statistics/views', [StatisticsController::class, 'views'])->name('statistics.views');

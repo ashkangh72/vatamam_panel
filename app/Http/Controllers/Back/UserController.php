@@ -6,10 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\{Role, User};
 use App\Rules\{ValidaPhone, NotSpecialChar};
-use Illuminate\Auth\Access\AuthorizationException;
 use App\Exports\UsersExport;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Hash, Storage};
+use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\Datatable\UserCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -18,14 +17,10 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        // $this->authorizeResource(User::class, 'user');
-    }
-
     public function index()
     {
-        $this->authorize('users.index', User::class);
+        $this->authorize('users.index');
+
         return view('back.users.index');
     }
 
@@ -42,7 +37,7 @@ class UserController extends Controller
 
     public function create()
     {
-        $this->authorize('users.create', User::class);
+        $this->authorize('users.create');
 
         $roles = Role::latest()->get();
 
@@ -51,7 +46,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $this->authorize('users.update', User::class);
+        $this->authorize('users.update');
+
         $roles = Role::latest()->get();
 
         return view('back.users.edit', compact('user', 'roles'));
@@ -59,7 +55,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorize('users.create', User::class);
+        $this->authorize('users.create');
 
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255', new NotSpecialChar()],
@@ -88,7 +84,7 @@ class UserController extends Controller
 
     public function update(User $user, Request $request)
     {
-        $this->authorize('users.update', User::class);
+        $this->authorize('users.update');
 
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255', new NotSpecialChar()],
@@ -129,11 +125,15 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        $this->authorize('users.view');
+
         return view('back.users.show', compact('user'));
     }
 
     public function destroy(User $user, $multiple = false)
     {
+        $this->authorize('users.delete', User::class);
+
         $user->delete();
 
         if (!$multiple) {

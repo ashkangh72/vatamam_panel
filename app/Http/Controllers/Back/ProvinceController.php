@@ -11,13 +11,10 @@ use Illuminate\Http\Request;
 
 class ProvinceController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Province::class, 'province');
-    }
-
     public function index()
     {
+        $this->authorize('carriers.provinces.index');
+
         return view('back.provinces.index');
     }
 
@@ -34,16 +31,22 @@ class ProvinceController extends Controller
 
     public function show(Province $province)
     {
+        $this->authorize('carriers.provinces.show');
+
         return view('back.cities.index', compact('province'));
     }
 
     public function create()
     {
+        $this->authorize('carriers.provinces.create');
+
         return view('back.provinces.create');
     }
 
     public function store(StoreProvinceRequest $request)
     {
+        $this->authorize('carriers.provinces.create');
+
         $data             = $request->validated();
         $data['ordering'] = Province::max('ordering') + 1;
 
@@ -56,11 +59,15 @@ class ProvinceController extends Controller
 
     public function edit(Province $province)
     {
+        $this->authorize('carriers.provinces.update');
+
         return view('back.provinces.edit', compact('province'));
     }
 
     public function update(Province $province, UpdateProvinceRequest $request)
     {
+        $this->authorize('carriers.provinces.update');
+
         $data = $request->validated();
 
         $province->update($data);
@@ -72,6 +79,8 @@ class ProvinceController extends Controller
 
     public function destroy(Province $province, $multiple = false)
     {
+        $this->authorize('carriers.provinces.delete');
+
         $province->delete();
 
         if (!$multiple) {

@@ -5,22 +5,16 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Back\Discount\StoreDiscountRequest;
 use App\Http\Requests\Back\Discount\UpdateDiscountRequest;
-use App\Models\Category;
-use App\Models\Discount;
-use App\Models\Product;
-use App\Models\User;
+use App\Models\{Discount, User};
 use Hekmatinasser\Verta\Facades\Verta;
 use Illuminate\Http\Request;
 
 class DiscountController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Discount::class, 'discount');
-    }
-
     public function index()
     {
+        $this->authorize('discounts.index');
+
         $discounts = Discount::latest()->paginate(20);
 
         return view('back.discounts.index', compact('discounts'));
@@ -28,6 +22,8 @@ class DiscountController extends Controller
 
     public function create()
     {
+        $this->authorize('discounts.create');
+
         $users = User::latest()->get();
 
         return view('back.discounts.create', compact(
@@ -37,6 +33,8 @@ class DiscountController extends Controller
 
     public function store(StoreDiscountRequest $request)
     {
+        $this->authorize('discounts.create');
+
         $data = $request->validated();
 
         $data['amount'] = $data['type'] == 'amount' ? $data['price'] : $data['percent'];
@@ -54,6 +52,8 @@ class DiscountController extends Controller
 
     public function edit(Discount $discount)
     {
+        $this->authorize('discounts.update');
+
         $users = User::latest()->get();
 
         return view('back.discounts.edit', compact('users', 'discount'));
@@ -61,6 +61,8 @@ class DiscountController extends Controller
 
     public function update(Discount $discount, UpdateDiscountRequest $request)
     {
+        $this->authorize('discounts.update');
+
         $data = $request->validated();
 
         $data['amount'] = $data['type'] == 'amount' ? $data['price'] : $data['percent'];
@@ -78,6 +80,8 @@ class DiscountController extends Controller
 
     public function destroy(Discount $discount)
     {
+        $this->authorize('discounts.delete');
+
         $discount->delete();
 
         return response('success');

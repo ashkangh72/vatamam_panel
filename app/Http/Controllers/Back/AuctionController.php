@@ -15,13 +15,13 @@ class AuctionController extends Controller
 {
     public function index()
     {
-        //$this->authorize('auctions.index');
+        $this->authorize('auctions.index');
         return view('back.auctions.index');
     }
 
     public function apiIndex(Request $request)
     {
-        //$this->authorize('auctions.index');
+        $this->authorize('auctions.index');
 
         $auctions = Auction::with(['user', 'category'])->filter($request);
 
@@ -32,7 +32,7 @@ class AuctionController extends Controller
 
     public function multipleDestroy(Request $request)
     {
-        //$this->authorize('users.delete');
+        $this->authorize('auctions.delete');
 
         $request->validate([
             'ids' => 'required|array',
@@ -53,6 +53,8 @@ class AuctionController extends Controller
 
     public function accept(Request $request)
     {
+        $this->authorize('auctions.approve');
+
         $validated = $request->validate([
             'id' => ['required', 'numeric', 'exists:auctions,id']
         ]);
@@ -68,6 +70,8 @@ class AuctionController extends Controller
 
     public function reject(Request $request)
     {
+        $this->authorize('auctions.reject');
+
         $validated = $request->validate([
             'id' => ['required', 'numeric', 'exists:auctions,id'],
             'reason' => ['required', 'string'],

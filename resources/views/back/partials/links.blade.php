@@ -23,7 +23,7 @@
                                     </td>
 
                                     <td>{{ $link->title }}</td>
-                                    <td>{{ $link->link }}</td>
+                                    <td>{{ $link->url }}</td>
 
                                     <td class="text-center">
 

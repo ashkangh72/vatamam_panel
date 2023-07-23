@@ -54,7 +54,7 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label>لینک </label>
-                                                    <input type="text" class="form-control link-link ltr" name="link" value="{{ $link->link }}">
+                                                    <input type="text" class="form-control link-link ltr" name="url" value="{{ $link->url }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -97,7 +97,7 @@
     <script src="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.js') }}"></script>
 
     <script>
-        var pages =  [
+        let pages =  [
             @foreach($pages as $page)
                 "/pages/{{ $page }}",
             @endforeach

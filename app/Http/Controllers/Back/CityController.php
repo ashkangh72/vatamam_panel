@@ -12,11 +12,6 @@ use Illuminate\Http\Request;
 
 class CityController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(City::class, 'city');
-    }
-
     public function apiIndex(Province $province, Request $request)
     {
         $this->authorize('carriers.provinces.show');
@@ -30,6 +25,8 @@ class CityController extends Controller
 
     public function create()
     {
+        $this->authorize('carriers.cities.create');
+
         $provinces = Province::orderBy('ordering')->get();
 
         return view('back.cities.create', compact('provinces'));
@@ -37,6 +34,8 @@ class CityController extends Controller
 
     public function store(StoreCityRequest $request)
     {
+        $this->authorize('carriers.cities.create');
+
         $data             = $request->validated();
         $data['ordering'] = City::max('ordering') + 1;
 
@@ -49,6 +48,8 @@ class CityController extends Controller
 
     public function edit(City $city)
     {
+        $this->authorize('carriers.cities.update');
+
         $provinces = Province::orderBy('ordering')->get();
 
         return view('back.cities.edit', compact('city', 'provinces'));
@@ -56,6 +57,8 @@ class CityController extends Controller
 
     public function update(City $city, UpdateCityRequest $request)
     {
+        $this->authorize('carriers.cities.update');
+
         $data = $request->validated();
 
         $city->update($data);
@@ -67,6 +70,8 @@ class CityController extends Controller
 
     public function destroy(City $city, $multiple = false)
     {
+        $this->authorize('carriers.cities.delete');
+
         $city->delete();
 
         if (!$multiple) {

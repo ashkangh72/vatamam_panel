@@ -8,7 +8,7 @@ $('#link-delete-form').submit(function(e) {
 
     $('#delete-modal').modal('hide');
 
-    var formData = new FormData(this);
+    let formData = new FormData(this);
 
     $.ajax({
         url: $(this).attr('action'),
@@ -16,7 +16,7 @@ $('#link-delete-form').submit(function(e) {
         data: formData,
         success: function(data) {
             //get current url
-            var url = window.location.href;
+            let url = window.location.href;
 
             //remove link tr
             $('#link-' + $('#link-delete-form').data('id')).remove();
@@ -44,8 +44,8 @@ $('#link-delete-form').submit(function(e) {
 
 });
 
-var events = function() {
-    var sortable = $('tbody').sortable({
+let events = function() {
+    let sortable = $('tbody').sortable({
         opacity: .75,
         handle: '.draggable-handler',
         start: function(e, ui) {
@@ -55,8 +55,8 @@ var events = function() {
             });
         },
         helper: function(e, tr) {
-            var $originals = tr.children();
-            var $helper = tr.clone();
+            let $originals = tr.children();
+            let $helper = tr.clone();
             $helper.children().each(function(index) {
                 $(this).width($originals.eq(index).width());
             });
@@ -75,7 +75,7 @@ events();
 
 function saveChanges(group) {
 
-    var sortedIDs = $("#links-sortable-" + group).sortable("toArray");
+    let sortedIDs = $("#links-sortable-" + group).sortable("toArray");
 
     if (!sortedIDs.length) {
         return;

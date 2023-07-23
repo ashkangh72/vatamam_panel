@@ -4,7 +4,7 @@ jQuery('#link-create-form').validate({
         'title': {
             required: true,
         },
-        'link': {
+        'url': {
             required: true,
         },
         'link_group_id': {
