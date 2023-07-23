@@ -8,9 +8,9 @@ $('#redirect-delete-form').submit(function(e) {
 
     $('#delete-modal').modal('hide');
 
-    var form = this;
+    let form = this;
 
-    var formData = new FormData(this);
+    let formData = new FormData(this);
 
     $.ajax({
         url: $(this).attr('action'),
@@ -18,7 +18,7 @@ $('#redirect-delete-form').submit(function(e) {
         data: formData,
         success: function(data) {
             //get current url
-            var url = window.location.href;
+            let url = window.location.href;
 
             //remove redirect tr
             $('#redirect-' + $(form).data('id') + '-tr').remove();
@@ -44,8 +44,8 @@ $('#redirect-delete-form').submit(function(e) {
 $('#redirect-create-form').submit(function(e) {
     e.preventDefault();
 
-    var form = $(this);
-    var formData = new FormData(this);
+    let form = $(this);
+    let formData = new FormData(this);
 
     $.ajax({
         url: $(this).attr('action'),
@@ -53,7 +53,7 @@ $('#redirect-create-form').submit(function(e) {
         data: formData,
         success: function(data) {
             //get current url
-            var url = window.location.href;
+            let url = window.location.href;
 
             toastr.success('تغییر مسیر با موفقیت ایجاد شد.');
 

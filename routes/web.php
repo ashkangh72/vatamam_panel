@@ -98,6 +98,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('permissions', [PermissionController::class, 'index'])->name('permissions.index');
     Route::put('permissions', [PermissionController::class, 'update'])->name('permissions.update');
 
+    // ------------------ redirects
+    Route::resource('redirects', RedirectController::class)->only('index', 'store', 'destroy');
 
 //    Route::get('get-tags', [MainController::class, 'get_tags']);
 
@@ -155,9 +157,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 
     // ------------------ search engine rules
     Route::resource('search-engine-rules', SearchEngineRulesController::class)->only('index', 'store', 'destroy');
-
-    // ------------------ redirects
-    Route::resource('redirects', RedirectController::class)->only('index', 'store', 'destroy');
 
     // ------------------ transactions
     Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);

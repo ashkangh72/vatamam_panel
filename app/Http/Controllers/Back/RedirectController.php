@@ -10,7 +10,7 @@ class RedirectController extends Controller
 {
     public function index()
     {
-        $this->authorize('redirects');
+        $this->authorize('redirects.index');
 
         $redirects = Redirect::all();
 

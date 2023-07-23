@@ -34,7 +34,7 @@
                 </li>
             @endcan
             @can('auctions')
-                <li class="nav-item has-sub {{ open_class(['admin.auctions.*']) }}"><a href="#"><i class="feather icon-users"></i><span class="menu-title" > مزایده ها</span></a>
+                <li class="nav-item has-sub {{ open_class(['admin.auctions.*']) }}"><a href="#"><i class="feather icon-shopping-cart"></i><span class="menu-title" > مزایده ها</span></a>
                     <ul class="menu-content">
                         @can('auctions.index')
                             <li class="{{ active_class('admin.auctions.index') }}">
@@ -140,6 +140,15 @@
                     </ul>
                 </li>
             @endcan
+            @can('redirects')
+                <li class="{{ active_class('admin.redirects.*') }} nav-item">
+                    <a href="{{ route('admin.redirects.index') }}">
+                        <i class="feather icon-external-link"></i>
+                        <span class="menu-title">تغییر مسیرها</span>
+                    </a>
+                </li>
+            @endcan
+
 {{--            @can('products')--}}
 {{--                <li class="nav-item has-sub {{ open_class(['admin.products.*', 'admin.spectypes.*', 'admin.stock-notifies.*',--}}
 {{--                        'admin.refund-requests.*', 'admin.product.prices.*', 'admin.brands.*', 'admin.attributeGroups.*',--}}
@@ -357,15 +366,6 @@
                     <a href="{{ route('admin.search-engine-rules.index') }}">
                         <i class="feather icon-globe"></i>
                         <span class="menu-title">robots.txt</span>
-                    </a>
-                </li>
-{{--            @endcan--}}
-
-{{--            @can('redirects')--}}
-                <li class="{{ active_class('admin.redirects.*') }} nav-item">
-                    <a href="{{ route('admin.redirects.index') }}">
-                        <i class="feather icon-external-link"></i>
-                        <span class="menu-title">تغییر مسیرها</span>
                     </a>
                 </li>
 {{--            @endcan--}}
