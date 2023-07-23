@@ -48,7 +48,7 @@
                 'key' => config('broadcasting.connections.pusher.key'),
                 'cluster' => config('broadcasting.connections.pusher.options.cluster'),
             ],
-        ]) !!};
+       ]) !!};
     </script>
 
 </head>
@@ -107,10 +107,10 @@
     <!-- END: Theme JS-->
 
     <script>
-        var BASE_URL = "{{ route('admin.dashboard') }}";
-        var FRONT_URL = "{{ Route::has('front.index') ? route('front.index') : url('/') }}";
+        let BASE_URL = "{{ route('admin.dashboard') }}";
+        let FRONT_URL = "{{ env('WEBSITE_URL') }}";
 
-        var APP_FONT_FAMILY = "{{ user_option('theme_font', 'IransansDN') }}";
+        let APP_FONT_FAMILY = "{{ user_option('theme_font', 'IransansDN') }}";
     </script>
 
     <!-- BEGIN: Page JS-->
@@ -121,8 +121,6 @@
     <script src="{{ asset(mix('js/app.js')) }}"></script>
     <script src="{{ asset('public/back/assets/js/echo.js') }}"></script>
     <script src="{{ asset('public/back/assets/js/web-push.js') }}"></script>
-
-
 </body>
 <!-- END: Body-->
 

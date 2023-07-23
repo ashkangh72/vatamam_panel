@@ -49,7 +49,7 @@
 
                                                     <td>
                                                         <div class="d-flex">
-                                                            {{ $page->title }} <a href="{{ Route::has('front.pages.show') ? route('front.pages.show', ['page' => $page]) : '' }}" target="_blank"><i class="feather icon-external-link ml-1"></i></a>
+                                                            {{ $page->title }} <a href="{{ $page->link() }}" target="_blank"><i class="feather icon-external-link ml-1"></i></a>
                                                         </div>
                                                     </td>
                                                     <td class="d-flex">
@@ -90,7 +90,6 @@
                             </div>
                         </div>
                     </section>
-
                 @else
                     <section class="card">
                         <div class="card-header">
@@ -139,5 +138,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('public/back/assets/js/pages/pages/index.js') }}?v=2"></script>
+    <script src="{{ asset('public/back/assets/js/pages/pages/index.js') }}"></script>
 @endpush

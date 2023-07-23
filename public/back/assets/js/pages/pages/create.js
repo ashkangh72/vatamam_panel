@@ -1,12 +1,5 @@
 CKEDITOR.replace('content');
 
-$('#tags').tagsInput({
-    'defaultText': 'افزودن',
-    'width': '100%',
-    'autocomplete_url': BASE_URL + '/get-tags',
-});
-
-// validate form with jquery validation plugin
 jQuery('#page-create-form').validate({
 
     rules: {
@@ -27,7 +20,7 @@ $('#page-create-form').submit(function(e) {
     e.preventDefault();
 
     if ($(this).valid() && !$(this).data('disabled')) {
-        var formData = new FormData(this);
+        let formData = new FormData(this);
         formData.append('content', CKEDITOR.instances['content'].getData())
 
         $.ajax({
@@ -50,5 +43,4 @@ $('#page-create-form').submit(function(e) {
             processData: false
         });
     }
-
 });

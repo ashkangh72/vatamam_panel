@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class Page extends Model
 {
-    use sluggable, Taggable;
+    use sluggable;
 
     protected $guarded = ['id'];
 
@@ -16,18 +15,13 @@ class Page extends Model
     {
         return [
             'slug' => [
-                'source' => 'slug',
+                'source' => 'title',
             ],
         ];
     }
 
-    public function getRouteKeyName()
+    public function link(string $slug = null): string
     {
-        return 'slug';
-    }
-
-    public function link()
-    {
-        return route('front.pages.show', ['page' => $this], false);
+        return env('WEBSITE_URL') . '/pages/' . is_null($slug) ? $this->slug : $slug;
     }
 }

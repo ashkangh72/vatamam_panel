@@ -47,13 +47,16 @@
             @can('discounts')
                 <li class="nav-item has-sub {{ open_class(['admin.discounts.*']) }}"><a href="#"><i class="feather icon-tag"></i><span class="menu-title"> تخفیف ها</span></a>
                     <ul class="menu-content">
-                        <li class="{{ active_class('admin.discounts.index') }}">
-                            <a class="{{ active_class('admin.discounts.index') }}" href="{{ route('admin.discounts.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست تخفیف ها</span></a>
-                        </li>
-
-                        <li class="{{ active_class('admin.discounts.create') }}">
-                            <a class="{{ active_class('admin.discounts.create') }}" href="{{ route('admin.discounts.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد تخفیف</span></a>
-                        </li>
+                        @can('discounts.index')
+                            <li class="{{ active_class('admin.discounts.index') }}">
+                                <a class="{{ active_class('admin.discounts.index') }}" href="{{ route('admin.discounts.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست تخفیف ها</span></a>
+                            </li>
+                        @endcan
+                        @can('discounts.create')
+                            <li class="{{ active_class('admin.discounts.create') }}">
+                                <a class="{{ active_class('admin.discounts.create') }}" href="{{ route('admin.discounts.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد تخفیف</span></a>
+                            </li>
+                        @endcan
                     </ul>
                 </li>
             @endcan
@@ -84,21 +87,38 @@
                 <li class="nav-item has-sub {{ open_class(['admin.links.*']) }}"><a href="#"><i class="feather icon-link"></i><span class="menu-title" > لینک های فوتر</span></a>
                     <ul class="menu-content">
                         @can('links.index')
-                        <li class="{{ active_class('admin.links.index') }}">
-                            <a href="{{ route('admin.links.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست لینک ها</span></a>
-                        </li>
+                            <li class="{{ active_class('admin.links.index') }}">
+                                <a href="{{ route('admin.links.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست لینک ها</span></a>
+                            </li>
                         @endcan
 
                         @can('links.create')
-                        <li class="{{ active_class('admin.links.create') }}">
-                            <a href="{{ route('admin.links.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد لینک </span></a>
-                        </li>
+                            <li class="{{ active_class('admin.links.create') }}">
+                                <a href="{{ route('admin.links.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد لینک </span></a>
+                            </li>
                         @endcan
 
                         @can('links.groups')
-                        <li class="{{ active_class('admin.links.groups.index') }}">
-                            <a href="{{ route('admin.links.groups.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست گروه ها </span></a>
-                        </li>
+                            <li class="{{ active_class('admin.links.groups.index') }}">
+                                <a href="{{ route('admin.links.groups.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست گروه ها </span></a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcan
+            @can('pages')
+                <li class="nav-item has-sub {{ open_class(['admin.pages.*']) }}"><a href="#"><i class="feather icon-file"></i><span class="menu-title" > صفحات</span></a>
+                    <ul class="menu-content">
+                        @can('pages.index')
+                            <li class="{{ active_class('admin.pages.index') }}">
+                                <a href="{{ route('admin.pages.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست صفحات</span></a>
+                            </li>
+                        @endcan
+
+                        @can('pages.create')
+                            <li class="{{ active_class('admin.pages.create') }}">
+                                <a href="{{ route('admin.pages.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد صفحه</span></a>
+                            </li>
                         @endcan
                     </ul>
                 </li>
@@ -205,24 +225,6 @@
 {{--                            <li class="{{ active_class('admin.orders.create') }}">--}}
 {{--                                <a href="{{ route('admin.orders.create') }}"><i class="feather icon-circle"></i><span class="menu-item">افزودن سفارش</span></a>--}}
 {{--                            </li>--}}
-{{--                        @endcan--}}
-                    </ul>
-                </li>
-{{--            @endcan--}}
-
-{{--            @can('pages')--}}
-                <li class="nav-item has-sub {{ open_class(['admin.pages.*']) }}"><a href="#"><i class="feather icon-file"></i><span class="menu-title" > صفحات</span></a>
-                    <ul class="menu-content">
-{{--                        @can('pages.index')--}}
-                            <li class="{{ active_class('admin.pages.index') }}">
-                                <a href="{{ route('admin.pages.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست صفحات</span></a>
-                            </li>
-{{--                        @endcan--}}
-
-{{--                        @can('pages.create')--}}
-                            <li class="{{ active_class('admin.pages.create') }}">
-                                <a href="{{ route('admin.pages.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد صفحه</span></a>
-                            </li>
 {{--                        @endcan--}}
                     </ul>
                 </li>

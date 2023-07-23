@@ -90,6 +90,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('links/groups', [LinkController::class, 'groups'])->name('links.groups.index');
     Route::put('links/groups/update', [LinkController::class, 'updateGroups'])->name('links.groups.update');
 
+    // ------------------ pages
+    Route::resource('pages', PageController::class)->except(['show']);
 
 //    Route::get('get-tags', [MainController::class, 'get_tags']);
 
@@ -124,9 +126,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('categories/sort', [CategoryController::class, 'sort']);
     Route::post('category/slug', [CategoryController::class, 'generate_slug']);
     Route::get("categories/title",[CategoryController::class,"getCategoryByTitle"])->name('categories.search.title');
-
-    // ------------------ pages
-    Route::resource('pages', PageController::class)->except(['show']);
 
     // ------------------ menus
     Route::resource('menus', MenuController::class)->except(['edit']);
