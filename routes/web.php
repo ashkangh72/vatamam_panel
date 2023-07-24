@@ -10,6 +10,7 @@ use App\Http\Controllers\Back\{AuctionController,
     LinkController,
     MainController,
     MenuController,
+    OrderController,
     PageController,
     PermissionController,
     ProvinceController,
@@ -104,6 +105,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     // ------------------ search engine rules
     Route::resource('search-engine-rules', SearchEngineRulesController::class)->only('index', 'store', 'destroy');
 
+    // ------------------ menus
+    Route::resource('menus', MenuController::class)->except(['edit']);
+    Route::post('menus/sort', [MenuController::class, 'sort']);
+
 //    Route::get('get-tags', [MainController::class, 'get_tags']);
 
     // Route::resource('products', ProductController::class)->except('show');
@@ -139,10 +144,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('categories/sort', [CategoryController::class, 'sort']);
     Route::post('category/slug', [CategoryController::class, 'generate_slug']);
     Route::get("categories/title",[CategoryController::class,"getCategoryByTitle"])->name('categories.search.title');
-
-    // ------------------ menus
-    Route::resource('menus', MenuController::class)->except(['edit']);
-    Route::post('menus/sort', [MenuController::class, 'sort']);
 
     // ------------------ orders
     Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');

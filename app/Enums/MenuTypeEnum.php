@@ -10,5 +10,4 @@ enum MenuTypeEnum: int
 
     case normal = 1;
     case category = 2;
-    case mega_menu = 3;
 }

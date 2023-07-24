@@ -156,6 +156,14 @@
                     </a>
                 </li>
             @endcan
+            @can('menus')
+                <li class="{{ active_class('admin.menus.*') }} nav-item">
+                    <a href="{{ route('admin.menus.index') }}">
+                        <i class="feather icon-menu"></i>
+                        <span class="menu-title">منوها</span>
+                    </a>
+                </li>
+            @endcan
 
 {{--            @can('products')--}}
 {{--                <li class="nav-item has-sub {{ open_class(['admin.products.*', 'admin.spectypes.*', 'admin.stock-notifies.*',--}}
@@ -357,15 +365,6 @@
                             </li>
 {{--                        @endcan--}}
                     </ul>
-                </li>
-{{--            @endcan--}}
-
-{{--            @can('menus')--}}
-                <li class="{{ active_class('admin.menus.*') }} nav-item">
-                    <a href="{{ route('admin.menus.index') }}">
-                        <i class="feather icon-menu"></i>
-                        <span class="menu-title"> منوها</span>
-                    </a>
                 </li>
 {{--            @endcan--}}
 

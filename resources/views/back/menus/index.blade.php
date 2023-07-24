@@ -94,10 +94,8 @@
                                 <div class="form-group">
                                     <label>نوع منو</label>
                                     <select class="form-control" id="menu-type" name="type">
-                                        <option value="normal">منوی معمولی</option>
-                                        <option value="category">منوی دسته بندی </option>
-                                        <option value="static">منوی ثابت </option>
-                                        <option value="megamenu">مگامنو </option>
+                                        <option value="1">منوی معمولی</option>
+                                        <option value="2">منوی دسته بندی</option>
                                     </select>
                                 </div>
                             </div>
@@ -111,7 +109,7 @@
                             <div class="col-12" id="menu-link-div">
                                 <div class="form-group">
                                     <label>لینک</label>
-                                    <input type="text" class="form-control create-menu-link ltr" name="link">
+                                    <input type="text" class="form-control create-menu-link ltr" name="url">
                                 </div>
                             </div>
 
@@ -125,15 +123,9 @@
                                 <div class="form-group">
                                     <label>انتخاب دسته بندی</label>
                                     <select class="form-control" id="category" name="category">
-
-                                        @foreach ($categories as $key => $categoryGroup)
-                                            <optgroup label="{{ category_group($key) }}">
-                                                @foreach ($categoryGroup as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->full_title }}</option>
-                                                @endforeach
-                                            </optgroup>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->title }}</option>
                                         @endforeach
-
                                     </select>
                                 </div>
 
@@ -151,20 +143,7 @@
                                     </fieldset>
                                 </div>
                             </div>
-
-                            <div class="col-12" id="menu-static-div" style="display: none;">
-                                <div class="form-group">
-                                    <label>انتخاب منو</label>
-                                    <select class="form-control" id="static" name="static">
-                                        @foreach (config('general.static_menus') as $key => $static_menu)
-                                            <option value="{{ $key }}">{{ $static_menu['title'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">انصراف</button>
@@ -217,10 +196,8 @@
                                 <div class="form-group">
                                     <label>نوع منو</label>
                                     <select class="form-control" id="edit-menu-type" name="type">
-                                        <option value="normal">منوی معمولی</option>
-                                        <option value="category">منوی دسته بندی </option>
-                                        <option value="static">منوی ثابت </option>
-                                        <option value="megamenu">مگامنو </option>
+                                        <option value="1">منوی معمولی</option>
+                                        <option value="2">منوی دسته بندی</option>
                                     </select>
                                 </div>
                             </div>
@@ -234,7 +211,7 @@
                             <div class="col-12 not-static" id="edit-menu-link-div">
                                 <div class="form-group">
                                     <label>لینک</label>
-                                    <input type="text" class="form-control edit-menu-link ltr" name="link">
+                                    <input type="text" class="form-control edit-menu-link ltr" name="url">
                                 </div>
                             </div>
 
@@ -248,12 +225,8 @@
                                 <div class="form-group">
                                     <label>انتخاب دسته بندی</label>
                                     <select class="form-control" id="edit-category" name="category">
-                                        @foreach ($categories as $key => $categoryGroup)
-                                            <optgroup label="{{ category_group($key) }}">
-                                                @foreach ($categoryGroup as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->full_title }}</option>
-                                                @endforeach
-                                            </optgroup>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -272,20 +245,7 @@
                                     </fieldset>
                                 </div>
                             </div>
-
-                            <div class="col-12" id="edit-menu-static-div" style="display: none;">
-                                <div class="form-group">
-                                    <label>انتخاب منو</label>
-                                    <select class="form-control" id="edit-static" name="static">
-                                        @foreach (config('general.static_menus') as $key => $static_menu)
-                                            <option value="{{ $key }}">{{ $static_menu['title'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">انصراف</button>
@@ -306,13 +266,11 @@
 
     <!-- Page JS Code -->
     <script>
-        var pages =  [
+        let pages =  [
             @foreach($pages as $page)
                 "/pages/{{ $page }}",
             @endforeach
         ];
-
-        var megaMenuDepth = {{ config('front.mega_menu_depth') ?: 3 }};
     </script>
     <script src="{{ asset('public/back/assets/js/pages/menus.js') }}"></script>
 @endpush

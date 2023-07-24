@@ -118,9 +118,9 @@
 
     <!-- END: Page JS-->
 
-    <script src="{{ asset(mix('js/app.js')) }}"></script>
-    <script src="{{ asset('public/back/assets/js/echo.js') }}"></script>
-    <script src="{{ asset('public/back/assets/js/web-push.js') }}"></script>
+{{--    <script src="{{ asset(mix('js/app.js')) }}"></script>--}}
+{{--    <script src="{{ asset('public/back/assets/js/echo.js') }}"></script>--}}
+{{--    <script src="{{ asset('public/back/assets/js/web-push.js') }}"></script>--}}
 </body>
 <!-- END: Body-->
 
