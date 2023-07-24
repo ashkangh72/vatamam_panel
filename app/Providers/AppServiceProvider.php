@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Category;
-use App\Models\Filter;
 use App\Models\Page;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,28 +28,13 @@ class AppServiceProvider extends ServiceProvider
     {
         // SHARE WITH SPECIFIC VIEW
 
-        view()->composer(['back.partials.notifications', 'back.partials.sidebar'], function ($view) {
+        view()->composer(['back.partials.sidebar'], function ($view) {
+            $notificationsCount = auth()->user()->unreadNotifications()->count();
 
-            $notifications = auth()->user()->unreadNotifications()->latest()->take(5)->get();
-
-            $view->with('notifications', $notifications);
+            $view->with('notificationsCount', $notificationsCount);
         });
 
-//        view()->composer(['back.products.partials.filters', 'back.products.partials.index-filters'], function ($view) {
-//
-//            $categories = Category::where('type', 'productcat')->orderBy('ordering')->get();
-//
-//            $view->with('categories', $categories);
-//        });
-//
-//        view()->composer(['back.products.categories.edit'], function ($view) {
-//
-//            $filters = Filter::latest()->get();
-//
-//            $view->with('filters', $filters);
-//        });
-//
-        view()->composer(['back.menus.index', 'back.sliders.create', 'back.sliders.edit', 'back.banners.create', 'back.banners.edit', 'back.links.create', 'back.links.edit'], function ($view) {
+        view()->composer(['back.menus.index', 'back.sliders.create', 'back.sliders.edit', 'back.links.create', 'back.links.edit'], function ($view) {
 
             $pages = Page::pluck('slug');
 

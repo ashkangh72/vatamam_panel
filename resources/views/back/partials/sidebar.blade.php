@@ -169,6 +169,17 @@
                     </a>
                 </li>
             @endcan
+            @can('notifications')
+                <li class="{{ active_class('admin.notifications.*') }} nav-item">
+                    <a href="{{ route('admin.notifications') }}">
+                        <i class="feather icon-bell"></i>
+                        <span class="menu-title">اعلان ها</span>
+                        @if($notificationsCount)
+                            <span class="badge badge badge-primary badge-pill float-right mr-2"> {{ $notificationsCount }}</span>
+                        @endif
+                    </a>
+                </li>
+            @endcan
 
 {{--            @can('products')--}}
 {{--                <li class="nav-item has-sub {{ open_class(['admin.products.*', 'admin.spectypes.*', 'admin.stock-notifies.*',--}}
@@ -383,15 +394,6 @@
                     </a>
                 </li>
 {{--            @endcan--}}
-
-            <li class="{{ active_class('admin.notifications.*') }} nav-item"><a href="{{ route('admin.notifications') }}">
-                    <i class="feather icon-bell"></i>
-                    <span class="menu-title">اعلان ها</span>
-                    @if($notifications->count())
-                        <span class="badge badge badge-primary badge-pill float-right mr-2"> {{ $notifications->count() }}</span>
-                    @endif
-                </a>
-            </li>
 
 {{--            @can('settings')--}}
                 <li class="nav-item has-sub {{ open_class(['admin.settings.*']) }}">

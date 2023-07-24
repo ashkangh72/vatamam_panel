@@ -119,6 +119,13 @@ return [
             ]
         ],
 
+        'notifications' => [
+            'title' => 'مدیریت اعلان ها',
+            'values' => [
+                'index' => 'لیست اعلان ها'
+            ]
+        ],
+
 //        'attributes' => [
 //            'title'  => 'مدیریت ویژگی ها',
 //            'values' => [

@@ -115,6 +115,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::resource('menus', MenuController::class)->except(['edit']);
     Route::post('menus/sort', [MenuController::class, 'sort']);
 
+    Route::get('notifications', [MainController::class, 'notifications'])->name('notifications');
+
 //    Route::get('get-tags', [MainController::class, 'get_tags']);
 
     // Route::resource('products', ProductController::class)->except('show');
@@ -142,8 +144,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 
 //    // ------------------ attributes
 //    Route::resource('attributes', AttributeController::class)->except(['index', 'show']);
-
-    Route::get('notifications', [MainController::class, 'notifications'])->name('notifications');
 
     // ------------------ orders
     Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');
