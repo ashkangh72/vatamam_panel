@@ -17,7 +17,7 @@
             <a data-menu="{{ $child_menu->id }}" class="float-right edit-menu dd-nodrag" href="javascript:void(0)"><i class="fa fa-pencil text-info px-1"></i>ویرایش</a>
         </div>
         <ol class="dd-list">
-            @foreach ($child_menu->childrenMenus as $childMenu)
+            @foreach ($child_menu->menus as $childMenu)
                 @include('back.menus.partials.child_menu', ['child_menu' => $childMenu])
             @endforeach
         </ol>
