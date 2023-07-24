@@ -20,7 +20,6 @@ class MainController extends Controller
 {
     public function index()
     {
-
         return view('back.index');
     }
 
@@ -73,30 +72,16 @@ class MainController extends Controller
         return (new Response(['status' => Response::HTTP_OK], Response::HTTP_OK));
     }
 
-    public function fileManager()
-    {
-        $this->authorize('file-manager');
-
-        return view('back.file-manager');
-    }
-
-    public function fileManagerIframe()
-    {
-        $this->authorize('file-manager');
-
-        return view('back.file-manager-iframe');
-    }
-
     public function uploadFile(Request $request)
     {
 
-        $user=User::find($request->header('USER-ID'));
+        $user = User::find($request->header('USER-ID'));
 
         if (File::exists(public_path($user->image))) {
 
             File::delete(public_path($user->image));
         }
-        $request->file('image')->move( public_path('uploads/profile'), $request->file('image')->getClientOriginalName());
+        $request->file('image')->move(public_path('uploads/profile'), $request->file('image')->getClientOriginalName());
         return ['ok'];
     }
 }

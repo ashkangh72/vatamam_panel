@@ -8,13 +8,13 @@ $('.dd').nestable({
     }
 });
 
-var categories = $('.dd').nestable('serialize');
+let categories = $('.dd').nestable('serialize');
 
 $('#create-category').submit(function(e) {
     e.preventDefault();
 
-    var form = $(this);
-    var formData = new FormData(this);
+    let form = $(this);
+    let formData = new FormData(this);
 
     $.ajax({
         url: form.attr('action'),
@@ -46,7 +46,7 @@ $(document).on('click', '.delete-category', function() {
 });
 
 $(document).on('click', '.edit-category', function() {
-    var category = $(this).data('category');
+    let category = $(this).data('category');
 
     $.ajax({
         url: BASE_URL + '/categories/' + category + '/edit',
@@ -60,17 +60,9 @@ $(document).on('click', '.edit-category', function() {
 
             jQuery('#modal-edit').modal('show');
 
-            $('.tags').tagsInput({
-                'defaultText': 'افزودن',
-                'width': '100%',
-                'autocomplete_url': BASE_URL + '/get-tags',
-            });
-
             if (typeof CKEDITOR !== 'undefined') {
                 CKEDITOR.replace('category-description');
             }
-
-            $('#filter_type').trigger('change');
         },
         beforeSend: function(xhr) {
             block('#main-block');
@@ -93,9 +85,9 @@ $('#modal-edit').on('shown.bs.modal', function() {
 $('#edit-form').submit(function(e) {
     e.preventDefault();
 
-    var formData = new FormData(this);
-    var form = $(this);
-    var category = form.data('category');
+    let formData = new FormData(this);
+    let form = $(this);
+    let category = form.data('category');
 
     if (typeof CKEDITOR !== 'undefined') {
         formData.append('description', CKEDITOR.instances['category-description'].getData())
@@ -130,7 +122,7 @@ $('#confirm-delete').click(function() {
 
     jQuery('#modal-delete').modal('hide');
 
-    var category = $(this).data('category');
+    let category = $(this).data('category');
 
     $.ajax({
         url: BASE_URL + '/categories/' + category,
@@ -198,7 +190,7 @@ window.onbeforeunload = function() {
 $(document).on('click', '#generate-category-slug', function(e) {
     e.preventDefault();
 
-    var title = $('input[name="meta_title"]').val();
+    let title = $('input[name="meta_title"]').val();
 
     $.ajax({
         url: BASE_URL + '/category/slug',
@@ -217,14 +209,4 @@ $(document).on('click', '#generate-category-slug', function(e) {
             $('#slug-spinner').hide();
         }
     });
-});
-
-$(document).on('change', '#filter_type', function() {
-    var filterType = $(this).val();
-
-    if (filterType == 'filterId') {
-        $('#filter_id').prop('disabled', false);
-    } else {
-        $('#filter_id').prop('disabled', true);
-    }
 });

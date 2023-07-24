@@ -68,6 +68,12 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('auctions/reject', [AuctionController::class, 'reject'])->name('auctions.reject');
     Route::delete('auctions/api/multipleDestroy', [AuctionController::class, 'multipleDestroy'])->name('auctions.multipleDestroy');
 
+    // ------------------ categories
+    Route::resource('categories', CategoryController::class)->only(['index', 'update', 'destroy', 'store', 'edit']);
+    Route::post('categories/sort', [CategoryController::class, 'sort']);
+    Route::post('category/slug', [CategoryController::class, 'generate_slug']);
+//    Route::get("categories/title",[CategoryController::class,"getCategoryByTitle"])->name('categories.search.title');
+
     // ------------------ discounts
     Route::resource('discounts', DiscountController::class)->except(['show']);
 
@@ -138,12 +144,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //    Route::resource('attributes', AttributeController::class)->except(['index', 'show']);
 
     Route::get('notifications', [MainController::class, 'notifications'])->name('notifications');
-
-    // ------------------ categories
-    Route::resource('categories', CategoryController::class)->only(['update', 'destroy', 'store', 'edit']);
-    Route::post('categories/sort', [CategoryController::class, 'sort']);
-    Route::post('category/slug', [CategoryController::class, 'generate_slug']);
-    Route::get("categories/title",[CategoryController::class,"getCategoryByTitle"])->name('categories.search.title');
 
     // ------------------ orders
     Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');

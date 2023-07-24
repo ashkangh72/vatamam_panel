@@ -5,106 +5,117 @@ return [
     'permissions' => [
 
         'users' => [
-            'title'  => 'مدیریت کاربران',
+            'title' => 'مدیریت کاربران',
             'values' => [
-                'index'          => 'لیست کاربران',
-                'view'           => 'مشاهده کاربر',
-                'create'         => 'ایجاد کاربر',
-                'update'         => 'ویرایش کاربر',
-                'delete'         => 'حذف کاربر',
-                'export.excel'   => 'خروجی اکسل',
+                'index' => 'لیست کاربران',
+                'view' => 'مشاهده کاربر',
+                'create' => 'ایجاد کاربر',
+                'update' => 'ویرایش کاربر',
+                'delete' => 'حذف کاربر',
+                'export.excel' => 'خروجی اکسل',
             ]
         ],
-        'auctions'=>[
-            'title' => "مدیریت مزایده ها",
-            'values'=>[
+
+        'auctions' => [
+            'title' => 'مدیریت مزایده ها',
+            'values' => [
                 'index' => 'لیست مزایده ها',
                 'approve' => 'تایید مزایده',
                 'reject' => 'رد مزایده',
             ]
         ],
 
-        'discounts' => [
-            'title'  => 'مدیریت تخفیف ها',
+        'categories' => [
+            'title' => 'مدیریت دسته بندی ها',
             'values' => [
-                'index'             => 'لیست تخفیف ها',
-                'create'            => 'ایجاد تخفیف',
-                'update'            => 'ویرایش تخفیف',
-                'delete'            => 'حذف تخفیف',
+                'index' => 'لیست دسته بندی ها',
+                'create' => 'ایجاد دسته بندی',
+                'update' => 'ویرایش دسته بندی',
+                'delete' => 'حذف دسته بندی',
+            ]
+        ],
+
+        'discounts' => [
+            'title' => 'مدیریت تخفیف ها',
+            'values' => [
+                'index' => 'لیست تخفیف ها',
+                'create' => 'ایجاد تخفیف',
+                'update' => 'ویرایش تخفیف',
+                'delete' => 'حذف تخفیف',
             ]
         ],
 
         'carriers' => [
-            'title'  => 'مدیریت حمل و نقل',
+            'title' => 'مدیریت حمل و نقل',
             'values' => [
-                'provinces.index'             => 'لیست استان ها',
-                'provinces.update'            => 'ویرایش استان',
-                'provinces.delete'            => 'حذف استان',
-                'provinces.create'            => 'ایجاد استان',
-                'provinces.show'              => 'مشاهده استان',
-                'cities.update'               => 'ویرایش شهر',
-                'cities.delete'               => 'حذف شهر',
-                'cities.create'               => 'ایجاد شهر',
+                'provinces.index' => 'لیست استان ها',
+                'provinces.update' => 'ویرایش استان',
+                'provinces.delete' => 'حذف استان',
+                'provinces.create' => 'ایجاد استان',
+                'provinces.show' => 'مشاهده استان',
+                'cities.update' => 'ویرایش شهر',
+                'cities.delete' => 'حذف شهر',
+                'cities.create' => 'ایجاد شهر',
             ]
         ],
         'links' => [
-            'title'  => 'مدیریت لینک های فوتر',
+            'title' => 'مدیریت لینک های فوتر',
             'values' => [
-                'index'             => 'لیست لینک ها',
-                'create'            => 'ایجاد لینک',
-                'update'            => 'ویرایش لینک',
-                'delete'            => 'حذف لینک',
-                'groups'            => 'مدیریت گروه ها',
-                'groups.update'     => 'ویرایش گروه ها'
+                'index' => 'لیست لینک ها',
+                'create' => 'ایجاد لینک',
+                'update' => 'ویرایش لینک',
+                'delete' => 'حذف لینک',
+                'groups' => 'مدیریت گروه ها',
+                'groups.update' => 'ویرایش گروه ها'
             ]
         ],
 
         'pages' => [
-            'title'  => 'مدیریت صفحات',
+            'title' => 'مدیریت صفحات',
             'values' => [
-                'index'             => 'لیست صفحات',
-                'create'            => 'ایجاد صفحه',
-                'update'            => 'ویرایش صفحه',
-                'delete'            => 'حذف صفحه',
+                'index' => 'لیست صفحات',
+                'create' => 'ایجاد صفحه',
+                'update' => 'ویرایش صفحه',
+                'delete' => 'حذف صفحه',
             ]
         ],
 
         'roles' => [
-            'title'  => 'مدیریت مقام ها',
+            'title' => 'مدیریت مقام ها',
             'values' => [
-                'index'             => 'لیست مقام ها',
-                'create'            => 'ایجاد مقام',
-                'update'            => 'ویرایش مقام',
-                'delete'            => 'حذف مقام',
+                'index' => 'لیست مقام ها',
+                'create' => 'ایجاد مقام',
+                'update' => 'ویرایش مقام',
+                'delete' => 'حذف مقام',
             ]
         ],
 
         'redirects' => [
-            'title'  => 'مدیریت تغییر مسیرها',
+            'title' => 'مدیریت تغییر مسیرها',
             'values' => [
-                'index'     => 'لیست تغییر مسیرها',
-                'create'    => 'ایجاد تغییر مسیرها',
-                'delete'    => 'حذف تغییر مسیرها',
+                'index' => 'لیست تغییر مسیرها',
+                'create' => 'ایجاد تغییر مسیرها',
+                'delete' => 'حذف تغییر مسیرها',
             ]
         ],
 
         'search-engine-rules' => [
-            'title'  => 'robots.txt مدیریت',
+            'title' => 'robots.txt مدیریت',
             'values' => [
-                'index'     => 'لیست قوانین robots.txt',
-                'create'    => 'robots.txt ایجاد قانون',
-                'delete'    => 'robots.txt حذف قانون',
+                'index' => 'لیست قوانین robots.txt',
+                'create' => 'robots.txt ایجاد قانون',
+                'delete' => 'robots.txt حذف قانون',
             ]
         ],
 
         'menus' => [
-            'title'  => 'مدیریت منو ها',
+            'title' => 'مدیریت منو ها',
             'values' => [
-                'index'             => 'لیست منو ها',
-                'show'              => 'نمایش منو',
-                'create'            => 'ایجاد منو',
-                'update'            => 'ویرایش منو',
-                'delete'            => 'حذف منو',
+                'index' => 'لیست منو ها',
+                'show' => 'نمایش منو',
+                'create' => 'ایجاد منو',
+                'update' => 'ویرایش منو',
+                'delete' => 'حذف منو',
             ]
         ],
 
@@ -198,21 +209,20 @@ return [
 //        ],
 
 
-
     ],
 
     'linkGroups' => [
         [
-            'name'  => 'گروه اول',
-            'key'   => 1,
+            'name' => 'گروه اول',
+            'key' => 1,
         ],
         [
-            'name'  => 'گروه دوم',
-            'key'   => 2,
+            'name' => 'گروه دوم',
+            'key' => 2,
         ],
         [
-            'name'  => 'گروه سوم',
-            'key'   => 3,
+            'name' => 'گروه سوم',
+            'key' => 3,
         ],
     ],
 ];

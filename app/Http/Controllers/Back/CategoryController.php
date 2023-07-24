@@ -10,116 +10,92 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
-    public $ordering = 1;
+    public int $ordering = 1;
+
+    public function index()
+    {
+        $this->authorize('categories.index');
+
+        $categories = Category::whereNull('category_id')
+            ->with('children')
+            ->orderBy('ordering')
+            ->get();
+
+        return view('back.categories.index', compact('categories'));
+    }
 
     public function store(Request $request)
     {
+        $this->authorize('categories.create');
+
         $this->validate($request, [
-            'title' => 'required|string',
-            'type'  => 'required|string',
-            'slug'  => 'nullable|unique:categories,slug',
+            'title' => 'required|string|unique:categories,title',
         ]);
 
-        $this->authorizeCategory($request->type);
+        $ordering = Category::max('ordering') + 1;
 
-        $category = Category::create([
+        return Category::create([
             'title' => $request->title,
-            'type'  => $request->type,
-            'slug'  => $request->slug ?: $request->title,
+            'slug' => SlugService::createSlug(Category::class, 'slug', $request->title),
+            'ordering' => $ordering,
+            'meta_title' => $request->title,
         ]);
-
-        return $category;
     }
 
-    public function getCategoryByTitle()
-    {
-        $request=request();
-        if ($request->has('q') and $request->filled('q')){
-            $products=Category::where('title',"LIKE","%"."{$request->q}"."%")->get();
-            $items=collect();
-            $products->each(function ($product)use ($items){
-                $items->push([
-                    'id'=>$product->id,
-                    'text'=>$product->title,
-                    'title'=>$product->title,
-                    'image'=>$product->image,
-                ]);
-            });
-            return response()->json([
-                'items'=>$items
-            ]);
-        }
-        return response()->json([]);
+//    public function getCategoryByTitle()
+//    {
+//        $request = request();
+//        if ($request->has('q') and $request->filled('q')) {
+//            $products = Category::where('title', "LIKE", "%" . "{$request->q}" . "%")->get();
+//            $items = collect();
+//            $products->each(function ($product) use ($items) {
+//                $items->push([
+//                    'id' => $product->id,
+//                    'text' => $product->title,
+//                    'title' => $product->title,
+//                    'image' => $product->image,
+//                ]);
+//            });
+//            return response()->json([
+//                'items' => $items
+//            ]);
+//        }
+//        return response()->json([]);
+//
+//    }
 
-    }
     public function edit(Category $category)
     {
-        $this->authorizeCategory($category->type);
+        $this->authorize('categories.update');
 
-        if ($category->type == 'productcat') {
-            return view('back.products.categories.edit', compact('category'));
-        }
-
-        return view('back.categories.edit', compact('category'));
+        return view('back.categories.partials.edit', compact('category'));
     }
 
     public function update(Request $request, Category $category)
     {
-        $this->authorizeCategory($category->type);
+        $this->authorize('categories.update');
 
         $this->validate($request, [
             'title' => 'required|string',
-            'image' => 'image',
-            'slug'  => "nullable|unique:categories,slug,$category->id",
+            'slug' => "nullable|unique:categories,slug,$category->id",
         ]);
 
         $category->update([
-            'title'            => $request->title,
-            'slug'             => $request->slug ?: $request->title,
-            'meta_title'       => $request->meta_title,
+            'title' => $request->title,
+            'slug' => SlugService::createSlug(Category::class, 'slug', $request->slug ?: $request->title),
+            'meta_title' => $request->meta_title,
             'meta_description' => $request->meta_description,
-            'description'      => $request->description,
-            'filter_type'      => $request->filter_type ?: 'inherit',
-            'filter_id'        => $request->filter_id,
+            'description' => $request->description,
         ]);
-
-        if ($request->hasFile('image')) {
-            $file = $request->image;
-            $name = uniqid() . '_' . $category->id . '.' . $file->getClientOriginalExtension();
-            $request->image->storeAs('categories', $name);
-
-            if ($category->image) {
-                Storage::disk('public')->delete($category->image);
-            }
-
-            $category->image = '/uploads/categories/' . $name;
-            $category->save();
-        }
-
-        if ($request->hasFile('background_image')) {
-            $file = $request->background_image;
-            $name = uniqid() . '_' . $category->id . '.' . $file->getClientOriginalExtension();
-            $request->background_image->storeAs('categories', $name);
-
-            if ($category->background_image) {
-                Storage::disk('public')->delete($category->background_image);
-            }
-
-            $category->background_image = '/uploads/categories/' . $name;
-            $category->save();
-        }
 
         return $category;
     }
 
     public function destroy(Category $category)
     {
-        $this->authorizeCategory($category->type);
+        $this->authorize('categories.delete');
 
-        foreach(Category::whereIn('id', $category->allChildCategories())->get() as $child_category) {
-            Storage::disk('public')->delete($child_category->image);
-            Storage::disk('public')->delete($child_category->background_image);
-
+        foreach (Category::whereIn('id', $category->allChildCategories())->get() as $child_category) {
             $child_category->menus()->detach();
             $child_category->delete();
         }
@@ -129,16 +105,13 @@ class CategoryController extends Controller
 
     public function sort(Request $request)
     {
+        $this->authorize('categories.update');
+
         $this->validate($request, [
             'categories' => 'required|array',
-            'type'       => 'required'
         ]);
 
-        $this->authorizeCategory($request->type);
-
-        $categories = $request->categories;
-
-        $this->sort_category($categories);
+        $this->sort_category($request->categories);
 
         return 'success';
     }
@@ -153,22 +126,10 @@ class CategoryController extends Controller
         }
     }
 
-    private function authorizeCategory($type)
-    {
-        switch ($type) {
-            case "postcat": {
-                    $this->authorize('posts.category');
-                    break;
-                }
-            case "productcat": {
-                    $this->authorize('products.category');
-                    break;
-                }
-        }
-    }
-
     public function generate_slug(Request $request)
     {
+        $this->authorize('categories.update');
+
         $request->validate([
             'title' => 'required',
         ]);

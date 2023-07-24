@@ -2,12 +2,25 @@
 
 namespace App\Models;
 
+use App\Enums\MenuTypeEnum;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany};
 
 class Category extends Model
 {
+    use sluggable;
+
     protected $guarded = ['id'];
+
+    public function sluggable():array
+    {
+        return [
+            'slug' => [
+                'source' => 'title',
+            ],
+        ];
+    }
 
     /**
      * @return BelongsTo
@@ -23,6 +36,14 @@ class Category extends Model
     public function children(): HasMany
     {
         return $this->hasMany(Category::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function menus(): BelongsToMany
+    {
+        return $this->belongsToMany(Menu::class, 'menus', 'menuable_id')->where('type', MenuTypeEnum::category);
     }
 
     public function allChildCategories(): array

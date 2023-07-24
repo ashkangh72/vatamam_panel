@@ -41,6 +41,11 @@
                                 <a href="{{ route('admin.auctions.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست مزایده ها</span></a>
                             </li>
                         @endcan
+                        @can('categories.index')
+                            <li class="{{ active_class('admin.categories.*') }}">
+                                <a href="{{ route('admin.categories.index') }}"><i class="feather icon-circle"></i><span class="menu-item">دسته بندی ها</span></a>
+                            </li>
+                        @endcan
                     </ul>
                 </li>
             @endcan
@@ -180,12 +185,6 @@
 {{--                        @can('products.create')--}}
 {{--                            <li class="{{ active_class('admin.products.create') }}">--}}
 {{--                                <a href="{{ route('admin.products.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد محصول</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-
-{{--                        @can('products.category')--}}
-{{--                            <li class="{{ active_class('admin.products.categories.*') }}">--}}
-{{--                                <a href="{{ route('admin.products.categories.index') }}"><i class="feather icon-circle"></i><span class="menu-item">دسته بندی ها</span></a>--}}
 {{--                            </li>--}}
 {{--                        @endcan--}}
 
