@@ -117,6 +117,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 
     Route::get('notifications', [MainController::class, 'notifications'])->name('notifications');
 
+    // ------------------ comments
+    Route::get('comments/{comment}/replies',[CommentController::class,"replies"])->name('comments.replies');
+    Route::resource('comments', CommentController::class)->only(['index', 'show', 'destroy', 'update']);
+
 //    Route::get('get-tags', [MainController::class, 'get_tags']);
 
     // Route::resource('products', ProductController::class)->except('show');
@@ -203,10 +207,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //
 //    // ------------------ sms
 //    Route::resource('sms', SmsController::class)->only(['show']);
-//
-    // ------------------ comments
-    Route::get('comments/{comment}/replies',[CommentController::class,"replies"])->name("comments.replies");
-    Route::resource('comments', CommentController::class)->only(['index', 'show', 'destroy', 'update']);
 
     // ------------------ widgets
     Route::resource('widgets', WidgetController::class)->except(['show']);

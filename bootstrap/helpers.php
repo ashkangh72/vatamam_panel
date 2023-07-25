@@ -2,26 +2,15 @@
 
 // helper functions
 
-use App\Models\Cart;
-use App\Models\Category;
 use App\Models\Gateway;
 use App\Models\Option;
-use App\Models\Product;
 use App\Models\Sms;
-use App\Models\Specification;
-use App\Models\SpecificationGroup;
-use App\Models\SpecType;
-use App\Models\Tag;
-use App\Models\User;
 use App\Models\UserOption;
 use App\Models\Viewer;
 use App\Services\SMSIR\Smsir;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -29,7 +18,9 @@ use Illuminate\Support\Str;
 
 function active_class($route_name, $class = 'active')
 {
-    return Route::is($route_name) ? $class : '';
+    $group_route_name = Str::endsWith($route_name, '.*') ? Str::replaceLast('.*', '', $route_name) : $route_name;
+
+    return Route::is($group_route_name) || Route::is($route_name) ? $class : '';
 }
 
 function open_class($route_list, $class = 'open')

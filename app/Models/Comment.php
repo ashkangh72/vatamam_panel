@@ -24,8 +24,32 @@ class Comment extends Model
         return $this->hasMany(CommentPicture::class);
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function getPictureAttribute($value): ?string
     {
         return $value ? env('APP_URL') . '/public' . $value : null;
+    }
+
+    public function scopeFilter($query, $request)
+    {
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+
+        switch ($request->ordering) {
+            case 'oldest': {
+                $query->oldest();
+                break;
+            }
+            default: {
+                $query->latest();
+            }
+        }
+
+        return $query;
     }
 }

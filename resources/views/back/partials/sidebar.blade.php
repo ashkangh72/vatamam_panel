@@ -180,6 +180,16 @@
                     </a>
                 </li>
             @endcan
+            @can('comments')
+                <li class="{{ active_class('admin.comments.*') }} nav-item"><a href="{{ route('admin.comments.index') }}">
+                        <i class="feather icon-message-circle"></i>
+                        <span class="menu-title"> نظرات</span>
+                        @if($commentsCount)
+                            <span class="badge badge badge-primary badge-pill float-right mr-2"> {{ $commentsCount }}</span>
+                        @endif
+                    </a>
+                </li>
+            @endcan
 
 {{--            @can('products')--}}
 {{--                <li class="nav-item has-sub {{ open_class(['admin.products.*', 'admin.spectypes.*', 'admin.stock-notifies.*',--}}
@@ -383,14 +393,6 @@
                     <a href="{{ route('admin.transactions.index') }}">
                         <i class="feather icon-credit-card"></i>
                         <span class="menu-title"> لیست تراکنش ها</span>
-                    </a>
-                </li>
-{{--            @endcan--}}
-
-{{--            @can('comments')--}}
-                <li class="{{ active_class('admin.comments.*') }} nav-item"><a href="{{ route('admin.comments.index') }}">
-                        <i class="feather icon-message-circle"></i>
-                        <span class="menu-title"> نظرات</span>
                     </a>
                 </li>
 {{--            @endcan--}}

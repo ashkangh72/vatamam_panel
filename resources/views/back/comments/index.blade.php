@@ -1,7 +1,6 @@
 @extends('back.layouts.master')
 
 @section('content')
-
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -12,10 +11,8 @@
                         <div class="col-12">
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb no-border">
-                                    <li class="breadcrumb-item">مدیریت
-                                    </li>
-                                    <li class="breadcrumb-item active">مدیریت دیدگاه ها
-                                    </li>
+                                    <li class="breadcrumb-item">مدیریت</li>
+                                    <li class="breadcrumb-item active">مدیریت دیدگاه ها</li>
                                 </ol>
                             </div>
                         </div>
@@ -42,20 +39,22 @@
                                     <div class="row">
                                         <div class="col-12 col-sm-6 col-lg-3">
                                             <label for="filter-status">وضعیت</label>
+                                            @php
+                                                $pending = \App\Enums\CommentStatusEnum::pending->value;
+                                                $approved = \App\Enums\CommentStatusEnum::approved->value;
+                                                $rejected = \App\Enums\CommentStatusEnum::rejected->value;
+                                            @endphp
                                             <fieldset class="form-group">
                                                 <select class="form-control" name="status" id="filter-status">
                                                     <option value="">همه</option>
-                                                    <option
-                                                        value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
+                                                    <option value="{{ $pending }}" {{ (int)request('status') == $pending ? 'selected' : '' }}>
                                                         منتظر تایید
                                                     </option>
-                                                    <option
-                                                        value="accepted" {{ request('status') == 'accepted' ? 'selected' : '' }}>
+                                                    <option value="{{ $approved }}" {{ (int)request('status') == $approved ? 'selected' : '' }}>
                                                         تایید شده
                                                     </option>
-                                                    <option
-                                                        value="unconfirmed" {{ request('status') == 'unconfirmed' ? 'selected' : '' }}>
-                                                        تایید نشده
+                                                    <option value="{{ $rejected }}" {{ (int)request('status') == $rejected ? 'selected' : '' }}>
+                                                        رد شده
                                                     </option>
                                                 </select>
                                             </fieldset>
@@ -64,18 +63,15 @@
                                             <label for="filter-ordering">مرتب سازی</label>
                                             <fieldset class="form-group">
                                                 <select class="form-control" name="ordering" id="filter-ordering">
-                                                    <option
-                                                        value="latest" {{ request('ordering') == 'latest' ? 'selected' : '' }}>
+                                                    <option value="latest" {{ request('ordering') == 'latest' ? 'selected' : '' }}>
                                                         جدیدترین
                                                     </option>
-                                                    <option
-                                                        value="oldest" {{ request('ordering') == 'oldest' ? 'selected' : '' }}>
+                                                    <option value="oldest" {{ request('ordering') == 'oldest' ? 'selected' : '' }}>
                                                         قدیمی ترین
                                                     </option>
                                                 </select>
                                             </fieldset>
                                         </div>
-
                                     </div>
                                 </form>
                             </div>
@@ -98,9 +94,7 @@
                                             <tr>
                                                 <th class="text-center">#</th>
                                                 <th>نام</th>
-                                                <th>عنوان</th>
                                                 <th>دیدگاه</th>
-                                                <th style="white-space: nowrap">نوع دیدگاه</th>
                                                 <th class="text-center">وضعیت</th>
                                                 <th class="text-center">عملیات</th>
                                             </tr>
@@ -111,34 +105,15 @@
                                                     <td class="text-center">
                                                         {{ $comment->id }}
                                                     </td>
-                                                    <td style="white-space: nowrap">{{ $comment->user ? $comment->user->fullname : $comment->name }}</td>
-                                                    <td style="max-width: 300px">{{ short_content($comment->title, 20, false) }}</td>
+                                                    <td style="white-space: nowrap">{{ $comment->user->name ?: '---' }}</td>
                                                     <td style="max-width: 300px">{{ short_content($comment->body, 20, false) }}</td>
-                                                    <td style="max-width: 300px">
-                                                        @if($comment->suggested===1)
-                                                            <span>میپسندم</span>
-                                                            <img
-                                                                src="https://img.icons8.com/color/50/000000/in-love--v1.png"/>
-                                                        @elseif($comment->suggested===0)
-                                                            <span>نمی پسندم</span>
-                                                            <img
-                                                                src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/50/000000/external-dislike-customer-review-xnimrodx-lineal-gradient-xnimrodx.png"/>
-
-                                                        @endif
-                                                    </td>
-                                                    <td class="text-center" >
-                                                        @if($comment->status == 'pending')
-                                                            <div class="badge badge-pill badge-warning badge-md">منتظر
-                                                                تایید
-                                                            </div>
-                                                        @elseif($comment->status == 'accepted')
-                                                            <div class="badge badge-pill badge-success badge-md">تایید
-                                                                شده
-                                                            </div>
+                                                    <td class="text-center">
+                                                        @if((int)$comment->status == $pending)
+                                                            <div class="badge badge-pill badge-warning badge-md">منتظر تایید</div>
+                                                        @elseif((int)$comment->status == $approved)
+                                                            <div class="badge badge-pill badge-success badge-md">تایید شده</div>
                                                         @else
-                                                            <div class="badge badge-pill badge-danger badge-md">تایید
-                                                                نشده
-                                                            </div>
+                                                            <div class="badge badge-pill badge-danger badge-md">رد شده</div>
                                                         @endif
                                                     </td>
 
@@ -153,7 +128,7 @@
                                                                 class="btn btn-danger mr-1 waves-effect waves-light btn-delete"
                                                                 data-toggle="modal" data-target="#delete-modal">حذف
                                                         </button>
-                                                        @if($comment->comments->count()>0)
+                                                        @if($comment->comments->count() > 0)
                                                             <div class="mt-1">
                                                                 <button data-comment="{{ $comment->id }}"
                                                                         data-action="{{ route('admin.comments.replies', ['comment' => $comment]) }}"
@@ -165,20 +140,14 @@
                                                             </div>
                                                         @endif
                                                     </td>
-
                                                 </tr>
                                             @endforeach
-
                                             </tbody>
-
                                         </table>
-
                                     </div>
-
                                 </div>
                             </div>
                         </section>
-
                     @else
                         <section class="card">
                             <div class="card-header">
@@ -200,12 +169,11 @@
 
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
-    {{-- delete post modal --}}
+    {{-- delete comment modal --}}
     <div class="modal fade text-left" id="delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
             <div class="modal-content">
@@ -246,7 +214,6 @@
                 </div>
                 <div id="comment-detail" class="modal-body">
 
-
                 </div>
                 <div class="modal-footer">
                     <button id="comment-form-submit-btn" type="button" class="btn btn-outline-success">ذخیره</button>
@@ -255,14 +222,9 @@
             </div>
         </div>
     </div>
-
-
-
-
 @endsection
 
 @push('scripts')
     <script src="{{ asset('public/back/app-assets/plugins/autosize-js/autosize.min.js') }}"></script>
-
     <script src="{{ asset('public/back/assets/js/pages/comments/index.js') }}"></script>
 @endpush

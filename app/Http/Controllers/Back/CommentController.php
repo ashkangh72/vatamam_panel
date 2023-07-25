@@ -2,44 +2,45 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Enums\CommentStatusEnum;
 use App\Models\Comment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Comment::class, 'comment');
-    }
-
     public function index(Request $request)
     {
+        $this->authorize('comments.index');
+
         $comments = Comment::filter($request)
-            //->whereNull('comment_id')
+            ->whereNull('comment_id')
             ->with('comments')
             ->paginate(15);
-
 
         return view('back.comments.index', compact('comments'));
     }
 
     public function replies(Comment $comment)
     {
-
         $comments = $comment->comments;
+
         return response([
-           "replies" => view("back.comments.replies",compact('comments'))->render(),
+            'replies' => view('back.comments.replies', compact('comments'))->render(),
         ]);
     }
 
     public function show(Comment $comment)
     {
+        $this->authorize('comments.show');
+
         return view('back.comments.show', compact('comment'))->render();
     }
 
     public function destroy(Comment $comment)
     {
+        $this->authorize('comments.delete');
+
         $comment->delete();
 
         return response('success');
@@ -47,24 +48,25 @@ class CommentController extends Controller
 
     public function update(Comment $comment, Request $request)
     {
+        $this->authorize('comments.update');
+
         $this->validate($request, [
             'status' => 'required',
             'body' => 'required',
-            'title' => 'required',
             'replay' => 'nullable|string',
         ]);
 
         $comment->update([
             'body' => $request->body,
-            'title' => $request->title,
-            'status' => $request->status
+            'status' => CommentStatusEnum::from($request->status)
         ]);
 
         if ($request->replay) {
-            $comment->commentable->comments()->create([
-                'body' => $request->replay,
+            $comment->comments()->create([
+                'auction_id' => $comment->auction_id,
                 'user_id' => auth()->user()->id,
-                'status' => 'accepted',
+                'body' => $request->replay,
+                'status' => CommentStatusEnum::approved,
                 'comment_id' => $comment->id,
             ]);
         }

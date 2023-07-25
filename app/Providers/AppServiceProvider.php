@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Page;
+use App\Enums\CommentStatusEnum;
+use App\Models\{Comment, Page};
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,19 +24,16 @@ class AppServiceProvider extends ServiceProvider
         $this->viewComposer();
     }
 
-
     private function viewComposer()
     {
-        // SHARE WITH SPECIFIC VIEW
-
         view()->composer(['back.partials.sidebar'], function ($view) {
             $notificationsCount = auth()->user()->unreadNotifications()->count();
+            $commentsCount = Comment::where('status', CommentStatusEnum::pending)->count();
 
-            $view->with('notificationsCount', $notificationsCount);
+            $view->with(compact('notificationsCount', 'commentsCount'));
         });
 
         view()->composer(['back.menus.index', 'back.sliders.create', 'back.sliders.edit', 'back.links.create', 'back.links.edit'], function ($view) {
-
             $pages = Page::pluck('slug');
 
             $view->with('pages', $pages);
