@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Datatable;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Transaction extends JsonResource
@@ -9,15 +10,15 @@ class Transaction extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
         return [
             'id'                => $this->id,
             'transaction_id'    => $this->id,
-            'fullname'          => $this->user ? htmlspecialchars($this->user->fullname) : '-',
+            'name'              => $this->user ? htmlspecialchars($this->user->name) : '-',
             'created_at'        => tverta($this->created_at)->format('%d %B %Y'),
             'amount'            => number_format($this->amount) . ' تومان',
             'status'            => $this->status,

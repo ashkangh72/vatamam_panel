@@ -190,6 +190,14 @@
                     </a>
                 </li>
             @endcan
+{{--            @can('transactions')--}}
+                <li class="{{ active_class('admin.transactions.*') }} nav-item">
+                    <a href="{{ route('admin.transactions.index') }}">
+                        <i class="feather icon-credit-card"></i>
+                        <span class="menu-title"> لیست تراکنش ها</span>
+                    </a>
+                </li>
+{{--            @endcan--}}
 
 {{--            @can('products')--}}
 {{--                <li class="nav-item has-sub {{ open_class(['admin.products.*', 'admin.spectypes.*', 'admin.stock-notifies.*',--}}
@@ -388,14 +396,7 @@
                 </li>
 {{--            @endcan--}}
 
-{{--            @can('transactions')--}}
-                <li class="{{ active_class('admin.transactions.*') }} nav-item">
-                    <a href="{{ route('admin.transactions.index') }}">
-                        <i class="feather icon-credit-card"></i>
-                        <span class="menu-title"> لیست تراکنش ها</span>
-                    </a>
-                </li>
-{{--            @endcan--}}
+
 
 {{--            @can('settings')--}}
                 <li class="nav-item has-sub {{ open_class(['admin.settings.*']) }}">

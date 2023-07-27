@@ -9,13 +9,10 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Transaction::class, 'transaction');
-    }
-
     public function index()
     {
+        $this->authorize('transactions.index');
+
         return view('back.transactions.index');
     }
 
@@ -32,11 +29,15 @@ class TransactionController extends Controller
 
     public function show(Transaction $transaction)
     {
+        $this->authorize('transactions.show');
+
         return view('back.transactions.show', compact('transaction'))->render();
     }
 
     public function destroy(Transaction $transaction)
     {
+        $this->authorize('transactions.delete');
+
         $transaction->delete();
 
         return response('success');

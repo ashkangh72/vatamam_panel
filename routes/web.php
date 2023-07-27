@@ -121,6 +121,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('comments/{comment}/replies',[CommentController::class,"replies"])->name('comments.replies');
     Route::resource('comments', CommentController::class)->only(['index', 'show', 'destroy', 'update']);
 
+    // ------------------ transactions
+    Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);
+    Route::post('transactions/api/index', [TransactionController::class, 'apiIndex'])->name('transactions.apiIndex');
+    Route::delete('transactions/api/multipleDestroy', [TransactionController::class, 'multipleDestroy'])->name('transactions.multipleDestroy');
+
 //    Route::get('get-tags', [MainController::class, 'get_tags']);
 
     // Route::resource('products', ProductController::class)->except('show');
@@ -162,11 +167,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('orders/api/multiple-factors', [OrderController::class, 'multipleFactors'])->name('orders.multipleFactors');
     Route::post('orders/api/multiple-shipping-status', [OrderController::class, 'multipleShippingStatus'])->name('orders.multipleShippingStatus');
     Route::get('order/not-completed/products', [OrderController::class, 'notCompleted'])->name('orders.notCompleted');
-
-    // ------------------ transactions
-    Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);
-    Route::post('transactions/api/index', [TransactionController::class, 'apiIndex'])->name('transactions.apiIndex');
-    Route::delete('transactions/api/multipleDestroy', [TransactionController::class, 'multipleDestroy'])->name('transactions.multipleDestroy');
 
     // ------------------ sliders
     Route::resource('sliders', SliderController::class)->except(['show']);

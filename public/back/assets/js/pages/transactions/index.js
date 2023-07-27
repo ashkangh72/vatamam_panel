@@ -1,12 +1,12 @@
 "use strict";
 // Class definition
 
-var datatable;
+let datatable;
 
-var transaction_datatable = function() {
+let transaction_datatable = function() {
     // Private functions
 
-    var options = {
+    let options = {
         // datasource definition
         data: {
             type: 'remote',
@@ -16,7 +16,7 @@ var transaction_datatable = function() {
                     headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     map: function(raw) {
                         // sample data mapping
-                        var dataSet = raw;
+                        let dataSet = raw;
                         if (typeof raw.data !== 'undefined') {
                             dataSet = raw.data;
                         }
@@ -55,10 +55,10 @@ var transaction_datatable = function() {
                 textAlign: 'center',
             },
             {
-                field: 'fullname',
+                field: 'name',
                 title: 'نام پرداخت کننده',
                 template: function(row) {
-                    return '<a class="text-dark" href="' + row.links.user + '" target="_blank">' + row.fullname + '</a>';
+                    return '<a class="text-dark" href="' + row.links.user + '" target="_blank">' + row.name + '</a>';
                 }
             },
             {
@@ -77,17 +77,12 @@ var transaction_datatable = function() {
                 field: 'status',
                 title: 'وضعیت',
                 textAlign: 'center',
-                // callback function support for column rendering
                 template: function(row) {
-
-                    if (row.status == '1') {
-                        var statusClass = 'badge-success';
-                        var statusText = 'موفق';
+                    if (row.status == 1) {
+                        return '<div class="badge badge-pill badge-success badge-md">موفق</div>';
                     } else {
-                        var statusClass = 'badge-danger';
-                        var statusText = 'ناموفق';
+                        return '<div class="badge badge-pill badge-danger badge-md">ناموفق</div>';
                     }
-                    return '<div class="badge badge-pill ' + statusClass + ' badge-md">' + statusText + '</div>';
                 },
             },
             {
@@ -99,16 +94,14 @@ var transaction_datatable = function() {
                 overflow: 'visible',
                 autoHide: false,
                 template: function(row) {
-
                     return '<button data-action="' + row.links.view + '" class="btn btn-info waves-effect waves-light show-transaction">مشاهده</button>\
                     <button data-toggle="modal" data-target="#delete-modal" data-action="' + row.links.destroy + '" class="btn btn-danger waves-effect waves-light btn-delete">حذف</button>';
-
                 },
             }
         ],
     };
 
-    var initDatatable = function() {
+    let initDatatable = function() {
         // enable extension
         options.extensions = {
             // boolean or object (extension options)
@@ -125,8 +118,8 @@ var transaction_datatable = function() {
 
         datatable.on('datatable-on-click-checkbox',
             function(e) {
-                var ids = datatable.checkbox().getSelectedId();
-                var count = ids.length;
+                let ids = datatable.checkbox().getSelectedId();
+                let count = ids.length;
 
                 $('#datatable-selected-rows').html(count);
 
@@ -166,7 +159,7 @@ $('#transaction-delete-form').on('submit', function(e) {
 
     $('#delete-modal').modal('hide');
 
-    var formData = new FormData(this);
+    let formData = new FormData(this);
 
     $.ajax({
         url: $(this).attr('action'),
@@ -194,8 +187,8 @@ $('#transaction-multiple-delete-form').on('submit', function(e) {
 
     $('#multiple-delete-modal').modal('hide');
 
-    var formData = new FormData(this);
-    var ids = datatable.checkbox().getSelectedId();
+    let formData = new FormData(this);
+    let ids = datatable.checkbox().getSelectedId();
 
     ids.forEach(function(id) {
         formData.append('ids[]', id);
@@ -224,7 +217,7 @@ $('#transaction-multiple-delete-form').on('submit', function(e) {
 
 
 $(document).on('click', '.show-transaction', function() {
-    var btn = $(this);
+    let btn = $(this);
 
     $.ajax({
         url: $(this).data('action'),
