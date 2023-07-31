@@ -145,22 +145,26 @@ return [
             ]
         ],
 
+        'widgets' => [
+            'title' => 'مدیریت ابزارک ها',
+            'values' => [
+                'index' => 'لیست ابزارک ها',
+                'show' => 'مشاهده ابزارک',
+                'create' => 'ایجاد ابزارک',
+                'update' => 'ویرایش ابزارک',
+                'delete' => 'حذف ابزارک',
+            ]
+        ],
 
-//        'attributes' => [
-//            'title'  => 'مدیریت ویژگی ها',
-//            'values' => [
-//                'groups.index'    => 'لیست گروه ویژگی ها',
-//                'groups.show'     => 'مشاهده گروه ویژگی',
-//                'groups.create'   => 'ایجاد گروه ویژگی',
-//                'groups.update'   => 'ویرایش گروه ویژگی',
-//                'groups.delete'   => 'حذف گروه ویژگی',
-//
-//                'index'           => 'لیست ویژگی ها',
-//                'create'          => 'ایجاد ویژگی',
-//                'update'          => 'ویرایش ویژگی',
-//                'delete'          => 'حذف ویژگی',
-//            ]
-//        ],
+        'slides' => [
+            'title' => 'مدیریت اسلایدرها',
+            'values' => [
+                'index' => 'لیست اسلایدرها',
+                'create' => 'ایجاد اسلاید',
+                'update' => 'ویرایش اسلاید',
+                'delete' => 'حذف اسلاید',
+            ]
+        ],
 
 //        'orders' => [
 //            'title'  => 'مدیریت سفارشات',
@@ -173,16 +177,6 @@ return [
 //            ]
 //        ],
 
-
-//        'sliders' => [
-//            'title'  => 'مدیریت اسلایدرها',
-//            'values' => [
-//                'index'             => 'لیست اسلایدرها',
-//                'create'            => 'ایجاد اسلایدر',
-//                'update'            => 'ویرایش اسلایدر',
-//                'delete'            => 'حذف اسلایدر',
-//            ]
-//        ],
 //        'statistics' => [
 //            'title'  => 'گزارشات',
 //            'values' => [
@@ -195,15 +189,6 @@ return [
 //                'sms'           => 'لاگ پیامک های ارسالی',
 //            ]
 //        ],
-//        'contacts' => [
-//            'title'  => 'مدیریت تماس با ما',
-//            'values' => [
-//                'index'             => 'لیست تماس با ما',
-//                'view'              => 'مشاهده تماس با ما',
-//                'delete'            => 'حذف تماس با ما',
-//            ]
-//        ],
-
 //        'settings' => [
 //            'title'  => 'تنظیمات',
 //            'values' => [
@@ -212,10 +197,8 @@ return [
 //                'gateway'            => 'درگاه های پرداخت',
 //                'others'             => 'تنظیمات دیگر',
 //                'sms'                => 'تنظیمات پیامک',
-//                'ftp'                => 'تنظیمات ftp',
 //            ]
 //        ],
-
 
     ],
 
@@ -231,6 +214,137 @@ return [
         [
             'name' => 'گروه سوم',
             'key' => 3,
+        ],
+    ],
+
+    'widgets' => [
+        'mobile_slider' => [
+            'title' => 'اسلایدر موبایل',
+            'options' => [
+                [
+                    'title' => 'تعداد قابل نمایش',
+                    'key' => 'number',
+                    'input-type' => 'input',
+                    'type' => 'number',
+                    'default' => '5',
+                    'class' => 'col-md-4 col-6',
+                    'attributes' => 'required'
+                ]
+            ],
+            'rules' => [
+                'number' => 'required',
+            ]
+        ],
+        'desktop_slider' => [
+            'title' => 'اسلایدر دسکتاپ',
+            'options' => [
+                [
+                    'title' => 'تعداد قابل نمایش',
+                    'key' => 'number',
+                    'input-type' => 'input',
+                    'type' => 'number',
+                    'default' => '5',
+                    'class' => 'col-md-4 col-6',
+                    'attributes' => 'required'
+                ]
+            ],
+            'rules' => [
+                'number' => 'required',
+            ]
+        ],
+        'service_slider' => [
+            'title' => 'اسلایدر خدمات',
+            'options' => [
+                [
+                    'title' => 'تعداد قابل نمایش',
+                    'key' => 'number',
+                    'input-type' => 'input',
+                    'type' => 'number',
+                    'default' => '5',
+                    'class' => 'col-md-4 col-6',
+                    'attributes' => 'required'
+                ]
+            ],
+            'rules' => [
+                'number' => 'required',
+            ]
+        ],
+        'customer_slider' => [
+            'title' => 'اسلایدر مشتریان',
+            'options' => [
+                [
+                    'title' => 'تعداد قابل نمایش',
+                    'key' => 'number',
+                    'input-type' => 'input',
+                    'type' => 'number',
+                    'default' => '5',
+                    'class' => 'col-md-4 col-6',
+                    'attributes' => 'required'
+                ]
+            ],
+            'rules' => [
+                'number' => 'required',
+            ]
+        ],
+        'statistic_slider' => [
+            'title' => 'اسلایدر آمار',
+            'options' => [
+                [
+                    'title' => 'تعداد قابل نمایش',
+                    'key' => 'number',
+                    'input-type' => 'input',
+                    'type' => 'number',
+                    'default' => '3',
+                    'class' => 'col-md-4 col-6',
+                    'attributes' => 'required'
+                ]
+            ],
+            'rules' => [
+                'number' => 'required',
+            ]
+        ],
+    ],
+
+    'sliderGroups' => [
+        [
+            'group' => 'desktop_slider',
+            'name'  => 'اسلایدر دسکتاپ',
+            'width' => 1780,
+            'height' => 890,
+            'count' => 2,
+            'size'  => '890 * 1780'
+        ],
+        [
+            'group' => 'mobile_slider',
+            'name'  => 'اسلایدر حالت موبایل',
+            'width' => 300,
+            'height' => 250,
+            'count' => 5,
+            'size'  => '250 * 300'
+        ],
+        [
+            'group' => 'service_slider',
+            'name' => 'اسلایدر خدمات',
+            'width' => 100,
+            'height' => 85,
+            'count' => 3,
+            'size' => '100 * 85'
+        ],
+        [
+            'group' => 'customer_slider',
+            'name' => 'اسلایدر مشتریان',
+            'width' => 100,
+            'height' => 100,
+            'count' => 3,
+            'size' => '100 * 100'
+        ],
+        [
+            'group' => 'statistic_slider',
+            'name' => 'اسلایدر آمار',
+            'width' => 100,
+            'height' => 100,
+            'count' => 3,
+            'size' => '100 * 100'
         ],
     ],
 ];

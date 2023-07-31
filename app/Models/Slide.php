@@ -17,12 +17,17 @@ class Slide extends Model
     /**
      * @return BelongsTo|null
      */
-    public function linkable()
+    public function linkable(): ?BelongsTo
     {
         if ($this->linkable_type && $this->linkable_id) {
             return $this->belongsTo($this->linkable_type, 'linkable_id');
         }
 
         return null;
+    }
+
+    public function getImageAttribute($value): ?string
+    {
+        return $value ? env('API_URL') . '/public' . $value : null;
     }
 }

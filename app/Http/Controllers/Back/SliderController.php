@@ -2,95 +2,121 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Enums\SlideGroupEnum;
 use App\Http\Controllers\Controller;
-use App\Models\Slider;
-use Illuminate\Http\Request;
+use App\Models\Slide;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\{Response, Request};
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class SliderController extends Controller
 {
-    public function __construct()
+    /**
+     * @return View
+     * @throws AuthorizationException
+     */
+    public function index(): View
     {
-        $this->authorizeResource(Slider::class, 'slider');
+        $this->authorize('slides.index');
+
+        $slides = Slide::orderBy('ordering')->get();
+
+        return view('back.slides.index', compact('slides'));
     }
 
-    public function index()
+    /**
+     * @return View
+     * @throws AuthorizationException
+     */
+    public function create(): View
     {
-        $sliders = Slider::orderBy('ordering')->get();
+        $this->authorize('slides.update');
 
-        return view('back.sliders.index', compact('sliders'));
+        return view('back.slides.create');
     }
 
-    public function create()
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws ValidationException
+     * @throws AuthorizationException
+     */
+    public function store(Request $request): Response
     {
-        return view('back.sliders.create');
-    }
+        $this->authorize('slides.create');
 
-    public function store(Request $request)
-    {
         $this->validate($request, [
-            'image' => 'mimes:jpeg,jpg,png,gif,svg,webp|required|max:2048',
-            'group' => 'required',
-            'link_type'=>'nullable|string|max:10',
-            'link_id'=>'nullable|string'
+            'title' => ['nullable', 'string', 'max:255'],
+            'image' => ['mimes:jpeg,jpg,png,gif,svg,webp', 'required', 'max:2048'],
+            'group' => ['required', 'string', 'in:' . implode(',', SlideGroupEnum::getNames())],
+            'linkable_type' => ['nullable', 'string', 'in:auction,category'],
+            'linkable_id' => ['nullable', 'numeric'],
+            'published' => ['nullable'],
+            'link' => ['nullable', 'string', 'max:255'],
         ]);
 
-        $file = $request->image;
-        $name = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
-        $request->image->storeAs('sliders', $name);
-
-        Slider::create([
-            'title'       => $request->title,
-            'link'        => $request->link,
-            'group'       => $request->group,
-            'description' => $request->description,
-            'published'   => $request->published ? true : false,
-            'image'       => '/uploads/sliders/' . $name,
-            'link_type'   =>$request->link_type,
-            'link_id'   =>$request->link_id,
+        $slide = Slide::create([
+            'title' => $request->title,
+            'link' => $request->link,
+            'group' => SlideGroupEnum::find($request->group),
+            'is_active' => (bool)$request->published,
+            'linkable_type' => $this->getLinkableType($request->linkable_type),
+            'linkable_id' => $request->linkable_id,
         ]);
 
-        toastr()->success('اسلایدر با موفقیت ایجاد شد.');
+        $this->updateSlideImage($request, $slide);
+
+        toastr()->success('اسلاید با موفقیت ایجاد شد.');
 
         return response("success");
     }
 
-    public function edit(Slider $slider)
+    /**
+     * @param Slide $slide
+     * @return View
+     * @throws AuthorizationException
+     */
+    public function edit(Slide $slide): View
     {
-        return view('back.sliders.edit', compact('slider'));
+        $this->authorize('slides.update');
+
+        return view('back.slides.edit', compact('slide'));
     }
 
-    public function update(Slider $slider, Request $request)
+    /**
+     * @param Slide $slide
+     * @param Request $request
+     * @return Response
+     * @throws ValidationException
+     * @throws AuthorizationException
+     */
+    public function update(Slide $slide, Request $request): Response
     {
+        $this->authorize('slides.update');
+
         $this->validate($request, [
-            'image' => 'mimes:jpeg,jpg,png,gif,svg,webp|max:2048',
-            'group' => 'required',
-            'link_type'=>'nullable|string|max:10',
-            'link_id'=>'nullable|string'
+            'title' => ['nullable', 'string', 'max:255'],
+            'image' => ['mimes:jpeg,jpg,png,gif,svg,webp', 'max:2048'],
+            'group' => ['required', 'string', 'in:' . implode(',', SlideGroupEnum::getNames())],
+            'linkable_type' => ['nullable', 'string', 'in:auction,category'],
+            'linkable_id' => ['nullable', 'numeric'],
+            'published' => ['nullable'],
+            'link' => ['nullable', 'string', 'max:255'],
         ]);
 
         if ($request->hasFile('image')) {
-
-            if ($slider->image) {
-                Storage::disk('public')->delete($slider->image);
-            }
-
-            $file = $request->image;
-            $name = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $request->image->storeAs('sliders', $name);
-
-            $slider->image = '/uploads/sliders/' . $name;
-            $slider->save();
+            $this->updateSlideImage($request, $slide);
         }
 
-        $slider->update([
-            'title'       => $request->title,
-            'link'        => $request->link,
-            'group'       => $request->group,
-            'description' => $request->description,
-            'published'   => $request->published ? true : false,
-            'link_type'   =>$request->link_type,
-            'link_id'   =>$request->link_id,
+        $slide->update([
+            'title' => $request->title,
+            'link' => $request->link,
+            'group' => SlideGroupEnum::find($request->group),
+            'is_active' => (bool)$request->published,
+            'linkable_type' => $this->getLinkableType($request->linkable_type),
+            'linkable_id' => $request->linkable_id,
         ]);
 
         toastr()->success('اسلایدر با موفقیت ویرایش شد.');
@@ -98,20 +124,33 @@ class SliderController extends Controller
         return response("success");
     }
 
-    public function destroy(Slider $slider)
+    /**
+     * @param Slide $slide
+     * @return Response
+     * @throws AuthorizationException
+     */
+    public function destroy(Slide $slide): Response
     {
-        if ($slider->image) {
-            Storage::disk('public')->delete($slider->image);
+        $this->authorize('slides.delete');
+
+        if ($slide->image) {
+            Storage::delete($slide->image);
         }
 
-        $slider->delete();
+        $slide->delete();
 
         return response('success');
     }
 
-    public function sort(Request $request)
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws ValidationException
+     * @throws AuthorizationException
+     */
+    public function sort(Request $request): Response
     {
-        $this->authorize('sliders.update');
+        $this->authorize('slides.update');
 
         $this->validate($request, [
             'sliders' => 'required|array'
@@ -119,12 +158,34 @@ class SliderController extends Controller
 
         $i = 1;
 
-        foreach ($request->sliders as $slider) {
-            Slider::findOrFail($slider)->update([
+        foreach ($request->slides as $slide) {
+            Slide::findOrFail($slide)->update([
                 'ordering' => $i++,
             ]);
         };
 
         return response('success');
+    }
+
+    private function updateSlideImage(Request $request, Slide $slide)
+    {
+        if ($slide->image && Storage::  exists($slide->image)) {
+            Storage::disk('local')->delete($slide->image);
+        }
+
+        $name = uniqid() . '_' . time() . '.' . $request->image->getClientOriginalExtension();
+        $request->image->storeAs('slides', $name);
+
+        $slide->image = '/uploads/slides/' . $name;
+        $slide->save();
+    }
+
+    private function getLinkableType($type): ?string
+    {
+        return match ($type) {
+            'auction' => 'App\Models\Auction',
+            'category' => 'App\Models\Category',
+            default => null,
+        };
     }
 }

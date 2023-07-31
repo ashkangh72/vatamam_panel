@@ -21,7 +21,8 @@ use App\Http\Controllers\Back\{AuctionController,
     TransactionController,
     UserController,
     WalletController,
-    WidgetController};
+    WidgetController
+};
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
@@ -67,12 +68,13 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('auctions/accept', [AuctionController::class, 'accept'])->name('auctions.accept');
     Route::post('auctions/reject', [AuctionController::class, 'reject'])->name('auctions.reject');
     Route::delete('auctions/api/multipleDestroy', [AuctionController::class, 'multipleDestroy'])->name('auctions.multipleDestroy');
+    Route::get('auctions/title', [AuctionController::class, 'getAuctionByTitle'])->name('auctions.search.title');
 
     // ------------------ categories
     Route::resource('categories', CategoryController::class)->only(['index', 'update', 'destroy', 'store', 'edit']);
     Route::post('categories/sort', [CategoryController::class, 'sort']);
     Route::post('category/slug', [CategoryController::class, 'generate_slug']);
-//    Route::get("categories/title",[CategoryController::class,"getCategoryByTitle"])->name('categories.search.title');
+    Route::get('categories/title', [CategoryController::class, 'getCategoryByTitle'])->name('categories.search.title');
 
     // ------------------ discounts
     Route::resource('discounts', DiscountController::class)->except(['show']);
@@ -118,13 +120,22 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('notifications', [MainController::class, 'notifications'])->name('notifications');
 
     // ------------------ comments
-    Route::get('comments/{comment}/replies',[CommentController::class,"replies"])->name('comments.replies');
+    Route::get('comments/{comment}/replies', [CommentController::class, "replies"])->name('comments.replies');
     Route::resource('comments', CommentController::class)->only(['index', 'show', 'destroy', 'update']);
 
     // ------------------ transactions
     Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);
     Route::post('transactions/api/index', [TransactionController::class, 'apiIndex'])->name('transactions.apiIndex');
     Route::delete('transactions/api/multipleDestroy', [TransactionController::class, 'multipleDestroy'])->name('transactions.multipleDestroy');
+
+    // ------------------ widgets
+    Route::resource('widgets', WidgetController::class)->except(['show']);
+    Route::get('widgets/{key}/template', [WidgetController::class, 'template'])->name('widgets.template');
+    Route::post('widget/sort', [WidgetController::class, 'sort'])->name('widgets.sort');
+
+    // ------------------ sliders
+    Route::resource('slides', SliderController::class)->except(['show']);
+    Route::post('slides/sort', [SliderController::class, 'sort']);
 
 //    Route::get('get-tags', [MainController::class, 'get_tags']);
 
@@ -168,10 +179,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('orders/api/multiple-shipping-status', [OrderController::class, 'multipleShippingStatus'])->name('orders.multipleShippingStatus');
     Route::get('order/not-completed/products', [OrderController::class, 'notCompleted'])->name('orders.notCompleted');
 
-    // ------------------ sliders
-    Route::resource('sliders', SliderController::class)->except(['show']);
-    Route::post('sliders/sort', [SliderController::class, 'sort']);
-
     // ------------------ banners
     Route::resource('banners', BannerController::class)->except(['show']);
     Route::post('banners/sort', [BannerController::class, 'sort']);
@@ -207,11 +214,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 //
 //    // ------------------ sms
 //    Route::resource('sms', SmsController::class)->only(['show']);
-
-    // ------------------ widgets
-    Route::resource('widgets', WidgetController::class)->except(['show']);
-    Route::get('widgets/{key}/template', [WidgetController::class, 'template'])->name('widgets.template');
-    Route::post('widget/sort', [WidgetController::class, 'sort'])->name('widgets.sort');
 
 //    // ------------------ settings
 //    Route::get('settings/information', [SettingController::class, 'showInformation'])->name('settings.information');

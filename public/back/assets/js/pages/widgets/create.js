@@ -1,6 +1,5 @@
-$('#widget-key').on('change', function() {
+$('#widget-key').on('change', function () {
     $('#template .row').empty();
-    $('#widget-image').hide();
 
     let option = $(this).find(':selected');
 
@@ -8,21 +7,19 @@ $('#widget-key').on('change', function() {
         return;
     }
 
-    $('#widget-image').attr('src', option.data('image')).show();
-
     $.ajax({
         url: option.data('action'),
         type: 'GET',
         data: {
             option: option.val(),
         },
-        success: function(data) {
+        success: function (data) {
             $('#template .row').append(data);
         },
-        beforeSend: function(xhr) {
+        beforeSend: function (xhr) {
             block('#widget-create-form');
         },
-        complete: function() {
+        complete: function () {
             unblock('#widget-create-form');
         },
     });
@@ -30,28 +27,28 @@ $('#widget-key').on('change', function() {
 
 jQuery('#widget-create-form').validate();
 
-$('#widget-create-form').submit(function(e) {
+$('#widget-create-form').submit(function (e) {
     e.preventDefault();
-    var form = $(this);
+    let form = $(this);
 
     if ($(this).valid() && !$(this).data('disabled')) {
-        var formData = new FormData(this);
+        let formData = new FormData(this);
 
         $.ajax({
             url: $(this).attr('action'),
             type: 'POST',
             data: formData,
-            success: function(data) {
-                if (data == 'success') {
+            success: function (data) {
+                if (data === 'success') {
                     form.data('disabled', true);
                     window.location.href = form.data('redirect');
                 }
             },
-            beforeSend: function(xhr) {
+            beforeSend: function (xhr) {
                 block('#main-card');
                 xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
             },
-            complete: function() {
+            complete: function () {
                 unblock('#main-card');
             },
             cache: false,

@@ -1,7 +1,6 @@
 @extends('back.layouts.master')
 
 @section('content')
-
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -14,7 +13,7 @@
                                 <ol class="breadcrumb no-border">
                                     <li class="breadcrumb-item">مدیریت
                                     </li>
-                                    <li class="breadcrumb-item">قالب ها
+                                    <li class="breadcrumb-item">صفحه اصلی
                                     </li>
                                     <li class="breadcrumb-item active">ویرایش ابزارک</li>
                                 </ol>
@@ -26,27 +25,32 @@
             <div class="content-body">
                 <section class="card">
                     <div class="card-header">
-                        <h4 class="card-title">ویرایش ابزارک جدید</h4>
+                        <h4 class="card-title">ویرایش ابزارک</h4>
                     </div>
 
                     <div id="main-card" class="card-content">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-12 col-md-8">
-                                    <form class="form" id="widget-edit-form" action="{{ route('admin.widgets.update', ['widget' => $widget]) }}" data-redirect="{{ route('admin.widgets.index') }}" method="post" enctype="multipart/form-data">
+                                <div class="col-12">
+                                    <form class="form" id="widget-edit-form"
+                                          action="{{ route('admin.widgets.update', ['widget' => $widget]) }}"
+                                          data-redirect="{{ route('admin.widgets.index') }}" method="post"
+                                          enctype="multipart/form-data">
                                         @csrf
                                         @method('put')
 
                                         <div class="form-body">
                                             <div class="row">
-
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>نوع ابزارک</label>
                                                         <select id="widget-key" name="key" class="form-control" required>
                                                             <option value="">انتخاب کنید</option>
-                                                            @foreach (config('front.home-widgets') as $key => $template_widget)
-                                                                <option value="{{ $key }}" data-image="{{ isset($template_widget['image']) ? theme_asset($template_widget['image']) : '' }}" data-action="{{ route('admin.widgets.template', ['key' => $key]) }}" {{ $widget->key == $key ? 'selected' : '' }}>{{ $template_widget['title'] }}</option>
+                                                            @foreach (config('general.widgets') as $key => $template_widget)
+                                                                <option value="{{ $key }}"
+                                                                        data-action="{{ route('admin.widgets.template', ['key' => $key]) }}" {{ $widget->key->name == $key ? 'selected' : '' }}>
+                                                                    {{ $template_widget['title'] }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -54,15 +58,20 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>عنوان ابزارک</label>
-                                                        <input type="text" class="form-control" name="title" value="{{ $widget->title }}" required>
+                                                        <input type="text" class="form-control" name="title"
+                                                               value="{{ $widget->title }}" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>وضعیت</label>
                                                         <select name="is_active" class="form-control">
-                                                            <option value="1" {{ $widget->is_active ? 'selected' : '' }}>فعال</option>
-                                                            <option value="0" {{ $widget->is_active ? '' : 'selected' }}>غیر فعال</option>
+                                                            <option value="1" {{ $widget->is_active ? 'selected' : '' }}>
+                                                                فعال
+                                                            </option>
+                                                            <option value="0" {{ $widget->is_active ? '' : 'selected' }}>
+                                                                غیر فعال
+                                                            </option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -75,7 +84,10 @@
 
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <button type="submit" class="btn btn-primary mr-1 mb-1 waves-effect waves-light">ویرایش ابزارک</button>
+                                                    <button type="submit"
+                                                            class="btn btn-primary mr-1 mb-1 waves-effect waves-light">
+                                                        ویرایش ابزارک
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -88,11 +100,9 @@
                         </div>
                     </div>
                 </section>
-
             </div>
         </div>
     </div>
-
 @endsection
 
 @include('back.partials.plugins', ['plugins' => ['jquery.validate']])

@@ -6,9 +6,8 @@ use App\Enums\AuctionStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Datatable\AuctionCollection;
 use App\Jobs\AuctionWinnerJob;
-use App\Models\Auction;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\{Auction, User};
+use Illuminate\Http\{Request, JsonResponse};
 use Illuminate\Validation\Rule;
 
 class AuctionController extends Controller
@@ -81,5 +80,29 @@ class AuctionController extends Controller
             'reject_reason' => $validated['reason']
         ]);
         return response('success');
+    }
+
+    public function getAuctionByTitle()
+    {
+        $request = request();
+
+        if ($request->has('q') and $request->filled('q')) {
+            $auctions = Auction::where('title', 'LIKE', "%{$request->q}%")->get();
+            $items = collect();
+            $auctions->each(function ($auction) use ($items) {
+                $items->push([
+                    'id' => $auction->id,
+                    'text' => $auction->title,
+                    'title' => $auction->title,
+                    'image' => $auction->picture,
+                ]);
+            });
+
+            return response()->json([
+                'items' => $items
+            ]);
+        }
+
+        return response()->json([]);
     }
 }

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Back;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -42,27 +42,29 @@ class CategoryController extends Controller
         ]);
     }
 
-//    public function getCategoryByTitle()
-//    {
-//        $request = request();
-//        if ($request->has('q') and $request->filled('q')) {
-//            $products = Category::where('title', "LIKE", "%" . "{$request->q}" . "%")->get();
-//            $items = collect();
-//            $products->each(function ($product) use ($items) {
-//                $items->push([
-//                    'id' => $product->id,
-//                    'text' => $product->title,
-//                    'title' => $product->title,
-//                    'image' => $product->image,
-//                ]);
-//            });
-//            return response()->json([
-//                'items' => $items
-//            ]);
-//        }
-//        return response()->json([]);
-//
-//    }
+    public function getCategoryByTitle(): JsonResponse
+    {
+        $request = request();
+
+        if ($request->has('q') and $request->filled('q')) {
+            $categories = Category::where('title', 'LIKE', "%{$request->q}%")->get();
+            $items = collect();
+            $categories->each(function ($category) use ($items) {
+                $items->push([
+                    'id' => $category->id,
+                    'text' => $category->title,
+                    'title' => $category->title,
+                    'image' => $category->image,
+                ]);
+            });
+
+            return response()->json([
+                'items' => $items
+            ]);
+        }
+
+        return response()->json([]);
+    }
 
     public function edit(Category $category)
     {

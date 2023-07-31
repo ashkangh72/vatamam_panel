@@ -28,4 +28,9 @@ class Widget extends Model
 
         return is_numeric($value) ? (int)$value : $value;
     }
+
+    public function type()
+    {
+        return config('general.widgets.' . $this->key->name . '.title', $this->key->name);
+    }
 }

@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with(compact('notificationsCount', 'commentsCount'));
         });
 
-        view()->composer(['back.menus.index', 'back.sliders.create', 'back.sliders.edit', 'back.links.create', 'back.links.edit'], function ($view) {
+        view()->composer(['back.menus.index', 'back.slides.create', 'back.slides.edit', 'back.links.create', 'back.links.edit'], function ($view) {
             $pages = Page::pluck('slug');
 
             $view->with('pages', $pages);

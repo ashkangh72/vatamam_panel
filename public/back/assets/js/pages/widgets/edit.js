@@ -1,19 +1,12 @@
 $(document).ready(function () {
-    setTimeout(function () {
-        $('#widget-image').attr('src', $('#widget-key option:selected').data('image')).show();
-    }, 200);
-
     $('#widget-key').on('change', function () {
         $('#template .row').empty();
-        $('#widget-image').hide();
 
         let option = $(this).find(":selected");
 
         if (!option.val()) {
             return;
         }
-
-        $('#widget-image').attr('src', option.data('image')).show();
 
         $.ajax({
             url: option.data('action'),
@@ -37,17 +30,17 @@ $(document).ready(function () {
 
     $('#widget-edit-form').submit(function (e) {
         e.preventDefault();
-        var form = $(this);
+        let form = $(this);
 
         if ($(this).valid() && !$(this).data('disabled')) {
-            var formData = new FormData(this);
+            let formData = new FormData(this);
 
             $.ajax({
                 url: $(this).attr('action'),
                 type: 'POST',
                 data: formData,
                 success: function (data) {
-                    if (data == 'success') {
+                    if (data === 'success') {
                         form.data('disabled', true);
                         window.location.href = form.data('redirect');
                     }

@@ -1,14 +1,14 @@
 $(document).on('click', '.btn-delete', function() {
-    $('#slider-delete-form').attr('action', BASE_URL + '/sliders/' + $(this).data('slider'));
-    $('#slider-delete-form').data('id', $(this).data('slider'));
+    $('#slide-delete-form').attr('action', BASE_URL + '/slides/' + $(this).data('slide'));
+    $('#slide-delete-form').data('id', $(this).data('slide'));
 });
 
-$('#slider-delete-form').submit(function(e) {
+$('#slide-delete-form').submit(function(e) {
     e.preventDefault();
 
     $('#delete-modal').modal('hide');
 
-    var formData = new FormData(this);
+    let formData = new FormData(this);
 
     $.ajax({
         url: $(this).attr('action'),
@@ -16,14 +16,14 @@ $('#slider-delete-form').submit(function(e) {
         data: formData,
         success: function(data) {
             //get current url
-            var url = window.location.href;
+            let url = window.location.href;
 
-            //remove slider tr
-            $('#slider-' + $('#slider-delete-form').data('id')).remove();
+            //remove slide tr
+            $('#slide-' + $('#slide-delete-form').data('id')).remove();
 
             toastr.success('اسلایدر با موفقیت حذف شد.');
 
-            //refresh sliders list
+            //refresh slides list
             $(".app-content").load(url + " .app-content > *");
         },
         beforeSend: function(xhr) {
@@ -37,10 +37,9 @@ $('#slider-delete-form').submit(function(e) {
         contentType: false,
         processData: false
     });
-
 });
 
-var sortable = $('tbody').sortable({
+let sortable = $('tbody').sortable({
     opacity: .75,
     handle: '.draggable-handler',
     start: function(e, ui) {
@@ -50,8 +49,8 @@ var sortable = $('tbody').sortable({
         });
     },
     helper: function(e, tr) {
-        var $originals = tr.children();
-        var $helper = tr.clone();
+        let $originals = tr.children();
+        let $helper = tr.clone();
         $helper.children().each(function(index) {
             $(this).width($originals.eq(index).width());
         });
@@ -59,28 +58,27 @@ var sortable = $('tbody').sortable({
     },
 
     update: function() {
-        $('.sliders-sortable').each(function(index, e) {
+        $('.slides-sortable').each(function(index, e) {
             saveChanges(index);
         });
     },
 });
 
 function saveChanges(group) {
-
-    var sortedIDs = $("#sliders-sortable-" + group).sortable("toArray");
+    let sortedIDs = $("#slides-sortable-" + group).sortable("toArray");
 
     if (!sortedIDs.length) {
         return;
     }
 
     sortedIDs.forEach(function(value, index) {
-        sortedIDs[index] = value.replace('slider-', '');
+        sortedIDs[index] = value.replace('slide-', '');
     });
 
     $.ajax({
-        url: BASE_URL + '/sliders/sort',
+        url: BASE_URL + '/slides/sort',
         type: 'post',
-        data: { sliders: sortedIDs },
+        data: { slides: sortedIDs },
         success: function() {
             //
         },
@@ -91,7 +89,6 @@ function saveChanges(group) {
         complete: function() {
             $('#save-changes').hide();
         },
-
     });
 }
 

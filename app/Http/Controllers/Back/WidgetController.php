@@ -2,57 +2,58 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Enums\WidgetKeyEnum;
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Widget;
-use Illuminate\Http\Request;
+use App\Models\{Category, Widget};
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\{Request, Response};
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class WidgetController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Widget::class, 'widget');
-
-        if (!config('front.home-widgets')) {
+        if (!config('general.widgets')) {
             abort(404);
         }
     }
 
-    public function index()
+    public function index(): View
     {
-
-        //$theme   = get_current_theme();
-        $widgets = Widget::orderBy('ordering')
-            ->get();
+        $widgets = Widget::orderBy('ordering')->get();
 
         return view('back.widgets.index', compact('widgets'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('back.widgets.create');
     }
 
-    public function store(Request $request)
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws ValidationException
+     */
+    public function store(Request $request): Response
     {
-        $keys = implode(',', array_keys(config('front.home-widgets')));
+        $keys = implode(',', WidgetKeyEnum::getNames());
 
         $request->validate([
-            'key'         => "required|in:$keys",
-            'options'     => 'required|array',
-            'is_active'   => 'boolean'
+            'key' => "required|in:$keys",
+            'options' => 'required|array',
+            'is_active' => 'boolean'
         ]);
 
-        $key   = config('front.home-widgets.' . $request->key);
+        $key = config('general.widgets.' . $request->key);
 
         Validator::make($request->options, $key['rules'])->validate();
 
         $widget = Widget::create([
-            'title'       => $request->title,
-            'key'         => $request->key,
-            'is_active'   => $request->is_active,
-            'theme'       => current_theme_name()
+            'title' => $request->title,
+            'key' => WidgetKeyEnum::find($request->key),
+            'is_active' => $request->is_active,
         ]);
 
         $options = $this->getRequestOptions($key, $request, $widget);
@@ -64,31 +65,37 @@ class WidgetController extends Controller
         return response('success');
     }
 
-    public function edit(Widget $widget)
+    public function edit(Widget $widget): View
     {
-        $template = $this->template($widget->key, $widget);
+        $template = $this->template($widget->key->name, $widget);
 
         return view('back.widgets.edit', compact('widget', 'template'));
     }
 
-    public function update(Widget $widget, Request $request)
+    /**
+     * @param Widget $widget
+     * @param Request $request
+     * @return Response
+     * @throws ValidationException
+     */
+    public function update(Widget $widget, Request $request): Response
     {
-        $keys = implode(',', array_keys(config('front.home-widgets')));
+        $keys = implode(',', WidgetKeyEnum::getNames());
 
         $request->validate([
-            'key'         => "required|in:$keys",
-            'options'     => 'required|array',
-            'is_active'   => 'boolean'
+            'key' => "required|in:$keys",
+            'options' => 'required|array',
+            'is_active' => 'boolean'
         ]);
 
-        $key   = config('front.home-widgets.' . $request->key);
+        $key = config('general.widgets.' . $request->key);
 
         Validator::make($request->options, $key['rules'])->validate();
 
         $widget->update([
-            'title'       => $request->title,
-            'key'         => $request->key,
-            'is_active'   => $request->is_active,
+            'title' => $request->title,
+            'key' => WidgetKeyEnum::find($request->key),
+            'is_active' => $request->is_active,
         ]);
 
         $options = $this->getRequestOptions($key, $request, $widget);
@@ -102,17 +109,24 @@ class WidgetController extends Controller
         return response('success');
     }
 
-    public function destroy(Widget $widget)
+    /**
+     * @param Widget $widget
+     * @return Response
+     */
+    public function destroy(Widget $widget): Response
     {
         $widget->delete();
 
         return response('success');
     }
 
-    public function sort(Request $request)
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws ValidationException
+     */
+    public function sort(Request $request): Response
     {
-        $this->authorize('themes.widgets');
-
         $this->validate($request, [
             'widgets' => 'required|array'
         ]);
@@ -128,97 +142,83 @@ class WidgetController extends Controller
         return response('success');
     }
 
-    public function template($key, $widget = null)
+    public function template($key, $widget = null): View|string
     {
-        $this->authorize('themes.widgets');
-
-        $options = config('front.home-widgets.' . $key . '.options');
-
-        $product_categories = Category::where('type', 'productcat')->orderBy('ordering')->get();
+        $options = config('general.widgets.' . $key . '.options');
 
         if (!$options) {
             return '';
         }
 
-        return view('back.widgets.template', compact(
-            'options',
-            'widget',
-            'product_categories'
-        ));
+        $categories = Category::orderBy('ordering')->get();
+
+        return view('back.widgets.template', compact('options', 'widget', 'categories'));
     }
 
-    private function getRequestOptions($key, $request, Widget $widget)
+    private function getRequestOptions($key, $request, Widget $widget): array
     {
         $options = [];
 
         foreach ($key['options'] as $key => $option) {
             switch ($option['input-type']) {
-                case 'input': {
-                        $options[$key]['input-type'] = $option['input-type'];
-                        $options[$key]['key'] = $option['key'];
-                        $options[$key]['value'] = $request->input('options.' . $option['key']);
-                        break;
+                case 'select':
+                case 'categories':
+                case 'input':
+                {
+                    $options[$key]['input-type'] = $option['input-type'];
+                    $options[$key]['key'] = $option['key'];
+                    $options[$key]['value'] = $request->input('options.' . $option['key']);
+                    break;
+                }
+
+                case 'file':
+                {
+                    $file = $request->file('options.' . $option['key']);
+
+                    if ($file) {
+                        $name = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+                        $path = $file->storeAs('widgets', $name);
+                        $options[$key]['value'] = '/uploads/' . $path;
+                    } else {
+                        $options[$key]['value'] = $widget->option($option['key']);
                     }
 
-                case 'file': {
-                        $file = $request->file('options.' . $option['key']);
+                    $options[$key]['input-type'] = $option['input-type'];
+                    $options[$key]['key'] = $option['key'];
 
-                        if ($file) {
-                            $name = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
-                            $path = $file->storeAs('widgets', $name);
-                            $options[$key]['value'] = '/uploads/' . $path;
-                        } else {
-                            $options[$key]['value'] = $widget->option($option['key']);
-                        }
-
-                        $options[$key]['input-type'] = $option['input-type'];
-                        $options[$key]['key'] = $option['key'];
-
-                        break;
-                    }
-
-                case 'select': {
-                        $options[$key]['input-type'] = $option['input-type'];
-                        $options[$key]['key'] = $option['key'];
-                        $options[$key]['value'] = $request->input('options.' . $option['key']);
-                        break;
-                    }
-
-                case 'product_categories': {
-                        $options[$key]['input-type'] = $option['input-type'];
-                        $options[$key]['key'] = $option['key'];
-                        $options[$key]['value'] = $request->input('options.' . $option['key']);
-                        break;
-                    }
+                    break;
+                }
             }
         }
 
         return $options;
     }
 
-    private function saveWidgetOptions(Widget $widget, $options)
+    private function saveWidgetOptions(Widget $widget, $options): void
     {
         foreach ($options as $option) {
             switch ($option['input-type']) {
-                case 'product_categories': {
-                        $value = is_array($option['value']) && !empty($option['value']) ? 'on' : 'off';
+                case 'categories':
+                {
+                    $value = is_array($option['value']) && !empty($option['value']) ? 'on' : 'off';
 
-                        $inserted_option = $widget->options()->create([
-                            'key'   => $option['key'],
-                            'value' => $value
-                        ]);
+                    $inserted_option = $widget->options()->create([
+                        'key' => $option['key'],
+                        'value' => $value
+                    ]);
 
-                        $inserted_option->categories()->sync($option['value']);
+                    $inserted_option->categories()->sync($option['value']);
 
-                        break;
-                    }
+                    break;
+                }
 
-                default: {
-                        $widget->options()->create([
-                            'key'   => $option['key'],
-                            'value' => $option['value']
-                        ]);
-                    }
+                default:
+                {
+                    $widget->options()->create([
+                        'key' => $option['key'],
+                        'value' => $option['value']
+                    ]);
+                }
             }
         }
     }

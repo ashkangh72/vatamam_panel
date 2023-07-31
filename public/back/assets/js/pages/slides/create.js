@@ -1,18 +1,17 @@
 // validate form with jquery validation plugin
-jQuery('#slider-create-form').validate({
+jQuery('#slide-create-form').validate({
     errorClass: 'invalid-feedback animated fadeInDown',
-    errorPlacement: function(error, e) {
+    errorPlacement: function (error, e) {
         jQuery(e).parents('.form-group').append(error);
     },
-    highlight: function(e) {
+    highlight: function (e) {
         jQuery(e).closest('.form-group').find('input').removeClass('is-invalid').addClass('is-invalid');
     },
-    success: function(e) {
+    success: function (e) {
         jQuery(e).closest('.form-group').find('input').removeClass('is-invalid');
         jQuery(e).remove();
     },
-    invalidHandler: function(form, validator) {
-
+    invalidHandler: function (form, validator) {
         if (!validator.numberOfInvalids())
             return;
 
@@ -21,7 +20,6 @@ jQuery('#slider-create-form').validate({
         }, 200);
 
         $(validator.errorList[0].element).focus();
-
     },
     rules: {
         'image': {
@@ -33,29 +31,29 @@ jQuery('#slider-create-form').validate({
     },
 });
 
-$(".slider-link").autocomplete({
+$(".slide-link").autocomplete({
     source: pages
 });
 
-$('#slider-create-form').submit(function(e) {
+$('#slide-create-form').submit(function (e) {
     e.preventDefault();
 
     if ($(this).valid() && !$(this).data('disabled')) {
-        var formData = new FormData(this);
+        let formData = new FormData(this);
 
         $.ajax({
             url: $(this).attr('action'),
             type: 'POST',
             data: formData,
-            success: function(data) {
-                $('#slider-create-form').data('disabled', true);
-                window.location.href = BASE_URL + "/sliders";
+            success: function (data) {
+                $('#slide-create-form').data('disabled', true);
+                window.location.href = BASE_URL + "/slides";
             },
-            beforeSend: function(xhr) {
+            beforeSend: function (xhr) {
                 block('#main-card');
                 xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
             },
-            complete: function() {
+            complete: function () {
                 unblock('#main-card');
             },
             cache: false,
@@ -63,14 +61,12 @@ $('#slider-create-form').submit(function(e) {
             processData: false
         });
     }
-
 });
 
-
-// link_type
-let select2SearchOptions={
+// linkable_type
+let select2SearchOptions = {
     ajax: {
-        url: $('option#product').data('action'),
+        url: $('option#auction').data('action'),
         dataType: 'json',
         processResults: function (data) {
             return {
@@ -79,62 +75,56 @@ let select2SearchOptions={
         }
     },
     placeholder: 'جستو جو',
-    templateResult:createTemplate,
-    templateSelection:selectedTemplate,
-
+    templateResult: createTemplate,
+    templateSelection: selectedTemplate,
 }
 
 function generateConnectHtml(event) {
-    let selected=event.target.value;
-
-    let action=$(event.target).find(`option#${selected}`).data('action');
+    let selected = event.target.value;
+    let action = $(event.target).find(`option#${selected}`).data('action');
 
     let html;
-    switch (selected){
-        case "product":
-           html=`
+    switch (selected) {
+        case 'auction':
+            html = `
              <fieldset class="form-group">
-                <label>انتخاب محصول</label>
+                <label>انتخاب مزایده</label>
                 <div class="custom-file">
-                     <select name="link_id" id="link_id" class="form-control"></select>
+                     <select name="linkable_id" id="linkable_id" class="form-control"></select>
                 </div>
              </fieldset>
            `
             break;
         case 'category':
-            html=`
+            html = `
              <fieldset class="form-group">
                 <label>انتخاب دسته</label>
                 <div class="custom-file">
-                     <select name="link_id" id="link_id" class="form-control"></select>
+                     <select name="linkable_id" id="linkable_id" class="form-control"></select>
                 </div>
              </fieldset>
             `;
     }
     $("#connect-wrapper").html(html);
 
-    select2SearchOptions.ajax.url=action;
-    $("#link_id").select2(select2SearchOptions);
+    select2SearchOptions.ajax.url = action;
+    $("#linkable_id").select2(select2SearchOptions);
 }
 
-$("#link_id").select2(select2SearchOptions);
+$("#linkable_id").select2(select2SearchOptions);
 
 function createTemplate(results) {
-
     if (results.loading)
         return `درحال جستوجو`;
-    let html=$(`
-        <span>${results. title}</span><img style="height: 50px;width: 50px;margin: 0 2px 0 6px" src="${results.image}" alt="${results.title}">
-    `);
-    return html;
+
+    return $(`<span>${results.title}</span>`);
 }
 
 function selectedTemplate(results) {
     console.log(results)
     return results.title;
 }
-
-// end link_type
+// end linkable_type
 
 
 

@@ -6,7 +6,8 @@
     <fieldset class="form-group">
         <label>{{ $option['title'] }}</label>
         <div class="custom-file">
-            <input id="image" type="file" name="options[{{ $option['key'] }}]" class="custom-file-input" {!! $option['attributes'] ?? '' !!}>
+            <input id="image" type="file" name="options[{{ $option['key'] }}]"
+                   class="custom-file-input" {!! $option['attributes'] ?? '' !!}>
             <label class="custom-file-label" for="image">{{ $input_value }}</label>
         </div>
         @isset($option['help'])

@@ -1,7 +1,6 @@
 @extends('back.layouts.master')
 
 @section('content')
-
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -32,13 +31,9 @@
                 </div>
             </div>
             <div class="content-body" id="main-card">
-                @if (config('front.sliderGroups'))
-
-                    @foreach (config('front.sliderGroups') as $sliderGroup)
-                        @include('back.partials.sliders', ['sliders' => $sliders->where('group', $sliderGroup['group']), 'group' => $sliderGroup['group'], 'title' => $sliderGroup['name']])
-                    @endforeach
-
-                @endif
+                @foreach (config('general.sliderGroups') as $sliderGroup)
+                    @include('back.partials.slides', ['slides' => $slides->where('group', \App\Enums\SlideGroupEnum::find($sliderGroup['group'])), 'title' => $sliderGroup['name']])
+                @endforeach
             </div>
         </div>
     </div>
@@ -57,7 +52,7 @@
                     با حذف اسلایدر دیگر قادر به بازیابی آن نخواهید بود
                 </div>
                 <div class="modal-footer">
-                    <form action="#" id="slider-delete-form">
+                    <form action="#" id="slide-delete-form">
                         @csrf
                         @method('delete')
                         <button type="button" class="btn btn-success waves-effect waves-light" data-dismiss="modal">خیر</button>
@@ -73,5 +68,5 @@
 
 @push('scripts')
     <!-- Page Js codes -->
-    <script src="{{ asset('public/back/assets/js/pages/sliders/index.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/slides/index.js') }}"></script>
 @endpush

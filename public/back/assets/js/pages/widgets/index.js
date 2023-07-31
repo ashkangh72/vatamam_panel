@@ -7,7 +7,7 @@ $('#widget-delete-form').submit(function (e) {
 
     $('#delete-modal').modal('hide');
 
-    var formData = new FormData(this);
+    let formData = new FormData(this);
 
     $.ajax({
         url: $(this).attr('action'),
@@ -16,7 +16,7 @@ $('#widget-delete-form').submit(function (e) {
         success: function (data) {
             if (data == 'success') {
                 //get current url
-                var url = window.location.href;
+                let url = window.location.href;
 
                 toastr.success('ابزارک با موفقیت حذف شد.');
 
@@ -35,7 +35,6 @@ $('#widget-delete-form').submit(function (e) {
         contentType: false,
         processData: false
     });
-
 });
 
 function sortable() {
@@ -49,8 +48,8 @@ function sortable() {
             });
         },
         helper: function (e, tr) {
-            var $originals = tr.children();
-            var $helper = tr.clone();
+            let $originals = tr.children();
+            let $helper = tr.clone();
             $helper.children().each(function (index) {
                 $(this).width($originals.eq(index).width());
             });
@@ -64,8 +63,7 @@ function sortable() {
 }
 
 function saveChanges() {
-
-    var sortedIDs = $("#widgets-sortable").sortable("toArray");
+    let sortedIDs = $("#widgets-sortable").sortable("toArray");
 
     if (!sortedIDs.length) {
         return;
@@ -78,7 +76,7 @@ function saveChanges() {
     $.ajax({
         url: $('#widgets-sortable').data('action'),
         type: 'post',
-        data: { widgets: sortedIDs },
+        data: {widgets: sortedIDs},
         success: function () {
             //
         },
