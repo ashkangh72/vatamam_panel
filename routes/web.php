@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Back\{AuctionController,
-    BannerController,
     CategoryController,
     CityController,
     CommentController,
@@ -137,33 +136,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::resource('slides', SliderController::class)->except(['show']);
     Route::post('slides/sort', [SliderController::class, 'sort']);
 
-//    Route::get('get-tags', [MainController::class, 'get_tags']);
-
-    // Route::resource('products', ProductController::class)->except('show');
-//    Route::post('products/api/index', [ProductController::class, 'apiIndex'])->name('products.apiIndex');
-//    Route::delete('products/api/multipleDestroy', [ProductController::class, 'multipleDestroy'])->name('products.multipleDestroy');
-//    Route::post('products/image-store', [ProductController::class, 'image_store']);
-//    Route::post('products/image-delete', [ProductController::class, 'image_delete']);
-//    Route::get('product/categories', [ProductController::class, 'categories'])->name('products.categories.index');
-//    Route::post('product/slug', [ProductController::class, 'generate_slug']);
-//    Route::get("products/title",[ProductController::class,"getProductByTitle"])->name('products.search.title');
-//    Route::get('products/ajax/get', [ProductController::class, 'ajax_get']);
-
-//    Route::get('products/export/create', [ProductController::class, 'export'])->name('products.export');
-
 //    // ------------------ refund-requests
 //    Route::resource('refund-requests', RefundRequestController::class)->only(['index', 'show', 'destroy']);
 //    Route::post('refund-requests/accept/{refund_request}', [RefundRequestController::class, 'accept'])->name('refund-requests.accept');
 //    Route::post('refund-requests/reject/{refund_request}', [RefundRequestController::class, 'reject'])->name('refund-requests.reject');
 //    Route::post('refund-requests/receive/{refund_request}', [RefundRequestController::class, 'receive'])->name('refund-requests.receive');
-
-//    // ------------------ attributeGroups
-//    Route::resource('attributeGroups', AttributeGroupController::class);
-//    Route::get('attributeGroups/{attributeGroup}/attributes', [AttributeGroupController::class, 'attributesIndex'])->name('attributes.index');
-//    Route::post('attributeGroup/sort', [AttributeGroupController::class, 'sort']);
-
-//    // ------------------ attributes
-//    Route::resource('attributes', AttributeController::class)->except(['index', 'show']);
 
     // ------------------ orders
     Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');
@@ -178,10 +155,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('orders/api/multiple-factors', [OrderController::class, 'multipleFactors'])->name('orders.multipleFactors');
     Route::post('orders/api/multiple-shipping-status', [OrderController::class, 'multipleShippingStatus'])->name('orders.multipleShippingStatus');
     Route::get('order/not-completed/products', [OrderController::class, 'notCompleted'])->name('orders.notCompleted');
-
-    // ------------------ banners
-    Route::resource('banners', BannerController::class)->except(['show']);
-    Route::post('banners/sort', [BannerController::class, 'sort']);
 
 //    // ------------------ statistics
 //    Route::get('statistics/views', [StatisticsController::class, 'views'])->name('statistics.views');
