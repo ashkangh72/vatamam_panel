@@ -6,6 +6,7 @@ use App\Enums\MenuTypeEnum;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany};
+use Illuminate\Support\Collection;
 
 class Category extends Model
 {
@@ -56,5 +57,19 @@ class Category extends Model
         }
 
         return $categories;
+    }
+
+    public function parents(): Collection
+    {
+        $parents = collect([]);
+
+        $parent = $this->parent;
+
+        while (!is_null($parent)) {
+            $parents->push($parent);
+            $parent = $parent->parent;
+        }
+
+        return $parents->reverse();
     }
 }

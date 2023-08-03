@@ -27,7 +27,6 @@
                     <div class="card-header">
                         <h4 class="card-title">ویرایش ابزارک</h4>
                     </div>
-
                     <div id="main-card" class="card-content">
                         <div class="card-body">
                             <div class="row">
@@ -47,8 +46,7 @@
                                                         <select id="widget-key" name="key" class="form-control" required>
                                                             <option value="">انتخاب کنید</option>
                                                             @foreach (config('general.widgets') as $key => $template_widget)
-                                                                <option value="{{ $key }}"
-                                                                        data-action="{{ route('admin.widgets.template', ['key' => $key]) }}" {{ $widget->key->name == $key ? 'selected' : '' }}>
+                                                                <option value="{{ $key }}" data-action="{{ route('admin.widgets.template', ['key' => $key]) }}" {{ $widget->key->name == $key ? 'selected' : '' }}>
                                                                     {{ $template_widget['title'] }}
                                                                 </option>
                                                             @endforeach
@@ -66,10 +64,12 @@
                                                     <div class="form-group">
                                                         <label>وضعیت</label>
                                                         <select name="is_active" class="form-control">
-                                                            <option value="1" {{ $widget->is_active ? 'selected' : '' }}>
+                                                            <option
+                                                                value="1" {{ $widget->is_active ? 'selected' : '' }}>
                                                                 فعال
                                                             </option>
-                                                            <option value="0" {{ $widget->is_active ? '' : 'selected' }}>
+                                                            <option
+                                                                value="0" {{ $widget->is_active ? '' : 'selected' }}>
                                                                 غیر فعال
                                                             </option>
                                                         </select>
@@ -84,8 +84,7 @@
 
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <button type="submit"
-                                                            class="btn btn-primary mr-1 mb-1 waves-effect waves-light">
+                                                    <button type="submit" class="btn btn-primary mr-1 mb-1 waves-effect waves-light">
                                                         ویرایش ابزارک
                                                     </button>
                                                 </div>

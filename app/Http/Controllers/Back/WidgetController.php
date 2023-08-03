@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Back;
 
 use App\Enums\WidgetKeyEnum;
 use App\Http\Controllers\Controller;
-use App\Models\{Category, Widget};
+use App\Models\{Category, HistoricalPeriod, Originality, Widget};
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\{Request, Response};
 use Illuminate\Support\Facades\Validator;
@@ -19,15 +20,27 @@ class WidgetController extends Controller
         }
     }
 
+    /**
+     * @return View
+     * @throws AuthorizationException
+     */
     public function index(): View
     {
+        $this->authorize('widgets.index');
+
         $widgets = Widget::orderBy('ordering')->get();
 
         return view('back.widgets.index', compact('widgets'));
     }
 
+    /**
+     * @return View
+     * @throws AuthorizationException
+     */
     public function create(): View
     {
+        $this->authorize('widgets.create');
+
         return view('back.widgets.create');
     }
 
@@ -35,9 +48,12 @@ class WidgetController extends Controller
      * @param Request $request
      * @return Response
      * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function store(Request $request): Response
     {
+        $this->authorize('widgets.create');
+
         $keys = implode(',', WidgetKeyEnum::getNames());
 
         $request->validate([
@@ -65,8 +81,15 @@ class WidgetController extends Controller
         return response('success');
     }
 
+    /**
+     * @param Widget $widget
+     * @return View
+     * @throws AuthorizationException
+     */
     public function edit(Widget $widget): View
     {
+        $this->authorize('widgets.update');
+
         $template = $this->template($widget->key->name, $widget);
 
         return view('back.widgets.edit', compact('widget', 'template'));
@@ -77,9 +100,12 @@ class WidgetController extends Controller
      * @param Request $request
      * @return Response
      * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function update(Widget $widget, Request $request): Response
     {
+        $this->authorize('widgets.update');
+
         $keys = implode(',', WidgetKeyEnum::getNames());
 
         $request->validate([
@@ -112,9 +138,12 @@ class WidgetController extends Controller
     /**
      * @param Widget $widget
      * @return Response
+     * @throws AuthorizationException
      */
     public function destroy(Widget $widget): Response
     {
+        $this->authorize('widgets.delete');
+
         $widget->delete();
 
         return response('success');
@@ -124,9 +153,12 @@ class WidgetController extends Controller
      * @param Request $request
      * @return Response
      * @throws ValidationException
+     * @throws AuthorizationException
      */
     public function sort(Request $request): Response
     {
+        $this->authorize('widgets.update');
+
         $this->validate($request, [
             'widgets' => 'required|array'
         ]);
@@ -142,8 +174,16 @@ class WidgetController extends Controller
         return response('success');
     }
 
+    /**
+     * @param $key
+     * @param null $widget
+     * @return View|string
+     * @throws AuthorizationException
+     */
     public function template($key, $widget = null): View|string
     {
+        $this->authorize('widgets.show');
+
         $options = config('general.widgets.' . $key . '.options');
 
         if (!$options) {
@@ -151,8 +191,10 @@ class WidgetController extends Controller
         }
 
         $categories = Category::orderBy('ordering')->get();
+        $historicalPeriods = HistoricalPeriod::get();
+        $originality = Originality::get();
 
-        return view('back.widgets.template', compact('options', 'widget', 'categories'));
+        return view('back.widgets.template', compact('options', 'widget', 'categories', 'historicalPeriods', 'originality'));
     }
 
     private function getRequestOptions($key, $request, Widget $widget): array
@@ -164,28 +206,14 @@ class WidgetController extends Controller
                 case 'select':
                 case 'categories':
                 case 'input':
+                case 'historical_period':
+                case 'originality':
+                case 'condition':
+                case 'timezone':
                 {
                     $options[$key]['input-type'] = $option['input-type'];
                     $options[$key]['key'] = $option['key'];
                     $options[$key]['value'] = $request->input('options.' . $option['key']);
-                    break;
-                }
-
-                case 'file':
-                {
-                    $file = $request->file('options.' . $option['key']);
-
-                    if ($file) {
-                        $name = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
-                        $path = $file->storeAs('widgets', $name);
-                        $options[$key]['value'] = '/uploads/' . $path;
-                    } else {
-                        $options[$key]['value'] = $widget->option($option['key']);
-                    }
-
-                    $options[$key]['input-type'] = $option['input-type'];
-                    $options[$key]['key'] = $option['key'];
-
                     break;
                 }
             }

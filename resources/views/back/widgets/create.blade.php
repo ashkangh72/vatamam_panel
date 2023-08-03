@@ -27,11 +27,10 @@
                     <div class="card-header">
                         <h4 class="card-title">ایجاد ابزارک جدید</h4>
                     </div>
-
                     <div id="main-card" class="card-content">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-12 col-md-8">
+                                <div class="col-12">
                                     <form class="form" id="widget-create-form"
                                           action="{{ route('admin.widgets.store') }}"
                                           data-redirect="{{ route('admin.widgets.index') }}" method="post"
@@ -42,12 +41,10 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>نوع ابزارک</label>
-                                                        <select id="widget-key" name="key" class="form-control"
-                                                                required>
+                                                        <select id="widget-key" name="key" class="form-control" required>
                                                             <option value="">انتخاب کنید</option>
                                                             @foreach (config('general.widgets') as $key => $template_widget)
-                                                                <option value="{{ $key }}"
-                                                                        data-action="{{ route('admin.widgets.template', ['key' => $key]) }}">
+                                                                <option value="{{ $key }}" data-action="{{ route('admin.widgets.template', ['key' => $key]) }}">
                                                                     {{ $template_widget['title'] }}
                                                                 </option>
                                                             @endforeach
@@ -77,8 +74,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <button type="submit"
-                                                            class="btn btn-primary mr-1 mb-1 waves-effect waves-light">
+                                                    <button type="submit" class="btn btn-primary mr-1 mb-1 waves-effect waves-light">
                                                         ایجاد ابزارک
                                                     </button>
                                                 </div>

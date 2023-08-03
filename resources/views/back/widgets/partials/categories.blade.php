@@ -18,7 +18,7 @@
                 @endphp
 
                 <option
-                    class="l{{ $category->parents()->count() + 1 }} {{ $category->categories()->count() ? 'non-leaf' : '' }}"
+                    class="l{{ $category->parents()->count() + 1 }} {{ $category->children()->count() ? 'non-leaf' : '' }}"
                     data-pup="{{ $category->category_id }}"
                     {{ $selected ? 'selected' : '' }}
                     value="{{ $category->id }}">{{ $category->title }}
