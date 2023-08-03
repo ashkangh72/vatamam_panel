@@ -431,9 +431,9 @@ return [
                 'link_title'       => 'nullable|string',
                 'number'           => 'required',
                 'categories'       => 'nullable|array',
-                'categories.*'     => 'exists:categories,id',
-                'originality'      => 'exists:originality,id',
-                'historical_period'     => 'exists:historical_periods,id',
+                'categories.*'     => 'nullable|exists:categories,id',
+                'originality'      => 'nullable|exists:originality,id',
+                'historical_period'     => 'nullable|exists:historical_periods,id',
             ]
         ],
         'amazing_offer' => [
@@ -564,9 +564,9 @@ return [
                 'link_title'       => 'nullable|string',
                 'number'           => 'required',
                 'categories'       => 'nullable|array',
-                'categories.*'     => 'exists:categories,id',
-                'originality'      => 'exists:originality,id',
-                'historical_period'     => 'exists:historical_periods,id',
+                'categories.*'     => 'nullable|exists:categories,id',
+                'originality'      => 'nullable|exists:originality,id',
+                'historical_period'     => 'nullable|exists:historical_periods,id',
             ]
         ],
         'instant_offer' => [
@@ -697,9 +697,9 @@ return [
                 'link_title'       => 'nullable|string',
                 'number'           => 'required',
                 'categories'       => 'nullable|array',
-                'categories.*'     => 'exists:categories,id',
-                'originality'      => 'exists:originality,id',
-                'historical_period'     => 'exists:historical_periods,id',
+                'categories.*'     => 'nullable|exists:categories,id',
+                'originality'      => 'nullable|exists:originality,id',
+                'historical_period'     => 'nullable|exists:historical_periods,id',
             ]
         ],
     ],
