@@ -2,12 +2,11 @@
 
 // helper functions
 
-use App\Models\Gateway;
 use App\Models\Option;
-use App\Models\Sms;
+//use App\Models\Sms;
 use App\Models\UserOption;
 use App\Models\Viewer;
-use App\Services\SMSIR\Smsir;
+//use App\Services\SMSIR\Smsir;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
@@ -37,11 +36,11 @@ function open_class($route_list, $class = 'open')
     return $text;
 }
 
-function option_update($option_name, $option_value)
+function option_update($option_name, $option_value): void
 {
-    $option = Option::firstOrNew(['option_name' => $option_name]);
+    $option = Option::firstOrNew(['name' => $option_name]);
 
-    $option->option_value = $option_value;
+    $option->value = $option_value;
     $option->save();
 
     Cache::forever('options.' . $option_name, $option_value);
