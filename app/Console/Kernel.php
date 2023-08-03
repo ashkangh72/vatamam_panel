@@ -7,6 +7,11 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    // define your queues here in order of priority
+    protected array $queues = [
+        'default',
+    ];
+
     /**
      * Define the application's command schedule.
      */
