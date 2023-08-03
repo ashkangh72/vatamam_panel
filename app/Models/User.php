@@ -263,4 +263,13 @@ class User extends Model implements AuthenticatableContract
     {
         return $this->hasMany(Viewer::class);
     }
+
+    public function hasRole($role)
+    {
+        if (is_string($role)) {
+            return $this->roles->contains('name', $role);
+        }
+
+        return $role->intersect($this->roles)->count();
+    }
 }
