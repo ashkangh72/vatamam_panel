@@ -137,12 +137,6 @@
 
 @include('back.partials.plugins', ['plugins' => ['jquery.validate']])
 
-@php
-    $help_videos = [
-        config('general.video-helpes.users')
-    ];
-@endphp
-
 @push('scripts')
     <script src="{{ asset('public/back/assets/js/pages/users/all.js') }}"></script>
     <script src="{{ asset('public/back/assets/js/pages/users/create.js') }}"></script>

@@ -75,7 +75,7 @@
     <div class="drag-target"></div>
 
     <!-- BEGIN: Footer-->
-    @include('back.partials.footer')
+    <footer class="footer footer-static footer-light"></footer>
     <!-- END: Footer-->
 
     <audio id="notification-sound" class="d-none">
@@ -118,7 +118,7 @@
 
     <!-- END: Page JS-->
 
-{{--    <script src="{{ asset(mix('js/app.js')) }}"></script>--}}
+    <script src="{{ asset(mix('js/app.js')) }}"></script>
 {{--    <script src="{{ asset('public/back/assets/js/echo.js') }}"></script>--}}
 {{--    <script src="{{ asset('public/back/assets/js/web-push.js') }}"></script>--}}
 </body>
