@@ -16,4 +16,5 @@ enum WidgetKeyEnum: int
     case auction = 6;
     case amazing_offer = 7;
     case instant_offer = 8;
+    case blog_posts = 9;
 }

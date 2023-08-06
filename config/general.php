@@ -702,6 +702,23 @@ return [
                 'historical_period'     => 'nullable|exists:historical_periods,id',
             ]
         ],
+        'blog_posts' => [
+            'title' => 'مطالب وبلاگ',
+            'options' => [
+                [
+                    'title' => 'تعداد قابل نمایش',
+                    'key' => 'number',
+                    'input-type' => 'input',
+                    'type' => 'number',
+                    'default' => '10',
+                    'class' => 'col-md-4 col-6',
+                    'attributes' => 'required'
+                ]
+            ],
+            'rules' => [
+                'number' => 'required',
+            ]
+        ],
     ],
 
     'sliderGroups' => [
