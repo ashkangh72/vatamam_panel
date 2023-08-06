@@ -4,13 +4,7 @@
 
 <head>
     @include('back.partials.meta')
-    <title>
-        @isset($title)
-            {{  $title }}
-        @else
-            {{ option('info_site_title') }}
-        @endisset
-    </title>
+    <title>پارکینگ پروانه</title>
 
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/vendors/css/vendors-rtl.min.css') }}">
