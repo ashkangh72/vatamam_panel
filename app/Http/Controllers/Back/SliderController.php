@@ -169,7 +169,7 @@ class SliderController extends Controller
 
     private function updateSlideImage(Request $request, Slide $slide)
     {
-        if ($slide->image && Storage::  exists($slide->image)) {
+        if ($slide->image && Storage::exists($slide->image)) {
             Storage::disk('local')->delete($slide->image);
         }
 
