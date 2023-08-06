@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\{Category, HistoricalPeriod, Originality, Widget};
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\{Request, Response};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -216,6 +217,26 @@ class WidgetController extends Controller
                     $options[$key]['value'] = $request->input('options.' . $option['key']);
                     break;
                 }
+                case 'file':
+                {
+                    $file = $request->file('options.' . $option['key']);
+
+                    if ($file) {
+                        $oldFile = $widget->option($option['key']);
+                        if ($oldFile && Storage::disk('local')->exists($oldFile)) {
+                            Storage::disk('local')->delete($oldFile);
+                        }
+
+                        $options[$key]['value'] = $this->uploadImage($file);
+                    } else {
+                        $options[$key]['value'] = $widget->option($option['key']);
+                    }
+
+                    $options[$key]['input-type'] = $option['input-type'];
+                    $options[$key]['key'] = $option['key'];
+
+                    break;
+                }
             }
         }
 
@@ -249,5 +270,13 @@ class WidgetController extends Controller
                 }
             }
         }
+    }
+
+    private function uploadImage($file): string
+    {
+        $name = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('widgets', $name);
+
+        return '/uploads/widgets/' . $name;
     }
 }

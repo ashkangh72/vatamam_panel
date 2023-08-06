@@ -6,6 +6,9 @@
         @case('select')
             @include('back.widgets.partials.select')
             @break
+        @case('file')
+            @include('back.widgets.partials.file')
+            @break
         @case('categories')
             @include('back.widgets.partials.categories')
             @break

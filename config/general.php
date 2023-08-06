@@ -286,21 +286,123 @@ return [
                 'number' => 'required',
             ]
         ],
-        'statistic_slider' => [
-            'title' => 'اسلایدر آمار',
+        'statistics' => [
+            'title' => 'ردیف آمار',
             'options' => [
+                // first row
                 [
-                    'title' => 'تعداد قابل نمایش',
-                    'key' => 'number',
+                    'title'      => 'آمار اول',
+                    'key'        => 'statistics1',
                     'input-type' => 'input',
-                    'type' => 'number',
-                    'default' => '3',
-                    'class' => 'col-md-4 col-6',
+                    'type'       => 'number',
+                    'class'      => 'col-md-2 col-6',
+                    'default'    => '0',
                     'attributes' => 'required'
-                ]
+                ],
+                [
+                    'title'      => 'عنوان اول',
+                    'key'        => 'title1',
+                    'input-type' => 'input',
+                    'type'       => 'text',
+                    'class'      => 'col-md-4 col-6',
+                    'attributes' => 'required'
+                ],
+                [
+                    'title'      => 'پس زمینه اول',
+                    'key'        => 'background1',
+                    'input-type' => 'file',
+                    'type'       => 'file',
+                    'class'      => 'col-md-3 col-6',
+                    'attributes' => 'required accept="image/*"',
+                    'help'       => 'بهترین اندازه 500 * 500'
+                ],
+                [
+                    'title'      => 'آیکن اول',
+                    'key'        => 'icon1',
+                    'input-type' => 'file',
+                    'type'       => 'file',
+                    'class'      => 'col-md-3 col-6',
+                    'attributes' => 'required accept="image/*"',
+                    'help'       => 'بهترین اندازه 200 * 200'
+                ],
+                // second row
+                [
+                    'title'      => 'آمار دوم',
+                    'key'        => 'statistics2',
+                    'input-type' => 'input',
+                    'type'       => 'number',
+                    'class'      => 'col-md-2 col-6',
+                    'default'    => '0',
+                    'attributes' => 'required'
+                ],
+                [
+                    'title'      => 'عنوان دوم',
+                    'key'        => 'title2',
+                    'input-type' => 'input',
+                    'type'       => 'text',
+                    'class'      => 'col-md-4 col-6',
+                    'attributes' => 'required'
+                ],
+                [
+                    'title'      => 'پس زمینه دوم',
+                    'key'        => 'background2',
+                    'input-type' => 'file',
+                    'type'       => 'file',
+                    'class'      => 'col-md-3 col-6',
+                    'attributes' => 'required accept="image/*"',
+                    'help'       => 'بهترین اندازه 500 * 500'
+                ],
+                [
+                    'title'      => 'آیکن دوم',
+                    'key'        => 'icon2',
+                    'input-type' => 'file',
+                    'type'       => 'file',
+                    'class'      => 'col-md-3 col-6',
+                    'attributes' => 'required accept="image/*"',
+                    'help'       => 'بهترین اندازه 200 * required 200'
+                ],
+                // third row
+                [
+                    'title'      => 'آمار سوم',
+                    'key'        => 'statistics3',
+                    'input-type' => 'input',
+                    'type'       => 'number',
+                    'class'      => 'col-md-2 col-6',
+                    'default'    => '0',
+                    'attributes' => 'required'
+                ],
+                [
+                    'title'      => 'عنوان سوم',
+                    'key'        => 'title3',
+                    'input-type' => 'input',
+                    'type'       => 'text',
+                    'class'      => 'required col-md-4 col-6',
+                    'attributes' => 'required'
+                ],
+                [
+                    'title'      => 'پس زمینه سوم',
+                    'key'        => 'background3',
+                    'input-type' => 'file',
+                    'type'       => 'file',
+                    'class'      => 'col-md-3 col-6',
+                    'attributes' => 'required accept="image/*"',
+                    'help'       => 'بهترین اندازه 500 * 500'
+                ],
+                [
+                    'title'      => 'آیکن سوم',
+                    'key'        => 'icon3',
+                    'input-type' => 'file',
+                    'type'       => 'file',
+                    'class'      => 'col-md-3 col-6',
+                    'attributes' => 'required accept="image/*"',
+                    'help'       => 'بهترین اندازه 200 * 200'
+                ],
             ],
             'rules' => [
-                'number' => 'required',
+                'statistics*' => 'required|numeric',
+                'title*' => 'required|string',
+                'background*' => 'required|image',
+                'icon*' => 'required|image',
             ]
         ],
         'auction' => [
@@ -753,14 +855,6 @@ return [
             'height' => 100,
             'count' => 3,
             'size' => '100 * 100'
-        ],
-        [
-            'group' => 'statistic_slider',
-            'name' => 'اسلایدر آمار',
-            'width' => 100,
-            'height' => 100,
-            'count' => 3,
-            'size' => '100 * 100'
-        ],
+        ]
     ],
 ];
