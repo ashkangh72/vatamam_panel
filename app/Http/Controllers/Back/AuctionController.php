@@ -22,7 +22,9 @@ class AuctionController extends Controller
     {
         $this->authorize('auctions.index');
 
-        $auctions = Auction::with(['user', 'category'])->filter($request);
+        $auctions = Auction::with(['user', 'category'])
+            ->orderByDesc('created_at')
+            ->filter($request);
 
         $auctions = datatable($request, $auctions);
 
