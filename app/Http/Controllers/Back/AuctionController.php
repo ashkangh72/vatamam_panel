@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Datatable\AuctionCollection;
 use App\Jobs\AuctionWinnerJob;
 use App\Models\{Auction, User};
+use Carbon\Carbon;
 use Illuminate\Http\{Request, JsonResponse};
 use Illuminate\Validation\Rule;
 
@@ -60,11 +61,13 @@ class AuctionController extends Controller
             'id' => ['required', 'numeric', 'exists:auctions,id']
         ]);
 
-        Auction::where('id', $validated['id'])->update([
+        $auction = Auction::where('id', $validated['id'])->update([
             'status' => AuctionStatusEnum::approved
         ]);
 
-        AuctionWinnerJob::dispatchAfterResponse($request->id);
+        dispatch(new AuctionWinnerJob($request->id))
+            ->delay(Carbon::parse($auction->end_at))
+            ->afterResponse();
 
         return response('success');
     }
