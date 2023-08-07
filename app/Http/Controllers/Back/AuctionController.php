@@ -61,13 +61,11 @@ class AuctionController extends Controller
             'id' => ['required', 'numeric', 'exists:auctions,id']
         ]);
 
-        $auction = Auction::where('id', $validated['id'])->update([
-            'status' => AuctionStatusEnum::approved
-        ]);
+        $auction = Auction::where('id', $validated['id'])->first();
+        $auction->status = AuctionStatusEnum::approved;
+        $auction->save();
 
-        dispatch(new AuctionWinnerJob($request->id))
-            ->delay(Carbon::parse($auction->end_at))
-            ->afterResponse();
+        AuctionWinnerJob::dispatch($request->id)->delay(Carbon::parse($auction->end_at));
 
         return response('success');
     }
