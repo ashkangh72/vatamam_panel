@@ -65,7 +65,7 @@ class AuctionController extends Controller
         $auction->status = AuctionStatusEnum::approved;
         $auction->save();
 
-        AuctionWinnerJob::dispatch($request->id)->delay(Carbon::parse($auction->end_at));
+        dispatch(new AuctionWinnerJob($request->id))->delay(Carbon::parse($auction->end_at));
 
         return response('success');
     }

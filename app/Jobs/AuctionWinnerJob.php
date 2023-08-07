@@ -33,6 +33,14 @@ class AuctionWinnerJob implements ShouldQueue
     {
         $auction = Auction::find($this->auctionId);
         $winnerBid = $auction->bids()->orderBy('amount', 'desc')->first();
+
+        if (!$winnerBid) {
+            $auction->update([
+                'is_ended' => true,
+            ]);
+
+            return;
+        }
         $winner = $winnerBid->user;
         $order = $winner->orders()
             ->where('seller_id', $auction->user_id)
