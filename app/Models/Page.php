@@ -20,8 +20,8 @@ class Page extends Model
         ];
     }
 
-    public function link(string $slug = null): string
+    public function link(): string
     {
-        return env('WEBSITE_URL') . '/pages/' . is_null($slug) ? $this->slug : $slug;
+        return env('WEBSITE_URL') . '/pages/' . $this->slug;
     }
 }

@@ -53,16 +53,14 @@
                                                         </div>
                                                     </td>
                                                     <td class="d-flex">
-                                                        @if (Route::has('front.pages.show'))
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <button class="btn btn-success" type="button">
-                                                                        <i class="d-flex justify-content-center flex-column feather icon-file cursor-pointer copy_btn"></i>
-                                                                    </button>
-                                                                </div>
-                                                                <input onClick="this.select();" class="ltr page_link form-control" type="text" value="{{ $page->link() }}" readonly>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <button class="btn btn-success" type="button">
+                                                                    <i class="d-flex justify-content-center flex-column feather icon-file cursor-pointer copy_btn"></i>
+                                                                </button>
                                                             </div>
-                                                        @endif
+                                                            <input onClick="this.select();" class="ltr page_link form-control" type="text" value="{{ $page->link() }}" readonly>
+                                                        </div>
                                                     </td>
                                                     <td class="text-center">
                                                         @if($page->published)
