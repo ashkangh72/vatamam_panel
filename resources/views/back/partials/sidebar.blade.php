@@ -272,11 +272,11 @@
 {{--                                <a href="{{ route('admin.statistics.orders') }}"><i class="feather icon-circle"></i><span class="menu-item">سفارشات</span></a>--}}
 {{--                            </li>--}}
 {{--                        @endcan--}}
-{{--                        @can('statistics.users')--}}
+                    @can('statistics.users')
                         <li class="{{ active_class('admin.statistics.users') }}">
                             <a href="{{ route('admin.statistics.users') }}"><i class="feather icon-circle"></i><span class="menu-item">کاربران</span></a>
                         </li>
-{{--                        @endcan--}}
+                    @endcan
 {{--                        @can('statistics.eCommerce')--}}
 {{--                            <li class="{{ active_class('admin.statistics.eCommerce') }}">--}}
 {{--                                <a href="{{ route('admin.statistics.eCommerce') }}"><i class="feather icon-circle"></i><span class="menu-item">درآمد</span></a>--}}
