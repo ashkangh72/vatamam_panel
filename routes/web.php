@@ -139,17 +139,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     // ------------------ statistics
     Route::get('statistics/users', [StatisticsController::class, 'users'])->name('statistics.users');
     Route::get('statistics/userCounts', [StatisticsController::class, 'userCounts'])->name('statistics.userCounts');
-
-//    Route::get('statistics/e-commerce', [StatisticsController::class, 'eCommerce'])->name('statistics.eCommerce');
-//    Route::get('statistics/e-commerce/total-sales', [StatisticsController::class, 'eCommerceTotalSales'])->name('statistics.eCommerce.totalSales');
-//    Route::get('statistics/e-commerce/total-sales-chart', [StatisticsController::class, 'eCommerceTotalSalesChart'])->name('statistics.eCommerce.totalSalesChart');
-//    Route::get('statistics/e-commerce/products-sales', [StatisticsController::class, 'eCommerceProductsSales'])->name('statistics.eCommerce.productsSales');
-//
-//    Route::get('statistics/orders', [StatisticsController::class, 'orders'])->name('statistics.orders');
-//    Route::get('statistics/orderUsers', [StatisticsController::class, 'orderUsers'])->name('statistics.orderUsers');
-//    Route::get('statistics/orderProducts', [StatisticsController::class, 'orderProducts'])->name('statistics.orderProducts');
-//    Route::get('statistics/orderValues', [StatisticsController::class, 'orderValues'])->name('statistics.orderValues');
-//    Route::get('statistics/orderCounts', [StatisticsController::class, 'orderCounts'])->name('statistics.orderCounts');
+    Route::get('statistics/orders', [StatisticsController::class, 'orders'])->name('statistics.orders');
+    Route::get('statistics/orderUsers', [StatisticsController::class, 'orderUsers'])->name('statistics.orderUsers');
+    Route::get('statistics/orderAuctions', [StatisticsController::class, 'orderAuctions'])->name('statistics.orderAuctions');
+    Route::get('statistics/orderValues', [StatisticsController::class, 'orderValues'])->name('statistics.orderValues');
+    Route::get('statistics/orderCounts', [StatisticsController::class, 'orderCounts'])->name('statistics.orderCounts');
 
 //    // ------------------ refund-requests
 //    Route::resource('refund-requests', RefundRequestController::class)->only(['index', 'show', 'destroy']);

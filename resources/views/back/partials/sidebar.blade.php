@@ -263,25 +263,20 @@
                     </ul>
                 </li>
             @endcan
-{{--            @can('statistics')--}}
+            @can('statistics')
             <li class="nav-item has-sub {{ open_class(['admin.statistics.*']) }}">
                 <a href="#"><i class="feather icon-pie-chart"></i><span class="menu-title" >گزارشات</span></a>
                 <ul class="menu-content">
-{{--                        @can('statistics.orders')--}}
-{{--                            <li class="{{ active_class('admin.statistics.orders') }}">--}}
-{{--                                <a href="{{ route('admin.statistics.orders') }}"><i class="feather icon-circle"></i><span class="menu-item">سفارشات</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
+                    @can('statistics.orders')
+                        <li class="{{ active_class('admin.statistics.orders') }}">
+                            <a href="{{ route('admin.statistics.orders') }}"><i class="feather icon-circle"></i><span class="menu-item">سفارشات</span></a>
+                        </li>
+                    @endcan
                     @can('statistics.users')
                         <li class="{{ active_class('admin.statistics.users') }}">
                             <a href="{{ route('admin.statistics.users') }}"><i class="feather icon-circle"></i><span class="menu-item">کاربران</span></a>
                         </li>
                     @endcan
-{{--                        @can('statistics.eCommerce')--}}
-{{--                            <li class="{{ active_class('admin.statistics.eCommerce') }}">--}}
-{{--                                <a href="{{ route('admin.statistics.eCommerce') }}"><i class="feather icon-circle"></i><span class="menu-item">درآمد</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
 {{--                        @can('statistics.sms')--}}
 {{--                            <li class="{{ active_class('admin.statistics.smsLog') }}">--}}
 {{--                                <a href="{{ route('admin.statistics.smsLog') }}"><i class="feather icon-circle"></i><span class="menu-item"> لاگ پیامک های ارسالی</span></a>--}}
@@ -289,7 +284,7 @@
 {{--                        @endcan--}}
                 </ul>
             </li>
-{{--            @endcan--}}
+            @endcan
             @can('redirects')
                 <li class="{{ active_class('admin.redirects.*') }} nav-item">
                     <a href="{{ route('admin.redirects.index') }}">

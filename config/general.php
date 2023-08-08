@@ -169,8 +169,7 @@ return [
         'statistics' => [
             'title' => 'گزارشات',
             'values' => [
-                //'eCommerce' => 'درآمد',
-                //'orders' => 'سفارشات',
+                'orders' => 'سفارشات',
                 'users' => 'کاربران',
                 //'sms' => 'لاگ پیامک های ارسالی',
             ]

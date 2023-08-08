@@ -56,12 +56,10 @@ function prepareChart(chartId) {
 
             categories = [];
             let success_orders = [];
-            let fail_orders = [];
 
             for (const [key, value] of Object.entries(data)) {
                 categories.push(value.chart_category);
                 success_orders.push(value.success_orders);
-                fail_orders.push(value.fail_orders);
             }
 
             let series = [
@@ -69,23 +67,18 @@ function prepareChart(chartId) {
                     name: 'سفارشات پرداخت شده',
                     data: success_orders
                 },
-                /*{
-                    name: 'سفارشات پرداخت نشده',
-                    data: fail_orders
-                }*/
             ];
 
             renderChart(chartId, series, categories);
 
             switch (chartId) {
                 case '#order-users-chart':
-                case '#order-products-chart':
+                case '#order-auctions-chart':
                 case '#order-counts-chart':
                 case '#order-values-chart': {
                     $(chartId).closest('.tab-pane').find('.orders-total').text(meta.total);
                     $(chartId).closest('.tab-pane').find('.orders-avg').text(meta.avg);
                     $(chartId).closest('.tab-pane').find('.orders-success').text(meta.total_success);
-                    $(chartId).closest('.tab-pane').find('.orders-fail').text(meta.total_fail);
                     break;
                 }
             }

@@ -2,11 +2,10 @@
 
 namespace App\Traits;
 
-use App\Models\Order;
-use App\Models\OrderItem;
+use App\Models\{Order, OrderAuction};
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\{JsonResponse, Request};
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 trait OrderStatisticsTrait
@@ -27,47 +26,59 @@ trait OrderStatisticsTrait
 
         switch ($period) {
             case "weekly":
-            case "daily": {
-                    $data['chart_category'] = $jalali_date->format('%Y-%m- %d');
-                    break;
-                }
-            case "monthly": {
-                    $data['chart_category'] = $jalali_date->format('%B - %Y');
-                    break;
-                }
-            case "yearly": {
-                    $data['chart_category'] = $jalali_date->format('%Y');
-                    break;
-                }
+            case "daily":
+            {
+                $data['chart_category'] = $jalali_date->format('%Y-%m- %d');
+                break;
+            }
+            case "monthly":
+            {
+                $data['chart_category'] = $jalali_date->format('%B - %Y');
+                break;
+            }
+            case "yearly":
+            {
+                $data['chart_category'] = $jalali_date->format('%Y');
+                break;
+            }
         }
 
         switch ($type) {
-            case "orderCounts": {
-                    $data['success_orders'] = Order::whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date)->paid()->count();
-//                    $data['fail_orders']    = Order::whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date)->notPaid()->count();
-                    break;
-                }
-            case "orderValues": {
-                    $data['success_orders'] = Order::whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date)->paid()->sum('price');
-//                    $data['fail_orders']    = Order::whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date)->notPaid()->sum('price');
-                    break;
-                }
-            case "orderUsers": {
-                    $data['success_orders'] = Order::whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date)->paid()->distinct('user_id')->count('user_id');
-//                    $data['fail_orders']    = Order::whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date)->notPaid()->distinct('user_id')->count('user_id');
-                    break;
-                }
-            case "orderProducts": {
-                    $data['success_orders'] = OrderItem::whereHas('order', function($query) use ($start_date, $end_date) {
-                        $query->whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date)->paid();
-                    })->sum('quantity');
+            case "orderCounts":
+            {
+                $data['success_orders'] = Order::whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date)
+                    ->paid()
+                    ->count();
+                break;
+            }
+            case "orderValues":
+            {
+                $data['success_orders'] = Order::whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date)
+                    ->paid()
+                    ->sum('price');
+                break;
+            }
+            case "orderUsers":
+            {
+                $data['success_orders'] = Order::whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date)
+                    ->paid()
+                    ->distinct('user_id')
+                    ->count('user_id');
+                break;
+            }
+            case "orderAuctions":
+            {
+                $data['success_orders'] = OrderAuction::whereHas('order', function ($query) use ($start_date, $end_date) {
+                    $query->whereDate('created_at', '>=', $start_date)
+                        ->whereDate('created_at', '<=', $end_date)
+                        ->paid();
+                })->sum('quantity');
 
-//                    $data['fail_orders'] = OrderItem::whereHas('order', function($query) use ($start_date, $end_date) {
-//                        $query->whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date)->notPaid();
-//                    })->sum('quantity');
-
-                    break;
-                }
+                break;
+            }
         }
 
         return $data;
@@ -85,16 +96,12 @@ trait OrderStatisticsTrait
 
         $data = $this->getPeriodData('orderValues', $request, [$this, "getStatisticsData"]);
 
-        $total_count   = 0;
-        $total         = 0;
-//        $total_success = 0;
-//        $total_fail    = 0;
+        $total_count = 0;
+        $total = 0;
 
         foreach ($data as $item) {
-            $total         += $item['success_orders'] /*+ $item['fail_orders']*/;
-//            $total_success += $item['success_orders'];
-//            $total_fail    += $item['fail_orders'];
-            $total_count   += 1;
+            $total += $item['success_orders'];
+            $total_count += 1;
         }
 
         $avg = $total / $total_count;
@@ -103,10 +110,8 @@ trait OrderStatisticsTrait
             [
                 'data' => $data,
                 'meta' => [
-                    'total'         => formatPriceUnits($total),
-                    'avg'           => formatPriceUnits($avg),
-//                    'total_success' => formatPriceUnits($total_success),
-//                    'total_fail'    => formatPriceUnits($total_fail)
+                    'total' => formatPriceUnits($total),
+                    'avg' => formatPriceUnits($avg),
                 ],
                 'status' => 'success',
             ],
@@ -125,16 +130,12 @@ trait OrderStatisticsTrait
 
         $data = $this->getPeriodData('orderCounts', $request, [$this, "getStatisticsData"]);
 
-        $total_count   = 0;
-        $total         = 0;
-//        $total_success = 0;
-//        $total_fail    = 0;
+        $total_count = 0;
+        $total = 0;
 
         foreach ($data as $item) {
-            $total         += $item['success_orders']/* + $item['fail_orders']*/;
-//            $total_success += $item['success_orders'];
-//            $total_fail    += $item['fail_orders'];
-            $total_count   += 1;
+            $total += $item['success_orders'];
+            $total_count += 1;
         }
 
         $avg = $total / $total_count;
@@ -143,10 +144,8 @@ trait OrderStatisticsTrait
             [
                 'data' => $data,
                 'meta' => [
-                    'total'         => formatPriceUnits($total),
-                    'avg'           => formatPriceUnits($avg),
-//                    'total_success' => formatPriceUnits($total_success),
-//                    'total_fail'    => formatPriceUnits($total_fail)
+                    'total' => formatPriceUnits($total),
+                    'avg' => formatPriceUnits($avg),
                 ],
                 'status' => 'success',
             ],
@@ -159,22 +158,18 @@ trait OrderStatisticsTrait
      * @throws AuthorizationException
      * @throws ValidationException
      */
-    protected function orderProducts(Request $request): JsonResponse
+    protected function orderAuctions(Request $request): JsonResponse
     {
         $this->authorize('statistics.orders');
 
-        $data = $this->getPeriodData('orderProducts', $request, [$this, "getStatisticsData"]);
+        $data = $this->getPeriodData('orderAuctions', $request, [$this, "getStatisticsData"]);
 
-        $total_count   = 0;
-        $total         = 0;
-//        $total_success = 0;
-//        $total_fail    = 0;
+        $total_count = 0;
+        $total = 0;
 
         foreach ($data as $item) {
-            $total         += $item['success_orders']/* + $item['fail_orders']*/;
-//            $total_success += $item['success_orders'];
-//            $total_fail    += $item['fail_orders'];
-            $total_count   += 1;
+            $total += $item['success_orders'];
+            $total_count += 1;
         }
 
         $avg = $total / $total_count;
@@ -183,10 +178,8 @@ trait OrderStatisticsTrait
             [
                 'data' => $data,
                 'meta' => [
-                    'total'         => formatPriceUnits($total),
-                    'avg'           => formatPriceUnits($avg),
-//                    'total_success' => formatPriceUnits($total_success),
-//                    'total_fail'    => formatPriceUnits($total_fail)
+                    'total' => formatPriceUnits($total),
+                    'avg' => formatPriceUnits($avg),
                 ],
                 'status' => 'success',
             ],
@@ -205,16 +198,12 @@ trait OrderStatisticsTrait
 
         $data = $this->getPeriodData('orderUsers', $request, [$this, "getStatisticsData"]);
 
-        $total_count   = 0;
-        $total         = 0;
-//        $total_success = 0;
-//        $total_fail    = 0;
+        $total_count = 0;
+        $total = 0;
 
         foreach ($data as $item) {
-            $total         += $item['success_orders']/* + $item['fail_orders']*/;
-//            $total_success += $item['success_orders'];
-//            $total_fail    += $item['fail_orders'];
-            $total_count   += 1;
+            $total += $item['success_orders'];
+            $total_count += 1;
         }
 
         $avg = $total / $total_count;
@@ -223,10 +212,8 @@ trait OrderStatisticsTrait
             [
                 'data' => $data,
                 'meta' => [
-                    'total'         => formatPriceUnits($total),
-                    'avg'           => formatPriceUnits($avg),
-//                    'total_success' => formatPriceUnits($total_success),
-//                    'total_fail'    => formatPriceUnits($total_fail)
+                    'total' => formatPriceUnits($total),
+                    'avg' => formatPriceUnits($avg),
                 ],
                 'status' => 'success',
             ],

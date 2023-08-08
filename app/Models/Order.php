@@ -6,12 +6,10 @@ use App\Enums\OrderStatusEnum;
 use Illuminate\Database\Eloquent\{Model,
     Relations\BelongsTo,
     Relations\BelongsToMany,
-    Relations\HasMany,
     Relations\HasOne,
     Relations\MorphMany
 };
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
@@ -19,11 +17,6 @@ class Order extends Model
     protected $casts = [
         'status' => OrderStatusEnum::class,
     ];
-
-    public function items(): HasMany
-    {
-        return $this->hasMany(OrderItem::class);
-    }
 
     public function user(): BelongsTo
     {
@@ -48,11 +41,6 @@ class Order extends Model
     public function refund(): HasOne
     {
         return $this->hasOne(RefundedOrder::class);
-    }
-
-    public function hasPhysicalItem(): bool
-    {
-        return $this->products()->where('type', 'physical')->exists();
     }
 
     public function auctions(): BelongsToMany
@@ -84,46 +72,42 @@ class Order extends Model
 
     public function shippingStatusText(): string
     {
-        if ($this->hasPhysicalItem()) {
-
-            if ($this->status != 'paid') {
-                return 'منتظر پرداخت';
-            }
-
-            $text = '';
-
-            switch ($this->shipping_status) {
-                case 'pending':
-                {
-                    $text = 'در حال بررسی';
-                    break;
-                }
-                case 'wating':
-                {
-                    $text = 'منتظر ارسال';
-                    break;
-                }
-                case 'sent':
-                {
-                    $text = 'ارسال شد';
-                    break;
-                }
-                case 'canceled':
-                {
-                    $text = 'ارسال لغو شد';
-                    break;
-                }
-            }
-            return $text;
+        if ($this->status != 'paid') {
+            return 'منتظر پرداخت';
         }
 
-        return 'سفارش شما شامل محصول فیزیکی نمی باشد';
+        $text = '';
+
+        switch ($this->shipping_status) {
+            case 'pending':
+            {
+                $text = 'در حال بررسی';
+                break;
+            }
+            case 'wating':
+            {
+                $text = 'منتظر ارسال';
+                break;
+            }
+            case 'sent':
+            {
+                $text = 'ارسال شد';
+                break;
+            }
+            case 'canceled':
+            {
+                $text = 'ارسال لغو شد';
+                break;
+            }
+        }
+
+        return $text;
     }
 
     public function statusText(): string
     {
         switch ($this->status) {
-            case "paid":
+            case OrderStatusEnum::paid->value:
             {
                 return 'پرداخت شده';
             }
@@ -216,11 +200,6 @@ class Order extends Model
         return $this->belongsTo(Discount::class)->withTrashed();
     }
 
-    public function gatewayRelation(): BelongsTo
-    {
-        return $this->belongsTo(Gateway::class, 'gateway_id');
-    }
-
     public function totalDiscount()
     {
         $items_discount = 0;
@@ -232,45 +211,14 @@ class Order extends Model
         return $this->discount_amount;
     }
 
-    public function scopeNotCompleted($query)
-    {
-        return $query->where('status', 'paid')->whereNotIn('shipping_status', ['sent', 'canceled']);
-    }
-
     public function scopePaid($query)
     {
-        return $query->where('status', 'paid');
-    }
-
-    public function scopeNotPaid($query)
-    {
-        return $query->where('status', '!=', 'paid');
-    }
-
-    public function scopeNotCanceled($query)
-    {
-        return $query->where('status', '!=', 'canceled');
-    }
-
-    public function hasPhysicalProduct(): bool
-    {
-        foreach ($this->products as $product) {
-            if ($product->isPhysical()) {
-                return true;
-            }
-        }
-
-        return false;
+        return $query->where('status', OrderStatusEnum::paid);
     }
 
     public function walletHistory(): HasOne
     {
         return $this->hasOne(WalletHistory::class)->where('status', 'success');
-    }
-
-    public function carrier()
-    {
-        return $this->belongsTo(Carrier::class)->withTrashed();
     }
 
     public function seller()
