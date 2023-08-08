@@ -17,11 +17,11 @@ use App\Http\Controllers\Back\{AuctionController,
     RoleController,
     SearchEngineRulesController,
     SliderController,
+    StatisticsController,
     TransactionController,
     UserController,
     WalletController,
-    WidgetController
-};
+    WidgetController};
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
@@ -136,6 +136,21 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::resource('slides', SliderController::class)->except(['show']);
     Route::post('slides/sort', [SliderController::class, 'sort']);
 
+    // ------------------ statistics
+    Route::get('statistics/users', [StatisticsController::class, 'users'])->name('statistics.users');
+    Route::get('statistics/userCounts', [StatisticsController::class, 'userCounts'])->name('statistics.userCounts');
+
+//    Route::get('statistics/e-commerce', [StatisticsController::class, 'eCommerce'])->name('statistics.eCommerce');
+//    Route::get('statistics/e-commerce/total-sales', [StatisticsController::class, 'eCommerceTotalSales'])->name('statistics.eCommerce.totalSales');
+//    Route::get('statistics/e-commerce/total-sales-chart', [StatisticsController::class, 'eCommerceTotalSalesChart'])->name('statistics.eCommerce.totalSalesChart');
+//    Route::get('statistics/e-commerce/products-sales', [StatisticsController::class, 'eCommerceProductsSales'])->name('statistics.eCommerce.productsSales');
+//
+//    Route::get('statistics/orders', [StatisticsController::class, 'orders'])->name('statistics.orders');
+//    Route::get('statistics/orderUsers', [StatisticsController::class, 'orderUsers'])->name('statistics.orderUsers');
+//    Route::get('statistics/orderProducts', [StatisticsController::class, 'orderProducts'])->name('statistics.orderProducts');
+//    Route::get('statistics/orderValues', [StatisticsController::class, 'orderValues'])->name('statistics.orderValues');
+//    Route::get('statistics/orderCounts', [StatisticsController::class, 'orderCounts'])->name('statistics.orderCounts');
+
 //    // ------------------ refund-requests
 //    Route::resource('refund-requests', RefundRequestController::class)->only(['index', 'show', 'destroy']);
 //    Route::post('refund-requests/accept/{refund_request}', [RefundRequestController::class, 'accept'])->name('refund-requests.accept');
@@ -156,33 +171,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('orders/api/multiple-shipping-status', [OrderController::class, 'multipleShippingStatus'])->name('orders.multipleShippingStatus');
     Route::get('order/not-completed/products', [OrderController::class, 'notCompleted'])->name('orders.notCompleted');
 
-//    // ------------------ statistics
-//    Route::get('statistics/views', [StatisticsController::class, 'views'])->name('statistics.views');
-//    Route::get('statistics/viewers', [StatisticsController::class, 'viewers'])->name('statistics.viewers');
-//
-//    Route::get('statistics/views-charts', [StatisticsController::class, 'viewsCharts'])->name('statistics.viewsCharts');
-//    Route::get('statistics/views-charts/route-views/{period?}', [StatisticsController::class, 'viewsChartsRouteViews'])->name('statistics.viewsCharts.routeViews');
-//    Route::get('statistics/views-charts/views/{period}', [StatisticsController::class, 'viewsChartsViews'])->name('statistics.viewsCharts.views');
-//    Route::get('statistics/views-charts/viewer-platforms', [StatisticsController::class, 'viewsChartsViewersPlatforms'])->name('statistics.viewsCharts.viewersPlatforms');
-//
-//    Route::get('statistics/e-commerce', [StatisticsController::class, 'eCommerce'])->name('statistics.eCommerce');
-//    Route::get('statistics/e-commerce/total-sales', [StatisticsController::class, 'eCommerceTotalSales'])->name('statistics.eCommerce.totalSales');
-//    Route::get('statistics/e-commerce/total-sales-chart', [StatisticsController::class, 'eCommerceTotalSalesChart'])->name('statistics.eCommerce.totalSalesChart');
-//    Route::get('statistics/e-commerce/products-sales', [StatisticsController::class, 'eCommerceProductsSales'])->name('statistics.eCommerce.productsSales');
-//
-//    Route::get('statistics/orders', [StatisticsController::class, 'orders'])->name('statistics.orders');
-//    Route::get('statistics/orderUsers', [StatisticsController::class, 'orderUsers'])->name('statistics.orderUsers');
-//    Route::get('statistics/orderProducts', [StatisticsController::class, 'orderProducts'])->name('statistics.orderProducts');
-//    Route::get('statistics/orderValues', [StatisticsController::class, 'orderValues'])->name('statistics.orderValues');
-//    Route::get('statistics/orderCounts', [StatisticsController::class, 'orderCounts'])->name('statistics.orderCounts');
-//
-//    Route::get('statistics/users', [StatisticsController::class, 'users'])->name('statistics.users');
-//    Route::get('statistics/userCounts', [StatisticsController::class, 'userCounts'])->name('statistics.userCounts');
-//    Route::get('statistics/viewCounts', [StatisticsController::class, 'viewCounts'])->name('statistics.viewCounts');
-//    Route::get('statistics/viewerCounts', [StatisticsController::class, 'viewerCounts'])->name('statistics.viewerCounts');
-//    Route::get('statistics/userPurchaseCounts', [StatisticsController::class, 'userPurchaseCounts'])->name('statistics.userPurchaseCounts');
-//    Route::get('statistics/userPurchaseCounts/export', [StatisticsController::class, 'userPurchaseCountsExport'])->name('statistics.userPurchaseCounts.export');
-//
 //    Route::get('statistics/smsLog', [StatisticsController::class, 'smsLog'])->name('statistics.smsLog');
 //
 //    // ------------------ sms

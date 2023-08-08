@@ -31,8 +31,6 @@ $(window).on('load', function () {
     });
 
     $('#statistics-card .nav-tabs li').first().find('a').trigger('click');
-
-    userPurchaseCountsChart()
 });
 
 function prepareChart(chartId) {
@@ -215,99 +213,3 @@ const calcHorizontalY = (config, index, categories) => {
 
     return minY + halfBarHeight + 2 * halfBarHeight * (catLength - 1 - index);
 };
-
-function userPurchaseCountsChart() {
-    let chart = document.getElementById('userPurchaseCountsChart');
-
-    $.ajax({
-        url: $('#userPurchaseCountsChart').data('action'),
-        type: 'GET',
-        success: function (data) {
-            let labels = data.labels;
-            let totalUsers = data.total_users;
-
-            $('#userPurchaseCountsChartLoader').remove();
-
-            let totalSalesByDayChart = echarts.init(chart);
-            totalSalesByDayChart.setOption({
-                grid: {
-                    top: '6',
-                    right: '0',
-                    bottom: '17',
-                    left: '75',
-                },
-                xAxis: {
-                    data: labels,
-                    axisLine: {
-                        lineStyle: {
-                            color: '#576574'
-                        }
-                    },
-                    axisLabel: {
-                        fontSize: 10,
-                        color: '#576574'
-                    }
-                },
-                tooltip: {
-                    show: true,
-                    showContent: true,
-                    alwaysShowContent: false,
-                    triggerOn: 'mousemove',
-                    trigger: 'axis',
-                    axisPointer:
-                        {
-                            label: {
-                                show: false,
-                            },
-                        }
-                },
-                yAxis: {
-                    splitLine: {
-                        lineStyle: {
-                            color: 'none'
-                        }
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            color: '#576574'
-                        }
-                    },
-                    axisLabel: {
-                        fontSize: 10,
-                        color: '#576574'
-                    }
-                },
-                series: [
-                    {
-                        name: 'کاربران',
-                        type: 'line',
-                        smooth: true,
-                        symbolSize: 10,
-                        size: 15,
-                        data: totalUsers,
-                        color: ['#00d2d3']
-                    },
-                    {
-                        name: 'خرید',
-                        type: 'line',
-                        smooth: true,
-                        symbolSize: 1,
-                        size: 1,
-                        data: labels,
-                        color: ['#ffffff']
-                    }
-                ],
-            });
-        },
-        beforeSend: function (xhr) {
-            block('#main-card');
-            xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
-        },
-        complete: function () {
-            unblock('#main-card');
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
-}

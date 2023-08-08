@@ -2,54 +2,23 @@
 
 namespace App\Http\Controllers\Back;
 
-use App\Exports\NewUsersExport;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
-use App\Traits\{OrderStatisticsTrait, UserStatisticsTrait, ViewStatisticsTrait};
+use App\Traits\{OrderStatisticsTrait, UserStatisticsTrait};
 use Hekmatinasser\Verta\Facades\Verta;
 use Illuminate\Auth\Access\AuthorizationException;
-use App\Models\{Order, OrderItem, Sms, User, Viewer};
+use App\Models\{Order, OrderItem, Sms};
 use Carbon\Carbon;
 use Illuminate\Http\{Request, JsonResponse};
 use App\Http\Controllers\Controller;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class StatisticsController extends Controller
 {
-    use OrderStatisticsTrait, UserStatisticsTrait, ViewStatisticsTrait;
-
-    public function views()
-    {
-        $views = Viewer::latest();
-
-        if (auth()->user()->level != 'creator') {
-            $views = $views->whereNull('user_id')->orWhere(function ($query) {
-                $query->whereHas('user', function ($q1) {
-                    $q1->where('level', '!=', 'creator');
-                });
-            });
-        }
-
-        $views = $views->paginate(20);
-
-        return view('back.statistics.views', compact('views'));
-    }
-
-    public function viewsCharts()
-    {
-        return view('back.statistics.views.index');
-    }
+    use OrderStatisticsTrait, UserStatisticsTrait;
 
     public function eCommerce()
     {
         return view('back.statistics.e-commerce');
-    }
-
-    public function viewers()
-    {
-        $viewers = Viewer::latest()->whereDate('created_at', now())->get()->unique('user_id');
-
-        return view('back.statistics.viewers', compact('viewers'));
     }
 
     /**
@@ -65,7 +34,7 @@ class StatisticsController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function users()
+    public function users(): View
     {
         $this->authorize('statistics.users');
 
@@ -82,76 +51,6 @@ class StatisticsController extends Controller
         $sms = Sms::latest()->paginate(20);
 
         return view('back.statistics.sms.sms-log', compact('sms'));
-    }
-
-    public function viewsChartsRouteViews(?string $period): JsonResponse
-    {
-        [$startDateTime, $endDateTime] = $this->_calculatePeriodStartDateTime($period);
-
-        $routeViews = Viewer::where('created_at', '>', $startDateTime)
-            ->where([
-                ['path', 'NOT LIKE', '%'.'admin'.'%'],
-                ['path', 'NOT LIKE', '%'.'.'.'%'],
-                ['path', 'NOT LIKE', '%'.'captcha'.'%'],
-            ])
-            ->groupBy('path')
-            ->selectRaw("path, COUNT(DISTINCT(id)) as views, COUNT(DISTINCT(user_id)) as users")
-            ->orderBy('views', 'DESC')
-            ->take(7)
-            ->get();
-
-        return response()->json([
-            'status' => 200,
-            'route_views' => $routeViews
-        ], 200);
-    }
-
-    public function viewsChartsViews(string $period): JsonResponse
-    {
-        [$startDateTime, $endDateTime] = $this->_calculatePeriodStartDateTime($period);
-
-        $data = Viewer::whereBetween('created_at', [$startDateTime, $endDateTime])
-            ->where([
-                ['path', 'NOT LIKE', '%'.'admin'.'%'],
-                ['path', 'NOT LIKE', '%'.'.'.'%'],
-                ['path', 'NOT LIKE', '%'.'captcha'.'%'],
-            ])
-            ->selectRaw("STR_TO_DATE(created_at, '%Y-%m-%e') date, COUNT(DISTINCT(id)) as views, COUNT(DISTINCT(user_id)) as users")
-            ->groupBy('date')
-            ->orderBy('created_at')
-            ->get()
-            ->each(function ($item, $key) {
-                $item->date = tverta($item->date)->format('Y-m-d');
-            });
-
-        return response()->json([
-            'status' => 200,
-            'dates' => $data->pluck('date'),
-            'views' => $data->pluck('views'),
-            'users' => $data->pluck('users')
-        ], 200);
-    }
-
-    public function viewsChartsViewersPlatforms(): JsonResponse
-    {
-        $data = Viewer::where([
-            ['path', 'NOT LIKE', '%'.'admin'.'%'],
-            ['path', 'NOT LIKE', '%'.'.'.'%'],
-            ['path', 'NOT LIKE', '%'.'captcha'.'%']
-        ])
-            ->selectRaw("JSON_EXTRACT(`options` , '$.platform') as platform, COUNT(DISTINCT(user_id)) AS users")
-            ->groupBy('platform')
-            ->get();
-
-        foreach ($data as $key => $item) {
-            $viewersPlatformsCount[] = ['name' => $item->platform, 'value' => $item->users];
-        }
-
-        return response()->json([
-            'status' => 200,
-            'viewers_platforms' => $data->pluck('platform'),
-            'viewers_platforms_count' => $viewersPlatformsCount
-        ], 200);
     }
 
     public function eCommerceTotalSales(Request $request): JsonResponse
@@ -198,35 +97,6 @@ class StatisticsController extends Controller
             'gross_sale' => $orders->pluck('gross_sale'),
             'total_sale' => $orders->pluck('total_sale'),
         ], 200);
-    }
-
-    public function userPurchaseCounts(Request $request): JsonResponse
-    {
-        $users = User::excludeCreator()
-            ->withCount(['orders' => function (Builder $query) {
-                $query->paid();
-            }])
-            ->selectRaw("count(*) as total_users")
-            ->groupBy('orders_count')
-            ->get();
-
-        return response()->json([
-            'status' => 200,
-            'labels' => $users->pluck('orders_count'),
-            'total_users' => $users->pluck('total_users')
-        ], 200);
-    }
-
-    public function userPurchaseCountsExport(Request $request): BinaryFileResponse
-    {
-        $users = User::excludeCreator()
-            ->withCount(['orders' => function (Builder $query) {
-                $query->paid();
-            }])
-            ->filter($request)
-            ->get();
-
-        return Excel::download(new NewUsersExport('purchase_count', $users), 'orders.xlsx');
     }
 
     public function eCommerceProductsSales(Request $request): JsonResponse

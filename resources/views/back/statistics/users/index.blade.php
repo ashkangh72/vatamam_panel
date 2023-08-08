@@ -69,24 +69,6 @@
                         </div>
                     </div>
                 </section>
-
-                {{--<section class="section">
-                    <div class="section-body">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">کاربران بر اساس تعداد خرید</h4>
-                                <div class="card-header-action">
-                                    <a type="button" class="btn btn-outline-dark waves-effect waves-light"
-                                        href="{{ route('admin.statistics.userPurchaseCounts.export') }}">خروجی اکسل</a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h6 id="userPurchaseCountsChartLoader" class="text-center">در حال بارگزاری...</h6>
-                                <div id="userPurchaseCountsChart" class="chartsh chart-shadow" data-action="{{ route('admin.statistics.userPurchaseCounts') }}"></div>
-                            </div>
-                        </div>
-                    </div>
-                </section>--}}
             </div>
         </div>
     </div>
@@ -97,5 +79,5 @@
 
 @push('scripts')
     <script src="{{ asset('public/back/app-assets/vendors/js/charts/echarts/echarts.min.js') }}"></script>
-    <script src="{{ asset('public/back/assets/js/pages/statistics/users.js') }}?v=1.1"></script>
+    <script src="{{ asset('public/back/assets/js/pages/statistics/users.js') }}"></script>
 @endpush

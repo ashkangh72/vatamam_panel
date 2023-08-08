@@ -166,6 +166,16 @@ return [
             ]
         ],
 
+        'statistics' => [
+            'title' => 'گزارشات',
+            'values' => [
+                //'eCommerce' => 'درآمد',
+                //'orders' => 'سفارشات',
+                'users' => 'کاربران',
+                //'sms' => 'لاگ پیامک های ارسالی',
+            ]
+        ],
+
 //        'orders' => [
 //            'title'  => 'مدیریت سفارشات',
 //            'values' => [
@@ -177,18 +187,6 @@ return [
 //            ]
 //        ],
 
-//        'statistics' => [
-//            'title'  => 'گزارشات',
-//            'values' => [
-//                'views'         => 'بازدیدها',
-//                'viewsCharts'   => 'بازدیدها (نموداری)',
-//                'viewers'       => 'بازدیدکنندگان',
-//                'eCommerce'     => 'درآمد',
-//                'orders'        => 'سفارشات',
-//                'users'         => 'کاربران',
-//                'sms'           => 'لاگ پیامک های ارسالی',
-//            ]
-//        ],
 //        'settings' => [
 //            'title'  => 'تنظیمات',
 //            'values' => [
@@ -291,111 +289,111 @@ return [
             'options' => [
                 // first row
                 [
-                    'title'      => 'آمار اول',
-                    'key'        => 'statistics1',
+                    'title' => 'آمار اول',
+                    'key' => 'statistics1',
                     'input-type' => 'input',
-                    'type'       => 'number',
-                    'class'      => 'col-md-2 col-6',
-                    'default'    => '0',
+                    'type' => 'number',
+                    'class' => 'col-md-2 col-6',
+                    'default' => '0',
                     'attributes' => 'required'
                 ],
                 [
-                    'title'      => 'عنوان اول',
-                    'key'        => 'title1',
+                    'title' => 'عنوان اول',
+                    'key' => 'title1',
                     'input-type' => 'input',
-                    'type'       => 'text',
-                    'class'      => 'col-md-4 col-6',
+                    'type' => 'text',
+                    'class' => 'col-md-4 col-6',
                     'attributes' => 'required'
                 ],
                 [
-                    'title'      => 'پس زمینه اول',
-                    'key'        => 'background1',
+                    'title' => 'پس زمینه اول',
+                    'key' => 'background1',
                     'input-type' => 'file',
-                    'type'       => 'file',
-                    'class'      => 'col-md-3 col-6',
+                    'type' => 'file',
+                    'class' => 'col-md-3 col-6',
                     'attributes' => 'required accept="image/*"',
-                    'help'       => 'بهترین اندازه 500 * 500'
+                    'help' => 'بهترین اندازه 500 * 500'
                 ],
                 [
-                    'title'      => 'آیکن اول',
-                    'key'        => 'icon1',
+                    'title' => 'آیکن اول',
+                    'key' => 'icon1',
                     'input-type' => 'file',
-                    'type'       => 'file',
-                    'class'      => 'col-md-3 col-6',
+                    'type' => 'file',
+                    'class' => 'col-md-3 col-6',
                     'attributes' => 'required accept="image/*"',
-                    'help'       => 'بهترین اندازه 200 * 200'
+                    'help' => 'بهترین اندازه 200 * 200'
                 ],
                 // second row
                 [
-                    'title'      => 'آمار دوم',
-                    'key'        => 'statistics2',
+                    'title' => 'آمار دوم',
+                    'key' => 'statistics2',
                     'input-type' => 'input',
-                    'type'       => 'number',
-                    'class'      => 'col-md-2 col-6',
-                    'default'    => '0',
+                    'type' => 'number',
+                    'class' => 'col-md-2 col-6',
+                    'default' => '0',
                     'attributes' => 'required'
                 ],
                 [
-                    'title'      => 'عنوان دوم',
-                    'key'        => 'title2',
+                    'title' => 'عنوان دوم',
+                    'key' => 'title2',
                     'input-type' => 'input',
-                    'type'       => 'text',
-                    'class'      => 'col-md-4 col-6',
+                    'type' => 'text',
+                    'class' => 'col-md-4 col-6',
                     'attributes' => 'required'
                 ],
                 [
-                    'title'      => 'پس زمینه دوم',
-                    'key'        => 'background2',
+                    'title' => 'پس زمینه دوم',
+                    'key' => 'background2',
                     'input-type' => 'file',
-                    'type'       => 'file',
-                    'class'      => 'col-md-3 col-6',
+                    'type' => 'file',
+                    'class' => 'col-md-3 col-6',
                     'attributes' => 'required accept="image/*"',
-                    'help'       => 'بهترین اندازه 500 * 500'
+                    'help' => 'بهترین اندازه 500 * 500'
                 ],
                 [
-                    'title'      => 'آیکن دوم',
-                    'key'        => 'icon2',
+                    'title' => 'آیکن دوم',
+                    'key' => 'icon2',
                     'input-type' => 'file',
-                    'type'       => 'file',
-                    'class'      => 'col-md-3 col-6',
+                    'type' => 'file',
+                    'class' => 'col-md-3 col-6',
                     'attributes' => 'required accept="image/*"',
-                    'help'       => 'بهترین اندازه 200 * required 200'
+                    'help' => 'بهترین اندازه 200 * required 200'
                 ],
                 // third row
                 [
-                    'title'      => 'آمار سوم',
-                    'key'        => 'statistics3',
+                    'title' => 'آمار سوم',
+                    'key' => 'statistics3',
                     'input-type' => 'input',
-                    'type'       => 'number',
-                    'class'      => 'col-md-2 col-6',
-                    'default'    => '0',
+                    'type' => 'number',
+                    'class' => 'col-md-2 col-6',
+                    'default' => '0',
                     'attributes' => 'required'
                 ],
                 [
-                    'title'      => 'عنوان سوم',
-                    'key'        => 'title3',
+                    'title' => 'عنوان سوم',
+                    'key' => 'title3',
                     'input-type' => 'input',
-                    'type'       => 'text',
-                    'class'      => 'required col-md-4 col-6',
+                    'type' => 'text',
+                    'class' => 'required col-md-4 col-6',
                     'attributes' => 'required'
                 ],
                 [
-                    'title'      => 'پس زمینه سوم',
-                    'key'        => 'background3',
+                    'title' => 'پس زمینه سوم',
+                    'key' => 'background3',
                     'input-type' => 'file',
-                    'type'       => 'file',
-                    'class'      => 'col-md-3 col-6',
+                    'type' => 'file',
+                    'class' => 'col-md-3 col-6',
                     'attributes' => 'required accept="image/*"',
-                    'help'       => 'بهترین اندازه 500 * 500'
+                    'help' => 'بهترین اندازه 500 * 500'
                 ],
                 [
-                    'title'      => 'آیکن سوم',
-                    'key'        => 'icon3',
+                    'title' => 'آیکن سوم',
+                    'key' => 'icon3',
                     'input-type' => 'file',
-                    'type'       => 'file',
-                    'class'      => 'col-md-3 col-6',
+                    'type' => 'file',
+                    'class' => 'col-md-3 col-6',
                     'attributes' => 'required accept="image/*"',
-                    'help'       => 'بهترین اندازه 200 * 200'
+                    'help' => 'بهترین اندازه 200 * 200'
                 ],
             ],
             'rules' => [
@@ -409,11 +407,11 @@ return [
             'title' => 'ردیف مزایده',
             'options' => [
                 [
-                    'title'      => 'نوع مرتب سازی',
-                    'key'        => 'sort_type',
+                    'title' => 'نوع مرتب سازی',
+                    'key' => 'sort_type',
                     'input-type' => 'select',
-                    'class'      => 'col-md-4 col-6',
-                    'options'    => [
+                    'class' => 'col-md-4 col-6',
+                    'options' => [
                         [
                             'value' => 'latest',
                             'title' => 'جدیدترین'
@@ -438,26 +436,26 @@ return [
                     'attributes' => 'required'
                 ],
                 [
-                    'title'      => 'تعداد',
-                    'key'        => 'number',
+                    'title' => 'تعداد',
+                    'key' => 'number',
                     'input-type' => 'input',
-                    'type'       => 'number',
-                    'class'      => 'col-md-4 col-6',
-                    'default'    => '10',
+                    'type' => 'number',
+                    'class' => 'col-md-4 col-6',
+                    'default' => '10',
                     'attributes' => 'required'
                 ],
                 [
-                    'title'      => 'انتخاب دسته بندی ها (اختیاری)',
-                    'key'        => 'categories',
+                    'title' => 'انتخاب دسته بندی ها (اختیاری)',
+                    'key' => 'categories',
                     'input-type' => 'categories',
-                    'class'      => 'col-md-9',
+                    'class' => 'col-md-9',
                 ],
                 [
-                    'title'      => 'شامل محصولات زیر دسته ها',
-                    'key'        => 'sub_category_auction',
+                    'title' => 'شامل محصولات زیر دسته ها',
+                    'key' => 'sub_category_auction',
                     'input-type' => 'select',
-                    'class'      => 'col-md-3',
-                    'options'    => [
+                    'class' => 'col-md-3',
+                    'options' => [
                         [
                             'value' => 'yes',
                             'title' => 'بله'
@@ -469,35 +467,35 @@ return [
                     ],
                 ],
                 [
-                    'title'      => 'انتخاب دوره زمانی (اختیاری)',
-                    'key'        => 'historical_period',
+                    'title' => 'انتخاب دوره زمانی (اختیاری)',
+                    'key' => 'historical_period',
                     'input-type' => 'historical_period',
-                    'class'      => 'col-md-6',
+                    'class' => 'col-md-6',
                 ],
                 [
-                    'title'      => 'انتخاب اصالت (اختیاری)',
-                    'key'        => 'originality',
+                    'title' => 'انتخاب اصالت (اختیاری)',
+                    'key' => 'originality',
                     'input-type' => 'originality',
-                    'class'      => 'col-md-6',
+                    'class' => 'col-md-6',
                 ],
                 [
-                    'title'      => 'انتخاب وضعیت کالا (اختیاری)',
-                    'key'        => 'condition',
+                    'title' => 'انتخاب وضعیت کالا (اختیاری)',
+                    'key' => 'condition',
                     'input-type' => 'condition',
-                    'class'      => 'col-md-6',
+                    'class' => 'col-md-6',
                 ],
                 [
-                    'title'      => 'انتخاب منطقه زمانی (اختیاری)',
-                    'key'        => 'timezone',
+                    'title' => 'انتخاب منطقه زمانی (اختیاری)',
+                    'key' => 'timezone',
                     'input-type' => 'timezone',
-                    'class'      => 'col-md-6',
+                    'class' => 'col-md-6',
                 ],
                 [
-                    'title'      => 'نمایش فقط مزایدات تضمینی (اختیاری)',
-                    'key'        => 'show_only_guaranteed',
+                    'title' => 'نمایش فقط مزایدات تضمینی (اختیاری)',
+                    'key' => 'show_only_guaranteed',
                     'input-type' => 'select',
-                    'class'      => 'col-md-3',
-                    'options'    => [
+                    'class' => 'col-md-3',
+                    'options' => [
                         [
                             'value' => '',
                             'title' => 'انتخاب کنید...'
@@ -513,40 +511,40 @@ return [
                     ],
                 ],
                 [
-                    'title'      => 'لینک',
-                    'key'        => 'link',
+                    'title' => 'لینک',
+                    'key' => 'link',
                     'input-type' => 'input',
-                    'type'       => 'text',
-                    'class'      => 'col-6',
+                    'type' => 'text',
+                    'class' => 'col-6',
                 ],
                 [
-                    'title'      => 'عنوان لینک',
-                    'key'        => 'link_title',
+                    'title' => 'عنوان لینک',
+                    'key' => 'link_title',
                     'input-type' => 'input',
-                    'type'       => 'text',
-                    'class'      => 'col-md-3 col-6',
+                    'type' => 'text',
+                    'class' => 'col-md-3 col-6',
                 ],
             ],
             'rules' => [
-                'sort_type'        => 'required|in:latest,sell',
-                'link'             => 'nullable|string',
-                'link_title'       => 'nullable|string',
-                'number'           => 'required',
-                'categories'       => 'nullable|array',
-                'categories.*'     => 'nullable|exists:categories,id',
-                'originality'      => 'nullable|exists:originality,id',
-                'historical_period'     => 'nullable|exists:historical_periods,id',
+                'sort_type' => 'required|in:latest,sell',
+                'link' => 'nullable|string',
+                'link_title' => 'nullable|string',
+                'number' => 'required',
+                'categories' => 'nullable|array',
+                'categories.*' => 'nullable|exists:categories,id',
+                'originality' => 'nullable|exists:originality,id',
+                'historical_period' => 'nullable|exists:historical_periods,id',
             ]
         ],
         'amazing_offer' => [
             'title' => 'ردیف پیشنهاد شگفت انگیز',
             'options' => [
                 [
-                    'title'      => 'نوع مرتب سازی',
-                    'key'        => 'sort_type',
+                    'title' => 'نوع مرتب سازی',
+                    'key' => 'sort_type',
                     'input-type' => 'select',
-                    'class'      => 'col-md-4 col-6',
-                    'options'    => [
+                    'class' => 'col-md-4 col-6',
+                    'options' => [
                         [
                             'value' => 'latest',
                             'title' => 'جدیدترین'
@@ -571,26 +569,26 @@ return [
                     'attributes' => 'required'
                 ],
                 [
-                    'title'      => 'تعداد',
-                    'key'        => 'number',
+                    'title' => 'تعداد',
+                    'key' => 'number',
                     'input-type' => 'input',
-                    'type'       => 'number',
-                    'class'      => 'col-md-4 col-6',
-                    'default'    => '10',
+                    'type' => 'number',
+                    'class' => 'col-md-4 col-6',
+                    'default' => '10',
                     'attributes' => 'required'
                 ],
                 [
-                    'title'      => 'انتخاب دسته بندی ها (اختیاری)',
-                    'key'        => 'categories',
+                    'title' => 'انتخاب دسته بندی ها (اختیاری)',
+                    'key' => 'categories',
                     'input-type' => 'categories',
-                    'class'      => 'col-md-9',
+                    'class' => 'col-md-9',
                 ],
                 [
-                    'title'      => 'شامل محصولات زیر دسته ها',
-                    'key'        => 'sub_category_auction',
+                    'title' => 'شامل محصولات زیر دسته ها',
+                    'key' => 'sub_category_auction',
                     'input-type' => 'select',
-                    'class'      => 'col-md-3',
-                    'options'    => [
+                    'class' => 'col-md-3',
+                    'options' => [
                         [
                             'value' => 'yes',
                             'title' => 'بله'
@@ -602,35 +600,35 @@ return [
                     ],
                 ],
                 [
-                    'title'      => 'انتخاب دوره زمانی (اختیاری)',
-                    'key'        => 'historical_period',
+                    'title' => 'انتخاب دوره زمانی (اختیاری)',
+                    'key' => 'historical_period',
                     'input-type' => 'historical_period',
-                    'class'      => 'col-md-6',
+                    'class' => 'col-md-6',
                 ],
                 [
-                    'title'      => 'انتخاب اصالت (اختیاری)',
-                    'key'        => 'originality',
+                    'title' => 'انتخاب اصالت (اختیاری)',
+                    'key' => 'originality',
                     'input-type' => 'originality',
-                    'class'      => 'col-md-6',
+                    'class' => 'col-md-6',
                 ],
                 [
-                    'title'      => 'انتخاب وضعیت کالا (اختیاری)',
-                    'key'        => 'condition',
+                    'title' => 'انتخاب وضعیت کالا (اختیاری)',
+                    'key' => 'condition',
                     'input-type' => 'condition',
-                    'class'      => 'col-md-6',
+                    'class' => 'col-md-6',
                 ],
                 [
-                    'title'      => 'انتخاب منطقه زمانی (اختیاری)',
-                    'key'        => 'timezone',
+                    'title' => 'انتخاب منطقه زمانی (اختیاری)',
+                    'key' => 'timezone',
                     'input-type' => 'timezone',
-                    'class'      => 'col-md-6',
+                    'class' => 'col-md-6',
                 ],
                 [
-                    'title'      => 'نمایش فقط مزایدات تضمینی (اختیاری)',
-                    'key'        => 'show_only_guaranteed',
+                    'title' => 'نمایش فقط مزایدات تضمینی (اختیاری)',
+                    'key' => 'show_only_guaranteed',
                     'input-type' => 'select',
-                    'class'      => 'col-md-3',
-                    'options'    => [
+                    'class' => 'col-md-3',
+                    'options' => [
                         [
                             'value' => '',
                             'title' => 'انتخاب کنید...'
@@ -646,40 +644,40 @@ return [
                     ],
                 ],
                 [
-                    'title'      => 'لینک',
-                    'key'        => 'link',
+                    'title' => 'لینک',
+                    'key' => 'link',
                     'input-type' => 'input',
-                    'type'       => 'text',
-                    'class'      => 'col-6',
+                    'type' => 'text',
+                    'class' => 'col-6',
                 ],
                 [
-                    'title'      => 'عنوان لینک',
-                    'key'        => 'link_title',
+                    'title' => 'عنوان لینک',
+                    'key' => 'link_title',
                     'input-type' => 'input',
-                    'type'       => 'text',
-                    'class'      => 'col-md-3 col-6',
+                    'type' => 'text',
+                    'class' => 'col-md-3 col-6',
                 ],
             ],
             'rules' => [
-                'sort_type'        => 'required|in:latest,sell',
-                'link'             => 'nullable|string',
-                'link_title'       => 'nullable|string',
-                'number'           => 'required',
-                'categories'       => 'nullable|array',
-                'categories.*'     => 'nullable|exists:categories,id',
-                'originality'      => 'nullable|exists:originality,id',
-                'historical_period'     => 'nullable|exists:historical_periods,id',
+                'sort_type' => 'required|in:latest,sell',
+                'link' => 'nullable|string',
+                'link_title' => 'nullable|string',
+                'number' => 'required',
+                'categories' => 'nullable|array',
+                'categories.*' => 'nullable|exists:categories,id',
+                'originality' => 'nullable|exists:originality,id',
+                'historical_period' => 'nullable|exists:historical_periods,id',
             ]
         ],
         'instant_offer' => [
             'title' => 'ردیف پیشنهاد لحظه ای',
             'options' => [
                 [
-                    'title'      => 'نوع مرتب سازی',
-                    'key'        => 'sort_type',
+                    'title' => 'نوع مرتب سازی',
+                    'key' => 'sort_type',
                     'input-type' => 'select',
-                    'class'      => 'col-md-4 col-6',
-                    'options'    => [
+                    'class' => 'col-md-4 col-6',
+                    'options' => [
                         [
                             'value' => 'latest',
                             'title' => 'جدیدترین'
@@ -704,26 +702,26 @@ return [
                     'attributes' => 'required'
                 ],
                 [
-                    'title'      => 'تعداد',
-                    'key'        => 'number',
+                    'title' => 'تعداد',
+                    'key' => 'number',
                     'input-type' => 'input',
-                    'type'       => 'number',
-                    'class'      => 'col-md-4 col-6',
-                    'default'    => '10',
+                    'type' => 'number',
+                    'class' => 'col-md-4 col-6',
+                    'default' => '10',
                     'attributes' => 'required'
                 ],
                 [
-                    'title'      => 'انتخاب دسته بندی ها (اختیاری)',
-                    'key'        => 'categories',
+                    'title' => 'انتخاب دسته بندی ها (اختیاری)',
+                    'key' => 'categories',
                     'input-type' => 'categories',
-                    'class'      => 'col-md-9',
+                    'class' => 'col-md-9',
                 ],
                 [
-                    'title'      => 'شامل محصولات زیر دسته ها',
-                    'key'        => 'sub_category_auction',
+                    'title' => 'شامل محصولات زیر دسته ها',
+                    'key' => 'sub_category_auction',
                     'input-type' => 'select',
-                    'class'      => 'col-md-3',
-                    'options'    => [
+                    'class' => 'col-md-3',
+                    'options' => [
                         [
                             'value' => 'yes',
                             'title' => 'بله'
@@ -735,35 +733,35 @@ return [
                     ],
                 ],
                 [
-                    'title'      => 'انتخاب دوره زمانی (اختیاری)',
-                    'key'        => 'historical_period',
+                    'title' => 'انتخاب دوره زمانی (اختیاری)',
+                    'key' => 'historical_period',
                     'input-type' => 'historical_period',
-                    'class'      => 'col-md-6',
+                    'class' => 'col-md-6',
                 ],
                 [
-                    'title'      => 'انتخاب اصالت (اختیاری)',
-                    'key'        => 'originality',
+                    'title' => 'انتخاب اصالت (اختیاری)',
+                    'key' => 'originality',
                     'input-type' => 'originality',
-                    'class'      => 'col-md-6',
+                    'class' => 'col-md-6',
                 ],
                 [
-                    'title'      => 'انتخاب وضعیت کالا (اختیاری)',
-                    'key'        => 'condition',
+                    'title' => 'انتخاب وضعیت کالا (اختیاری)',
+                    'key' => 'condition',
                     'input-type' => 'condition',
-                    'class'      => 'col-md-6',
+                    'class' => 'col-md-6',
                 ],
                 [
-                    'title'      => 'انتخاب منطقه زمانی (اختیاری)',
-                    'key'        => 'timezone',
+                    'title' => 'انتخاب منطقه زمانی (اختیاری)',
+                    'key' => 'timezone',
                     'input-type' => 'timezone',
-                    'class'      => 'col-md-6',
+                    'class' => 'col-md-6',
                 ],
                 [
-                    'title'      => 'نمایش فقط مزایدات تضمینی (اختیاری)',
-                    'key'        => 'show_only_guaranteed',
+                    'title' => 'نمایش فقط مزایدات تضمینی (اختیاری)',
+                    'key' => 'show_only_guaranteed',
                     'input-type' => 'select',
-                    'class'      => 'col-md-3',
-                    'options'    => [
+                    'class' => 'col-md-3',
+                    'options' => [
                         [
                             'value' => '',
                             'title' => 'انتخاب کنید...'
@@ -779,29 +777,29 @@ return [
                     ],
                 ],
                 [
-                    'title'      => 'لینک',
-                    'key'        => 'link',
+                    'title' => 'لینک',
+                    'key' => 'link',
                     'input-type' => 'input',
-                    'type'       => 'text',
-                    'class'      => 'col-6',
+                    'type' => 'text',
+                    'class' => 'col-6',
                 ],
                 [
-                    'title'      => 'عنوان لینک',
-                    'key'        => 'link_title',
+                    'title' => 'عنوان لینک',
+                    'key' => 'link_title',
                     'input-type' => 'input',
-                    'type'       => 'text',
-                    'class'      => 'col-md-3 col-6',
+                    'type' => 'text',
+                    'class' => 'col-md-3 col-6',
                 ],
             ],
             'rules' => [
-                'sort_type'        => 'required|in:latest,sell',
-                'link'             => 'nullable|string',
-                'link_title'       => 'nullable|string',
-                'number'           => 'required',
-                'categories'       => 'nullable|array',
-                'categories.*'     => 'nullable|exists:categories,id',
-                'originality'      => 'nullable|exists:originality,id',
-                'historical_period'     => 'nullable|exists:historical_periods,id',
+                'sort_type' => 'required|in:latest,sell',
+                'link' => 'nullable|string',
+                'link_title' => 'nullable|string',
+                'number' => 'required',
+                'categories' => 'nullable|array',
+                'categories.*' => 'nullable|exists:categories,id',
+                'originality' => 'nullable|exists:originality,id',
+                'historical_period' => 'nullable|exists:historical_periods,id',
             ]
         ],
         'blog_posts' => [
@@ -826,19 +824,19 @@ return [
     'sliderGroups' => [
         [
             'group' => 'desktop_slider',
-            'name'  => 'اسلایدر دسکتاپ',
+            'name' => 'اسلایدر دسکتاپ',
             'width' => 1780,
             'height' => 890,
             'count' => 2,
-            'size'  => '890 * 1780'
+            'size' => '890 * 1780'
         ],
         [
             'group' => 'mobile_slider',
-            'name'  => 'اسلایدر حالت موبایل',
+            'name' => 'اسلایدر حالت موبایل',
             'width' => 300,
             'height' => 250,
             'count' => 5,
-            'size'  => '250 * 300'
+            'size' => '250 * 300'
         ],
         [
             'group' => 'service_slider',
