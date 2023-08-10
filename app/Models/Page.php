@@ -22,6 +22,6 @@ class Page extends Model
 
     public function link(): string
     {
-        return env('WEBSITE_URL') . '/pages/' . $this->slug;
+        return env('WEBSITE_URL') . '/' . $this->slug;
     }
 }
