@@ -56,17 +56,17 @@ class AuctionWinnerJob implements ShouldQueue
                 'discount_amount' => 0,
                 'shipping_cost' => $auction->shipping_cost,
             ]);
+        } else {
+            $order->update([
+                'price' => $order->price + $winnerBid->amount,
+                'discount_price' => $order->discount_price + $winnerBid->amount,
+            ]);
         }
 
         DB::table('order_auction')->insert([
             'order_id' => $order->id,
             'auction_id' => $auction->id,
             'price' => $winnerBid->amount,
-        ]);
-
-        $order->update([
-            'price' => $order->price + $winnerBid->amount,
-            'discount_price' => $order->discount_price + $winnerBid->amount,
         ]);
 
         $winnerBid->update([
