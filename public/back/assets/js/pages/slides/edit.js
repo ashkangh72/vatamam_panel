@@ -51,7 +51,7 @@ function generateConnectHtml(event) {
 
     let html;
     switch (selected) {
-        case 'product':
+        case 'auction':
             html = `
              <fieldset class="form-group">
                 <label>انتخاب مزایده</label>

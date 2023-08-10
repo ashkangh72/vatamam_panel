@@ -65,7 +65,7 @@
                                                     <select class="form-control" name="group">
                                                         @if (config('general.sliderGroups'))
                                                             @foreach (config('general.sliderGroups') as $sliderGroup)
-                                                                <option value="{{ $sliderGroup['group'] }}" {{ ($slide->group == $sliderGroup['group']) ? 'selected' : '' }}>{{ $sliderGroup['name'] }} {{ $sliderGroup['size'] }}</option>
+                                                                <option value="{{ $sliderGroup['group'] }}" {{ ($slide->group->name == $sliderGroup['group']) ? 'selected' : '' }}>{{ $sliderGroup['name'] }} {{ $sliderGroup['size'] }}</option>
                                                             @endforeach
                                                         @endif
                                                     </select>
@@ -100,7 +100,7 @@
                                                         <select name="linkable_type" onchange="generateConnectHtml(event)"
                                                                 id="connect" class="form-control">
                                                             <option value>انتخاب کنید</option>
-                                                            <option value="product"
+                                                            <option value="auction"
                                                                     {{ $slide->linkable_type == 'App\Models\Auction' ? 'selected' : '' }} id="auction"
                                                                     data-action="{{route('admin.auctions.search.title')}}">
                                                                 مزایده
@@ -152,7 +152,7 @@
     <script>
         let pages = [
             @foreach($pages as $page)
-                "/pages/{{ $page }}",
+                "/{{ $page }}",
             @endforeach
         ];
     </script>

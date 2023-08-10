@@ -99,7 +99,7 @@
     <script>
         let pages =  [
             @foreach($pages as $page)
-                "/pages/{{ $page }}",
+                "/{{ $page }}",
             @endforeach
         ];
     </script>
