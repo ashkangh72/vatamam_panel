@@ -144,14 +144,14 @@
 
 @push('scripts')
     <!-- Page JS Plugins -->
-    <script src="{{ asset('back/app-assets/plugins/nestable2/jquery.nestable.min.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/jquery-ui/jquery-ui.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/nestable2/jquery.nestable.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/ckeditor/ckeditor.js') }}"></script>
 
     <script>
         let maxDepth = 10;
     </script>
 
     <!-- Page JS Code -->
-    <script src="{{ asset('back/assets/js/pages/categories.js') }}"></script>
+    <script src="{{ asset('public/back/assets/js/pages/categories.js') }}"></script>
 @endpush
