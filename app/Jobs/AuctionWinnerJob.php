@@ -41,6 +41,15 @@ class AuctionWinnerJob implements ShouldQueue
 
             return;
         }
+
+        if ($auction->minimum_sale_price > $winnerBid->amount) {
+            $auction->update([
+                'is_ended' => true,
+            ]);
+
+            return;
+        }
+
         $winner = $winnerBid->user;
         $order = $winner->orders()
             ->where('seller_id', $auction->user_id)
