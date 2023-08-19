@@ -2,11 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Enums\OrderStatusEnum;
 use App\Models\Auction;
+use App\Enums\{OrderStatusEnum, AuctionBidTypeEnum};
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\{ShouldBeUnique, ShouldQueue};
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -32,7 +31,10 @@ class AuctionWinnerJob implements ShouldQueue
     public function handle(): void
     {
         $auction = Auction::find($this->auctionId);
-        $winnerBid = $auction->bids()->orderBy('amount', 'desc')->first();
+        $winnerBid = $auction->bids()
+            ->where('type', AuctionBidTypeEnum::bid)
+            ->orderBy('amount', 'desc')
+            ->first();
 
         if (!$winnerBid) {
             $auction->update([

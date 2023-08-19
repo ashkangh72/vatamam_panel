@@ -3,9 +3,11 @@
 // helper functions
 
 use App\Models\Option;
+
 //use App\Models\Sms;
 use App\Models\UserOption;
 use App\Models\Viewer;
+
 //use App\Services\SMSIR\Smsir;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
@@ -62,7 +64,7 @@ function option($option_name, $default_value = '')
         return $default_value;
     }
 
-    return  $value;
+    return $value;
 }
 
 function user_option_update($option_name, $option_value, $user_id = null): void
@@ -73,7 +75,7 @@ function user_option_update($option_name, $option_value, $user_id = null): void
 
     $option = UserOption::firstOrNew([
         'option_name' => $option_name,
-        'user_id'     => $user_id
+        'user_id' => $user_id
     ]);
 
     $option->option_value = $option_value;
@@ -153,9 +155,9 @@ function convert2english($string)
     // 4. Persian Numeric
     $persian = array('۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹');
 
-    $string =  str_replace($persianDecimal, $newNumbers, $string);
-    $string =  str_replace($arabicDecimal, $newNumbers, $string);
-    $string =  str_replace($arabic, $newNumbers, $string);
+    $string = str_replace($persianDecimal, $newNumbers, $string);
+    $string = str_replace($arabicDecimal, $newNumbers, $string);
+    $string = str_replace($arabic, $newNumbers, $string);
     return str_replace($persian, $newNumbers, $string);
 }
 
@@ -190,24 +192,24 @@ function datatable($request, $query)
 /**
  * Send sms to specify pattern_code and mobile number with input data.
  *
- * @param  mixed $pattern_code
- * @param  mixed $mobile
- * @param  mixed $input_data
- * @param  mixed $type
- * @param  mixed $user_id
+ * @param mixed $pattern_code
+ * @param mixed $mobile
+ * @param $params
+ * @param mixed $type
+ * @param mixed $user_id
  * @return void
  */
 function sendSms($pattern_code, $mobile, $params, $type = null, $user_id = null)
 {
 
-    $response=Smsir::ultraFastSend($params, $mobile, $pattern_code);
+    $response = Smsir::ultraFastSend($params, $mobile, $pattern_code);
 
     Sms::create([
-        'mobile'     => $mobile,
-        'ip'         => request()->ip(),
-        'type'       => $type,
-        'user_id'    => $user_id,
-        'response'   => $response,
+        'mobile' => $mobile,
+        'ip' => request()->ip(),
+        'type' => $type,
+        'user_id' => $user_id,
+        'response' => $response,
     ]);
 
     return $response;
@@ -328,13 +330,12 @@ function sluggable_helper_function($string, $separator = '-')
     return preg_replace(array_keys($map), array_values($map), $string);
 }
 
-function convertPersianToEnglish($string)
+function convertPersianToEnglish($string): string
 {
     $persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
     $english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-    $output = str_replace($persian, $english, $string);
-    return $output;
+    return str_replace($persian, $english, $string);
 }
 
 function convert_number($number)
@@ -386,7 +387,7 @@ function convert_number($number)
     /* Ones */
     $res = "";
     if ($Gn) {
-        $res .= convert_number($Gn) .  " میلیون و ";
+        $res .= convert_number($Gn) . " میلیون و ";
     }
     if ($kn) {
         $res .= (empty($res) ? "" : " ") . convert_number($kn) . " هزار و";
@@ -410,8 +411,8 @@ function convert_number($number)
     if (empty($res)) {
         $res = "صفر";
     }
-    $res = rtrim($res, " و");
-    return $res;
+
+    return rtrim($res, " و");
 }
 
 function convertToPersianCharacter(string $string): string
