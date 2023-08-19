@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Auction;
+use Carbon\Carbon;
 use App\Enums\{OrderStatusEnum, AuctionBidTypeEnum};
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\{ShouldBeUnique, ShouldQueue};
@@ -31,10 +32,13 @@ class AuctionWinnerJob implements ShouldQueue
     public function handle(): void
     {
         $auction = Auction::find($this->auctionId);
+        $winnerBidExists = $auction->bids()->where('is_winner', true)->exists();
         $winnerBid = $auction->bids()
             ->where('type', AuctionBidTypeEnum::bid)
             ->orderBy('amount', 'desc')
             ->first();
+
+        if ($auction->is_ended || $winnerBidExists) return;
 
         if (!$winnerBid) {
             $auction->update([
@@ -67,6 +71,8 @@ class AuctionWinnerJob implements ShouldQueue
                 'discount_amount' => 0,
                 'shipping_cost' => $auction->shipping_cost,
             ]);
+
+            dispatch(new CancelOrderJob($order, $auction, $winnerBid))->delay(Carbon::parse($order->created_at)->addHours(12));
         } else {
             $order->update([
                 'price' => $order->price + $winnerBid->amount,
@@ -80,12 +86,8 @@ class AuctionWinnerJob implements ShouldQueue
             'price' => $winnerBid->amount,
         ]);
 
-        $winnerBid->update([
-            'is_winner' => true,
-        ]);
+        $winnerBid->update(['is_winner' => true]);
 
-        $auction->update([
-            'is_ended' => true,
-        ]);
+        $auction->update(['is_ended' => true]);
     }
 }
