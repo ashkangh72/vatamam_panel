@@ -263,6 +263,8 @@ class WidgetController extends Controller
 
                 default:
                 {
+                    if (is_null($option['value'])) break;
+
                     $widget->options()->create([
                         'key' => $option['key'],
                         'value' => $option['value']
