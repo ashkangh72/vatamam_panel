@@ -23,14 +23,9 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function province()
+    public function address(): BelongsTo
     {
-        return $this->belongsTo(Province::class)->withTrashed();
-    }
-
-    public function city()
-    {
-        return $this->belongsTo(City::class)->withTrashed();
+        return $this->belongsTo(Address::class);
     }
 
     public function transactions(): MorphMany
@@ -45,7 +40,7 @@ class Order extends Model
 
     public function auctions(): BelongsToMany
     {
-        return $this->belongsToMany(Auction::class, 'order_auction')->withPivot(['price', 'id', 'discount_price', 'discount_amount', 'title', 'quantity', 'status']);
+        return $this->belongsToMany(Auction::class, 'order_auction')->withPivot(['id', 'quantity', 'status', 'price']);
     }
 
     public function feedback(): HasOne
@@ -65,91 +60,54 @@ class Order extends Model
         return $this->status == OrderStatusEnum::paid->value;
     }
 
-    public function getShipStatusAttribute(): string
-    {
-        return $this->shippingStatusText();
-    }
-
     public function shippingStatusText(): string
     {
-        if ($this->status != 'paid') {
+        if ($this->status != OrderStatusEnum::paid) {
             return 'منتظر پرداخت';
         }
 
-        $text = '';
-
-        switch ($this->shipping_status) {
-            case 'pending':
-            {
-                $text = 'در حال بررسی';
-                break;
-            }
-            case 'wating':
-            {
-                $text = 'منتظر ارسال';
-                break;
-            }
-            case 'sent':
-            {
-                $text = 'ارسال شد';
-                break;
-            }
-            case 'canceled':
-            {
-                $text = 'ارسال لغو شد';
-                break;
-            }
-        }
-
-        return $text;
+        return match ($this->shipping_status) {
+            'pending' => 'در حال بررسی',
+            'shipping_request' => 'منتظر ارسال',
+            'shipped' => 'ارسال شد',
+            default => 'تعریف نشده',
+        };
     }
 
     public function statusText(): string
     {
-        switch ($this->status) {
-            case OrderStatusEnum::paid->value:
-            {
-                return 'پرداخت شده';
-            }
-
-            case "unpaid":
-            {
-                return 'پرداخت نشده';
-            }
-
-            case "canceled":
-            {
-                return 'لغو شده';
-            }
-
-            default:
-                return 'تعریف نشده';
-        }
+        return match ($this->status) {
+            OrderStatusEnum::paid->value => 'پرداخت شده',
+            OrderStatusEnum::pending->value => 'جدید',
+            OrderStatusEnum::locked->value => 'پرداخت نشده',
+            default => 'تعریف نشده',
+        };
     }
 
     public function scopeFilter($query, Request $request)
     {
-
-        if ($fullname = $request->input('query.fullname')) {
-            $query->whereHas('user', function ($q) use ($fullname) {
-                $q->WhereRaw("concat(first_name, ' ', last_name) like '%{$fullname}%' ");
+        if ($name = $request->input('query.name')) {
+            $query->whereHas('user', function ($q) use ($name) {
+                $q->WhereRaw("name like '%{$name}%' ");
+            })->orWhereHas('seller', function ($q) use ($name) {
+                $q->WhereRaw("name like '%{$name}%' ");
             });
         }
 
         if ($username = $request->input('query.username')) {
             $query->whereHas('user', function ($q) use ($username) {
                 $q->Where('username', 'like', "%$username%");
+            })->whereHas('seller', function ($q) use ($username) {
+                $q->Where('username', 'like', "%$username%");
             });
         }
 
         $status = $request->input('query.status');
-
         if ($status && $status != 'all') {
-            $query->Where('status', $status);
+            $query->Where('status', OrderStatusEnum::find($status)->value);
         }
 
         $shipping_status = $request->input('query.shipping_status');
-
         if ($shipping_status && $shipping_status != 'all') {
             $query->Where('shipping_status', $shipping_status);
         }
@@ -158,38 +116,14 @@ class Order extends Model
             $query->where('id', $id);
         }
 
-        $warehouse_id = $request->input('query.warehouse_id');
-        if ($warehouse_id && $warehouse_id != 'all') {
-            $query->join('order_items', 'orders.id', '=', 'order_items.order_id')
-                ->join('prices', 'order_items.price_id', '=', 'prices.id')
-                ->where('prices.warehouse_id', $warehouse_id)
-                ->groupBy('orders.id')
-                ->select('orders.*');
-        }
-
         if ($request->sort) {
-
-            switch ($request->sort['field']) {
-                case 'fullname':
-                {
-                    $query->join('users', 'orders.user_id', '=', 'users.id')
-                        ->orderBy('users.first_name', $request->sort['sort'])
-                        ->orderBy('users.last_name', $request->sort['sort'])
-                        ->select('orders.*');
-                    break;
-                }
-                case 'order_id':
-                {
-                    $query->orderBy('id', $request->sort['sort']);
-                    break;
-                }
-                default:
-                {
-                    if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
-                        $query->orderBy($request->sort['field'], $request->sort['sort']);
-                    }
-                }
-            }
+            match ($request->sort['field']) {
+                'name' => $query->join('users', 'orders.user_id', '=', 'users.id')
+                    ->orderBy('users.name', $request->sort['sort'])
+                    ->select('orders.*'),
+                'order_id' => $query->orderBy('id', $request->sort['sort']),
+                default => $query->orderBy($request->sort['field'], $request->sort['sort']),
+            };
         }
 
         return $query;
@@ -200,28 +134,12 @@ class Order extends Model
         return $this->belongsTo(Discount::class)->withTrashed();
     }
 
-    public function totalDiscount()
-    {
-        $items_discount = 0;
-
-        foreach ($this->items as $item) {
-            $items_discount += $item->discountAmount();
-        }
-
-        return $this->discount_amount;
-    }
-
     public function scopePaid($query)
     {
         return $query->where('status', OrderStatusEnum::paid);
     }
 
-    public function walletHistory(): HasOne
-    {
-        return $this->hasOne(WalletHistory::class)->where('status', 'success');
-    }
-
-    public function seller()
+    public function seller(): BelongsTo
     {
         return $this->belongsTo(User::class, 'seller_id', 'id');
     }

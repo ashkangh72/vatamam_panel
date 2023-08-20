@@ -65,16 +65,22 @@ let order_datatable = (function() {
                 title: 'ردیف',
                 width: 40,
                 template: function(row, i) {
-                    let number = parseInt(server_data.meta.perpage * (server_data.meta.current_page - 1)) + parseInt(i) + 1;
-                    return number;
+                    return parseInt(server_data.meta.perpage * (server_data.meta.current_page - 1)) + parseInt(i) + 1;
                 },
             },
             {
                 field: 'name',
                 title: 'نام سفارش دهنده',
                 template: function(row) {
-                    return '<a href="' + row.user_profile + '">' + row.name + '</a>';
+                    return '<a href="' + row.user_profile + '">' + row.user.name + '</a>';
                 },
+            },
+            {
+                field: 'seller',
+                title: 'نام فروشنده',
+                template: function(row) {
+                    return '<a href="' + row.seller_profile + '">' + row.seller.name + '</a>';
+                }
             },
             {
                 field: 'order_id',
@@ -99,11 +105,11 @@ let order_datatable = (function() {
                 // callback function support for column rendering
                 template: function(row) {
                     let status = {
-                        canceled: {
-                            title: 'لغو شده',
-                            class: ' badge-danger',
+                        pending: {
+                            title: 'جدید',
+                            class: ' badge-warning',
                         },
-                        unpaid: {
+                        locked: {
                             title: 'پرداخت نشده',
                             class: ' badge-danger',
                         },
@@ -111,6 +117,10 @@ let order_datatable = (function() {
                             title: 'پرداخت شده',
                             class: ' badge-success',
                         },
+                        canceled: {
+                            title: 'لغو شده',
+                            class: ' badge-danger',
+                        }
                     };
                     return '<div class="badge badge-pill ' + status[row.status].class + ' badge-md">' + status[row.status].title + '</div>';
                 },
@@ -126,21 +136,17 @@ let order_datatable = (function() {
                             title: 'درحال بررسی',
                             class: ' badge-success',
                         },
-                        wating: {
+                        shipping_request: {
                             title: 'منتظر ارسال',
                             class: ' badge-info',
                         },
-                        sent: {
+                        shipped: {
                             title: 'ارسال شده',
                             class: ' badge-purple',
-                        },
-                        canceled: {
-                            title: 'ارسال لغو شده',
-                            class: ' badge-danger',
-                        },
+                        }
                     };
 
-                    if (row.status === 'unpaid' || row.status === 'canceled') {
+                    if (row.status === 'unpaid' || row.status === 'canceled' || row.shipping_status === null) {
                         return '<div></div>';
                     }
                     return '<div class="badge badge-pill ' + shipping_status[row.shipping_status].class + ' badge-md">' + shipping_status[row.shipping_status].title + '</div>';
@@ -205,87 +211,3 @@ let order_datatable = (function() {
 jQuery(document).ready(function() {
     order_datatable.init();
 });
-
-$('#order-multiple-delete-form').on('submit', function(e) {
-    e.preventDefault();
-
-    $('#multiple-delete-modal').modal('hide');
-
-    let formData = new FormData(this);
-    let ids = datatable.checkbox().getSelectedId();
-
-    ids.forEach(function(id) {
-        formData.append('ids[]', id);
-    });
-
-    $.ajax({
-        url: $(this).attr('action'),
-        type: 'POST',
-        data: formData,
-        success: function(data) {
-            toastr.success('سفارشات انتخاب شده با موفقیت حذف شدند.');
-            datatable.reload();
-        },
-        beforeSend: function(xhr) {
-            block('#main-card');
-            xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
-        },
-        complete: function() {
-            unblock('#main-card');
-        },
-        cache: false,
-        contentType: false,
-        processData: false,
-    });
-});
-
-function multipleFactorPrint() {
-    let ids = datatable.checkbox().getSelectedId();
-
-    $.ajax({
-        type: 'POST',
-        url: BASE_URL + '/orders/api/multiple-factors',
-        contentType: "application/json",
-        dataType: "json",
-        data: JSON.stringify({ids : ids}),
-        success: function(data) {
-            window.open(data.route, '_blank')
-        },
-        beforeSend: function(xhr) {
-            block('#main-card');
-            xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
-        },
-        complete: function() {
-            unblock('#main-card');
-        },
-        cache: false,
-        processData: false,
-    });
-}
-
-$('#multipleShippingStatus').on('change', function (e) {
-    e.preventDefault();
-    $.ajax({
-        url: $('#multipleShippingStatus').data('action'),
-        type: 'POST',
-        contentType: "application/json",
-        dataType: "json",
-        data: JSON.stringify({
-            ids : datatable.checkbox().getSelectedId(),
-            shipping_status : $('#multipleShippingStatus option:selected').val()
-        }),
-        success: function(data) {
-            toastr.success('سفارشات انتخاب شده با موفقیت تغییر وضعیت داده شدند.');
-            datatable.reload();
-        },
-        beforeSend: function(xhr) {
-            block('#main-card');
-            xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
-        },
-        complete: function() {
-            unblock('#main-card');
-        },
-        cache: false,
-        processData: false,
-    });
-})

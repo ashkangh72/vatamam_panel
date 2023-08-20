@@ -277,13 +277,28 @@
                             <a href="{{ route('admin.statistics.users') }}"><i class="feather icon-circle"></i><span class="menu-item">کاربران</span></a>
                         </li>
                     @endcan
-{{--                        @can('statistics.sms')--}}
-{{--                            <li class="{{ active_class('admin.statistics.smsLog') }}">--}}
-{{--                                <a href="{{ route('admin.statistics.smsLog') }}"><i class="feather icon-circle"></i><span class="menu-item"> لاگ پیامک های ارسالی</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
+{{--                    @can('statistics.sms')--}}
+{{--                        <li class="{{ active_class('admin.statistics.smsLog') }}">--}}
+{{--                            <a href="{{ route('admin.statistics.smsLog') }}"><i class="feather icon-circle"></i><span class="menu-item"> لاگ پیامک های ارسالی</span></a>--}}
+{{--                        </li>--}}
+{{--                    @endcan--}}
                 </ul>
             </li>
+            @endcan
+            @can('orders')
+                <li class="nav-item has-sub {{ open_class(['admin.orders.*']) }}"><a href="#"><i class="feather icon-briefcase"></i><span class="menu-title" > سفارشات</span></a>
+                    <ul class="menu-content">
+                        @can('orders.index')
+                            <li class="{{ active_class('admin.orders.index') }}">
+                                <a href="{{ route('admin.orders.index') }}">
+                                    <i class="feather icon-circle"></i>
+                                    <span class="menu-item">همه سفارشات</span>
+                                    <span class="badge badge-transparent ml-1">{{ $ordersCount }}</span>
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
             @endcan
             @can('redirects')
                 <li class="{{ active_class('admin.redirects.*') }} nav-item">
@@ -391,54 +406,6 @@
 {{--                        @endcan--}}
 {{--                    </ul>--}}
 {{--                </li>--}}
-{{--            @endcan--}}
-
-{{--            @can('orders')--}}
-                <li class="nav-item has-sub {{ open_class(['admin.orders.*']) }}"><a href="#"><i class="feather icon-briefcase"></i><span class="menu-title" > سفارشات</span></a>
-                    <ul class="menu-content">
-{{--                        @can('orders.index')--}}
-{{--                            <li class="{{ active_class('admin.orders.index') }}">--}}
-{{--                                <a href="{{ route('admin.orders.index') }}">--}}
-{{--                                    <i class="feather icon-circle"></i>--}}
-{{--                                    <span class="menu-item">همه سفارشات</span>--}}
-{{--                                    <span class="badge badge-transparent ml-1">{{ \App\Models\Order::count() }}</span>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-
-{{--                        @can('orders.index')--}}
-{{--                            <li class="">--}}
-{{--                                <a href="{{ route('admin.orders.index') }}?status=paid&shipping_status=pending">--}}
-{{--                                    <i class="feather icon-circle"></i>--}}
-{{--                                    <span class="menu-item">سفارشات جدید</span>--}}
-{{--                                    <span class="badge badge-transparent ml-1">{{ \App\Models\Order::where('status', 'paid')->where('shipping_status', 'pending')->count() }}</span>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-
-{{--                        @can('orders.index')--}}
-{{--                            <li class="">--}}
-{{--                                <a href="{{ route('admin.orders.index') }}?status=paid">--}}
-{{--                                    <i class="feather icon-circle"></i>--}}
-{{--                                    <span class="menu-item">سفارشات پرداخت شده</span>--}}
-{{--                                    <span class="badge badge-transparent ml-1">{{ \App\Models\Order::where('status', 'paid')->count() }}</span>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-
-{{--                        @can('orders.index')--}}
-{{--                            <li class="{{ active_class('admin.orders.notCompleted') }}">--}}
-{{--                                <a href="{{ route('admin.orders.notCompleted') }}"><i class="feather icon-circle"></i><span class="menu-item"> محصولات منتظر ارسال</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-
-{{--                        @can('orders.create')--}}
-{{--                            <li class="{{ active_class('admin.orders.create') }}">--}}
-{{--                                <a href="{{ route('admin.orders.create') }}"><i class="feather icon-circle"></i><span class="menu-item">افزودن سفارش</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-                    </ul>
-                </li>
 {{--            @endcan--}}
 
 

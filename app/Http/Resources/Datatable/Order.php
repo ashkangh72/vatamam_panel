@@ -13,7 +13,7 @@ class Order extends JsonResource
      * @param Request $request
      * @return array
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         $today = todayVerta();
         $createdAt = tverta($this->created_at);
@@ -25,17 +25,23 @@ class Order extends JsonResource
         }
 
         return [
-            'id'                => $this->id,
-            'order_id'          => $this->id,
-            'user_profile'      => route('admin.users.show', ['user' => $this->user_id]),
-            'name'              => htmlspecialchars($this->name),
-            'created_at'        => $formattedCreatedAt,
-            'price'             => number_format($this->price) . ' تومان',
-            'status'            => $this->status,
-            'shipping_status'   => $this->shipping_status,
+            'id' => $this->id,
+            'order_id' => $this->id,
+            'user_profile' => route('admin.users.show', ['user' => $this->user_id]),
+            'seller_profile' => route('admin.users.show', ['user' => $this->seller_id]),
+            'user' => [
+                'name' => $this->user->name,
+            ],
+            'seller' => [
+                'name' => $this->seller->name,
+            ],
+            'created_at' => $formattedCreatedAt,
+            'price' => number_format($this->price) . ' تومان',
+            'status' => $this->status->name,
+            'shipping_status' => $this->shipping_status,
 
             'links' => [
-                'view'    => route('admin.orders.show', ['order' => $this]),
+                'view' => route('admin.orders.show', ['order' => $this]),
             ]
         ];
     }

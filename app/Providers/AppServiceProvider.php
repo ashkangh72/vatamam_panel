@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Enums\CommentStatusEnum;
-use App\Models\{Comment, Page};
+use App\Models\{Comment, Order, Page};
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,8 +29,9 @@ class AppServiceProvider extends ServiceProvider
         view()->composer(['back.partials.sidebar'], function ($view) {
             $notificationsCount = auth()->user()->unreadNotifications()->count();
             $commentsCount = Comment::where('status', CommentStatusEnum::pending)->count();
+            $ordersCount = Order::count();
 
-            $view->with(compact('notificationsCount', 'commentsCount'));
+            $view->with(compact('notificationsCount', 'commentsCount', 'ordersCount'));
         });
 
         view()->composer(['back.menus.index', 'back.slides.create', 'back.slides.edit', 'back.links.create', 'back.links.edit'], function ($view) {

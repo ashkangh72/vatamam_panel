@@ -269,7 +269,7 @@
                     <table style="height: 100%" class="centered">
                         <tr>
                             <td style="width: 6.7cm">
-                                <span class="label">خریدار:</span> {{ $order->name }}
+                                <span class="label">خریدار:</span> {{ $order->address->recipient_name }}
                             </td>
                         </tr>
                         <tr>
@@ -277,16 +277,16 @@
                                 <span class="label">نشانی:</span>
                                 ایران،
                                 استان
-                                {{ $order->province ? $order->province->name : '' }}
+                                {{ $order->address->city ? $order->address->city->province->name : '' }}
                                 ، ‌شهر
-                                {{ $order->city ? $order->city->name : '' }}
+                                {{ $order->address->city ? $order->address->city->name : '' }}
                                 ،
-                                {{ $order->address }}
+                                {{ $order->address->address }}
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <span class="label">شماره تماس:</span>{{ $order->mobile }}
+                                <span class="label">شماره تماس:</span>{{ $order->recipient_phone }}
                             </td>
                             <td colspan="2">
                                 <span class="label">کد پستی:</span> {{ $order->postal_code }}
@@ -299,8 +299,7 @@
                 <div class="grow bordered" style="padding: 2mm 5mm;">
                     <div class="flex">
                         <div>تاریخ:</div>
-                        <div class="flex-grow"
-                             style="text-align: left">{{ tverta($order->created_at)->format('Y-m-d') }}</div>
+                        <div class="flex-grow" style="text-align: left">{{ tverta($order->created_at)->format('Y-m-d') }}</div>
                     </div>
                     <div class="flex">
                         <div>پیگیری:</div>
@@ -318,48 +317,27 @@
         <thead>
         <tr>
             <th style="width: 5%">ردیف</th>
-            <th style="width: 7%">کد کالا</th>
+            <th style="width: 12%">کد کالا</th>
             <th style="width: 40%">شرح کالا</th>
             <th style="width: 5%">تعداد</th>
-            <th style="width: 12.66%">مبلغ واحد (تومان)</th>
-            <th style="width: 12.66%">مبلغ کل (تومان)</th>
-            <th style="width: 5%">تخفیف</th>
-            <th style="width: 12.66%"> جمع کل پس از تخفیف (تومان)</th>
+            <th style="width: 15%">مبلغ واحد (تومان)</th>
+            <th style="width: 23%">مبلغ کل (تومان)</th>
         </tr>
         </thead>
-        @foreach($order->items as $item)
+        @foreach($order->auctions as $auction)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>@if($item->product){{ $item->product->sku }}@else -- @endif</td>
-                <td>
-                    <div class="title">
-                        {{ $item->title }}
-
-                        @if ($item->get_price)
-                            @foreach ($item->get_price->get_attributes as $attribute)
-
-                                @if ($attribute->group->type == 'color')
-                                    <span class="order-product-color d-print-none" style="background-color: {{ $attribute->value }};"></span>
-                                    <span>{{ $attribute->group->name }}: {{ $attribute->name }}</span>
-                                @else
-                                    <span>{{ $attribute->group->name }}: {{ $attribute->name }}</span>
-                                @endif
-
-                            @endforeach
-                        @endif
-                    </div>
-                </td>
-                <td><span class="ltr">{{ $item->quantity }}</span></td>
-                <td><span class="ltr">{{ number_format($item->realPrice()) }}</span></td>
-                <td><span class="ltr">{{ number_format($item->quantity * $item->realPrice()) }}</span></td>
-                <td><span class="ltr">{{ $item->discount ? $item->discount . '%' : 0 }}</span></td>
-                <td><span class="ltr">{{ number_format($item->price * $item->quantity) }}</span></td>
+                <td>{{ $auction->sku }}</td>
+                <td><div class="title">{{ $auction->title }}</div></td>
+                <td><span class="ltr">{{ $auction->pivot->quantity }}</span></td>
+                <td><span class="ltr">{{ number_format($auction->price) }}</span></td>
+                <td><span class="ltr">{{ number_format($auction->pivot->quantity * $auction->pivot->price) }}</span></td>
             </tr>
         @endforeach
         <tfoot>
         <tr>
-            <td colspan="5"></td>
-            <td  colspan="2"  class="font-small">
+            <td colspan="4"></td>
+            <td colspan="1" class="font-small">
                 هزینه ارسال (تومان):
             </td>
             <td >
@@ -367,11 +345,11 @@
             </td>
         </tr>
         <tr>
-            <td colspan="5">
-            <td colspan="2" class="font-small">
+            <td colspan="4"></td>
+            <td colspan="1" class="font-small">
                 جمع کل پس از تخفیف (تومان):
             </td>
-            <td >
+            <td>
                 <span class="ltr">{{ number_format($order->price) }}</span>
             </td>
         </tr>
@@ -400,9 +378,9 @@
 <script src="{{ asset('public/back/assets/js/jquery-barcode.min.js') }}"></script>
 <script>
     $(document).ready(function () {
-        var valuecodeFactor = $("#codeFactor").val();
-        var btypecodeFactor = "codabar";
-        var settingscodeFactor = {
+        let valuecodeFactor = $("#codeFactor").val();
+        let btypecodeFactor = "codabar";
+        let settingscodeFactor = {
             barWidth: 1,
             barHeight: 25,
             showHRI: false,
@@ -411,9 +389,9 @@
             valuecodeFactor, btypecodeFactor, settingscodeFactor
         );
 
-        var valueFollowUp = $("#codeFollowUp").val();
-        var btypeFollowUp = "codabar";
-        var settingsFollowUp = {
+        let valueFollowUp = $("#codeFollowUp").val();
+        let btypeFollowUp = "codabar";
+        let settingsFollowUp = {
             barWidth: 1,
             barHeight: 25,
             showHRI: false,

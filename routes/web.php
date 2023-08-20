@@ -153,17 +153,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 
     // ------------------ orders
     Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');
-    Route::resource('orders', OrderController::class);
-    Route::get('orders/api/userInfo', [OrderController::class, 'userInfo'])->name('orders.userInfo');
-    Route::get('orders/api/productsList', [OrderController::class, 'productsList'])->name('orders.productsList');
-    Route::post('orders/{order}/shipping-status', [OrderController::class, 'shipping_status'])->name('orders.shipping-status');
-    Route::get('orders/{order}/factor', [OrderController::class, 'factor'])->name('orders.factor');
-    Route::get('orders/{order}/post-label', [OrderController::class, 'postLabel'])->name('orders.post-label');
+    Route::resource('orders', OrderController::class)->only(['index', 'show']);
     Route::post('orders/api/index', [OrderController::class, 'apiIndex'])->name('orders.apiIndex');
-    Route::delete('orders/api/multipleDestroy', [OrderController::class, 'multipleDestroy'])->name('orders.multipleDestroy');
-    Route::post('orders/api/multiple-factors', [OrderController::class, 'multipleFactors'])->name('orders.multipleFactors');
-    Route::post('orders/api/multiple-shipping-status', [OrderController::class, 'multipleShippingStatus'])->name('orders.multipleShippingStatus');
-    Route::get('order/not-completed/products', [OrderController::class, 'notCompleted'])->name('orders.notCompleted');
+    Route::get('orders/{order}/factor', [OrderController::class, 'factor'])->name('orders.factor');
 
 //    Route::get('statistics/smsLog', [StatisticsController::class, 'smsLog'])->name('statistics.smsLog');
 //

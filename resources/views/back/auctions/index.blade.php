@@ -84,7 +84,7 @@
                     </button>
                 </div>
                 <div class="modal-body" data-id="">
-                    با حذف مزایده ها دیگر قادر به بازیابی آنها نخواهید بود
+
                 </div>
                 <div class="modal-footer">
                     <form action="{{ route('admin.auctions.accept') }}" id="auction-accept-form">

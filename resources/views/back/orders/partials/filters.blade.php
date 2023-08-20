@@ -16,7 +16,7 @@
                         <div class="col-md-3">
                             <label>نام و نام خانوادگی</label>
                             <fieldset class="form-group">
-                                <input type="text" class="form-control datatable-filter" name="fullname" value="{{ request('fullname') }}">
+                                <input type="text" class="form-control datatable-filter" name="name" value="{{ request('name') }}">
                             </fieldset>
                         </div>
 
@@ -39,8 +39,8 @@
                                 <select name="status" class="form-control datatable-filter">
                                     <option value="all" {{ request('status') == 'all' ? 'selected' : '' }}>همه</option>
                                     <option value="paid" {{ request('status') == 'paid' ? 'selected' : '' }}>پرداخت شده</option>
-                                    <option value="unpaid" {{ request('status') == 'unpaid' ? 'selected' : '' }}>پرداخت نشده</option>
-                                    <option value="canceled" {{ request('status') == 'canceled' ? 'selected' : '' }}>لغو شده</option>
+                                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>جدید</option>
+                                    <option value="locked" {{ request('status') == 'locked' ? 'selected' : '' }}>پرداخت نشده</option>
                                 </select>
                             </fieldset>
                         </div>
@@ -50,20 +50,8 @@
                                 <select name="shipping_status" class="form-control datatable-filter">
                                     <option value="all" {{ request('shipping_status') == 'all' ? 'selected' : '' }}>همه</option>
                                     <option value="pending" {{ request('shipping_status') == 'pending' ? 'selected' : '' }}>در حال بررسی</option>
-                                    <option value="wating" {{ request('shipping_status') == 'wating' ? 'selected' : '' }}>منتظر ارسال</option>
-                                    <option value="sent" {{ request('shipping_status') == 'sent' ? 'selected' : '' }}>ارسال شد</option>
-                                    <option value="canceled" {{ request('shipping_status') == 'canceled' ? 'selected' : '' }}>ارسال لغو شد</option>
-                                </select>
-                            </fieldset>
-                        </div>
-                        <div class="col-md-2">
-                            <label>انبار</label>
-                            <fieldset class="form-group">
-                                <select name="warehouse_id" class="form-control datatable-filter">
-                                    <option value="all" {{ request('warehouse_id') == 'all' ? 'selected' : '' }}>همه</option>
-                                    @foreach($warehouses as $warehouse)
-                                        <option value="{{ $warehouse->id }}" {{ request('warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->name }}</option>
-                                    @endforeach
+                                    <option value="shipping_request" {{ request('shipping_status') == 'shipping_request' ? 'selected' : '' }}>منتظر ارسال</option>
+                                    <option value="shipped" {{ request('shipping_status') == 'shipped' ? 'selected' : '' }}>ارسال شده</option>
                                 </select>
                             </fieldset>
                         </div>

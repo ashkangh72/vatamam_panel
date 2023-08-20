@@ -1,7 +1,7 @@
 @extends('back.layouts.master')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('public/back/assets/css/pages/order.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/back/assets/css/pages/order.css') }}">
 @endpush
 
 @section('content')
@@ -15,12 +15,9 @@
                         <div class="col-12">
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb no-border">
-                                    <li class="breadcrumb-item">مدیریت
-                                    </li>
-                                    <li class="breadcrumb-item">مدیریت سفارشات
-                                    </li>
-                                    <li class="breadcrumb-item active">اطلاعات سفارش شماره {{ $order->id }}
-                                    </li>
+                                    <li class="breadcrumb-item">مدیریت</li>
+                                    <li class="breadcrumb-item">مدیریت سفارشات</li>
+                                    <li class="breadcrumb-item active">اطلاعات سفارش شماره {{ $order->id }}</li>
                                 </ol>
                             </div>
                         </div>
@@ -37,29 +34,21 @@
                             <div class="card">
                                 <div class="card-header">
                                     <div class="card-title">عملیات</div>
-
                                 </div>
                                 <div class="card-body" id="main-card">
                                     <div class="row">
 
                                         <div class="col-md-4">
-                                            <fieldset class="form-group">
-                                                <select class="custom-select" id="shipping-status" data-action="{{ route('admin.orders.shipping-status', ['order' => $order]) }}" {{ (!$order->hasPhysicalItem() || $order->status != 'paid') ? 'disabled' : '' }}>
-                                                    <option {{ ($order->shipping_status == 'pending') ? 'selected' : '' }} value="pending">در حال بررسی</option>
-                                                    <option {{ ($order->shipping_status == 'wating') ? 'selected' : '' }} value="wating">منتظر ارسال</option>
-                                                    <option {{ ($order->shipping_status == 'sent') ? 'selected' : '' }} value="sent">ارسال شد</option>
-                                                    <option {{ ($order->shipping_status == 'canceled') ? 'selected' : '' }} value="canceled">ارسال لغو شد</option>
-                                                </select>
-                                            </fieldset>
-                                            <span>{{ !$order->hasPhysicalItem() ? 'سفارش محصول فیزیکی ندارد' : '' }}</span>
-                                            <span>{{ ($order->status != 'paid') ? 'سفارش پرداخت نشده است' : '' }}</span>
+                                            <span>{{ ($order->status != \App\Enums\OrderStatusEnum::paid) ? 'سفارش پرداخت نشده است' : '' }}</span>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="float-right">
-{{--                                                <button id="print-order" type="button" class="btn btn-outline-primary mr-1 waves-effect waves-light"><i class="feather icon-printer"></i> چاپ</button>--}}
-                                                <a type="button" href="{{ route('admin.orders.factor', ['order' => $order->id]) }}" target="_blank" class="btn btn-outline-primary mr-1 waves-effect waves-light"><i class="feather icon-printer"></i>فاکتور</a>
-                                                <a type="button" href="{{ route('admin.orders.post-label', ['order' => $order->id]) }}" target="_blank" class="btn btn-outline-primary mr-1 waves-effect waves-light"><i class="feather icon-printer"></i>برچسب پستی</a>
-                                                <button type="button" data-toggle="modal" data-target="#delete-modal" class="btn mt-1 mt-lg-0 btn-outline-danger waves-effect waves-light"><i class="feather icon-trash-2"></i> حذف سفارش</button>
+                                                <a type="button"
+                                                   href="{{ route('admin.orders.factor', ['order' => $order->id]) }}"
+                                                   target="_blank"
+                                                   class="btn btn-outline-primary mr-1 waves-effect waves-light">
+                                                    <i class="feather icon-printer"></i>فاکتور
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -73,7 +62,12 @@
                                     <div class="card-title">مشخصات کاربر</div>
                                     <div class="heading-elements">
                                         <ul class="list-inline mb-0">
-                                            <li><a href="{{ route('admin.users.show', ['user' => $order->user]) }}" target="_blank"><i class="feather icon-external-link"></i></a></li>
+                                            <li>
+                                                <a href="{{ route('admin.users.show', ['user' => $order->user]) }}"
+                                                   target="_blank">
+                                                    <i class="feather icon-external-link"></i>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -85,17 +79,9 @@
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <dt class="col-6">نام :</dt>
-                                                        <dd class="col-6">{{ $order->user->first_name }}</dd>
+                                                        <dd class="col-6">{{ $order->user->name }}</dd>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <dt class="col-6">نام خانوادگی :</dt>
-                                                        <dd class="col-6">{{ $order->user->last_name }}
-                                                        </dd>
-                                                    </div>
-                                                </div>
-
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -106,11 +92,16 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="row">
-                                                        <dt class="col-6">ایمیل :</dt>
-                                                        <dd class="col-6">{{ $order->user->email ? $order->user->email : '-' }}</dd>
+                                                        <dt class="col-6">شماره تماس :</dt>
+                                                        <dd class="col-6">{{ $order->user->phone ?: '-' }}</dd>
                                                     </div>
                                                 </div>
-
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <dt class="col-6">ایمیل :</dt>
+                                                        <dd class="col-6">{{ $order->user->email ?: '-' }}</dd>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -128,80 +119,50 @@
                                     <div class="col-md-6 col-12 ">
                                         <table class="details">
                                             <tbody>
-                                                <tr>
-                                                    <td class="font-weight-bold">نام و نام خانوادگی :</td>
-                                                    <td>{{ $order->name }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">شماره همراه :</td>
-                                                    <td>{{ $order->mobile }}</td>
-                                                </tr>
-
-                                                @if ($order->hasPhysicalProduct())
-                                                    <tr>
-                                                        <td class="font-weight-bold">استان :</td>
-                                                        <td>{{ $order->province ? $order->province->name : '' }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="font-weight-bold">شهر :</td>
-                                                        <td>{{ $order->city ? $order->city->name : '' }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="font-weight-bold">کد پستی :</td>
-                                                        <td>{{ $order->postal_code }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="font-weight-bold">آدرس کامل :</td>
-                                                        <td>{{ $order->address }}</td>
-                                                    </tr>
-                                                @endif
+                                            <tr>
+                                                <td class="font-weight-bold">استان :</td>
+                                                <td>{{ $order->address->province ? $order->address->province->name : '' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">شهر :</td>
+                                                <td>{{ $order->address->city ? $order->address->city->name : '' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">کد پستی :</td>
+                                                <td>{{ $order->address->postal_code }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">آدرس کامل :</td>
+                                                <td>{{ $order->address->address }}</td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="col-md-6 col-12 ">
                                         <table class="details">
                                             <tbody>
-                                                @if ($order->hasPhysicalProduct())
-                                                    <tr>
-                                                        <td class="font-weight-bold">شیوه تحویل :</td>
-                                                        <td>پست پیشتاز</td>
-                                                    </tr>
-                                                @endif
-                                                <tr>
-                                                    <td class="font-weight-bold">تاریخ ثبت :</td>
-                                                    <td>{{ tverta($order->created_at) }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">نحوه پرداخت :</td>
-                                                    <td>
-                                                        @if ($order->gateway == 'wallet') کیف پول
-                                                        @elseif ($order->gateway == 'cash') نقدی
-                                                        @else {{ 'درگاه '.$order->gatewayRelation->name }}
-                                                        @endif
-                                                    </td>
-                                                </tr>
-
-                                                @if ($order->hasPhysicalProduct())
-                                                    <tr>
-                                                        <td class="font-weight-bold">هزینه ارسال:</td>
-                                                        <td>{{ number_format($order->shipping_cost) }} تومان</td>
-                                                    </tr>
-                                                @endif
-                                                <tr>
-                                                    <td class="font-weight-bold">تخفیف:</td>
-                                                    <td>{{ number_format($order->totalDiscount()) }} تومان</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">جمع قیمت</td>
-                                                    <td>{{ number_format($order->price) }} تومان</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">توضیحات سفارش :</td>
-                                                    <td>
-                                                        {{ $order->description }}
-                                                    </td>
-                                                </tr>
-
+                                            <tr>
+                                                <td class="font-weight-bold">تاریخ ثبت :</td>
+                                                <td>{{ tverta($order->created_at) }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">هزینه ارسال:</td>
+                                                <td>{{ number_format($order->shipping_cost) }} تومان</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">تخفیف:</td>
+                                                <td>{{ number_format($order->discount_amount) }} تومان</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">جمع قیمت</td>
+                                                <td>{{ number_format($order->price) }} تومان</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="font-weight-bold">توضیحات سفارش :</td>
+                                                <td>
+                                                    {{ $order->description }}
+                                                </td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -213,54 +174,27 @@
                                                 <tr>
                                                     <th>شناسه(sku)</th>
                                                     <th>تصویر</th>
-                                                    <th style="width: 300px;">نام محصول</th>
-                                                    <th>انبار</th>
+                                                    <th style="width: 300px;">نام مزایده</th>
                                                     <th>تعداد</th>
                                                     <th>قیمت واحد</th>
                                                     <th>قیمت کل</th>
-                                                    <th>تخفیف</th>
-                                                    <th>قیمت نهایی</th>
                                                 </tr>
                                             </thead>
-
                                             <tbody>
-                                                @foreach($order->items as $item)
+                                                @foreach($order->auctions as $auction)
                                                     <tr>
-                                                        <td>@if($item->product){{ $item->product->sku }}@else -- @endif</td>
+                                                        <td>{{ $auction->sku }}</td>
                                                         <td>
-                                                            @if($item->product)
-                                                                <a href="{{ Route::has('front.products.show') ? route('front.products.show', ['product' => $item->product]) : '' }}" target="_blank"><img class="table-img" src="{{ $item->product->image ? asset($item->product->image) : asset('public//empty.jpg') }}"></a>
-                                                            @else
-                                                                <img class="table-img" src="{{ asset('public/empty.jpg') }}">
-                                                            @endif
+                                                            <a href="{{ env('WEBSITE_URL') . '/auction/' . $auction->slug }}" target="_blank">
+                                                                <img class="table-img" src="{{ $auction->picture }}">
+                                                            </a>
                                                         </td>
-                                                        <td class="order-product-name">
-                                                            {{ $item->title }}
-
-                                                            @if ($item->get_price)
-                                                                @foreach ($item->get_price->get_attributes as $attribute)
-
-                                                                    @if ($attribute->group->type == 'color')
-                                                                        <span class="order-product-color d-print-none" style="background-color: {{ $attribute->value }};"></span>
-                                                                        <span>{{ $attribute->group->name }}: {{ $attribute->name }}</span>
-
-                                                                    @else
-                                                                        <span>{{ $attribute->group->name }}: {{ $attribute->name }}</span>
-                                                                    @endif
-
-                                                                @endforeach
-                                                            @endif
-
-                                                        </td>
-                                                        <td>{{ $item->product->warehouse->name ?? '-' }}</td>
-                                                        <td>{{ $item->quantity }}</td>
-                                                        <td>{{ number_format($item->realPrice()) }} تومان</td>
-                                                        <td>{{ number_format($item->quantity * $item->realPrice()) }} تومان</td>
-                                                        <td>{{ $item->discount ? $item->discount . '%' : 0 }}</td>
-                                                        <td>{{ number_format($item->price * $item->quantity) }} تومان</td>
+                                                        <td class="order-product-name">{{ $auction->title }}</td>
+                                                        <td>{{ $auction->pivot->quantity }}</td>
+                                                        <td>{{ number_format($auction->pivot->price) }} تومان</td>
+                                                        <td>{{ number_format($auction->pivot->quantity * $auction->pivot->price) }} تومان</td>
                                                     </tr>
                                                 @endforeach
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -272,37 +206,7 @@
                     </div>
                 </section>
                 <!-- page users view end -->
-
-            </div>
-        </div>
-    </div>
-
-    {{-- delete order modal --}}
-    <div class="modal fade text-left" id="delete-modal" tabindex="-1" role="dialog"  aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel19">آیا مطمئن هستید؟</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    با حذف سفارش دیگر قادر به بازیابی آن نخواهید بود
-                </div>
-                <div class="modal-footer">
-                    <form method="POST" action="{{ route('admin.orders.destroy', ['order' => $order]) }}" id="product-delete-form">
-                        @csrf
-                        @method('delete')
-                        <button type="button" class="btn btn-success waves-effect waves-light" data-dismiss="modal">خیر</button>
-                        <button type="submit" class="btn btn-danger waves-effect waves-light">بله حذف شود</button>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script src="{{ asset('public/back/assets/js/pages/orders/show.js') }}"></script>
-@endpush
