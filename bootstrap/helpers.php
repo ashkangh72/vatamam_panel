@@ -436,3 +436,18 @@ function formatPriceUnits($price)
 
     return $price;
 }
+
+function get_option_property($obj, $property)
+{
+    $obj = json_decode($obj);
+
+    if (!is_object($obj)) {
+        return null;
+    }
+
+    if (property_exists($obj, $property)) {
+        return $obj->$property;
+    }
+
+    return null;
+}
