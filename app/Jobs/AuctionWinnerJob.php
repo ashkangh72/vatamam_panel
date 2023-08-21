@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Auction;
+use App\Models\Order;
 use Carbon\Carbon;
 use App\Enums\{OrderStatusEnum, AuctionBidTypeEnum};
 use Illuminate\Bus\Queueable;
@@ -63,7 +64,8 @@ class AuctionWinnerJob implements ShouldQueue
             ->first();
 
         if (!$order) {
-            $order = $winner->order()->create([
+            $order = Order::create([
+                'user_id' => $winner->id,
                 'seller_id' => $auction->user_id,
                 'quantity' => 1,
                 'price' => $winnerBid->amount,
