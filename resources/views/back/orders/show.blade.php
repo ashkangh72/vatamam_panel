@@ -121,19 +121,19 @@
                                             <tbody>
                                             <tr>
                                                 <td class="font-weight-bold">استان :</td>
-                                                <td>{{ $order->address->province ? $order->address->province->name : '' }}</td>
+                                                <td>{{ $order->address ? ($order->address->city ? $order->address->city->province->name : '--') : '--' }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="font-weight-bold">شهر :</td>
-                                                <td>{{ $order->address->city ? $order->address->city->name : '' }}</td>
+                                                <td>{{ $order->address ? ($order->address->city ? $order->address->city->name : '--') : '--' }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="font-weight-bold">کد پستی :</td>
-                                                <td>{{ $order->address->postal_code }}</td>
+                                                <td>{{ $order->address ? $order->address->postal_code : '--' }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="font-weight-bold">آدرس کامل :</td>
-                                                <td>{{ $order->address->address }}</td>
+                                                <td>{{ $order->address ? $order->address->address : '--' }}</td>
                                             </tr>
                                             </tbody>
                                         </table>
