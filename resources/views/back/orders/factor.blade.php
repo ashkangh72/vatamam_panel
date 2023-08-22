@@ -269,7 +269,7 @@
                     <table style="height: 100%" class="centered">
                         <tr>
                             <td style="width: 6.7cm">
-                                <span class="label">خریدار:</span> {{ $order->address->recipient_name }}
+                                <span class="label">خریدار:</span> {{ $order->address ? $order->address->recipient_name : '--' }}
                             </td>
                         </tr>
                         <tr>
@@ -277,19 +277,19 @@
                                 <span class="label">نشانی:</span>
                                 ایران،
                                 استان
-                                {{ $order->address->city ? $order->address->city->province->name : '' }}
+                                {{ $order->address ? ($order->address->city ? $order->address->city->province->name : '--') : '--' }}
                                 ، ‌شهر
-                                {{ $order->address->city ? $order->address->city->name : '' }}
+                                {{ $order->address ? ($order->address->city ? $order->address->city->name : '--') : '--' }}
                                 ،
-                                {{ $order->address->address }}
+                                {{ $order->address ? $order->address->address : '--' }}
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <span class="label">شماره تماس:</span>{{ $order->recipient_phone }}
+                                <span class="label">شماره تماس:</span>{{ $order->address ? $order->address->recipient_phone : '--' }}
                             </td>
                             <td colspan="2">
-                                <span class="label">کد پستی:</span> {{ $order->postal_code }}
+                                <span class="label">کد پستی:</span> {{ $order->address ? $order->address->postal_code : '--' }}
                             </td>
                         </tr>
                     </table>
