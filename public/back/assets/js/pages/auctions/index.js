@@ -1,24 +1,24 @@
 "use strict";
 // Class definition
 
-var datatable;
+let datatable;
 
-var auction_datatable = function() {
+let auction_datatable = function () {
 
     // Private functions
 
-    var options = {
+    let options = {
         // datasource definition
         data: {
             type: 'remote',
             source: {
                 read: {
                     url: $('#auctions_datatable').data('action'),
-                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    map: function(raw) {
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    map: function (raw) {
 
                         // sample data mapping
-                        var dataSet = raw;
+                        let dataSet = raw;
                         if (typeof raw.data !== 'undefined') {
                             dataSet = raw.data;
                         }
@@ -45,21 +45,21 @@ var auction_datatable = function() {
 
         // columns definition
         columns: [{
-                field: 'id',
-                title: '#',
-                sortable: false,
-                width: 20,
-                selector: {
-                    class: ''
-                },
-                textAlign: 'center',
+            field: 'id',
+            title: '#',
+            sortable: false,
+            width: 20,
+            selector: {
+                class: ''
             },
+            textAlign: 'center',
+        },
             {
                 field: 'picture',
                 title: 'تصویر',
                 sortable: false,
                 width: 80,
-                template: function(row) {
+                template: function (row) {
 
                     return '<img class="post-thumb" src="' + row.picture + '" alt="' + row.title + '">';
                 }
@@ -68,7 +68,7 @@ var auction_datatable = function() {
                 field: 'title',
                 title: 'عنوان',
                 width: 200,
-                template: function(row) {
+                template: function (row) {
                     return '<a href="' + row.url + '">' + row.title + '</a>';
                 }
             },
@@ -76,7 +76,7 @@ var auction_datatable = function() {
                 field: 'sku',
                 title: 'شناسه مزایده',
                 width: 200,
-                template: function(row) {
+                template: function (row) {
                     return row.sku;
                 }
             },
@@ -84,7 +84,7 @@ var auction_datatable = function() {
                 field: 'base_price',
                 title: 'قیمت پایه',
                 width: 200,
-                template: function(row) {
+                template: function (row) {
                     return row.base_price;
                 }
             },
@@ -92,7 +92,7 @@ var auction_datatable = function() {
                 field: 'username',
                 title: 'نام کاربر',
                 width: 200,
-                template: function(row) {
+                template: function (row) {
                     return row.username;
                 }
             },
@@ -100,7 +100,7 @@ var auction_datatable = function() {
                 field: 'category',
                 title: 'دسته',
                 width: 200,
-                template: function(row) {
+                template: function (row) {
                     return row.category;
                 }
             },
@@ -109,14 +109,14 @@ var auction_datatable = function() {
                 width: 200,
                 sortable: 'desc',
                 title: 'وضعیت',
-                template: function(row) {
+                template: function (row) {
                     let status = ``;
-                    if (row.status==='rejected')
-                        status=`<span class="badg badge-danger mb-2">رد شده</span><small>${row.reject_reason}</small>`;
-                    if (row.status==='approved')
-                        status=`<span class="badge badge-success">تایید شده</span>`;
-                    if (row.status==='pending_approval')
-                        status=`<span class="badge badge-info">منتظر تایید</span>`;
+                    if (row.status === 'rejected')
+                        status = `<span class="badg badge-danger mb-2">رد شده</span><small>${row.reject_reason}</small>`;
+                    if (row.status === 'approved')
+                        status = `<span class="badge badge-success">تایید شده</span>`;
+                    if (row.status === 'pending_approval')
+                        status = `<span class="badge badge-info">منتظر تایید</span>`;
                     return status;
                 }
             },
@@ -124,7 +124,7 @@ var auction_datatable = function() {
                 field: 'created_at',
                 sortable: 'desc',
                 title: 'تاریخ ثبت',
-                template: function(row) {
+                template: function (row) {
                     return '<span class="ltr">' + row.created_at + '</span>';
                 }
             },
@@ -136,22 +136,15 @@ var auction_datatable = function() {
                 width: 200,
                 overflow: 'visible',
                 autoHide: false,
-                template: function(row) {
-
-                    let btn=``;
-                    if (row.status==='approved'){
-                        btn=`<a data-id="${row.id}" id="reject-btn" href ="${row.links.reject}"class="btn btn-danger waves-effect waves-light">رد</a>`
-                    }else{
-                        btn=`<a data-id="${row.id}" id="accept-btn" href ="${row.links.accept}"class="btn btn-success waves-effect waves-light">تایید</a>
-                                `
-                    }
-                    return btn;
+                template: function (row) {
+                    return `<a data-id="${row.id}" id="reject-btn" href ="${row.links.reject}"class="btn btn-danger waves-effect waves-light">رد</a>
+                          <a data-id="${row.id}" id="accept-btn" href ="${row.links.accept}"class="btn btn-success waves-effect waves-light">تایید</a>`;
                 },
             },
         ],
     };
 
-    var initDatatable = function() {
+    let initDatatable = function () {
         // enable extension
         options.extensions = {
             // boolean or object (extension options)
@@ -160,7 +153,7 @@ var auction_datatable = function() {
 
         datatable = $('#auctions_datatable').KTDatatable(options);
 
-        $('#filter-auction-btn').on('click', function(event) {
+        $('#filter-auction-btn').on('click', function (event) {
             event.preventDefault();
             formDataToUrl('filter-auctions-form');
             datatable.setDataSourceQuery($('#filter-auctions-form').serializeJSON());
@@ -168,9 +161,9 @@ var auction_datatable = function() {
         });
 
         datatable.on('datatable-on-click-checkbox',
-            function(e) {
-                var ids = datatable.checkbox().getSelectedId();
-                var count = ids.length;
+            function (e) {
+                let ids = datatable.checkbox().getSelectedId();
+                let count = ids.length;
 
                 $('#datatable-selected-rows').html(count);
 
@@ -183,7 +176,7 @@ var auction_datatable = function() {
         );
 
         datatable.on('datatable-on-reloaded',
-            function(e) {
+            function (e) {
                 $('.datatable-actions').collapse('hide');
             }
         );
@@ -191,25 +184,25 @@ var auction_datatable = function() {
 
     return {
         // public functions
-        init: function() {
+        init: function () {
             initDatatable();
         },
     };
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     auction_datatable.init();
 });
 
-$('#auction-multiple-delete-form').on('submit', function(e) {
+$('#auction-multiple-delete-form').on('submit', function (e) {
     e.preventDefault();
 
     $('#multiple-delete-modal').modal('hide');
 
-    var formData = new FormData(this);
-    var ids = datatable.checkbox().getSelectedId();
+    let formData = new FormData(this);
+    let ids = datatable.checkbox().getSelectedId();
 
-    ids.forEach(function(id) {
+    ids.forEach(function (id) {
         formData.append('ids[]', id);
     });
 
@@ -217,15 +210,15 @@ $('#auction-multiple-delete-form').on('submit', function(e) {
         url: $(this).attr('action'),
         type: 'POST',
         data: formData,
-        success: function(data) {
+        success: function (data) {
             toastr.success('کاربران انتخاب شده با موفقیت حذف شدند.');
             datatable.reload();
         },
-        beforeSend: function(xhr) {
+        beforeSend: function (xhr) {
             block('#main-card');
             xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
         },
-        complete: function() {
+        complete: function () {
 
             unblock('#main-card');
         },
@@ -235,27 +228,27 @@ $('#auction-multiple-delete-form').on('submit', function(e) {
     });
 
 });
-$('#auction-accept-form').on('submit', function(e) {
+$('#auction-accept-form').on('submit', function (e) {
     e.preventDefault();
 
-    const id=$('#auction-accept-modal .modal-body').data('id');
+    const id = $('#auction-accept-modal .modal-body').data('id');
     $('#auction-accept-modal').modal('hide');
-    var formData = new FormData(this);
-    formData.append('id',id);
+    let formData = new FormData(this);
+    formData.append('id', id);
 
     $.ajax({
         url: $(this).attr('action'),
         type: 'POST',
         data: formData,
-        success: function(data) {
+        success: function (data) {
             toastr.success('مزایده با موفقیت تایید شد.');
             datatable.reload();
         },
-        beforeSend: function(xhr) {
+        beforeSend: function (xhr) {
             block('#main-card');
             xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
         },
-        complete: function() {
+        complete: function () {
 
             unblock('#main-card');
         },
@@ -265,38 +258,38 @@ $('#auction-accept-form').on('submit', function(e) {
     });
 
 });
-$(document).on("click",'#accept-btn',function (event) {
+$(document).on("click", '#accept-btn', function (event) {
     event.preventDefault();
-    const id=$(this).data('id');
-    $('#auction-accept-modal .modal-body').data('id',id);
+    const id = $(this).data('id');
+    $('#auction-accept-modal .modal-body').data('id', id);
     $('#auction-accept-modal').modal('show');
 
 });
 
-$('#auction-reject-form').on('submit', function(e) {
+$('#auction-reject-form').on('submit', function (e) {
     e.preventDefault();
 
-    const id=$('#auction-reject-modal .modal-body').data('id');
-    const reason=$('#auction-reject-modal .modal-body input').val();
+    const id = $('#auction-reject-modal .modal-body').data('id');
+    const reason = $('#auction-reject-modal .modal-body input').val();
 
     $('#auction-reject-modal').modal('hide');
-    var formData = new FormData(this);
-    formData.append('id',id);
-    formData.append('reason',reason);
+    let formData = new FormData(this);
+    formData.append('id', id);
+    formData.append('reason', reason);
 
     $.ajax({
         url: $(this).attr('action'),
         type: 'POST',
         data: formData,
-        success: function(data) {
+        success: function (data) {
             toastr.success('مزایده با موفقیت رد شد.');
             datatable.reload();
         },
-        beforeSend: function(xhr) {
+        beforeSend: function (xhr) {
             block('#main-card');
             xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
         },
-        complete: function() {
+        complete: function () {
 
             unblock('#main-card');
         },
@@ -306,11 +299,11 @@ $('#auction-reject-form').on('submit', function(e) {
     });
 
 });
-$(document).on("click",'#reject-btn',function (event) {
+$(document).on("click", '#reject-btn', function (event) {
     event.preventDefault();
-    const id=$(this).data('id');
+    const id = $(this).data('id');
 
-    $('#auction-reject-modal .modal-body').data('id',id);
+    $('#auction-reject-modal .modal-body').data('id', id);
     $('#auction-reject-modal').modal('show');
 
 })
