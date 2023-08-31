@@ -809,10 +809,26 @@ return [
                     'default' => '10',
                     'class' => 'col-md-4 col-6',
                     'attributes' => 'required'
-                ]
+                ],
+                [
+                    'title' => 'لینک',
+                    'key' => 'link',
+                    'input-type' => 'input',
+                    'type' => 'text',
+                    'class' => 'col-6',
+                ],
+                [
+                    'title' => 'عنوان لینک',
+                    'key' => 'link_title',
+                    'input-type' => 'input',
+                    'type' => 'text',
+                    'class' => 'col-md-3 col-6',
+                ],
             ],
             'rules' => [
                 'number' => 'required',
+                'link' => 'nullable|string',
+                'link_title' => 'nullable|string',
             ]
         ],
     ],
