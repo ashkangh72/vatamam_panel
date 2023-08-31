@@ -36,6 +36,10 @@ class WalletController extends Controller
             $request->validate([
                 'amount' => 'numeric|max:' . $wallet->balance
             ]);
+
+            $data['balance'] = $wallet->balance - $data['amount'];
+        } else {
+            $data['balance'] = $wallet->balance + $data['amount'];
         }
 
         DB::transaction(function () use ($wallet, $data) {
