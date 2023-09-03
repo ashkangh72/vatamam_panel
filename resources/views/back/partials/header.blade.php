@@ -23,10 +23,16 @@
                                     src="/public/back/app-assets/images/portrait/small/default.jpg" alt="avatar"
                                     height="40" width="40"></span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="{{ route('admin.user.profile.show') }}"><i
-                                    class="feather icon-user"></i> ویرایش پروفایل</a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item" href="{{ route('logout') }}"><i
-                                    class="feather icon-power"></i> خروج</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="{{ route('admin.user.profile.show') }}">
+                                <i class="feather icon-user"></i> ویرایش پروفایل
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <x-dropdown-link :href="route('logout')" class="btn btn-danger text-center" onclick="event.preventDefault(); this.closest('form').submit();">
+                                    خروج
+                                </x-dropdown-link>
+                            </form>
                         </div>
                     </li>
                 </ul>
