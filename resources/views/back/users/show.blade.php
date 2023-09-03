@@ -207,16 +207,6 @@
                                                         @can('users.update')
                                                             <a href="{{ route('admin.users.edit', ['user' => $user]) }}" class="btn btn-warning mr-1"><i class="feather icon-edit-1"></i> ویرایش</a>
                                                         @endcan
-
-                                                        @can('users.delete')
-
-                                                            @if($user->id != auth()->user()->id)
-                                                                <button type="button" data-user="{{ $user->id }}" class="btn btn-danger mr-1 waves-effect waves-light btn-user-delete"  data-toggle="modal" data-target="#user-delete-modal">حذف</button>
-                                                            @else
-                                                                <button type="button" class="btn btn-danger mr-1 waves-effect waves-light" disabled>حذف</button>
-                                                            @endif
-
-                                                        @endcan
                                                     </div>
                                                 </div>
                                             </div>
