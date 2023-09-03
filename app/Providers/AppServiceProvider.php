@@ -3,7 +3,8 @@
 namespace App\Providers;
 
 use App\Enums\CommentStatusEnum;
-use App\Models\{Comment, Order, Page};
+use App\Enums\OrderStatusEnum;
+use App\Models\{Auction, Comment, Order, Page, User};
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -38,6 +39,15 @@ class AppServiceProvider extends ServiceProvider
             $pages = Page::pluck('slug');
 
             $view->with('pages', $pages);
+        });
+
+        view()->composer(['back.index'], function ($view) {
+            $usersCount = User::count();
+            $auctionsCount = Auction::count();
+            $ordersCount = Order::count();
+            $totalSell = Order::where('status', OrderStatusEnum::paid)->sum('discount_price');
+
+            $view->with(compact('usersCount', 'auctionsCount', 'ordersCount', 'totalSell'));
         });
     }
 }
