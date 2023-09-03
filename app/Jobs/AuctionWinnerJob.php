@@ -41,6 +41,8 @@ class AuctionWinnerJob implements ShouldQueue
 
         if ($auction->is_ended || $winnerBidExists) return;
 
+        if (Carbon::parse($auction->end_at)->isFuture()) return;
+
         if (!$winnerBid) {
             $auction->update([
                 'is_ended' => true,

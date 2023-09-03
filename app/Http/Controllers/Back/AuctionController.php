@@ -8,17 +8,25 @@ use App\Http\Resources\Datatable\AuctionCollection;
 use App\Jobs\AuctionWinnerJob;
 use App\Models\{Auction, User};
 use Carbon\Carbon;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\{Request, JsonResponse};
 use Illuminate\Validation\Rule;
 
 class AuctionController extends Controller
 {
+    /**
+     * @throws AuthorizationException
+     */
     public function index()
     {
         $this->authorize('auctions.index');
+
         return view('back.auctions.index');
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function apiIndex(Request $request)
     {
         $this->authorize('auctions.index');
@@ -53,6 +61,9 @@ class AuctionController extends Controller
         return response('success');
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function accept(Request $request)
     {
         $this->authorize('auctions.approve');
@@ -62,14 +73,19 @@ class AuctionController extends Controller
         ]);
 
         $auction = Auction::where('id', $validated['id'])->first();
+        $difference = Carbon::parse($auction->created_at)->diffInMinutes(Carbon::parse($auction->end_at));
         $auction->status = AuctionStatusEnum::approved;
+        $auction->end_at = Carbon::now()->addMinutes($difference);
         $auction->save();
 
-        dispatch(new AuctionWinnerJob($request->id))->delay(Carbon::parse($auction->end_at));
+        dispatch(new AuctionWinnerJob($auction->id))->delay(Carbon::parse($auction->end_at)->addMinute());
 
         return response('success');
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function reject(Request $request)
     {
         $this->authorize('auctions.reject');
