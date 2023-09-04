@@ -127,7 +127,7 @@ class User extends Model implements AuthenticatableContract
     public function scopeFilter($query, $request)
     {
         if ($fullname = $request->input('query.fullname')) {
-            $query->WhereRaw("concat(first_name, ' ', last_name) like '%{$fullname}%' ");
+            $query->WhereRaw("name like '%{$fullname}%' ");
         }
 
         if ($email = $request->input('query.email')) {

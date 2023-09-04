@@ -60,7 +60,7 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255', new NotSpecialChar()],
             'level' => 'in:user,admin',
-            'phone' => ['nullable', 'numeric', 'unique:users'],
+            'phone' => ['nullable', 'string', 'max:255', new ValidaPhone(), 'starts_with:9', "unique:users,phone"],
             'email' => ['string', 'email', 'max:255', 'unique:users', 'nullable'],
             'password' => ['required', 'string', 'confirmed:confirmed'],
             'roles' => 'nullable|array',
@@ -70,6 +70,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'username' => $this->generateUsername(),
+            'phone' => $request->phone,
             'email' => $request->email,
             'level' => $request->level,
             'password' => Hash::make($request->password),
@@ -88,7 +89,7 @@ class UserController extends Controller
 
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255', new NotSpecialChar()],
-            'phone' => ['required', 'string', 'max:255', new ValidaPhone()],
+            'phone' => ['required', 'string', 'max:255', new ValidaPhone(), 'starts_with:9', "unique:users,phone,$user->id"],
             'level' => 'in:user,admin',
             'email' => ['string', 'email', 'max:255', "unique:users,email,$user->id", 'nullable'],
             'password' => ['nullable', 'string', 'min:6', 'confirmed:confirmed'],
