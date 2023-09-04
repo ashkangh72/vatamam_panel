@@ -12,12 +12,9 @@
                         <div class="col-12">
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb no-border">
-                                    <li class="breadcrumb-item">مدیریت
-                                    </li>
-                                    <li class="breadcrumb-item">حمل و نقل
-                                    </li>
-                                    <li class="breadcrumb-item active">لیست استان ها
-                                    </li>
+                                    <li class="breadcrumb-item">مدیریت</li>
+                                    <li class="breadcrumb-item">حمل و نقل</li>
+                                    <li class="breadcrumb-item active">لیست استان ها</li>
                                 </ol>
                             </div>
                         </div>

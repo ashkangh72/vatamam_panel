@@ -67,23 +67,6 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-3 mb-2">
-                                                <fieldset class="checkbox">
-                                                    <div class="vs-checkbox-con vs-checkbox-primary">
-                                                        <input type="checkbox" name="is_active" {{ $province->is_active ? 'checked' : '' }}>
-                                                        <span class="vs-checkbox">
-                                                            <span class="vs-checkbox--check">
-                                                                <i class="vs-icon feather icon-check"></i>
-                                                            </span>
-                                                        </span>
-                                                        <span>وضعیت فعال</span>
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-primary mr-1 mb-1 waves-effect waves-light">ویرایش استان</button>
                                             </div>

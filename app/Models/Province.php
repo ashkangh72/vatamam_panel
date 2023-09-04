@@ -27,12 +27,6 @@ class Province extends Model
             });
         }
 
-        $is_active = $request->input('query.is_active');
-
-        if ($is_active !== null) {
-            $query->where('is_active', $is_active);
-        }
-
         if ($request->sort) {
             switch ($request->sort['field']) {
                 case 'cities_count': {

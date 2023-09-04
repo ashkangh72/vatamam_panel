@@ -25,16 +25,6 @@
                                 <input class="form-control datatable-filter" name="city_name" value="{{ request('city_name') }}">
                             </fieldset>
                         </div>
-                        <div class="col-md-3">
-                            <label>وضعیت</label>
-                            <fieldset class="form-group">
-                                <select class="form-control datatable-filter" name="is_active" value="{{ request('is_active') }}">
-                                    <option value="">همه</option>
-                                    <option value="1" {{ request('is_active') == '1' ? 'selected' : '' }}>فعال</option>
-                                    <option value="0" {{ request('is_active') == '0' ? 'selected' : '' }}>غیر فعال</option>
-                                </select>
-                            </fieldset>
-                        </div>
                     </div>
                 </form>
             </div>

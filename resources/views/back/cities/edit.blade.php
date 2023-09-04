@@ -12,18 +12,14 @@
                         <div class="col-12">
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb no-border">
-                                    <li class="breadcrumb-item">مدیریت
-                                    </li>
-                                    <li class="breadcrumb-item">حمل و نقل
-                                    </li>
-                                    <li class="breadcrumb-item active">ویرایش شهر
-                                    </li>
+                                    <li class="breadcrumb-item">مدیریت</li>
+                                    <li class="breadcrumb-item">حمل و نقل</li>
+                                    <li class="breadcrumb-item active">ویرایش شهر</li>
                                 </ol>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="content-body">
                 <!-- Description -->
@@ -77,23 +73,6 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-3 mb-2">
-                                                <fieldset class="checkbox">
-                                                    <div class="vs-checkbox-con vs-checkbox-primary">
-                                                        <input type="checkbox" name="is_active" {{ $city->is_active ? 'checked' : '' }}>
-                                                        <span class="vs-checkbox">
-                                                            <span class="vs-checkbox--check">
-                                                                <i class="vs-icon feather icon-check"></i>
-                                                            </span>
-                                                        </span>
-                                                        <span>وضعیت فعال</span>
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-primary mr-1 mb-1 waves-effect waves-light">ویرایش شهر</button>
                                             </div>
@@ -105,11 +84,9 @@
                     </div>
                 </section>
                 <!--/ Description -->
-
             </div>
         </div>
     </div>
-
 @endsection
 
 @include('back.partials.plugins', ['plugins' => ['jquery.validate']])

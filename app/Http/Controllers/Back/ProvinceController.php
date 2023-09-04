@@ -140,6 +140,6 @@ class ProvinceController extends Controller
     {
         $province = Province::findOrFail($request->id);
 
-        return response()->json($province->cities()->orderBy('ordering')->active()->get(['id', 'name']));
+        return response()->json($province->cities()->orderBy('ordering')->get(['id', 'name']));
     }
 }
