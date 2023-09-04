@@ -36,6 +36,12 @@ class Comment extends Model
 
     public function scopeFilter($query, $request)
     {
+        if ($request->username) {
+            $query->whereHas('user', function ($query) use ($request) {
+                $query->where('username', $request->username);
+            });
+        }
+
         if ($request->status) {
             $query->where('status', $request->status);
         }

@@ -12,13 +12,10 @@
                         <div class="col-12">
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb no-border">
-                                    <li class="breadcrumb-item">مدیریت
-                                    </li>
-                                    <li class="breadcrumb-item">مدیریت کاربران
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="{{ route('admin.users.show', ['user' => $user]) }}">{{ $user->fullname }}</a></li>
-                                    <li class="breadcrumb-item active">بازدیدها
-                                    </li>
+                                    <li class="breadcrumb-item">مدیریت</li>
+                                    <li class="breadcrumb-item">مدیریت کاربران</li>
+                                    <li class="breadcrumb-item"><a href="{{ route('admin.users.show', ['user' => $user]) }}">{{ $user->name }}</a></li>
+                                    <li class="breadcrumb-item active">بازدیدها</li>
                                 </ol>
                             </div>
                         </div>
@@ -49,9 +46,19 @@
                                                 <tr>
                                                     <td class="ltr">{{ tverta($view->created_at) }}</td>
                                                     <td>{{ $view->ip }}</td>
-                                                    <td>{{ get_option_property($view->options, 'platform') }}</td>
+                                                    <td>
+                                                        {{ get_option_property($view->options, 'platform') }}
+                                                        @if(get_option_property($view->options, 'is_mobile'))
+                                                            <i class="fa fa-mobile"></i>
+                                                        @elseif(get_option_property($view->options, 'is_phone'))
+                                                            <i class="fa fa-mobile-phone"></i>
+                                                        @elseif(get_option_property($view->options, 'is_tablet'))
+                                                            <i class="fa fa-tablet"></i>
+                                                        @elseif(get_option_property($view->options, 'is_desktop'))
+                                                            <i class="fa fa-desktop"></i>
+                                                        @endif
+                                                    </td>
                                                     <td class="ltr text-right"><a class="text-dark" target="_blank" href="{{ url(urldecode($view->path)) }}">{{ urldecode($view->path) }}</a></td>
-
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -60,7 +67,6 @@
                             </div>
                         </div>
                     </section>
-
                 @else
                     <section class="card">
                         <div class="card-header">

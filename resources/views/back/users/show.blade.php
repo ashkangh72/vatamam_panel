@@ -77,8 +77,8 @@
                         <div class="card user-statistics-card">
                             <div class="card-header d-flex align-items-start pb-0">
                                 <div>
-                                    <h2 class="text-bold-700 mb-0">{{ $user->comments()->count() }}</h2>
-                                    <p>تعداد نظرات</p>
+                                    <h2 class="text-bold-700 mb-0">{{ $user->comments()->whereNull('comment_id')->count() }}</h2>
+                                    <p>تعداد نظرات(غیرپاسخ)</p>
                                 </div>
                                 <div class="avatar bg-rgba-success p-50 m-0">
                                     <div class="avatar-content">
@@ -88,7 +88,7 @@
                             </div>
                             <div class="card-footer">
                                 <span>
-                                    <a href="#" class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
+                                    <a href="{{ route('admin.comments.index', ['username' => $user->username]) }}" class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
                                 </span>
                             </div>
                         </div>
