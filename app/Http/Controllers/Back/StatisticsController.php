@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Back;
 use Illuminate\Contracts\View\View;
 use App\Traits\{OrderStatisticsTrait, UserStatisticsTrait};
 use Illuminate\Auth\Access\AuthorizationException;
-use App\Models\Sms;
+use App\Models\SmsLog;
 use App\Http\Controllers\Controller;
 
 class StatisticsController extends Controller
@@ -33,13 +33,14 @@ class StatisticsController extends Controller
     }
 
     /**
+     * @return View
      * @throws AuthorizationException
      */
     public function smsLog(): View
     {
         $this->authorize('statistics.sms');
 
-        $sms = Sms::latest()->paginate(20);
+        $sms = SmsLog::latest()->paginate(20);
 
         return view('back.statistics.sms.sms-log', compact('sms'));
     }

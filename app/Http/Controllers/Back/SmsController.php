@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers\Back;
 
-use App\Models\Sms;
+use App\Models\SmsLog;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class SmsController extends Controller
 {
     /**
-     * @param Sms $sms
-     * @return Application|Factory|View
+     * @param SmsLog $sms
+     * @return View
      * @throws AuthorizationException
      */
-    public function show(Sms $sms)
+    public function show(SmsLog $sms): View
     {
         $this->authorize('statistics.sms');
 

@@ -12,19 +12,15 @@
                         <div class="col-12">
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb no-border">
-                                    <li class="breadcrumb-item">مدیریت
-                                    </li>
-                                    <li class="breadcrumb-item active">اعلان ها
-                                    </li>
+                                    <li class="breadcrumb-item">مدیریت</li>
+                                    <li class="breadcrumb-item active">اعلان ها</li>
                                 </ol>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="content-body">
-
                 <section class="card">
                     <div class="card-header">
                         <h4 class="card-title">لاگ پیامک های ارسالی</h4>
@@ -45,11 +41,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
                                             @foreach ($sms as $s)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $s->mobile }}</td>
+                                                    <td>{{ $s->phone }}</td>
                                                     <td>{{ $s->type() }}</td>
                                                     <td title="{{ jdate($s->created_at)  }}">{{ jdate($s->created_at)->ago() }}</td>
                                                     <td class="text-center">
@@ -57,20 +52,16 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
-
                                         </tbody>
                                     </table>
                                 </div>
                             @else
                                 <p>چیزی برای نمایش وجود ندارد!</p>
                             @endif
-
                         </div>
                     </div>
                 </section>
-
                 {{ $sms->links() }}
-
             </div>
         </div>
     </div>
@@ -93,5 +84,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('public/back/assets/js/pages/statistics/sms.js') }}?v=1"></script>
+    <script src="{{ asset('public/back/assets/js/pages/statistics/sms.js') }}"></script>
 @endpush

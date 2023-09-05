@@ -18,6 +18,7 @@ use App\Http\Controllers\Back\{AuctionController,
     SearchEngineRulesController,
     SettingController,
     SliderController,
+    SmsController,
     StatisticsController,
     TransactionController,
     UserController,
@@ -145,6 +146,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('statistics/orderAuctions', [StatisticsController::class, 'orderAuctions'])->name('statistics.orderAuctions');
     Route::get('statistics/orderValues', [StatisticsController::class, 'orderValues'])->name('statistics.orderValues');
     Route::get('statistics/orderCounts', [StatisticsController::class, 'orderCounts'])->name('statistics.orderCounts');
+    Route::get('statistics/smsLog', [StatisticsController::class, 'smsLog'])->name('statistics.smsLog');
 
 //    // ------------------ refund-requests
 //    Route::resource('refund-requests', RefundRequestController::class)->only(['index', 'show', 'destroy']);
@@ -158,10 +160,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('orders/api/index', [OrderController::class, 'apiIndex'])->name('orders.apiIndex');
     Route::get('orders/{order}/factor', [OrderController::class, 'factor'])->name('orders.factor');
 
-//    Route::get('statistics/smsLog', [StatisticsController::class, 'smsLog'])->name('statistics.smsLog');
-
-//    // ------------------ sms
-//    Route::resource('sms', SmsController::class)->only(['show']);
+    // ------------------ sms
+    Route::resource('sms', SmsController::class)->only(['show']);
 
 //    // ------------------ settings
     Route::get('settings/information', [SettingController::class, 'showInformation'])->name('settings.information');

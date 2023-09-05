@@ -10,19 +10,19 @@
                 <tr>
                     <th scope="row" class="text-nowrap">کاربر دریافت کننده</th>
                     <td class="text-center">
-                        {{ $sms->user->fullname }} <a class="float-right" href="{{ route('admin.users.show', ['user' => $sms->user]) }}" target="_blank"><i class="feather icon-external-link"></i></a>
+                        {{ $sms->user->name ?: '--' }} <a class="float-right" href="{{ route('admin.users.show', ['user' => $sms->user]) }}" target="_blank"><i class="feather icon-external-link"></i></a>
                     </td>
                 </tr>
             @endif
 
             <tr>
                 <th scope="row" class="text-nowrap">موبایل</th>
-                <td class="ltr text-center">{{ $sms->mobile }}</td>
+                <td class="ltr text-center">{{ $sms->phone }}</td>
             </tr>
 
             <tr>
                 <th scope="row" class="text-nowrap">نوع</th>
-                <td>{{ $sms->type() }}</td>
+                <td class="rtl text-center">{{ $sms->type() }}</td>
             </tr>
 
             <tr>

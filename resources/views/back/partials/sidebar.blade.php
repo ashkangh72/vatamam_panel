@@ -277,11 +277,11 @@
                             <a href="{{ route('admin.statistics.users') }}"><i class="feather icon-circle"></i><span class="menu-item">کاربران</span></a>
                         </li>
                     @endcan
-{{--                    @can('statistics.sms')--}}
-{{--                        <li class="{{ active_class('admin.statistics.smsLog') }}">--}}
-{{--                            <a href="{{ route('admin.statistics.smsLog') }}"><i class="feather icon-circle"></i><span class="menu-item"> لاگ پیامک های ارسالی</span></a>--}}
-{{--                        </li>--}}
-{{--                    @endcan--}}
+                    @can('statistics.sms')
+                        <li class="{{ active_class('admin.statistics.smsLog') }}">
+                            <a href="{{ route('admin.statistics.smsLog') }}"><i class="feather icon-circle"></i><span class="menu-item"> لاگ پیامک های ارسالی</span></a>
+                        </li>
+                    @endcan
                 </ul>
             </li>
             @endcan

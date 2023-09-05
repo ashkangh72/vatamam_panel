@@ -1,5 +1,5 @@
 $(document).on('click', '.show-sms', function () {
-    var btn = $(this);
+    let btn = $(this);
 
     $.ajax({
         url: $(this).data('action'),
