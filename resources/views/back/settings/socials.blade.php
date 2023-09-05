@@ -1,7 +1,6 @@
 @extends('back.layouts.master')
 
 @section('content')
-
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -12,12 +11,9 @@
                         <div class="col-12">
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb no-border">
-                                    <li class="breadcrumb-item">مدیریت
-                                    </li>
-                                    <li class="breadcrumb-item">تنظیمات
-                                    </li>
-                                    <li class="breadcrumb-item active">شبکه های اجتماعی
-                                    </li>
+                                    <li class="breadcrumb-item">مدیریت</li>
+                                    <li class="breadcrumb-item">تنظیمات</li>
+                                    <li class="breadcrumb-item active">شبکه های اجتماعی</li>
                                 </ol>
                             </div>
                         </div>
@@ -34,8 +30,8 @@
                                     <form id="socials-form" action="{{ route('admin.settings.socials') }}" method="POST">
                                         <div class="row">
 
-                                            @if (config('front.socials'))
-                                                @foreach (config('front.socials') as $social)
+                                            @if (config('general.socials'))
+                                                @foreach (config('general.socials') as $social)
                                                     <div class="col-md-6">
                                                         <label>{{ $social['name'] }}</label>
                                                         <div class="input-group mb-75">
@@ -50,22 +46,18 @@
 
                                             <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
                                                 <button type="submit" class="btn btn-primary glow">ذخیره تغییرات</button>
-
                                             </div>
                                         </div>
                                     </form>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
                 <!-- users edit ends -->
-
             </div>
         </div>
     </div>
-
 @endsection
 
 @include('back.partials.plugins', ['plugins' => ['jquery.validate']])

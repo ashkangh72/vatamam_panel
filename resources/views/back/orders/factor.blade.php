@@ -239,7 +239,7 @@
                                 <span class="label">نشانی:</span> {{ option('info_address') }}
                             </td>
                             <td>
-                                <span class="label">تلفن و فکس:</span> {{ option('info_tel') }}
+                                <span class="label">تلفن:</span> {{ option('info_phone') }}
                             </td>
                         </tr>
                     </table>

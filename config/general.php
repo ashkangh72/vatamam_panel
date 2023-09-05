@@ -183,16 +183,14 @@ return [
             ]
         ],
 
-//        'settings' => [
-//            'title'  => 'تنظیمات',
-//            'values' => [
-//                'information'        => 'اطلاعات سایت',
-//                'socials'            => 'شبکه های اجتماعی',
-//                'gateway'            => 'درگاه های پرداخت',
-//                'others'             => 'تنظیمات دیگر',
-//                'sms'                => 'تنظیمات پیامک',
-//            ]
-//        ],
+        'settings' => [
+            'title' => 'تنظیمات',
+            'values' => [
+                'information' => 'اطلاعات سایت',
+                'socials' => 'شبکه های اجتماعی',
+                'sms' => 'تنظیمات پیامک',
+            ]
+        ],
 
     ],
 
@@ -866,5 +864,38 @@ return [
             'count' => 3,
             'size' => '100 * 100'
         ]
+    ],
+
+    'socials' => [
+        [
+            'name' => 'تلگرام',
+            'key' => 'info_telegram',
+            'icon' => 'fa fa-telegram',
+        ],
+        [
+            'name' => 'اینستاگرام',
+            'key' => 'info_instagram',
+            'icon' => 'feather icon-instagram',
+        ],
+        [
+            'name' => 'توییتر',
+            'key' => 'info_twitter',
+            'icon' => 'fa fa-twitter',
+        ],
+        [
+            'name' => 'فیسبوک',
+            'key' => 'info_facebook',
+            'icon' => 'fa fa-facebook',
+        ],
+        [
+            'name' => 'لینکداین',
+            'key' => 'info_linkedin',
+            'icon' => 'fa fa-linkedin',
+        ],
+        [
+            'name' => 'پینترست',
+            'key' => 'info_pinterest',
+            'icon' => 'fa fa-pinterest',
+        ],
     ],
 ];

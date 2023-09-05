@@ -16,6 +16,7 @@ use App\Http\Controllers\Back\{AuctionController,
     RedirectController,
     RoleController,
     SearchEngineRulesController,
+    SettingController,
     SliderController,
     StatisticsController,
     TransactionController,
@@ -158,23 +159,17 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('orders/{order}/factor', [OrderController::class, 'factor'])->name('orders.factor');
 
 //    Route::get('statistics/smsLog', [StatisticsController::class, 'smsLog'])->name('statistics.smsLog');
-//
+
 //    // ------------------ sms
 //    Route::resource('sms', SmsController::class)->only(['show']);
 
 //    // ------------------ settings
-//    Route::get('settings/information', [SettingController::class, 'showInformation'])->name('settings.information');
-//    Route::post('settings/information', [SettingController::class, 'updateInformation']);
-//
-//    Route::get('settings/socials', [SettingController::class, 'showSocials'])->name('settings.socials');
-//    Route::post('settings/socials', [SettingController::class, 'updateSocials']);
-//
-//    Route::get('settings/gateways', [SettingController::class, 'showGateways'])->name('settings.gateways');
-//    Route::post('settings/gateways', [SettingController::class, 'updateGateways']);
-//
-//    // Route::get('settings/others', [SettingController::class, 'showOthers'])->name('settings.others');
-//    // Route::post('settings/others', [SettingController::class, 'updateOthers']);
-//
+    Route::get('settings/information', [SettingController::class, 'showInformation'])->name('settings.information');
+    Route::post('settings/information', [SettingController::class, 'updateInformation']);
+
+    Route::get('settings/socials', [SettingController::class, 'showSocials'])->name('settings.socials');
+    Route::post('settings/socials', [SettingController::class, 'updateSocials']);
+
 //    Route::get('settings/sms', [SettingController::class, 'showSms'])->name('settings.sms');
 //    Route::post('settings/sms', [SettingController::class, 'updateSms']);
 

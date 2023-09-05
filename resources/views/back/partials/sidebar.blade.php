@@ -354,89 +354,22 @@
                 </li>
             @endcan
 
-
-
-{{--            @can('products')--}}
-{{--                <li class="nav-item has-sub {{ open_class(['admin.products.*', 'admin.spectypes.*', 'admin.stock-notifies.*',--}}
-{{--                        'admin.refund-requests.*', 'admin.product.prices.*', 'admin.brands.*', 'admin.attributeGroups.*',--}}
-{{--                        'admin.attributes.*', 'admin.filters.*', 'admin.products.size-types']) }}">--}}
-{{--                    <a href="#"><i class="feather icon-shopping-cart"></i><span class="menu-title" > محصولات</span></a>--}}
-{{--                    <ul class="menu-content">--}}
-{{--                        @can('products.index')--}}
-{{--                            <li class="{{ active_class('admin.products.index') }}">--}}
-{{--                                <a href="{{ route('admin.products.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست محصولات</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-
-{{--                        @can('products.create')--}}
-{{--                            <li class="{{ active_class('admin.products.create') }}">--}}
-{{--                                <a href="{{ route('admin.products.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد محصول</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-
-{{--                        @can('products.refund-requests')--}}
-{{--                            <li class="{{ active_class('admin.refund-requests.*') }}">--}}
-{{--                                <a href="{{ route('admin.refund-requests.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست درخواست های بازگردانی</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-
-{{--                        @can('attributes')--}}
-{{--                            <li class="{{ open_class(['admin.attributeGroups.*', 'admin.attributes.*']) }}">--}}
-{{--                                <a href="#"><i class="feather icon-circle"></i><span class="menu-item"> ویژگی ها</span></a>--}}
-{{--                                <ul class="menu-content">--}}
-{{--                                    @can('attributes.groups.index')--}}
-{{--                                        <li class="{{ active_class('admin.attributeGroups.index') }}">--}}
-{{--                                            <a class="{{ active_class('admin.attributeGroups.index') }}" href="{{ route('admin.attributeGroups.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لیست گروه ویژگی ها</span></a>--}}
-{{--                                        </li>--}}
-{{--                                    @endcan--}}
-
-{{--                                    @can('attributes.groups.create')--}}
-{{--                                        <li class="{{ active_class('admin.attributeGroups.create') }}">--}}
-{{--                                            <a class="{{ active_class('admin.attributeGroups.create') }}" href="{{ route('admin.attributeGroups.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد گروه ویژگی</span></a>--}}
-{{--                                        </li>--}}
-{{--                                    @endcan--}}
-
-{{--                                    @can('attributes.create')--}}
-{{--                                        <li class="{{ active_class('admin.attributes.create') }}">--}}
-{{--                                            <a class="{{ active_class('admin.attributes.create') }}" href="{{ route('admin.attributes.create') }}"><i class="feather icon-circle"></i><span class="menu-item">ایجاد ویژگی</span></a>--}}
-{{--                                        </li>--}}
-{{--                                    @endcan--}}
-{{--                                </ul>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--            @endcan--}}
-
-
 {{--            @can('settings')--}}
                 <li class="nav-item has-sub {{ open_class(['admin.settings.*']) }}">
                     <a href="#"><i class="feather icon-settings"></i><span class="menu-title" >تنظیمات</span></a>
                     <ul class="menu-content">
 {{--                        @can('settings.information')--}}
-{{--                            <li class="{{ active_class('admin.settings.information') }}">--}}
-{{--                                <a href="{{ route('admin.settings.information') }}"><i class="feather icon-circle"></i><span class="menu-item">اطلاعات کلی</span></a>--}}
-{{--                            </li>--}}
+                            <li class="{{ active_class('admin.settings.information') }}">
+                                <a href="{{ route('admin.settings.information') }}"><i class="feather icon-circle"></i><span class="menu-item">اطلاعات کلی</span></a>
+                            </li>
 {{--                        @endcan--}}
 
 {{--                        @can('settings.socials')--}}
-{{--                            @if (config('front.socials'))--}}
-{{--                                <li class="{{ active_class('admin.settings.socials') }}">--}}
-{{--                                    <a href="{{ route('admin.settings.socials') }}"><i class="feather icon-circle"></i><span class="menu-item">شبکه های اجتماعی</span></a>--}}
-{{--                                </li>--}}
-{{--                            @endif--}}
-{{--                        @endcan--}}
-
-{{--                        @can('settings.gateway')--}}
-{{--                            <li class="{{ active_class('admin.settings.gateways') }}">--}}
-{{--                                <a href="{{ route('admin.settings.gateways') }}"><i class="feather icon-circle"></i><span class="menu-item">درگاه های پرداخت</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-
-{{--                        @can('settings.others')--}}
-{{--                            <li class="{{ active_class('admin.settings.others') }}">--}}
-{{--                                <a href="{{ route('admin.settings.others') }}"><i class="feather icon-circle"></i><span class="menu-item">تنظیمات دیگر</span></a>--}}
-{{--                            </li>--}}
+                            @if (config('general.socials'))
+                                <li class="{{ active_class('admin.settings.socials') }}">
+                                    <a href="{{ route('admin.settings.socials') }}"><i class="feather icon-circle"></i><span class="menu-item">شبکه های اجتماعی</span></a>
+                                </li>
+                            @endif
 {{--                        @endcan--}}
 
 {{--                        @can('settings.sms')--}}
@@ -444,13 +377,6 @@
 {{--                                <a href="{{ route('admin.settings.sms') }}"><i class="feather icon-circle"></i><span class="menu-item">تنظیمات پیامک</span></a>--}}
 {{--                            </li>--}}
 {{--                        @endcan--}}
-
-{{--                        @can('settings.ftp')--}}
-{{--                            <li class="{{ active_class('admin.settings.ftp') }}">--}}
-{{--                                <a href="{{ route('admin.settings.ftp') }}"><i class="feather icon-circle"></i><span class="menu-item">تنظیمات ftp</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
-
                     </ul>
                 </li>
 {{--            @endcan--}}
