@@ -354,23 +354,23 @@
                 </li>
             @endcan
 
-{{--            @can('settings')--}}
+            @can('settings')
                 <li class="nav-item has-sub {{ open_class(['admin.settings.*']) }}">
                     <a href="#"><i class="feather icon-settings"></i><span class="menu-title" >تنظیمات</span></a>
                     <ul class="menu-content">
-{{--                        @can('settings.information')--}}
+                        @can('settings.information')
                             <li class="{{ active_class('admin.settings.information') }}">
                                 <a href="{{ route('admin.settings.information') }}"><i class="feather icon-circle"></i><span class="menu-item">اطلاعات کلی</span></a>
                             </li>
-{{--                        @endcan--}}
+                        @endcan
 
-{{--                        @can('settings.socials')--}}
+                        @can('settings.socials')
                             @if (config('general.socials'))
                                 <li class="{{ active_class('admin.settings.socials') }}">
                                     <a href="{{ route('admin.settings.socials') }}"><i class="feather icon-circle"></i><span class="menu-item">شبکه های اجتماعی</span></a>
                                 </li>
                             @endif
-{{--                        @endcan--}}
+                        @endcan
 
 {{--                        @can('settings.sms')--}}
 {{--                            <li class="{{ active_class('admin.settings.sms') }}">--}}
@@ -379,7 +379,7 @@
 {{--                        @endcan--}}
                     </ul>
                 </li>
-{{--            @endcan--}}
+            @endcan
 
             @if(auth()->user()->level == 'creator')
                 <li class="nav-item has-sub {{ open_class(['admin.permissions.*', 'admin.developer.*', 'admin.logs.*']) }}">
