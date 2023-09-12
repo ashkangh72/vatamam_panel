@@ -156,6 +156,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 
     // ------------------ orders
     Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');
+    Route::post('orders/refund/accept/{order}', [OrderController::class, 'acceptRefund'])->name('orders.refund.accept');
+    Route::post('orders/refund/reject/{order}', [OrderController::class, 'rejectRefund'])->name('orders.refund.reject');
     Route::resource('orders', OrderController::class)->only(['index', 'show']);
     Route::post('orders/api/index', [OrderController::class, 'apiIndex'])->name('orders.apiIndex');
     Route::get('orders/{order}/factor', [OrderController::class, 'factor'])->name('orders.factor');

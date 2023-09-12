@@ -144,7 +144,7 @@ class Order extends Model
 
     public function isRefunded(): bool
     {
-        return $this->refund()->where('status', '!=', 'rejected')->exists();
+        return $this->refund()->exists();
     }
 
 }

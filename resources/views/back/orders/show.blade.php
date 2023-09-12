@@ -194,9 +194,13 @@
                                                         <td>{{ $auction->pivot->quantity }}</td>
                                                         <td>{{ number_format($auction->pivot->price) }} تومان</td>
                                                         <td>{{ number_format($auction->pivot->quantity * $auction->pivot->price) }} تومان</td>
-                                                        @if($order->refund->auctions->where('auction_id', $auction->id)->first())
+                                                        @if($order->refund->auctions()->where('auction_id', $auction->id)->first())
                                                             <td>
-                                                                {{ $order->refund->auctions->where('auction_id', $auction->id)->first()->pivot->reason }}
+                                                                @switch($order->refund->auctions()->where('auction_id', $auction->id)->first()->pivot->reason)
+                                                                    @case('fracture') شکسته @break
+                                                                    @case('incompatibility') عدم تطابق@break
+                                                                    @case('intact')سالم @break
+                                                                @endswitch
                                                             </td>
                                                         @endif
                                                     </tr>

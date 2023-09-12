@@ -180,6 +180,8 @@ return [
             'values' => [
                 'index' => 'لیست سفارشات',
                 'view' => 'مشاهده سفارش',
+                'refund.accept' => 'تایید مرجوعی',
+                'refund.reject' => 'رد مرجوعی',
             ]
         ],
 

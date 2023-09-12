@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Datatable\OrderCollection;
 use Illuminate\Auth\Access\AuthorizationException;
 use App\Models\Order;
-use Illuminate\Http\{JsonResponse, Request};
+use Illuminate\Http\{JsonResponse, Request, Response};
 
 class OrderController extends Controller
 {
@@ -68,5 +68,33 @@ class OrderController extends Controller
         $this->authorize('orders.view');
 
         return view('back.orders.factor', compact('order'));
+    }
+
+    /**
+     * @param Order $order
+     * @return Response
+     * @throws AuthorizationException
+     */
+    public function acceptRefund(Order $order): Response
+    {
+        $this->authorize('orders.refund.accept');
+
+        $order->refund()->update(['status' => 'accepted']);
+
+        return response('success');
+    }
+
+    /**
+     * @param Order $order
+     * @return Response
+     * @throws AuthorizationException
+     */
+    public function rejectRefund(Order $order): Response
+    {
+        $this->authorize('orders.refund.reject');
+
+        $order->refund()->update(['status' => 'rejected']);
+
+        return response('success');
     }
 }

@@ -67,7 +67,7 @@ let auction_datatable = function () {
             {
                 field: 'title',
                 title: 'عنوان',
-                width: 200,
+                width: 150,
                 template: function (row) {
                     return '<a href="' + row.url + '">' + row.title + '</a>';
                 }
@@ -75,7 +75,7 @@ let auction_datatable = function () {
             {
                 field: 'sku',
                 title: 'شناسه مزایده',
-                width: 200,
+                width: 80,
                 template: function (row) {
                     return row.sku;
                 }
@@ -83,7 +83,7 @@ let auction_datatable = function () {
             {
                 field: 'base_price',
                 title: 'قیمت پایه',
-                width: 200,
+                width: 150,
                 template: function (row) {
                     return row.base_price;
                 }
@@ -91,7 +91,7 @@ let auction_datatable = function () {
             {
                 field: 'username',
                 title: 'نام کاربر',
-                width: 200,
+                width: 150,
                 template: function (row) {
                     return row.username;
                 }
@@ -99,14 +99,14 @@ let auction_datatable = function () {
             {
                 field: 'category',
                 title: 'دسته',
-                width: 200,
+                width: 100,
                 template: function (row) {
                     return row.category;
                 }
             },
             {
                 field: 'status',
-                width: 200,
+                width: 80,
                 sortable: 'desc',
                 title: 'وضعیت',
                 template: function (row) {
@@ -122,6 +122,7 @@ let auction_datatable = function () {
             },
             {
                 field: 'created_at',
+                width: 100,
                 sortable: 'desc',
                 title: 'تاریخ ثبت',
                 template: function (row) {
@@ -133,12 +134,12 @@ let auction_datatable = function () {
                 title: 'عملیات',
                 textAlign: 'center',
                 sortable: false,
-                width: 200,
+                width: 150,
                 overflow: 'visible',
                 autoHide: false,
                 template: function (row) {
-                    return `<a data-id="${row.id}" id="reject-btn" href ="${row.links.reject}"class="btn btn-danger waves-effect waves-light">رد</a>
-                          <a data-id="${row.id}" id="accept-btn" href ="${row.links.accept}"class="btn btn-success waves-effect waves-light">تایید</a>`;
+                    return `<div class="btn-group-vertical"><a data-id="${row.id}" id="reject-btn" href ="${row.links.reject}"class="btn btn-outline-danger waves-effect waves-light">رد</a>
+                          <a data-id="${row.id}" id="accept-btn" href ="${row.links.accept}"class="btn btn-outline-success waves-effect waves-light">تایید</a></div>`;
                 },
             },
         ],

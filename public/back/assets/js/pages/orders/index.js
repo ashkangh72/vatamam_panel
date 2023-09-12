@@ -102,11 +102,27 @@ let order_datatable = (function() {
             {
                 field: 'status',
                 title: 'وضعیت',
+                width: 100,
                 textAlign: 'center',
                 // callback function support for column rendering
                 template: function(row) {
                     if (row.is_refunded) {
-                        return '<div class="badge badge-pill badge-danger badge-md">دارای مرجوعی</div>';
+                        let status = {
+                            pending: {
+                                title: 'منتظر بررسی',
+                                class: ' badge-info',
+                            },
+                            accepted: {
+                                title: 'تایید شده',
+                                class: ' badge-success',
+                            },
+                            rejected: {
+                                title: 'رد شده',
+                                class: ' badge-danger',
+                            }
+                        };
+                        return '<div class="badge badge-pill badge-danger badge-md">دارای مرجوعی</div>' +
+                            '<div class="badge badge-pill ' + status[row.refund_status].class + ' badge-md">' + status[row.refund_status].title + '</div>';
                     }
                     let status = {
                         pending: {
@@ -132,6 +148,7 @@ let order_datatable = (function() {
             {
                 field: 'shipping_status',
                 title: 'وضعیت ارسال',
+                width: 100,
                 textAlign: 'center',
                 // callback function support for column rendering
                 template: function(row) {
@@ -164,7 +181,13 @@ let order_datatable = (function() {
                 overflow: 'visible',
                 autoHide: false,
                 template: function(row) {
-                    return '<a href="' + row.links.view + '" class="btn btn-info waves-effect waves-light">مشاهده</a>';
+                    let actions = '<div class="btn-group-vertical"><a href="' + row.links.view + '" class="btn btn-outline-info waves-effect waves-light">مشاهده</a>';
+                    if (row.is_refunded && (row.refund_status == 'rejected' || row.refund_status == 'pending'))
+                        actions += '<button data-action="' + row.links.accept + '" class="btn btn-outline-success btn-accept">تایید برگشت</button>';
+                    if (row.is_refunded && (row.refund_status == 'accepted' || row.refund_status == 'pending'))
+                        actions += '<button data-action="' + row.links.reject + '" class="btn btn-outline-danger btn-reject">رد برگشت</button>';
+
+                    return actions+'</div>';
                 },
             },
         ],
@@ -214,4 +237,118 @@ let order_datatable = (function() {
 
 jQuery(document).ready(function() {
     order_datatable.init();
+});
+
+$(document).on('click', '.btn-accept', function(e) {
+    e.preventDefault();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+        title: 'آیا میخواهید بازگردانی را تایید کنید ؟',
+        text: "",
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'تایید شود',
+        cancelButtonText: 'خیر',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: 'POST',
+                url: $(this).data('action'),
+                data: {},
+                success: function (data) {
+                    $(".modal").modal('hide');
+                    toastr.success('با موفقیت تایید شد.');
+
+                    window.location.reload();
+                },
+                beforeSend: function(xhr) {
+                    block('#main-card');
+                    xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
+                },
+                complete: function() {
+                    unblock('#main-card');
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+                'مشکلی پیش آمد دوباره تلاش کنید !',
+                '',
+                'error'
+            )
+        }
+    })
+});
+
+$(document).on('click', '.btn-reject', function(e) {
+    e.preventDefault();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+        title: 'آیا میخواهید درخواست بازگردانی را رد کنید ؟',
+        text: "",
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'رد شود',
+        cancelButtonText: 'خیر',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: 'POST',
+                url: $(this).data('action'),
+                data: {},
+                success: function (data) {
+                    $(".modal").modal('hide');
+                    toastr.success('با موفقیت رد شد.');
+
+                    window.location.reload();
+                },
+                beforeSend: function(xhr) {
+                    block('#main-card');
+                    xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
+                },
+                complete: function() {
+                    unblock('#main-card');
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+                'مشکلی پیش آمد دوباره تلاش کنید !',
+                '',
+                'error'
+            )
+        }
+    })
 });
