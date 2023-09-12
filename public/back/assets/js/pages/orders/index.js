@@ -85,6 +85,7 @@ let order_datatable = (function() {
             {
                 field: 'order_id',
                 title: 'شماره سفارش',
+                width: 40,
             },
             {
                 field: 'created_at',
@@ -104,13 +105,16 @@ let order_datatable = (function() {
                 textAlign: 'center',
                 // callback function support for column rendering
                 template: function(row) {
+                    if (row.is_refunded) {
+                        return '<div class="badge badge-pill badge-danger badge-md">دارای مرجوعی</div>';
+                    }
                     let status = {
                         pending: {
                             title: 'جدید',
                             class: ' badge-warning',
                         },
                         locked: {
-                            title: 'پرداخت نشده',
+                            title: 'بسته شده',
                             class: ' badge-danger',
                         },
                         paid: {

@@ -39,6 +39,7 @@ class Order extends JsonResource
             'price' => number_format($this->price) . ' تومان',
             'status' => $this->status->name,
             'shipping_status' => $this->shipping_status,
+            'is_refunded' => $this->isRefunded(),
 
             'links' => [
                 'view' => route('admin.orders.show', ['order' => $this]),

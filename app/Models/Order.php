@@ -48,13 +48,6 @@ class Order extends Model
         return $this->hasOne(OrderFeedback::class, 'order_id', 'id');
     }
 
-    public function getRefundedItems()
-    {
-        $itemIds = $this->items()->pluck('id')->toArray();
-
-        return RefundedOrderItem::whereIn('order_item_id', $itemIds)->latest()->get();
-    }
-
     public function isPaid(): bool
     {
         return $this->status == OrderStatusEnum::paid->value;
@@ -144,12 +137,6 @@ class Order extends Model
         return $this->belongsTo(User::class, 'seller_id', 'id');
     }
 
-    public function requestToSend()
-    {
-        $this->shipping_status = OrderStatusEnum::send_request->value;
-        $this->save();
-    }
-
     public function isLocked(): bool
     {
         return $this->status == OrderStatusEnum::locked;
@@ -157,7 +144,7 @@ class Order extends Model
 
     public function isRefunded(): bool
     {
-        return $this->refund()->exists();
+        return $this->refund()->where('status', '!=', 'rejected')->exists();
     }
 
 }
