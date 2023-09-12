@@ -178,6 +178,7 @@
                                                     <th>تعداد</th>
                                                     <th>قیمت واحد</th>
                                                     <th>قیمت کل</th>
+                                                    @if($order->isRefunded) <th>دلیل مرجوعی</th>@endif
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -193,6 +194,11 @@
                                                         <td>{{ $auction->pivot->quantity }}</td>
                                                         <td>{{ number_format($auction->pivot->price) }} تومان</td>
                                                         <td>{{ number_format($auction->pivot->quantity * $auction->pivot->price) }} تومان</td>
+                                                        @if($order->refund->auctions->where('auction_id', $auction->id)->first())
+                                                            <td>
+                                                                {{ $order->refund->auctions->where('auction_id', $auction->id)->first()->pivot->reason }}
+                                                            </td>
+                                                        @endif
                                                     </tr>
                                                 @endforeach
                                             </tbody>
