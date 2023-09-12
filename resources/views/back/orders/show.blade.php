@@ -178,7 +178,7 @@
                                                     <th>تعداد</th>
                                                     <th>قیمت واحد</th>
                                                     <th>قیمت کل</th>
-                                                    @if($order->isRefunded) <th>دلیل مرجوعی</th>@endif
+                                                    @if($order->isRefunded()) <th>دلیل مرجوعی</th>@endif
                                                 </tr>
                                             </thead>
                                             <tbody>
