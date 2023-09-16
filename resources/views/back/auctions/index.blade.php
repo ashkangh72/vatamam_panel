@@ -123,9 +123,6 @@
 
 @include('back.partials.plugins', ['plugins' => ['datatable']])
 
-
-
-
 @push('scripts')
     <script src="{{ asset('public/back/assets/js/pages/auctions/index.js') }}"></script>
 @endpush

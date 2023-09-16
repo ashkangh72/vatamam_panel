@@ -12,6 +12,8 @@ class WalletController extends Controller
 {
     public function show(Wallet $wallet)
     {
+        $this->authorize('users.wallets.show');
+
         $histories = $wallet->histories()->latest()->paginate(20);
 
         return view('back.wallets.show', compact('wallet', 'histories'));
@@ -19,11 +21,15 @@ class WalletController extends Controller
 
     public function create(Wallet $wallet)
     {
+        $this->authorize('users.wallets.create');
+
         return view('back.wallets.create', compact('wallet'));
     }
 
     public function store(Wallet $wallet, Request $request)
     {
+        $this->authorize('users.wallets.create');
+
         $data = $request->validate([
             'type'        => 'required|in:'. implode(',', WalletHistoryTypeEnum::getValues(['admin_withdraw', 'admin_deposit'])) ,
             'amount'      => 'required|numeric|max:100000000',
@@ -61,6 +67,8 @@ class WalletController extends Controller
 
     public function history(WalletHistory $history)
     {
+        $this->authorize('users.wallets.history.show');
+
         return view('back.wallets.history', compact('history'));
     }
 }

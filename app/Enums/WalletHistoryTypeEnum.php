@@ -12,4 +12,5 @@ enum WalletHistoryTypeEnum: int
     case withdraw = 2;
     case admin_deposit = 3;
     case admin_withdraw = 4;
+    case income = 5;
 }

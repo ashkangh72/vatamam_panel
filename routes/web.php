@@ -22,6 +22,7 @@ use App\Http\Controllers\Back\{AuctionController,
     StatisticsController,
     TransactionController,
     UserController,
+    WalletCheckoutController,
     WalletController,
     WidgetController};
 use App\Http\Controllers\ProfileController;
@@ -62,6 +63,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('wallets/histories/{history}', [WalletController::class, 'history'])->name('wallets.history');
     Route::get('wallets/{wallet}/create', [WalletController::class, 'create'])->name('wallets.create');
     Route::post('wallets/{wallet}', [WalletController::class, 'store'])->name('wallets.store');
+
+    Route::get('wallet-checkouts', [WalletCheckoutController::class, 'index'])->name('wallets.checkouts.index');
+    Route::post('wallet-checkouts/accept', [WalletCheckoutController::class, 'accept'])->name('wallets.checkouts.accept');
+    Route::post('wallet-checkouts/reject', [WalletCheckoutController::class, 'reject'])->name('wallets.checkouts.reject');
 
     // ------------------ auctions
     Route::get('auctions', [AuctionController::class, 'index'])->name('auctions.index');
@@ -148,12 +153,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('statistics/orderCounts', [StatisticsController::class, 'orderCounts'])->name('statistics.orderCounts');
     Route::get('statistics/smsLog', [StatisticsController::class, 'smsLog'])->name('statistics.smsLog');
 
-//    // ------------------ refund-requests
-//    Route::resource('refund-requests', RefundRequestController::class)->only(['index', 'show', 'destroy']);
-//    Route::post('refund-requests/accept/{refund_request}', [RefundRequestController::class, 'accept'])->name('refund-requests.accept');
-//    Route::post('refund-requests/reject/{refund_request}', [RefundRequestController::class, 'reject'])->name('refund-requests.reject');
-//    Route::post('refund-requests/receive/{refund_request}', [RefundRequestController::class, 'receive'])->name('refund-requests.receive');
-
     // ------------------ orders
     Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');
     Route::post('orders/refund/accept/{order}', [OrderController::class, 'acceptRefund'])->name('orders.refund.accept');
@@ -165,7 +164,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     // ------------------ sms
     Route::resource('sms', SmsController::class)->only(['show']);
 
-//    // ------------------ settings
+    // ------------------ settings
     Route::get('settings/information', [SettingController::class, 'showInformation'])->name('settings.information');
     Route::post('settings/information', [SettingController::class, 'updateInformation']);
 

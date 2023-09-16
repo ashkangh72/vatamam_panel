@@ -13,6 +13,13 @@ return [
                 'update' => 'ویرایش کاربر',
                 'delete' => 'حذف کاربر',
                 'export.excel' => 'خروجی اکسل',
+
+                'wallets.show' => 'مشاهده کیف پول',
+                'wallets.create' => 'افزایش/کاهش موجودی کیف پول',
+                'wallets.history.show' => 'مشاهده تراکنش های کیف پول',
+                'wallets.checkouts' => 'مدیریت برداشت ها',
+                'wallets.checkouts.accept' => 'تایید برداشت',
+                'wallets.checkouts.reject' => 'رد برداشت'
             ]
         ],
 

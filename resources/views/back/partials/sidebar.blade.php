@@ -19,7 +19,7 @@
             </li>
 
             @can('users')
-                <li class="nav-item has-sub {{ open_class(['admin.users.*']) }}">
+                <li class="nav-item has-sub {{ open_class(['admin.users.*', 'admin.wallets.*', 'admin.wallet-checkouts.*']) }}">
                     <a href="#">
                         <i class="feather icon-users"></i>
                         <span class="menu-title" > کاربران</span>
@@ -39,6 +39,15 @@
                                 <a href="{{ route('admin.users.create') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">ایجاد کاربر</span>
+                                </a>
+                            </li>
+                        @endcan
+
+                        @can('users.wallets.checkouts')
+                            <li class="{{ active_class('admin.wallets.checkouts.index') }}">
+                                <a href="{{ route('admin.wallets.checkouts.index') }}">
+                                    <i class="feather icon-circle"></i>
+                                    <span class="menu-item">برداشت ها</span>
                                 </a>
                             </li>
                         @endcan
