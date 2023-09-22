@@ -227,11 +227,6 @@ class Auction extends Model
             ->exists();
     }
 
-    public function increaseFactorPrice(): float|int
-    {
-        return ceil($this->base_price * ($this->increase_factor_percent / 100) / 1000) * 1000;
-    }
-
     public function guaranteePrice(): float|int
     {
         return ceil($this->base_price * 0.1 / 1000) * 1000;

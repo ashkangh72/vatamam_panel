@@ -72,7 +72,7 @@
                                                             @if($walletCheckout->status != \App\Enums\WalletCheckoutStatusEnum::approved)
                                                                 <a data-id="{{ $walletCheckout->id }}" id="accept-btn" href="#"
                                                                    class="btn btn-outline-success waves-effect waves-light">تایید</a>
-                                                            
+
                                                                 <a data-id="{{ $walletCheckout->id }}" id="reject-btn" href="#"
                                                                    class="btn btn-outline-danger waves-effect waves-light">رد</a>
                                                             @endif
