@@ -144,10 +144,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::resource('slides', SliderController::class)->except(['show']);
     Route::post('slides/sort', [SliderController::class, 'sort']);
 
-    // ------------------ posters
-    Route::resource('posters', PosterController::class)->except(['show']);
-    Route::post('posters/sort', [PosterController::class, 'sort']);
-
     // ------------------ statistics
     Route::get('statistics/users', [StatisticsController::class, 'users'])->name('statistics.users');
     Route::get('statistics/userCounts', [StatisticsController::class, 'userCounts'])->name('statistics.userCounts');

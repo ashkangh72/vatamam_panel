@@ -65,6 +65,7 @@ return [
                 'cities.create' => 'ایجاد شهر',
             ]
         ],
+
         'links' => [
             'title' => 'مدیریت لینک های فوتر',
             'values' => [
@@ -170,16 +171,6 @@ return [
                 'create' => 'ایجاد اسلاید',
                 'update' => 'ویرایش اسلاید',
                 'delete' => 'حذف اسلاید',
-            ]
-        ],
-
-        'posters' => [
-            'title' => 'مدیریت پوسترها',
-            'values' => [
-                'index' => 'لیست پوسترها',
-                'create' => 'ایجاد پوستر',
-                'update' => 'ویرایش پوستر',
-                'delete' => 'حذف پوستر',
             ]
         ],
 
@@ -849,9 +840,30 @@ return [
             ]
         ],
         'poster' => [
-            'title' => 'پوستر',
-            'options' => [],
-            'rules' => []
+            'title' => 'ردیف پوستر',
+            'options' => [
+                [
+                    'title' => 'عنوان',
+                    'key' => 'title',
+                    'input-type' => 'input',
+                    'type' => 'text',
+                    'class' => 'col-md-4 col-6',
+                    'attributes' => 'required'
+                ],
+                [
+                    'title' => 'پس زمینه',
+                    'key' => 'background',
+                    'input-type' => 'file',
+                    'type' => 'file',
+                    'class' => 'col-md-4 col-6',
+                    'attributes' => 'required accept="image/*"',
+                    'help' => 'بهترین اندازه 1080 * 1920'
+                ],
+            ],
+            'rules' => [
+                'title' => 'required|string',
+                'background' => 'required|image',
+            ]
         ],
     ],
 
@@ -887,16 +899,6 @@ return [
             'height' => 100,
             'count' => 3,
             'size' => '100 * 100'
-        ]
-    ],
-
-    'posterGroups' => [
-        [
-            'group' => 'poster',
-            'name' => 'پوستر',
-            'width' => 820,
-            'height' => 150,
-            'count' => 1
         ]
     ],
 
