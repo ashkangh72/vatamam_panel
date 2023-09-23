@@ -269,6 +269,32 @@
                                 </ul>
                             </li>
                         @endcan
+                        @can('posters')
+                            <li class="{{ open_class(['admin.posters.*']) }}">
+                                <a href="#">
+                                    <i class="feather icon-circle"></i>
+                                    <span class="menu-title" >پوسترها</span>
+                                </a>
+                                <ul class="menu-content">
+                                    @can('posters.index')
+                                        <li class="{{ active_class('admin.posters.index') }}">
+                                            <a href="{{ route('admin.posters.index') }}">
+                                                <i class="feather icon-circle"></i>
+                                                <span class="menu-item">لیست پوسترها</span>
+                                            </a>
+                                        </li>
+                                    @endcan
+                                    @can('posters.create')
+                                        <li class="{{ active_class('admin.posters.create') }}">
+                                            <a href="{{ route('admin.posters.create') }}">
+                                                <i class="feather icon-circle"></i>
+                                                <span class="menu-item">ایجاد پوستر</span>
+                                            </a>
+                                        </li>
+                                    @endcan
+                                </ul>
+                            </li>
+                        @endcan
                     </ul>
                 </li>
             @endcan

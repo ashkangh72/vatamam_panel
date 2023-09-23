@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Back;
 
-use App\Enums\SlideGroupEnum;
+use App\Enums\PosterGroupEnum;
+use App\Models\Poster;
 use App\Http\Controllers\Controller;
-use App\Models\Slide;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\{Response, Request};
+use Illuminate\Http\{RedirectResponse, Response, Request};
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
-class SliderController extends Controller
+class PosterController extends Controller
 {
     /**
      * @return View
@@ -19,22 +19,27 @@ class SliderController extends Controller
      */
     public function index(): View
     {
-        $this->authorize('slides.index');
+        $this->authorize('posters.index');
 
-        $slides = Slide::orderBy('ordering')->get();
+        $posters = Poster::orderBy('ordering')->get();
 
-        return view('back.slides.index', compact('slides'));
+        return view('back.posters.index', compact('posters'));
     }
 
     /**
-     * @return View
+     * @return RedirectResponse|View
      * @throws AuthorizationException
      */
-    public function create(): View
+    public function create(): RedirectResponse|View
     {
-        $this->authorize('slides.update');
+        $this->authorize('posters.create');
 
-        return view('back.slides.create');
+        if (Poster::where('is_active', true)->exists()) {
+            toastr()->error('فقط یک پوستر میتوانید ایجاد کنید.');
+            return redirect()->route('admin.posters.index');
+        }
+
+        return view('back.posters.create');
     }
 
     /**
@@ -45,61 +50,61 @@ class SliderController extends Controller
      */
     public function store(Request $request): Response
     {
-        $this->authorize('slides.create');
+        $this->authorize('posters.create');
 
         $this->validate($request, [
             'title' => ['nullable', 'string', 'max:255'],
             'image' => ['mimes:jpeg,jpg,png,gif,svg,webp', 'required', 'max:2048'],
-            'group' => ['required', 'string', 'in:' . implode(',', SlideGroupEnum::getNames())],
+            'group' => ['required', 'string', 'in:' . implode(',', PosterGroupEnum::getNames())],
             'linkable_type' => ['nullable', 'string', 'in:auction,category'],
             'linkable_id' => ['nullable', 'numeric'],
             'published' => ['nullable'],
             'link' => ['nullable', 'string', 'max:255'],
         ]);
 
-        $slide = Slide::create([
+        $poster = Poster::create([
             'title' => $request->title,
             'link' => $request->link,
-            'group' => SlideGroupEnum::find($request->group),
+            'group' => PosterGroupEnum::find($request->group),
             'is_active' => (bool)$request->published,
             'linkable_type' => $this->getLinkableType($request->linkable_type),
             'linkable_id' => $request->linkable_id,
         ]);
 
-        $this->updateSlideImage($request, $slide);
+        $this->updatePosterImage($request, $poster);
 
-        toastr()->success('اسلاید با موفقیت ایجاد شد.');
+        toastr()->success('پوستر با موفقیت ایجاد شد.');
 
         return response("success");
     }
 
     /**
-     * @param Slide $slide
+     * @param Poster $poster
      * @return View
      * @throws AuthorizationException
      */
-    public function edit(Slide $slide): View
+    public function edit(Poster $poster): View
     {
-        $this->authorize('slides.update');
+        $this->authorize('posters.update');
 
-        return view('back.slides.edit', compact('slide'));
+        return view('back.posters.edit', compact('poster'));
     }
 
     /**
-     * @param Slide $slide
+     * @param Poster $poster
      * @param Request $request
      * @return Response
-     * @throws ValidationException
      * @throws AuthorizationException
+     * @throws ValidationException
      */
-    public function update(Slide $slide, Request $request): Response
+    public function update(Poster $poster, Request $request): Response
     {
-        $this->authorize('slides.update');
+        $this->authorize('posters.update');
 
         $this->validate($request, [
             'title' => ['nullable', 'string', 'max:255'],
             'image' => ['mimes:jpeg,jpg,png,gif,svg,webp', 'max:2048'],
-            'group' => ['required', 'string', 'in:' . implode(',', SlideGroupEnum::getNames())],
+            'group' => ['required', 'string', 'in:' . implode(',', PosterGroupEnum::getNames())],
             'linkable_type' => ['nullable', 'string', 'in:auction,category'],
             'linkable_id' => ['nullable', 'numeric'],
             'published' => ['nullable'],
@@ -107,37 +112,37 @@ class SliderController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $this->updateSlideImage($request, $slide);
+            $this->updatePosterImage($request, $poster);
         }
 
-        $slide->update([
+        $poster->update([
             'title' => $request->title,
             'link' => $request->link,
-            'group' => SlideGroupEnum::find($request->group),
+            'group' => PosterGroupEnum::find($request->group),
             'is_active' => (bool)$request->published,
             'linkable_type' => $this->getLinkableType($request->linkable_type),
             'linkable_id' => $request->linkable_id,
         ]);
 
-        toastr()->success('اسلایدر با موفقیت ویرایش شد.');
+        toastr()->success('پوستر با موفقیت ویرایش شد.');
 
         return response("success");
     }
 
     /**
-     * @param Slide $slide
+     * @param Poster $poster
      * @return Response
      * @throws AuthorizationException
      */
-    public function destroy(Slide $slide): Response
+    public function destroy(Poster $poster): Response
     {
-        $this->authorize('slides.delete');
+        $this->authorize('posters.delete');
 
-        if ($slide->image) {
-            Storage::disk('local')->delete($slide->image);
+        if ($poster->image) {
+            Storage::disk('local')->delete($poster->image);
         }
 
-        $slide->delete();
+        $poster->delete();
 
         return response('success');
     }
@@ -150,16 +155,16 @@ class SliderController extends Controller
      */
     public function sort(Request $request): Response
     {
-        $this->authorize('slides.update');
+        $this->authorize('posters.update');
 
         $this->validate($request, [
-            'sliders' => 'required|array'
+            'posters' => 'required|array'
         ]);
 
         $i = 1;
 
-        foreach ($request->slides as $slide) {
-            Slide::findOrFail($slide)->update([
+        foreach ($request->posters as $poster) {
+            Poster::findOrFail($poster)->update([
                 'ordering' => $i++,
             ]);
         };
@@ -167,17 +172,17 @@ class SliderController extends Controller
         return response('success');
     }
 
-    private function updateSlideImage(Request $request, Slide $slide)
+    private function updatePosterImage(Request $request, Poster $poster)
     {
-        if ($slide->image && Storage::exists($slide->image)) {
-            Storage::disk('local')->delete($slide->image);
+        if ($poster->image && Storage::exists($poster->image)) {
+            Storage::disk('local')->delete($poster->image);
         }
 
         $name = uniqid() . '_' . time() . '.' . $request->image->getClientOriginalExtension();
-        $request->image->storeAs('slides', $name);
+        $request->image->storeAs('posters', $name);
 
-        $slide->image = '/uploads/slides/' . $name;
-        $slide->save();
+        $poster->image = '/uploads/posters/' . $name;
+        $poster->save();
     }
 
     private function getLinkableType($type): ?string

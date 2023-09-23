@@ -1,5 +1,5 @@
-@if($banners->count())
-    <section class="card banners-sortable">
+@if($posters->count())
+    <section class="card posters-sortable">
         <div class="card-header">
             <h4 class="card-title">{{ $title }}</h4>
         </div>
@@ -16,32 +16,32 @@
                                 <th class="text-center">عملیات</th>
                             </tr>
                         </thead>
-                        <tbody id="banners-sortable-{{ $loop->index }}">
-                            @foreach($banners as $banner)
-                                <tr id="banner-{{ $banner->id }}">
+                        <tbody id="posters-sortable-{{ $loop->index }}">
+                            @foreach($posters as $poster)
+                                <tr id="poster-{{ $poster->id }}">
                                     <td class="text-center draggable-handler">
                                         <div class="fonticon-wrap"><i class="feather icon-move"></i></div>
                                     </td>
                                     <td>
                                         <div class="slider-thumb">
-                                            <img src="{{ asset($banner->image) }}" alt="banner image">
+                                            <img src="{{ asset($poster->image) }}" alt="poster image">
                                         </div>
                                     </td>
-                                    <td>{{ $banner->title ?: '--' }}</td>
+                                    <td>{{ $poster->title ?: '--' }}</td>
                                     <td class="text-center">
-                                        @if($banner->published)
+                                        @if($poster->is_active)
                                             <div class="badge badge-pill badge-success badge-md">منتشر شده</div>
                                         @else
                                             <div class="badge badge-pill badge-danger badge-md">پیش نویس</div>
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        @can('banners.update')
-                                            <a href="{{ route('admin.banners.edit', ['banner' => $banner]) }}" class="btn btn-info mr-1 waves-effect waves-light">ویرایش</a>
+                                        @can('posters.update')
+                                            <a href="{{ route('admin.posters.edit', ['poster' => $poster]) }}" class="btn btn-info mr-1 waves-effect waves-light">ویرایش</a>
                                         @endcan
 
-                                        @can('banners.delete')
-                                            <button type="button" data-banner="{{ $banner->id }}" class="btn btn-danger mr-1 waves-effect waves-light btn-delete"  data-toggle="modal" data-target="#delete-modal">حذف</button>
+                                        @can('posters.delete')
+                                            <button type="button" data-poster="{{ $poster->id }}" class="btn btn-danger mr-1 waves-effect waves-light btn-delete"  data-toggle="modal" data-target="#delete-modal">حذف</button>
                                         @endcan
 
                                     </td>

@@ -173,6 +173,16 @@ return [
             ]
         ],
 
+        'posters' => [
+            'title' => 'مدیریت پوسترها',
+            'values' => [
+                'index' => 'لیست پوسترها',
+                'create' => 'ایجاد پوستر',
+                'update' => 'ویرایش پوستر',
+                'delete' => 'حذف پوستر',
+            ]
+        ],
+
         'statistics' => [
             'title' => 'گزارشات',
             'values' => [
@@ -838,6 +848,11 @@ return [
                 'link_title' => 'nullable|string',
             ]
         ],
+        'poster' => [
+            'title' => 'پوستر',
+            'options' => [],
+            'rules' => []
+        ],
     ],
 
     'sliderGroups' => [
@@ -872,6 +887,16 @@ return [
             'height' => 100,
             'count' => 3,
             'size' => '100 * 100'
+        ]
+    ],
+
+    'posterGroups' => [
+        [
+            'group' => 'poster',
+            'name' => 'پوستر',
+            'width' => 820,
+            'height' => 150,
+            'count' => 1
         ]
     ],
 
