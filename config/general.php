@@ -530,7 +530,7 @@ return [
                 ],
             ],
             'rules' => [
-                'sort_type' => 'required|in:latest,sell',
+                'sort_type' => 'required|in:latest,last_end_at,end_at,expensive,cheap',
                 'link' => 'nullable|string',
                 'link_title' => 'nullable|string',
                 'number' => 'required',
@@ -663,7 +663,7 @@ return [
                 ],
             ],
             'rules' => [
-                'sort_type' => 'required|in:latest,sell',
+                'sort_type' => 'required|in:latest,last_end_at,end_at,expensive,cheap',
                 'link' => 'nullable|string',
                 'link_title' => 'nullable|string',
                 'number' => 'required',
@@ -796,7 +796,7 @@ return [
                 ],
             ],
             'rules' => [
-                'sort_type' => 'required|in:latest,sell',
+                'sort_type' => 'required|in:latest,last_end_at,end_at,expensive,cheap',
                 'link' => 'nullable|string',
                 'link_title' => 'nullable|string',
                 'number' => 'required',
