@@ -2,17 +2,14 @@
 
 // helper functions
 
-use App\Models\Option;
-
-//use App\Models\Sms;
-use App\Models\UserOption;
-use App\Models\Viewer;
-
-//use App\Services\SMSIR\Smsir;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Route;
+use App\Jobs\LogSmsJob;
+use App\Enums\UserCountryEnum;
+use App\Channels\{PushChannel, SmsChannel};
+use App\Models\{User, Option, UserOption, Viewer};
+use App\Services\{FarazSms, KaveNegar, NajvaService};
+use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\{Artisan, Cache, Route};
 use Illuminate\Support\Str;
 
 /* add active class to li */
@@ -187,32 +184,6 @@ function datatable($request, $query)
     } else {
         return $query->paginate($perPage, $columns, $pageName, 1);
     }
-}
-
-/**
- * Send sms to specify pattern_code and mobile number with input data.
- *
- * @param mixed $pattern_code
- * @param mixed $mobile
- * @param $params
- * @param mixed $type
- * @param mixed $user_id
- * @return void
- */
-function sendSms($pattern_code, $mobile, $params, $type = null, $user_id = null)
-{
-
-    $response = Smsir::ultraFastSend($params, $mobile, $pattern_code);
-
-    Sms::create([
-        'mobile' => $mobile,
-        'ip' => request()->ip(),
-        'type' => $type,
-        'user_id' => $user_id,
-        'response' => $response,
-    ]);
-
-    return $response;
 }
 
 function tverta($date)
@@ -450,4 +421,79 @@ function get_option_property($obj, $property)
     }
 
     return null;
+}
+
+
+/**
+ * @param string $message
+ * @param User $user
+ * @param string $type
+ * @throws GuzzleException
+ */
+function sendSms(string $message, User $user, string $type): void
+{
+    $userCountry = UserCountryEnum::from($user->country);
+    if ($userCountry == UserCountryEnum::iran) {
+        if ($user->smsBox->balance < 500) return;
+
+        $response = FarazSms::sendSms($message, [getCountryCode($userCountry) . $user->phone]);
+        $delay = 10;
+    } else {
+        if ($user->smsBox->balance < 15000) return;
+
+        $response = KaveNegar::sendSms($message, [getCountryCode($userCountry) . $user->phone]);
+        $delay = 30;
+    }
+
+    if (!$response) return;
+
+    dispatch(new LogSmsJob($user, $response, request()->ip(), $type))
+        ->onQueue('sms')
+        ->delay(Carbon::now()->addMinutes($delay));
+}
+
+/**
+ * @param UserCountryEnum $country
+ * @return string
+ */
+function getCountryCode(UserCountryEnum $country): string
+{
+    return match ($country) {
+        UserCountryEnum::iran => '98',
+        UserCountryEnum::iraq => '00964',
+        UserCountryEnum::emirates => '00971',
+        UserCountryEnum::turkey => '0090',
+        UserCountryEnum::england => '0044',
+    };
+}
+
+/**
+ * @param array $data
+ * @param array $subscribers
+ * @throws GuzzleException
+ */
+function sendPush(array $data, array $subscribers): void
+{
+    NajvaService::send($data, $subscribers);
+}
+
+/**
+ * @param User $user
+ * @param array $channels
+ * @param $key
+ * @return array
+ */
+function notificationChannels(User $user, array $channels, $key): array
+{
+    $notifiableNotificationSetting = $user->notificationSettings
+        ->where('key', $key)
+        ->first();
+
+    if (!$notifiableNotificationSetting) return $channels;
+
+    if ($user->email && $notifiableNotificationSetting->email) $channels[] = 'mail';
+    if ($user->phone && $notifiableNotificationSetting->sms) $channels[] = SmsChannel::class;
+    if ($user->push_token && $notifiableNotificationSetting->push) $channels[] = PushChannel::class;
+
+    return $channels;
 }

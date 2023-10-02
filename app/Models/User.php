@@ -2,7 +2,14 @@
 
 namespace App\Models;
 
+use App\Notifications\{AuctionBeforeEndNotification,
+    AuctionEndNotification,
+    DiscountNotification,
+    FavoriteNotification,
+    FollowedAuctionNotification,
+    WinningAuctionNotification};
 use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasOne, HasMany, MorphMany};
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Authenticatable;
@@ -239,6 +246,11 @@ class User extends Model implements AuthenticatableContract
         return $this->hasOne(SafeBox::class);
     }
 
+    public function smsBox(): HasOne
+    {
+        return $this->hasOne(SmsBox::class);
+    }
+
     public function walletCheckouts(): HasMany
     {
         return $this->hasMany(WalletCheckout::class);
@@ -259,6 +271,21 @@ class User extends Model implements AuthenticatableContract
         return $this->hasMany(Comment::class);
     }
 
+    public function notificationSettings(): HasMany
+    {
+        return $this->hasMany(NotificationSetting::class);
+    }
+
+    public function notices(): HasMany
+    {
+        return $this->hasMany(Notice::class);
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function views(): HasMany
     {
         return $this->hasMany(Viewer::class);
@@ -271,5 +298,35 @@ class User extends Model implements AuthenticatableContract
         }
 
         return $role->intersect($this->roles)->count();
+    }
+
+    public function sendAuctionEndNotification(Auction $auction)
+    {
+        $title = env('APP_NAME') . " - اتمام مزایده";
+        $message = 'مزایده ' . $auction->title . ' به پایان رسید.';
+        $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+
+        $this->notify(new AuctionEndNotification($auction, $title, $message, $url, 'sell'));
+    }
+
+    public function sendAuctionBeforeEndNotification(Auction $auction)
+    {
+        $title = env('APP_NAME') . " - اتمام مزایده";
+        $message = 'مزایده ' . $auction->title . ' تا نیم ساعت دیگر به پایان می رسد.';
+        $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+
+        $this->notify(
+            (new AuctionBeforeEndNotification($auction, $title, $message, $url, 'sell'))
+                ->delay(Carbon::now()->addMinutes(30))
+        );
+    }
+
+    public function sendWinningAuctionNotification(Auction $auction)
+    {
+        $title = env('APP_NAME') . " - برنده شدید!";
+        $message = 'تبریک! شما در مزایده ' . $auction->title . ' برنده شدید. برای تسویه حساب 12 ساعت فرصت دارید.';
+        $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+
+        $this->notify(new WinningAuctionNotification($auction, $title, $message, $url, 'buy'));
     }
 }

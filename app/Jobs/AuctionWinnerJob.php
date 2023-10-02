@@ -43,6 +43,8 @@ class AuctionWinnerJob implements ShouldQueue
 
         if (Carbon::parse($auction->end_at)->isFuture()) return;
 
+        $auction->user->sendAuctionEndNotification($auction);
+
         if (!$winnerBid) {
             $auction->update([
                 'is_ended' => true,
@@ -93,5 +95,7 @@ class AuctionWinnerJob implements ShouldQueue
         $winnerBid->update(['is_winner' => true]);
 
         $auction->update(['is_ended' => true]);
+
+        $winner->sendWinningAuctionNotification($auction);
     }
 }

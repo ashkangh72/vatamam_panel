@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Back;
 use App\Enums\AuctionStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Datatable\AuctionCollection;
-use App\Jobs\AuctionWinnerJob;
+use App\Jobs\{AuctionWinnerJob, FollowedAuctionJob, NoticeAuctionJob};
 use App\Models\{Auction, User};
 use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -79,6 +79,10 @@ class AuctionController extends Controller
         $auction->save();
 
         dispatch(new AuctionWinnerJob($auction->id))->delay(Carbon::parse($auction->end_at)->addMinute());
+        dispatch(new FollowedAuctionJob($auction->id))->delay(Carbon::parse($auction->end_at)->subHours(3));
+        dispatch(new NoticeAuctionJob($auction))->delay(Carbon::now()->addMinutes(10));
+
+        $auction->user->sendAuctionBeforeEndNotification($auction);
 
         return response('success');
     }

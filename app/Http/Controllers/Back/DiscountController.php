@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Back\Discount\StoreDiscountRequest;
-use App\Http\Requests\Back\Discount\UpdateDiscountRequest;
+use App\Http\Requests\Back\Discount\{StoreDiscountRequest, UpdateDiscountRequest};
+use App\Notifications\DiscountNotification;
 use App\Models\{Discount, User};
 use Hekmatinasser\Verta\Facades\Verta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class DiscountController extends Controller
 {
@@ -44,6 +45,14 @@ class DiscountController extends Controller
         $discount = Discount::create($data);
 
         $discount->users()->sync($request->include_users);
+
+        if ($discount->users->count() > 0) {
+            $title = env('APP_NAME') . " - کد تخفیف جدید";
+            $message = 'کد تخفیف جدیدی با ' . $discount->type == 'amount' ? ' مبلغ ' : ' درصد ' . $discount->amount . ' برای شما ایجاد شد.';
+            $url = env('WEBSITE_URL') . '/profile/gift-card';
+
+            Notification::send($discount->users, new DiscountNotification($discount, $title, $message, $url, 'buy'));
+        }
 
         toastr()->success('تخفیف با موفقیت ایجاد شد.');
 
