@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, MorphMany, MorphToMany};
 use App\Enums\{AuctionConditionEnum,
     AuctionShippingMethodEnum,
@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 class Auction extends Model
 {
     use sluggable;
+    use SoftDeletes;
 
     protected $guarded = ['id'];
     protected $casts = [

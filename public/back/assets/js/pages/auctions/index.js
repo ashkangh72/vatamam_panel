@@ -212,7 +212,7 @@ $('#auction-multiple-delete-form').on('submit', function (e) {
         type: 'POST',
         data: formData,
         success: function (data) {
-            toastr.success('کاربران انتخاب شده با موفقیت حذف شدند.');
+            toastr.success('مزایده های انتخاب شده با موفقیت حذف شدند.');
             datatable.reload();
         },
         beforeSend: function (xhr) {

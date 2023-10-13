@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Back;
 
+use Carbon\Carbon;
+use App\Models\Auction;
 use App\Enums\AuctionStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Datatable\AuctionCollection;
 use App\Jobs\{AuctionWinnerJob, FollowedAuctionJob, NoticeAuctionJob};
-use App\Models\{Auction, User};
-use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\{Request, JsonResponse};
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class AuctionController extends Controller
@@ -40,6 +40,9 @@ class AuctionController extends Controller
         return new AuctionCollection($auctions);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function multipleDestroy(Request $request)
     {
         $this->authorize('auctions.delete');
@@ -47,15 +50,16 @@ class AuctionController extends Controller
         $request->validate([
             'ids' => 'required|array',
             'ids.*' => [
-                Rule::exists('users', 'id')->where(function ($query) {
-                    $query->where('id', '!=', auth()->user()->id)->where('level', '!=', 'creator');
+                Rule::exists('auctions', 'id')->where(function ($query) {
+                    $query->where('status', '!=', AuctionStatusEnum::approved)
+                        ->orWhere('is_ended', true);
                 })
             ]
         ]);
 
         foreach ($request->ids as $id) {
-            $user = User::find($id);
-            $this->destroy($user, true);
+            $auction = Auction::find($id);
+            $auction->delete();
         }
 
         return response('success');
