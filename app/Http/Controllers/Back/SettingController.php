@@ -89,29 +89,37 @@ class SettingController extends Controller
         return response('success');
     }
 
-    public function showSms()
+    /**
+     * @return View
+     * @throws AuthorizationException
+     */
+    public function showSms(): View
     {
         $this->authorize('settings.sms');
 
         return view('back.settings.sms');
     }
 
-    public function updateSms(Request $request)
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws AuthorizationException
+     */
+    public function updateSms(Request $request): Response
     {
-
         $this->authorize('settings.sms');
 
         $except = [
-            'sms_on_user_register',
-            'sms_on_order_not_paid',
             'sms_on_order_paid',
-            'admin_sms_on_order_paid',
-            'sms_on_order_status_changed',
-            'sms_on_unbound_cart',
-            'sms_on_stock_notify',
-            'sms_on_refund_requests',
-            'sms_on_periodic_marketing_commission_deposit',
-            'sms_on_marketing_request_status_changed'
+            'sms_on_auction_end',
+            'sms_on_auction_before_end',
+            'sms_on_thanks_for_buy',
+            'sms_on_winning_auction',
+            'sms_on_auction_higher_bid',
+            'sms_on_followed_auction',
+            'sms_on_notice_auction',
+            'sms_on_transaction',
+            'sms_on_discount'
         ];
 
         $sms = $request->except($except);

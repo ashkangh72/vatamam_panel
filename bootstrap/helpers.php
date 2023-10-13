@@ -497,3 +497,25 @@ function notificationChannels(User $user, array $channels, $key): array
 
     return $channels;
 }
+
+function setNotificationMessage(string $messageSwitch, string $messageText, array $parameters): string|bool
+{
+    $messageSwitch = Option::getValue($messageSwitch);
+    if (is_null($messageSwitch) || $messageSwitch == 'off') return false;
+
+    $message = Option::getValue($messageText);
+    if (is_null($message)) return false;
+
+    return str_replace(
+        [
+            "{newLine}", "{siteTitle}", "{orderId}", "{userUsername}", "{auctionTitle}", "{transactionAmount}",
+            "{transactionAmount}", "{discountType}", "{discountAmount}"
+        ],
+        [
+            "\n", env('APP_NAME'), $parameters['orderId'], $parameters['userUsername'], $parameters['auctionTitle'],
+            $parameters['transactionAmount'], $parameters['transactionDescription'], $parameters['discountType'],
+            $parameters['discountAmount']
+        ],
+        $message
+    );
+}

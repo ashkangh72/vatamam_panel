@@ -43,9 +43,14 @@ class NoticeAuctionJob implements ShouldQueue
         $users = User::whereIn('id', $noticesUserIds->pluck('user_id'))->get();
 
         $title = env('APP_NAME') . " - مزایده جدید";
-        $message = 'مزایده ' . $this->auction->title . ' در دسته بندی موردعلاقه شما ایجاد شده است.';
+        $message = setNotificationMessage(
+            'sms_on_notice_auction',
+            'sms_text_on_notice_auction',
+            ['auctionTitle' => $this->auction->title]
+        );
         $url = env('WEBSITE_URL') . '/auction/' . $this->auction->slug;
 
-        Notification::send($users, new FavoriteNotification($this->auction, $title, $message, $url, 'buy'));
+        if ($message)
+            Notification::send($users, new FavoriteNotification($this->auction, $title, $message, $url, 'buy'));
     }
 }

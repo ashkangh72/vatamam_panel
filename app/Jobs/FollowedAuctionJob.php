@@ -39,9 +39,14 @@ class FollowedAuctionJob implements ShouldQueue
             $users[] = $follower->user;
         }
         $title = env('APP_NAME') . " - اتمام مزایده";
-        $message = 'مزایده ' . $auction->title . ' تا 3 ساعت دیگر به پایان می رسد.';
+        $message = setNotificationMessage(
+            'sms_on_followed_auction',
+            'sms_text_on_followed_auction',
+            ['auctionTitle' => $auction->title]
+        );
         $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
 
-        Notification::send($users, new FollowedAuctionNotification($auction, $title, $message, $url, 'buy'));
+        if ($message)
+            Notification::send($users, new FollowedAuctionNotification($auction, $title, $message, $url, 'buy'));
     }
 }

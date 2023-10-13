@@ -407,11 +407,11 @@
                             @endif
                         @endcan
 
-{{--                        @can('settings.sms')--}}
-{{--                            <li class="{{ active_class('admin.settings.sms') }}">--}}
-{{--                                <a href="{{ route('admin.settings.sms') }}"><i class="feather icon-circle"></i><span class="menu-item">تنظیمات پیامک</span></a>--}}
-{{--                            </li>--}}
-{{--                        @endcan--}}
+                        @can('settings.sms')
+                            <li class="{{ active_class('admin.settings.sms') }}">
+                                <a href="{{ route('admin.settings.sms') }}"><i class="feather icon-circle"></i><span class="menu-item">تنظیمات پیامک</span></a>
+                            </li>
+                        @endcan
                     </ul>
                 </li>
             @endcan

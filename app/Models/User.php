@@ -303,8 +303,14 @@ class User extends Model implements AuthenticatableContract
     public function sendAuctionEndNotification(Auction $auction)
     {
         $title = env('APP_NAME') . " - اتمام مزایده";
-        $message = 'مزایده ' . $auction->title . ' به پایان رسید.';
+        $message = setNotificationMessage(
+            'sms_on_auction_end',
+            'sms_text_on_auction_end',
+            ['auctionTitle' => $auction->title]
+        );
         $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+
+        if (!$message) return;
 
         $this->notify(new AuctionEndNotification($auction, $title, $message, $url, 'sell'));
     }
@@ -312,8 +318,14 @@ class User extends Model implements AuthenticatableContract
     public function sendAuctionBeforeEndNotification(Auction $auction)
     {
         $title = env('APP_NAME') . " - اتمام مزایده";
-        $message = 'مزایده ' . $auction->title . ' تا نیم ساعت دیگر به پایان می رسد.';
+        $message = setNotificationMessage(
+            'sms_on_auction_before_end',
+            'sms_text_on_auction_before_end',
+            ['auctionTitle' => $auction->title]
+        );
         $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+
+        if (!$message) return;
 
         $this->notify(
             (new AuctionBeforeEndNotification($auction, $title, $message, $url, 'sell'))
@@ -324,8 +336,14 @@ class User extends Model implements AuthenticatableContract
     public function sendWinningAuctionNotification(Auction $auction)
     {
         $title = env('APP_NAME') . " - برنده شدید!";
-        $message = 'تبریک! شما در مزایده ' . $auction->title . ' برنده شدید. برای تسویه حساب 12 ساعت فرصت دارید.';
+        $message = setNotificationMessage(
+            'sms_on_winning_auction',
+            'sms_text_on_winning_auction',
+            ['auctionTitle' => $auction->title]
+        );
         $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+
+        if (!$message) return;
 
         $this->notify(new WinningAuctionNotification($auction, $title, $message, $url, 'buy'));
     }

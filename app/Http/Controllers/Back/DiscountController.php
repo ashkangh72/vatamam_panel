@@ -48,10 +48,15 @@ class DiscountController extends Controller
 
         if ($discount->users->count() > 0) {
             $title = env('APP_NAME') . " - کد تخفیف جدید";
-            $message = 'کد تخفیف جدیدی با ' . $discount->type == 'amount' ? ' مبلغ ' : ' درصد ' . $discount->amount . ' برای شما ایجاد شد.';
+            $message = setNotificationMessage(
+                'sms_on_discount',
+                'sms_text_on_discount',
+                ['discountType' => $discount->type == 'amount' ? ' مبلغ ' : ' درصد ', 'discountAmount' => $discount->amount]
+            );
             $url = env('WEBSITE_URL') . '/profile/gift-card';
 
-            Notification::send($discount->users, new DiscountNotification($discount, $title, $message, $url, 'buy'));
+            if ($message)
+                Notification::send($discount->users, new DiscountNotification($discount, $title, $message, $url, 'buy'));
         }
 
         toastr()->success('تخفیف با موفقیت ایجاد شد.');

@@ -12,7 +12,6 @@ use App\Http\Controllers\Back\{AuctionController,
     OrderController,
     PageController,
     PermissionController,
-    PosterController,
     ProvinceController,
     RedirectController,
     RoleController,
@@ -168,12 +167,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     // ------------------ settings
     Route::get('settings/information', [SettingController::class, 'showInformation'])->name('settings.information');
     Route::post('settings/information', [SettingController::class, 'updateInformation']);
-
     Route::get('settings/socials', [SettingController::class, 'showSocials'])->name('settings.socials');
     Route::post('settings/socials', [SettingController::class, 'updateSocials']);
-
-//    Route::get('settings/sms', [SettingController::class, 'showSms'])->name('settings.sms');
-//    Route::post('settings/sms', [SettingController::class, 'updateSms']);
+    Route::get('settings/sms', [SettingController::class, 'showSms'])->name('settings.sms');
+    Route::post('settings/sms', [SettingController::class, 'updateSms']);
 
     // ------------------ logs
     Route::get('logs', [LogViewerController::class, 'index'])->name('logs.index');
