@@ -10,7 +10,7 @@ use App\Models\{User, Option, UserOption, Viewer};
 use App\Services\{FarazSms, KaveNegar, NajvaService};
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\{Artisan, Cache, Route};
-use Illuminate\Support\Str;
+use Illuminate\Support\{Str, Arr};
 
 /* add active class to li */
 
@@ -512,9 +512,11 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
             "{transactionAmount}", "{discountType}", "{discountAmount}"
         ],
         [
-            "\n", env('APP_NAME'), $parameters['orderId'], $parameters['userUsername'], $parameters['auctionTitle'],
-            $parameters['transactionAmount'], $parameters['transactionDescription'], $parameters['discountType'],
-            $parameters['discountAmount']
+            "\n", env('APP_NAME'),
+            Arr::get($parameters, 'orderId', ''), Arr::get($parameters, 'userUsername', ''),
+            Arr::get($parameters, 'auctionTitle', ''), Arr::get($parameters, 'transactionAmount', ''),
+            Arr::get($parameters, 'transactionDescription', ''), Arr::get($parameters, 'discountType', ''),
+            Arr::get($parameters, 'discountAmount', '')
         ],
         $message
     );
