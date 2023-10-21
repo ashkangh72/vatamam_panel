@@ -14,6 +14,10 @@ return [
                 'delete' => 'حذف کاربر',
                 'export.excel' => 'خروجی اکسل',
 
+                'partners' => 'مدیریت همکاران',
+                'partners.accept' => 'تایید همکار',
+                'partners.reject' => 'رد همکار',
+
                 'wallets.show' => 'مشاهده کیف پول',
                 'wallets.create' => 'افزایش/کاهش موجودی کیف پول',
                 'wallets.history.show' => 'مشاهده تراکنش های کیف پول',

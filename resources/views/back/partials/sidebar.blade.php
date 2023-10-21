@@ -51,6 +51,15 @@
                                 </a>
                             </li>
                         @endcan
+
+                        @can('users.partners')
+                            <li class="{{ active_class('admin.user.partners.index') }}">
+                                <a href="{{ route('admin.user.partners.index') }}">
+                                    <i class="feather icon-circle"></i>
+                                    <span class="menu-item">همکارها</span>
+                                </a>
+                            </li>
+                        @endcan
                     </ul>
                 </li>
             @endcan

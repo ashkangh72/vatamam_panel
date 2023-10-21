@@ -11,6 +11,7 @@ use App\Http\Controllers\Back\{AuctionController,
     MenuController,
     OrderController,
     PageController,
+    PartnerController,
     PermissionController,
     ProvinceController,
     RedirectController,
@@ -55,8 +56,12 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::delete('users/api/multipleDestroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
     Route::get('users/export/excel', [UserController::class, 'export'])->name('users.export');
     Route::get('users/{user}/views', [UserController::class, 'views'])->name('users.views');
-    Route::get('user/profile', [UserController::class, 'showProfile'])->name('user.profile.show');#
-    Route::put('user/profile', [UserController::class, 'updateProfile'])->name('user.profile.update');#
+    Route::get('user/profile', [UserController::class, 'showProfile'])->name('user.profile.show');
+    Route::put('user/profile', [UserController::class, 'updateProfile'])->name('user.profile.update');
+
+    Route::get('partners', [PartnerController::class, 'index'])->name('user.partners.index');
+    Route::post('partners/accept', [PartnerController::class, 'accept'])->name('user.partners.accept');
+    Route::post('partners/reject', [PartnerController::class, 'reject'])->name('user.partners.reject');
 
     // ------------------ wallets
     Route::resource('wallets', WalletController::class)->only(['show']);
