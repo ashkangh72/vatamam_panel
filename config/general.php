@@ -520,6 +520,26 @@ return [
                     ],
                 ],
                 [
+                    'title' => 'نمایش فقط مزایدات فعال (اختیاری)',
+                    'key' => 'show_only_not_ended',
+                    'input-type' => 'select',
+                    'class' => 'col-md-3',
+                    'options' => [
+                        [
+                            'value' => '',
+                            'title' => 'انتخاب کنید...'
+                        ],
+                        [
+                            'value' => 'yes',
+                            'title' => 'بله'
+                        ],
+                        [
+                            'value' => 'no',
+                            'title' => 'خیر'
+                        ]
+                    ],
+                ],
+                [
                     'title' => 'لینک',
                     'key' => 'link',
                     'input-type' => 'input',
@@ -653,6 +673,26 @@ return [
                     ],
                 ],
                 [
+                    'title' => 'نمایش فقط مزایدات فعال (اختیاری)',
+                    'key' => 'show_only_not_ended',
+                    'input-type' => 'select',
+                    'class' => 'col-md-3',
+                    'options' => [
+                        [
+                            'value' => '',
+                            'title' => 'انتخاب کنید...'
+                        ],
+                        [
+                            'value' => 'yes',
+                            'title' => 'بله'
+                        ],
+                        [
+                            'value' => 'no',
+                            'title' => 'خیر'
+                        ]
+                    ],
+                ],
+                [
                     'title' => 'لینک',
                     'key' => 'link',
                     'input-type' => 'input',
@@ -768,6 +808,26 @@ return [
                 [
                     'title' => 'نمایش فقط مزایدات تضمینی (اختیاری)',
                     'key' => 'show_only_guaranteed',
+                    'input-type' => 'select',
+                    'class' => 'col-md-3',
+                    'options' => [
+                        [
+                            'value' => '',
+                            'title' => 'انتخاب کنید...'
+                        ],
+                        [
+                            'value' => 'yes',
+                            'title' => 'بله'
+                        ],
+                        [
+                            'value' => 'no',
+                            'title' => 'خیر'
+                        ]
+                    ],
+                ],
+                [
+                    'title' => 'نمایش فقط مزایدات فعال (اختیاری)',
+                    'key' => 'show_only_not_ended',
                     'input-type' => 'select',
                     'class' => 'col-md-3',
                     'options' => [
