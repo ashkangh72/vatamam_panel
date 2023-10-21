@@ -448,7 +448,7 @@ function sendSms(string $message, User $user, string $type): void
     if (!$response) return;
 
     dispatch(new LogSmsJob($user, $response, request()->ip(), $type))
-        ->onQueue('sms')
+        ->onQueue('panelsms')
         ->delay(Carbon::now()->addMinutes($delay));
 }
 

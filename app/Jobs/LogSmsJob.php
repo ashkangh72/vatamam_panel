@@ -122,7 +122,7 @@ class LogSmsJob implements ShouldQueue
     private function dispatchLater()
     {
         dispatch(new LogSmsJob($this->user, $this->response, $this->ip, $this->type))
-            ->onQueue('sms')
+            ->onQueue('panelsms')
             ->delay(Carbon::now()->addMinutes(5));
     }
 }

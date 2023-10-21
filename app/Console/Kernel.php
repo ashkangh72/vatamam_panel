@@ -9,7 +9,8 @@ class Kernel extends ConsoleKernel
 {
     // define your queues here in order of priority
     protected array $queues = [
-        'default',
+        'panel',
+        'panelsms'
     ];
 
     /**
