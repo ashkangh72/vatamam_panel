@@ -18,4 +18,8 @@ class WalletHistory extends Model
         return $this->belongsTo(Wallet::class);
     }
 
+    public function scopeSuccess($query)
+    {
+        return $query->where('success', true);
+    }
 }
