@@ -54,8 +54,8 @@
                                                 <div class="form-group">
                                                     <label>نوع عملیات</label>
                                                     <select class="form-control" name="type">
-                                                        <option value="{{ \App\Enums\WalletHistoryTypeEnum::admin_deposit }}" selected>افزایش اعتبار</option>
-                                                        <option value="{{ \App\Enums\WalletHistoryTypeEnum::admin_withdraw }}">کاهش اعتبار</option>
+                                                        <option value="{{ \App\Enums\WalletHistoryTypeEnum::admin_deposit->value }}" selected>افزایش اعتبار</option>
+                                                        <option value="{{ \App\Enums\WalletHistoryTypeEnum::admin_withdraw->value }}">کاهش اعتبار</option>
                                                     </select>
                                                 </div>
                                             </div>
