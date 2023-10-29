@@ -42,14 +42,15 @@ class WalletController extends Controller
 
         $data['success'] = true;
 
+        $balance = $wallet->balance();
         if ($data['type'] == WalletHistoryTypeEnum::admin_withdraw) {
             $request->validate([
                 'amount' => 'numeric|max:' . $wallet->balance()
             ]);
 
-            $data['balance'] = $wallet->balance() - $data['amount'];
+            $data['balance'] = $balance - $data['amount'];
         } else {
-            $data['balance'] = $wallet->balance() + $data['amount'];
+            $data['balance'] = $balance + $data['amount'];
         }
 
         DB::transaction(function () use ($wallet, $data) {
