@@ -163,7 +163,7 @@
                                                                 <label>انتخاب مشتریان</label>
                                                                 <select id="users-include" class="form-control" name="include_users" multiple>
                                                                     @foreach ($users as $user)
-                                                                        <option value="{{ $user->id }}">{{ $user->fullname }}</option>
+                                                                        <option value="{{ $user->id }}">{{ $user->username .' - '. $user->name  }}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
