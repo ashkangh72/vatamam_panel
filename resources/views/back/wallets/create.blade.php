@@ -54,13 +54,8 @@
                                                 <div class="form-group">
                                                     <label>نوع عملیات</label>
                                                     <select class="form-control" name="type">
-                                                        @foreach([\App\Enums\WalletHistoryTypeEnum::admin_deposit, \App\Enums\WalletHistoryTypeEnum::admin_withdraw] as $type)
-                                                            @if($type == \App\Enums\WalletHistoryTypeEnum::admin_deposit)
-                                                                <option value="{{ $type }}" selected>افزایش اعتبار</option>
-                                                            @else
-                                                                <option value="{{ $type }}" selected>کاهش اعتبار</option>
-                                                            @endif
-                                                        @endforeach
+                                                        <option value="{{ \App\Enums\WalletHistoryTypeEnum::admin_deposit }}" selected>افزایش اعتبار</option>
+                                                        <option value="{{ \App\Enums\WalletHistoryTypeEnum::admin_withdraw }}">کاهش اعتبار</option>
                                                     </select>
                                                 </div>
                                             </div>

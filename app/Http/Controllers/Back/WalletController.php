@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Enums\WalletHistoryTypeEnum;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Access\AuthorizationException;
 use App\Models\{Wallet, WalletHistory};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,9 @@ class WalletController extends Controller
         return view('back.wallets.create', compact('wallet'));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function store(Wallet $wallet, Request $request)
     {
         $this->authorize('users.wallets.create');
@@ -40,24 +44,18 @@ class WalletController extends Controller
 
         if ($data['type'] == WalletHistoryTypeEnum::admin_withdraw) {
             $request->validate([
-                'amount' => 'numeric|max:' . $wallet->balance
+                'amount' => 'numeric|max:' . $wallet->balance()
             ]);
 
-            $data['balance'] = $wallet->balance - $data['amount'];
+            $data['balance'] = $wallet->balance() - $data['amount'];
         } else {
-            $data['balance'] = $wallet->balance + $data['amount'];
+            $data['balance'] = $wallet->balance() + $data['amount'];
         }
 
         DB::transaction(function () use ($wallet, $data) {
             $wallet->histories()->create($data);
 
-            if ($data['type'] == WalletHistoryTypeEnum::admin_withdraw) {
-                $wallet->balance -= $data['amount'];
-            } else {
-                $wallet->balance += $data['amount'];
-            }
-
-            $wallet->save();
+            $wallet->refreshBalance();
         });
 
         toastr()->success('تراکنش با موفقیت ایجاد شد');
