@@ -43,9 +43,9 @@ class WalletController extends Controller
         $data['success'] = true;
 
         $balance = $wallet->balance();
-        $data['balance'] = match ($data['type']) {
+        $data['balance'] = match ((int)$data['type']) {
             WalletHistoryTypeEnum::admin_withdraw->value => $balance - $data['amount'],
-            WalletHistoryTypeEnum::admin_deposit->value => $balance + $data['amount'],
+            WalletHistoryTypeEnum::admin_deposit->value => $balance + $data['amount']
         };
 
         DB::transaction(function () use ($wallet, $data) {
