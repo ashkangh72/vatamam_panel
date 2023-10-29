@@ -30,7 +30,7 @@
                 <!-- Description -->
                 <section class="card">
                     <div class="card-header">
-                        <h4 class="card-title">ایجاد تراکنش کیف پول (موجودی: {{ number_format($wallet->balance) }} تومان)</h4>
+                        <h4 class="card-title">ایجاد تراکنش کیف پول (موجودی: {{ number_format($wallet->balance()) }} تومان)</h4>
                         <div>
                             <a href="{{ route('admin.wallets.show', ['wallet' => $wallet]) }}" class="btn btn-warning waves-effect waves-light">بازگشت به کیف پول </a>
                         </div>
