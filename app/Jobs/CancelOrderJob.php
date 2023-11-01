@@ -55,7 +55,9 @@ class CancelOrderJob implements ShouldQueue
         $winner = $winnerBid->user;
         $order = $winner->orders()
             ->where('seller_id', $this->auction->user_id)
-            ->where('status', OrderStatusEnum::pending)
+            ->where('status', '!=', OrderStatusEnum::canceled)
+            ->whereIn('shipping_status', [null, 'pending'])
+            ->whereNull('is_satisfied')
             ->first();
 
         if (!$order) {
