@@ -2,10 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Models\Auction;
-use App\Models\Order;
 use Carbon\Carbon;
-use App\Enums\{OrderStatusEnum, AuctionBidTypeEnum};
+use App\Models\{Auction, Order};
+use App\Enums\{OrderStatusEnum, AuctionBidTypeEnum, SafeBoxHistoryTypeEnum, WalletHistoryTypeEnum};
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\{ShouldBeUnique, ShouldQueue};
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -85,6 +84,7 @@ class AuctionWinnerJob implements ShouldQueue
             $order->update([
                 'price' => $order->price + $winnerBid->amount,
                 'discount_price' => $order->discount_price + $winnerBid->amount,
+                'status' => OrderStatusEnum::locked
             ]);
         }
 
@@ -98,6 +98,46 @@ class AuctionWinnerJob implements ShouldQueue
 
         $auction->update(['is_ended' => true]);
 
+        $this->refundAuctionPaidGuarantees($auction, $winner);
+
         $winner->sendWinningAuctionNotification($auction);
+    }
+
+    private function refundAuctionPaidGuarantees(Auction $auction, $user)
+    {
+        $auctionPaidGuarantees = $auction->safeBoxHistory()
+            ->where('type', SafeBoxHistoryTypeEnum::auction_guarantee)
+            ->success()
+            ->get();
+
+        foreach ($auctionPaidGuarantees as $auctionPaidGuarantee) {
+            $payer = $auctionPaidGuarantee->safeBox->user;
+            $payerSafeBox = $payer->safeBox;
+            $payerWallet = $payer->wallet;
+
+            if ($payer->id == $user->id) continue;
+
+            $payerSafeBox->histories()->create([
+                'type' => SafeBoxHistoryTypeEnum::checkout,
+                'amount' => $auctionPaidGuarantee->amount,
+                'balance' => $auctionPaidGuarantee->safeBox->balance() - $auctionPaidGuarantee->amount,
+                'description' => 'استرداد مبلغ تضمین پرداخت شده در مزایده ' . $auction->title . ' و واریز به کیف پول',
+                'success' => true,
+                'historiable_type' => Auction::class,
+                'historiable_id' => $auction->id,
+            ]);
+            $payerSafeBox->refreshBalance();
+
+            $payerWallet->histories()->create([
+                'type' => WalletHistoryTypeEnum::refund,
+                'amount' => $auctionPaidGuarantee->amount,
+                'balance' => $payerWallet->balance() + $auctionPaidGuarantee->amount,
+                'description' => 'استرداد مبلغ تضمین پرداخت شده در مزایده ' . $auction->title . ' از صندوق امانت',
+                'success' => true,
+                'historiable_type' => Auction::class,
+                'historiable_id' => $auction->id,
+            ]);
+            $payerWallet->refreshBalance();
+        }
     }
 }

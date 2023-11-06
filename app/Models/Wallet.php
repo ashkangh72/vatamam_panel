@@ -23,7 +23,7 @@ class Wallet extends Model
     public function balance()
     {
         $totalDeposit = $this->histories()
-            ->whereIn('type', [WalletHistoryTypeEnum::admin_deposit, WalletHistoryTypeEnum::deposit, WalletHistoryTypeEnum::income])
+            ->whereIn('type', [WalletHistoryTypeEnum::admin_deposit, WalletHistoryTypeEnum::deposit, WalletHistoryTypeEnum::income, WalletHistoryTypeEnum::refund])
             ->success()
             ->sum('amount');
 
