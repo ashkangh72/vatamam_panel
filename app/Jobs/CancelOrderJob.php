@@ -42,7 +42,7 @@ class CancelOrderJob implements ShouldQueue
             return;
         }
 
-        AuctionLoser::create(['auction_bid_id', $this->winnerBid->id]);
+        AuctionLoser::create(['auction_bid_id' => $this->winnerBid->id]);
         $this->order->update(['status' => OrderStatusEnum::canceled]);
         $this->winnerBid->update(['is_winner' => false]);
 

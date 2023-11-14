@@ -432,7 +432,7 @@ function get_option_property($obj, $property)
  */
 function sendSms(string $message, User $user, string $type): void
 {
-    $userCountry = UserCountryEnum::from($user->country);
+    $userCountry = ($user->country instanceof UserCountryEnum) ? $user->country : UserCountryEnum::from($user->country);
     if ($userCountry == UserCountryEnum::iran) {
         if ($user->smsBox->balance < 500) return;
 
