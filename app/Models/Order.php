@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Enums\OrderStatusEnum;
+use App\Enums\SafeBoxHistoryTypeEnum;
+use App\Enums\WalletHistoryTypeEnum;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\{Model,
     Relations\BelongsTo,
     Relations\BelongsToMany,
@@ -21,6 +24,11 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function seller(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'seller_id', 'id');
     }
 
     public function address(): BelongsTo
@@ -132,11 +140,6 @@ class Order extends Model
         return $query->where('status', OrderStatusEnum::paid);
     }
 
-    public function seller(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'seller_id', 'id');
-    }
-
     public function isLocked(): bool
     {
         return $this->status == OrderStatusEnum::locked;
@@ -147,4 +150,48 @@ class Order extends Model
         return $this->refund()->exists();
     }
 
+    public function refundPayment()
+    {
+        $userSafeBox = $this->user->safeBox;
+        $userWallet = $this->user->wallet;
+
+        $userAuctionGuaranteePaidAmounts = $userSafeBox->histories()
+            ->where('type', SafeBoxHistoryTypeEnum::auction_guarantee)
+            ->where('historiable_type', Auction::class)
+            ->whereIn('historiable_id', $this->auctions->pluck('id'))
+            ->success()
+            ->sum('amount');
+        $userOrderPaidAmounts = $userSafeBox->histories()
+            ->where('type', SafeBoxHistoryTypeEnum::order)
+            ->where('historiable_type', Order::class)
+            ->where('historiable_id', $this->id)
+            ->success()
+            ->sum('amount');
+        $totalUserPaidAmount = $userAuctionGuaranteePaidAmounts + $userOrderPaidAmounts;
+
+        DB::transaction(function () use ($userSafeBox, $userWallet, $totalUserPaidAmount) {
+            $userSafeBox->histories()->create([
+                'user_id' => $this->seller->id,
+                'type' => SafeBoxHistoryTypeEnum::checkout,
+                'amount' => $totalUserPaidAmount,
+                'balance' => $userSafeBox->balance - $totalUserPaidAmount,
+                'description' => 'برداشت مبلغ تضمین مزایده ها و سفارش مرجوعی شماره ' . $this->id . ' و واریز به کیف پول',
+                'historiable_type' => Order::class,
+                'historiable_id' => $this->id,
+                'success' => true,
+            ]);
+            $userSafeBox->refreshBalance();
+
+            $userWallet->histories()->create([
+                'type' => WalletHistoryTypeEnum::income,
+                'amount' => $totalUserPaidAmount,
+                'balance' => $userWallet->balance + $totalUserPaidAmount,
+                'description' => 'واریز مبلغ مزایده ها و سفارش مرجوعی شماره ' . $this->id . ' از صندوق امانت',
+                'historiable_type' => Order::class,
+                'historiable_id' => $this->id,
+                'success' => true,
+            ]);
+            $userWallet->refreshBalance();
+        });
+    }
 }

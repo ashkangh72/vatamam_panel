@@ -97,4 +97,18 @@ class OrderController extends Controller
 
         return response('success');
     }
+
+    /**
+     * @param Order $order
+     * @return Response
+     * @throws AuthorizationException
+     */
+    public function refundPayment(Order $order): Response
+    {
+        $this->authorize('orders.refund.payment');
+
+        $order->refundPayment();
+
+        return response('success');
+    }
 }

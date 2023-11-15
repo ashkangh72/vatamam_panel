@@ -193,6 +193,7 @@ return [
             'values' => [
                 'index' => 'لیست سفارشات',
                 'view' => 'مشاهده سفارش',
+                'refund.payment' => 'بازگردانی مبلغ پرداختی',
                 'refund.accept' => 'تایید مرجوعی',
                 'refund.reject' => 'رد مرجوعی',
             ]

@@ -182,11 +182,13 @@ let order_datatable = (function() {
                 autoHide: false,
                 template: function(row) {
                     let actions = '<div class="btn-group-vertical"><a href="' + row.links.view + '" class="btn btn-outline-info waves-effect waves-light">مشاهده</a>';
-                    if (row.is_refunded && (row.refund_status == 'rejected' || row.refund_status == 'pending'))
+                    if (row.is_refunded && (row.refund_status === 'rejected' || row.refund_status === 'pending')) {
                         actions += '<button data-action="' + row.links.accept + '" class="btn btn-outline-success btn-accept">تایید برگشت</button>';
-                    if (row.is_refunded && (row.refund_status == 'accepted' || row.refund_status == 'pending'))
+                    }
+                    if (row.is_refunded && (row.refund_status === 'accepted' || row.refund_status === 'pending')) {
+                        actions += '<button data-action="' + row.links.refundPayment + '" class="btn btn-outline-success btn-refund">برگشت پرداختی</button>';
                         actions += '<button data-action="' + row.links.reject + '" class="btn btn-outline-danger btn-reject">رد برگشت</button>';
-
+                    }
                     return actions+'</div>';
                 },
             },
@@ -329,6 +331,63 @@ $(document).on('click', '.btn-reject', function(e) {
                 success: function (data) {
                     $(".modal").modal('hide');
                     toastr.success('با موفقیت رد شد.');
+
+                    window.location.reload();
+                },
+                beforeSend: function(xhr) {
+                    block('#main-card');
+                    xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
+                },
+                complete: function() {
+                    unblock('#main-card');
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+                'مشکلی پیش آمد دوباره تلاش کنید !',
+                '',
+                'error'
+            )
+        }
+    })
+});
+
+$(document).on('click', '.btn-refund', function(e) {
+    e.preventDefault();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+        title: 'آیا میخواهید مبلغ پرداختی را بازگردانی کنید ؟',
+        text: "",
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'تایید شود',
+        cancelButtonText: 'خیر',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: 'POST',
+                url: $(this).data('action'),
+                data: {},
+                success: function (data) {
+                    $(".modal").modal('hide');
+                    toastr.success('با موفقیت تایید شد.');
 
                     window.location.reload();
                 },

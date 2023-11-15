@@ -44,6 +44,7 @@ class Order extends JsonResource
 
             'links' => [
                 'view' => route('admin.orders.show', ['order' => $this]),
+                'refundPayment' => route('admin.orders.refund.payment', ['order' => $this]),
                 'accept' => route('admin.orders.refund.accept', ['order' => $this]),
                 'reject' => route('admin.orders.refund.reject', ['order' => $this]),
             ]
