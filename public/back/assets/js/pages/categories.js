@@ -60,6 +60,12 @@ $(document).on('click', '.edit-category', function() {
 
             jQuery('#modal-edit').modal('show');
 
+            $('.tags').tagsInput({
+                'defaultText': 'افزودن',
+                'width': '100%',
+                'autocomplete_url': BASE_URL + '/get-tags',
+            });
+
             if (typeof CKEDITOR !== 'undefined') {
                 CKEDITOR.replace('category-description');
             }

@@ -38,4 +38,10 @@
             <textarea id="category-description" class="form-control" name="description" rows="3">{{ $category->description }}</textarea>
         </div>
     </div>
+    <div class="col-md-6">
+        <fieldset class="form-group">
+            <label>کلمات کلیدی</label>
+            <input type="text" name="tags" class="form-control tags" value="{{ $category->getTags }}">
+        </fieldset>
+    </div>
 </div>

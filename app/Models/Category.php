@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MenuTypeEnum;
+use App\Traits\Taggable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany};
@@ -10,7 +11,7 @@ use Illuminate\Support\Collection;
 
 class Category extends Model
 {
-    use sluggable;
+    use sluggable, Taggable;
 
     protected $guarded = ['id'];
 

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use App\Jobs\LogSmsJob;
 use App\Enums\UserCountryEnum;
 use App\Channels\{PushChannel, SmsChannel};
-use App\Models\{User, Option, UserOption, Viewer};
+use App\Models\{Tag, User, Option, UserOption, Viewer};
 use App\Services\{FarazSms, KaveNegar, NajvaService};
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\{Artisan, Cache, Route};
@@ -520,4 +520,27 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
         ],
         $message
     );
+}
+
+/**
+ * add new tags and return tags id
+ * @param $tags
+ * @return array
+ */
+function addTags($tags): array
+{
+    $tags = explode(',', $tags);
+    $tags_id = [];
+
+    foreach ($tags as $item) {
+        $tag = Tag::where('name', $item)->first();
+        if (!$tag) {
+            $tag = Tag::create([
+                'name' => $item,
+            ]);
+        }
+        $tags_id[] = $tag->id;
+    }
+
+    return $tags_id;
 }
