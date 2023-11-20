@@ -105,8 +105,6 @@ $('#edit-form').submit(function(e) {
         data: formData,
         success: function(data) {
             $('a[data-category=' + category + ']').closest('.dd-handle').find('.category-title').text(data.title);
-            $('[data-category=' + category + ']').data('category', data.slug);
-            $('[data-category=' + category + ']').attr('data-category', data.slug);
             jQuery('#modal-edit').modal('hide');
 
         },
