@@ -3,7 +3,7 @@
 @push('styles')
     <!-- Page JS Plugins CSS -->
     <link rel="stylesheet" href="{{ asset('public/back/app-assets/plugins/nestable2/jquery.nestable.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
     <style>
         @media only screen and (max-width: 600px) {
@@ -146,7 +146,7 @@
 @push('scripts')
     <!-- Page JS Plugins -->
     <script src="{{ asset('public/back/app-assets/plugins/nestable2/jquery.nestable.min.js') }}"></script>
-    <script src="{{ asset('back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.js') }}"></script>
+    <script src="{{ asset('public/back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.js') }}"></script>
     <script src="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.js') }}"></script>
     <script src="{{ asset('public/back/app-assets/plugins/ckeditor/ckeditor.js') }}"></script>
 
