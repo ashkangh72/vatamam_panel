@@ -82,9 +82,15 @@ class CategoryController extends Controller
             'slug' => "nullable|unique:categories,slug,$category->id",
         ]);
 
+        if ($request->slug == $category->slug) {
+            $slug = $request->slug;
+        } else {
+            $slug = SlugService::createSlug(Category::class, 'slug', $request->slug ?: $request->title);
+        }
+
         $category->update([
             'title' => $request->title,
-            'slug' => SlugService::createSlug(Category::class, 'slug', $request->slug ?: $request->title),
+            'slug' => $slug,
             'meta_title' => $request->meta_title,
             'meta_description' => $request->meta_description,
             'description' => $request->description,
