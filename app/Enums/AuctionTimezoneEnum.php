@@ -12,24 +12,20 @@ enum AuctionTimezoneEnum: int
     case europe = 2;
     case africa = 3;
     case asia = 4;
-    case australia = 5;
-    case indian_ocean = 6;
-    case pacific_ocean = 7;
-    case atlantic_ocean = 8;
-    case antarctica = 9;
+    case england = 6;
+    case oceania = 5;
+    case not_specified = 7;
 
     public static function getTitle($enum): string
     {
         return match ($enum) {
-            self::america => 'آمریکا',
-            self::europe => 'اروپا',
-            self::africa => 'آفریقا',
-            self::asia => 'آسیا',
-            self::australia => 'استرالیا',
-            self::indian_ocean => 'اقیانوس هند',
-            self::pacific_ocean => 'اقیانوس آرام',
-            self::atlantic_ocean => 'اقیانوس اطلس',
-            self::antarctica => 'قطب جنوب',
+            self::america => 'آمریکایی',
+            self::europe => 'اروپایی',
+            self::africa => 'آفریقایی',
+            self::asia => 'آسیایی',
+            self::england => 'انگلیسی',
+            self::oceania => 'اقیانوسیه',
+            self::not_specified => 'نامشخص',
             default => $enum->name,
         };
     }
