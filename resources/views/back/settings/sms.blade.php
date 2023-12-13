@@ -113,6 +113,42 @@
                                             </fieldset>
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_auction_accept" type="checkbox"
+                                                           name="sms_on_auction_accept" {{ option('sms_on_auction_accept') == 'on' ? 'checked' : '' }} >
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی تایید مزایده به فروشنده</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_auction_accept"
+                                                          placeholder="{siteTitle} - تایید مزایده {newLine} مزایده {auctionTitle} تایید شد"
+                                                          rows="2">{{ option('sms_text_on_auction_accept') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
+                                                </small>
+                                            </fieldset>
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_auction_reject" type="checkbox"
+                                                           name="sms_on_auction_reject" {{ option('sms_on_auction_reject') == 'on' ? 'checked' : '' }} >
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی رد مزایده به فروشنده</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_auction_reject"
+                                                          placeholder="{siteTitle} - رد مزایده {newLine} مزایده {auctionTitle} رد شد"
+                                                          rows="2">{{ option('sms_text_on_auction_reject') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
+                                                </small>
+                                            </fieldset>
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
                                                     <input data-class="sms_on_auction_before_end" type="checkbox"
                                                            name="sms_on_auction_before_end" {{ option('sms_on_auction_before_end') == 'on' ? 'checked' : '' }} >
                                                     <span class="vs-checkbox">

@@ -18,6 +18,18 @@ class SmsLog extends Model
             'key'    => 'order_paid',
             'string' => 'اطلاع رسانی پرداخت سفارش به مدیر و فروشنده'
         ],
+        'AUCTION_FIRST_BID' => [
+            'key'    => 'auction_first_bid',
+            'string' => 'اطلاع رسانی اولین پیشنهاد مزایده به فروشنده'
+        ],
+        'AUCTION_ACCEPT' => [
+            'key'    => 'auction_accept',
+            'string' => 'اطلاع رسانی تایید مزایده به فروشنده'
+        ],
+        'AUCTION_REJECT' => [
+            'key'    => 'auction_reject',
+            'string' => 'اطلاع رسانی رد مزایده به فروشنده'
+        ],
         'AUCTION_END' => [
             'key'    => 'auction_end',
             'string' => 'یادآوری اتمام مزایده به فروشنده'

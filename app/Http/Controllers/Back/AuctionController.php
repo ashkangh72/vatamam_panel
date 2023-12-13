@@ -87,6 +87,7 @@ class AuctionController extends Controller
         dispatch(new NoticeAuctionJob($auction))->delay(Carbon::now()->addMinutes(10));
 
         $auction->user->sendAuctionBeforeEndNotification($auction);
+        $auction->user->sendAuctionAcceptNotification($auction);
 
         return response('success');
     }
@@ -102,10 +103,15 @@ class AuctionController extends Controller
             'id' => ['required', 'numeric', 'exists:auctions,id'],
             'reason' => ['required', 'string'],
         ]);
-        Auction::where('id', $validated['id'])->update([
+
+        $auction = Auction::where('id', $validated['id']);
+        $auction->update([
             'status' => AuctionStatusEnum::rejected,
             'reject_reason' => $validated['reason']
         ]);
+
+        $auction->user->sendAuctionRejectNotification($auction);
+
         return response('success');
     }
 

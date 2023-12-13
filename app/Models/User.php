@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use App\Notifications\{AuctionBeforeEndNotification,
+use App\Notifications\{AuctionAcceptNotification,
+    AuctionBeforeEndNotification,
     AuctionEndNotification,
+    AuctionRejectNotification,
     DiscountNotification,
     FavoriteNotification,
     FollowedAuctionNotification,
@@ -346,5 +348,35 @@ class User extends Model implements AuthenticatableContract
         if (!$message) return;
 
         $this->notify(new WinningAuctionNotification($auction, $title, $message, $url, 'buy'));
+    }
+
+    public function sendAuctionAcceptNotification(Auction $auction)
+    {
+        $title = env('APP_NAME') . " - تایید مزایده";
+        $message = setNotificationMessage(
+            'sms_on_auction_accept',
+            'sms_text_on_auction_accept',
+            ['auctionTitle' => $auction->title]
+        );
+        $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+
+        if (!$message) return;
+
+        $this->notify(new AuctionAcceptNotification($auction, $title, $message, $url, 'sell'));
+    }
+
+    public function sendAuctionRejectNotification(Auction $auction)
+    {
+        $title = env('APP_NAME') . " - رد مزایده";
+        $message = setNotificationMessage(
+            'sms_on_auction_reject',
+            'sms_text_on_auction_reject',
+            ['auctionTitle' => $auction->title]
+        );
+        $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+
+        if (!$message) return;
+
+        $this->notify(new AuctionRejectNotification($auction, $title, $message, $url, 'sell'));
     }
 }
