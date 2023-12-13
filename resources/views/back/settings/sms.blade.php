@@ -104,9 +104,9 @@
                                                     </span>
                                                     <span class="">اطلاع رسانی اولین پیشنهاد مزایده به فروشنده</span>
                                                 </div>
-                                                <textarea class="form-control" name="sms_text_on_first_bid"
+                                                <textarea class="form-control" name="sms_text_on_auction_first_bid"
                                                           placeholder="{siteTitle} - اولین پیشنهاد {newLine} مزایده {auctionTitle} اولین پیشنهاد خود را دریافت کرد"
-                                                          rows="2">{{ option('sms_text_on_first_bid') }}</textarea>
+                                                          rows="2">{{ option('sms_text_on_auction_first_bid') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
                                                     {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
                                                 </small>
