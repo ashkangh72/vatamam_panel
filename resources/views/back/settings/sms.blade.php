@@ -95,6 +95,24 @@
                                             </fieldset>
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_auction_first_bid" type="checkbox"
+                                                           name="sms_on_auction_first_bid" {{ option('sms_on_auction_first_bid') == 'on' ? 'checked' : '' }} >
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی اولین پیشنهاد مزایده به فروشنده</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_first_bid"
+                                                          placeholder="{siteTitle} - اولین پیشنهاد {newLine} مزایده {auctionTitle} اولین پیشنهاد خود را دریافت کرد"
+                                                          rows="2">{{ option('sms_text_on_first_bid') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
+                                                </small>
+                                            </fieldset>
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
                                                     <input data-class="sms_on_auction_before_end" type="checkbox"
                                                            name="sms_on_auction_before_end" {{ option('sms_on_auction_before_end') == 'on' ? 'checked' : '' }} >
                                                     <span class="vs-checkbox">

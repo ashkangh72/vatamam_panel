@@ -12,6 +12,7 @@ enum NotificationSettingKeyEnum: int
     case order_paid = 1;
     case auction_end = 2;
     case auction_before_end = 3;
+    case auction_first_bid = 13;
 
     // buyer
     case thanks_for_buy = 4;
