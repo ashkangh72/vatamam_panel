@@ -33,7 +33,7 @@
                                 <div class="tab-content">
                                     <form id="sms-form" action="{{ route('admin.settings.sms') }}" method="POST">
 
-                                        <h3 class="my-2">اطلاعات اطلاع رسانی</h3>
+                                        {{--<h3 class="my-2">اطلاعات اطلاع رسانی</h3>
                                         <hr>
                                         <div class="row">
                                             <div class="col-md-4">
@@ -52,7 +52,7 @@
                                                            value="{{ option('admin_email_address') }}">
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>--}}
 
                                         <h3 class="my-2">تنظیمات ارسال پیامک</h3>
                                         <hr>
@@ -161,6 +161,24 @@
                                                 <textarea class="form-control" name="sms_text_on_auction_before_end"
                                                           placeholder="{siteTitle} - اتمام مزایده {newLine} مزایده {auctionTitle} تا نیم ساعت دیگر به پایان می رسد"
                                                           rows="2">{{ option('sms_text_on_auction_before_end') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
+                                                </small>
+                                            </fieldset>
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_auction_create" type="checkbox"
+                                                           name="sms_on_auction_create" {{ option('sms_on_auction_create') == 'on' ? 'checked' : '' }} >
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی ایجاد مزایده به مدیران</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_auction_create"
+                                                          placeholder="{siteTitle} - ایجاد مزایده {newLine} مزایده {auctionTitle} ایجاد شد ومنتظر تایید مدیران است"
+                                                          rows="2">{{ option('sms_text_on_auction_create') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
                                                     {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
                                                 </small>

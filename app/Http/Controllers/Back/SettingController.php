@@ -122,7 +122,8 @@ class SettingController extends Controller
             'sms_on_discount',
             'sms_on_auction_first_bid',
             'sms_on_auction_accept',
-            'sms_on_auction_reject'
+            'sms_on_auction_reject',
+            'sms_on_auction_create'
         ];
 
         $sms = $request->except($except);

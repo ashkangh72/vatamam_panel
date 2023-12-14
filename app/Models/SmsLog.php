@@ -38,6 +38,10 @@ class SmsLog extends Model
             'key'    => 'auction_before_end',
             'string' => 'یادآوری مزایده پیش از اتمام به فروشنده'
         ],
+        'AUCTION_CREATE' => [
+            'key'    => 'auction_create',
+            'string' => 'اطلاع رسانی ایجاد مزایده به مدیران'
+        ],
         'THANKS_FOR_BUY' => [
             'key'    => 'thanks_for_buy',
             'string' => 'پیام تشکر از خرید به کاربر'

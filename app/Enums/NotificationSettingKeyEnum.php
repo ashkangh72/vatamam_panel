@@ -28,4 +28,5 @@ enum NotificationSettingKeyEnum: int
     case favorites = 10;
     case transactions = 11;
     case discounts = 12;
+    case auction_create = 16;
 }
