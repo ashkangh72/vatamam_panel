@@ -44,18 +44,12 @@ class AuctionWinnerJob implements ShouldQueue
 
         $auction->user->sendAuctionEndNotification($auction);
 
-        if (!$winnerBid) {
+        if (!$winnerBid || $auction->minimum_sale_price > $winnerBid->amount) {
             $auction->update([
                 'is_ended' => true,
             ]);
 
-            return;
-        }
-
-        if ($auction->minimum_sale_price > $winnerBid->amount) {
-            $auction->update([
-                'is_ended' => true,
-            ]);
+            if ($this->auction->guaranteed) $this->refundUsersGuarantee();
 
             return;
         }
@@ -79,7 +73,7 @@ class AuctionWinnerJob implements ShouldQueue
                 'shipping_cost' => $auction->shipping_cost,
             ]);
 
-            dispatch(new CancelOrderJob($order, $auction, $winnerBid))->delay(Carbon::parse($order->created_at)->addHours(12));
+            dispatch(new CancelOrderJob($order, $auction, $winnerBid))->delay(Carbon::parse($order->created_at)->addHours(48));
         } else {
             $order->update([
                 'price' => $order->price + $winnerBid->amount,
@@ -98,14 +92,12 @@ class AuctionWinnerJob implements ShouldQueue
 
         $auction->update(['is_ended' => true]);
 
-        $this->refundAuctionPaidGuarantees($auction, $winner);
-
         $winner->sendWinningAuctionNotification($auction);
     }
 
-    private function refundAuctionPaidGuarantees(Auction $auction, $user)
+    private function refundUsersGuarantee()
     {
-        $auctionPaidGuarantees = $auction->safeBoxHistory()
+        $auctionPaidGuarantees = $this->auction->safeBoxHistory()
             ->where('type', SafeBoxHistoryTypeEnum::auction_guarantee)
             ->success()
             ->get();
@@ -114,17 +106,23 @@ class AuctionWinnerJob implements ShouldQueue
             $payer = $auctionPaidGuarantee->safeBox->user;
             $payerSafeBox = $payer->safeBox;
             $payerWallet = $payer->wallet;
+            $alreadyRefunded = $payerSafeBox->histories()
+                ->where('type', SafeBoxHistoryTypeEnum::checkout)
+                ->where('historiable_type', Auction::class)
+                ->where('historiable_id', $this->auction->id)
+                ->where('success', true)
+                ->exists();
 
-            if ($payer->id == $user->id) continue;
+            if ($alreadyRefunded) continue;
 
             $payerSafeBox->histories()->create([
                 'type' => SafeBoxHistoryTypeEnum::checkout,
                 'amount' => $auctionPaidGuarantee->amount,
                 'balance' => $auctionPaidGuarantee->safeBox->balance() - $auctionPaidGuarantee->amount,
-                'description' => 'استرداد مبلغ تضمین پرداخت شده در مزایده ' . $auction->title . ' و واریز به کیف پول',
+                'description' => 'استرداد مبلغ تضمین پرداخت شده در مزایده ' . $this->auction->title . ' و واریز به کیف پول',
                 'success' => true,
                 'historiable_type' => Auction::class,
-                'historiable_id' => $auction->id,
+                'historiable_id' => $this->auction->id,
             ]);
             $payerSafeBox->refreshBalance();
 
@@ -132,10 +130,10 @@ class AuctionWinnerJob implements ShouldQueue
                 'type' => WalletHistoryTypeEnum::refund,
                 'amount' => $auctionPaidGuarantee->amount,
                 'balance' => $payerWallet->balance() + $auctionPaidGuarantee->amount,
-                'description' => 'استرداد مبلغ تضمین پرداخت شده در مزایده ' . $auction->title . ' از صندوق امانت',
+                'description' => 'استرداد مبلغ تضمین پرداخت شده در مزایده ' . $this->auction->title . ' از صندوق امانت',
                 'success' => true,
                 'historiable_type' => Auction::class,
-                'historiable_id' => $auction->id,
+                'historiable_id' => $this->auction->id,
             ]);
             $payerWallet->refreshBalance();
         }

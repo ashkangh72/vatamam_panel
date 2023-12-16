@@ -46,7 +46,7 @@ class CancelOrderJob implements ShouldQueue
         $this->order->update(['status' => OrderStatusEnum::canceled]);
         $this->winnerBid->update(['is_winner' => false]);
 
-        if ($this->auction->guaranteed) $this->refundLoserAuctionGuarantee($this->winnerBid->user);
+        if ($this->auction->guaranteed) $this->handleLoserAuctionGuarantee($this->winnerBid->user);
 
         $winnerBid = $this->auction->bids()
             ->where('type', AuctionBidTypeEnum::bid)
@@ -54,15 +54,13 @@ class CancelOrderJob implements ShouldQueue
             ->skip($this->skip)
             ->first();
 
-        if (!$winnerBid || $this->auction->minimum_sale_price > $winnerBid->amount) return;
+        if (!$winnerBid || $this->auction->minimum_sale_price > $winnerBid->amount) {
+            if ($this->auction->guaranteed) $this->refundUsersGuarantee();
+
+            return;
+        }
 
         $winner = $winnerBid->user;
-
-        if ($this->auction->guaranteed) {
-            if ($winner->wallet->balance() < $this->auction->guaranteePrice()) return;
-
-            $this->payAuctionGuarantee($winner);
-        }
 
         $order = $winner->orders()
             ->where('seller_id', $this->auction->user_id)
@@ -81,7 +79,7 @@ class CancelOrderJob implements ShouldQueue
                 'shipping_cost' => $this->auction->shipping_cost,
             ]);
 
-            dispatch(new CancelOrderJob($order, $this->auction, $winnerBid, $this->skip + 1))->delay(Carbon::parse($order->created_at)->addHours(12));
+            dispatch(new CancelOrderJob($order, $this->auction, $winnerBid, $this->skip + 1))->delay(Carbon::parse($order->created_at)->addHours(48));
         } else {
             $order->update([
                 'price' => $order->price + $winnerBid->amount,
@@ -103,37 +101,9 @@ class CancelOrderJob implements ShouldQueue
         $winner->sendWinningAuctionNotification($this->auction);
     }
 
-    private function payAuctionGuarantee($winner)
-    {
-        $wallet = $winner->wallet;
-        $safeBox = $winner->safeBox;
-        $amount = $this->auction->guaranteePrice();
-
-        $wallet->histories()->create([
-            'type' => WalletHistoryTypeEnum::withdraw,
-            'amount' => $amount,
-            'balance' => $wallet->balance() - $amount,
-            'description' => 'پرداخت هزینه گارانتی برای مزایده ' . $this->title,
-            'success' => true,
-        ]);
-        $wallet->refreshBalance();
-
-        $safeBox->histories()->create([
-            'type' => SafeBoxHistoryTypeEnum::auction_guarantee,
-            'amount' => $amount,
-            'balance' => $safeBox->balance() + $amount,
-            'description' => 'پرداخت هزینه گارانتی برای مزایده ' . $this->title,
-            'success' => true,
-            'historiable_type' => Auction::class,
-            'historiable_id' => $this->id,
-        ]);
-        $safeBox->refreshBalance();
-    }
-
-    private function refundLoserAuctionGuarantee($user)
+    private function handleLoserAuctionGuarantee($user)
     {
         $safeBox = $user->safeBox;
-        $wallet = $user->wallet;
 
         $paidGuarantee = $this->auction->safeBoxHistory()
             ->where('safe_box_id', $safeBox->id)
@@ -147,22 +117,55 @@ class CancelOrderJob implements ShouldQueue
             'type' => SafeBoxHistoryTypeEnum::checkout,
             'amount' => $paidGuarantee->amount,
             'balance' => $safeBox->balance() - $paidGuarantee->amount,
-            'description' => 'استرداد مبلغ تضمین پرداخت شده در مزایده ' . $this->title . ' و واریز به کیف پول',
+            'description' => 'برداشت مبلغ تضمین پرداخت شده در مزایده ' . $this->auction->title . ' و واریز به حساب پارکینگ پروانه به عنوان جریمه و جبران خسارت',
             'success' => true,
             'historiable_type' => Auction::class,
             'historiable_id' => $this->id,
         ]);
         $safeBox->refreshBalance();
+    }
 
-        $wallet->histories()->create([
-            'type' => WalletHistoryTypeEnum::refund,
-            'amount' => $paidGuarantee->amount,
-            'balance' => $wallet->balance() + $paidGuarantee->amount,
-            'description' => 'استرداد مبلغ تضمین پرداخت شده در مزایده ' . $this->title . ' از صندوق امانت',
-            'success' => true,
-            'historiable_type' => Auction::class,
-            'historiable_id' => $this->id,
-        ]);
-        $wallet->refreshBalance();
+    private function refundUsersGuarantee()
+    {
+        $auctionPaidGuarantees = $this->auction->safeBoxHistory()
+            ->where('type', SafeBoxHistoryTypeEnum::auction_guarantee)
+            ->success()
+            ->get();
+
+        foreach ($auctionPaidGuarantees as $auctionPaidGuarantee) {
+            $payer = $auctionPaidGuarantee->safeBox->user;
+            $payerSafeBox = $payer->safeBox;
+            $payerWallet = $payer->wallet;
+            $alreadyRefunded = $payerSafeBox->histories()
+                ->where('type', SafeBoxHistoryTypeEnum::checkout)
+                ->where('historiable_type', Auction::class)
+                ->where('historiable_id', $this->auction->id)
+                ->where('success', true)
+                ->exists();
+
+            if ($alreadyRefunded) continue;
+
+            $payerSafeBox->histories()->create([
+                'type' => SafeBoxHistoryTypeEnum::checkout,
+                'amount' => $auctionPaidGuarantee->amount,
+                'balance' => $auctionPaidGuarantee->safeBox->balance() - $auctionPaidGuarantee->amount,
+                'description' => 'استرداد مبلغ تضمین پرداخت شده در مزایده ' . $this->auction->title . ' و واریز به کیف پول',
+                'success' => true,
+                'historiable_type' => Auction::class,
+                'historiable_id' => $this->auction->id,
+            ]);
+            $payerSafeBox->refreshBalance();
+
+            $payerWallet->histories()->create([
+                'type' => WalletHistoryTypeEnum::refund,
+                'amount' => $auctionPaidGuarantee->amount,
+                'balance' => $payerWallet->balance() + $auctionPaidGuarantee->amount,
+                'description' => 'استرداد مبلغ تضمین پرداخت شده در مزایده ' . $this->auction->title . ' از صندوق امانت',
+                'success' => true,
+                'historiable_type' => Auction::class,
+                'historiable_id' => $this->auction->id,
+            ]);
+            $payerWallet->refreshBalance();
+        }
     }
 }
