@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ asset('public/back/app-assets/plugins/file-manager/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('public/back/app-assets/plugins/file-manager/css/bootstrap-rtl.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
-    <link href="{{ asset('public/back/app-assets/plugins/file-manager/css/file-manager.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('public/back/app-assets/plugins/file-manager/css/file-manager.css') }}">
     <link rel="stylesheet" href="{{ asset('public/back/app-assets/plugins/file-manager/css/styles.css') }}">
 </head>
 
