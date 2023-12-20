@@ -208,6 +208,7 @@ return [
             ]
         ],
 
+        'file-manager' => 'مدیریت فایل ها',
     ],
 
     'linkGroups' => [
