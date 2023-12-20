@@ -24,4 +24,18 @@ class MainController extends Controller
 
         return view('back.notifications', compact('notifications'));
     }
+
+    public function fileManager()
+    {
+        $this->authorize('file-manager');
+
+        return view('back.file-manager');
+    }
+
+    public function fileManagerIframe()
+    {
+        $this->authorize('file-manager');
+
+        return view('back.file-manager-iframe');
+    }
 }

@@ -180,6 +180,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 
     // ------------------ logs
     Route::get('logs', [LogViewerController::class, 'index'])->name('logs.index');
+
+    // ------------------ file manager
+    Route::get('file-manager', [MainController::class, 'fileManager'])->name('file-manager');
+    Route::get('file-manager-iframe', [MainController::class, 'fileManagerIframe'])->name('file-manager-iframe');
+
 });
 
 Route::middleware('auth')->group(function () {
