@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany};
+use Illuminate\Support\Str;
 
 class WidgetOption extends Model
 {
@@ -28,5 +29,13 @@ class WidgetOption extends Model
     public function hasCategory(): bool
     {
         return $this->value == 'on';
+    }
+
+    public function getValueAttribute($value): ?string
+    {
+        if (Str::startsWith($value, '/'))
+            return $value ? env('API_URL') . '/public' . $value : null;
+        else
+            return $value;
     }
 }

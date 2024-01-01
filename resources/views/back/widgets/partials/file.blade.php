@@ -5,9 +5,10 @@
 <div class="{{ $option['class'] ?? 'col-md-6 col-12' }}">
     <fieldset class="form-group">
         <label>{{ $option['title'] }}</label>
+        <img class="img-thumbnail w-50" src="{{ $input_value }}">
         <div class="custom-file">
             <input id="image" type="file" name="options[{{ $option['key'] }}]"
-                   class="custom-file-input" {!! $option['attributes'] ?? '' !!}>
+                   class="custom-file-input" {!! !$input_value ? $option['attributes'] ?? '' : '' !!}>
             <label class="custom-file-label" for="image">{{ $input_value }}</label>
         </div>
         @isset($option['help'])
