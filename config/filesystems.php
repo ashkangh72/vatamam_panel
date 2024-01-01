@@ -68,7 +68,7 @@ return [
 
         'ckeditor' => [
             'driver' => 'local',
-            'root' => public_path('uploads/ckeditor'),
+            'root' => public_path(env('FILES_PATH').'/ckeditor'),
             'url' => '/uploads/ckeditor',
             'visibility' => 'public',
         ],
