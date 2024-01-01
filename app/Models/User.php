@@ -147,6 +147,10 @@ class User extends Model implements AuthenticatableContract
             $query->where('username', 'like', '%' . $username . '%');
         }
 
+        if ($phone = $request->input('query.phone')) {
+            $query->where('phone', 'like', '%' . $phone . '%');
+        }
+
         if ($level = $request->input('query.level')) {
             switch ($level) {
                 case "admin":

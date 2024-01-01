@@ -20,11 +20,16 @@
                                 <input class="form-control datatable-filter" name="fullname" value="{{ request('fullname') }}">
                             </fieldset>
                         </div>
-
                         <div class="col-md-3">
                             <label>نام کاربری</label>
                             <fieldset class="form-group">
                                 <input class="form-control datatable-filter" name="username" value="{{ request('username') }}">
+                            </fieldset>
+                        </div>
+                        <div class="col-md-3">
+                            <label>شماره کاربر</label>
+                            <fieldset class="form-group">
+                                <input class="form-control datatable-filter" name="phone" value="{{ request('phone') }}">
                             </fieldset>
                         </div>
                         <div class="col-md-3">
