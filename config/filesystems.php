@@ -69,7 +69,7 @@ return [
         'ckeditor' => [
             'driver' => 'local',
             'root' => public_path(env('FILES_PATH').'/ckeditor'),
-            'url' => '/uploads/ckeditor',
+            'url' => env('API_URL') . '/public' . '/uploads/ckeditor',
             'visibility' => 'public',
         ],
 
