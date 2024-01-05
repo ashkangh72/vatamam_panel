@@ -38,4 +38,12 @@ class WidgetOption extends Model
         else
             return $value;
     }
+
+    public function setValueAttribute($value): void
+    {
+        if (Str::startsWith($value, env('API_URL')))
+            $this->attributes['value'] = Str::replaceFirst(env('API_URL') . '/public', '', $value);
+        else
+            $this->attributes['value'] = $value;
+    }
 }
