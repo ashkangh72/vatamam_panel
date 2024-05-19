@@ -932,6 +932,23 @@ return [
                 'background' => 'required|image',
             ]
         ],
+        'categories' => [
+            'title' => 'دسته بندی',
+            'image' => 'widgets/categories.jpg',
+            'options' => [
+                [
+                    'title'      => 'انتخاب دسته بندی ها',
+                    'key'        => 'categories',
+                    'input-type' => 'categories',
+                    'class'      => 'col-md-12',
+                ],
+
+            ],
+            'rules' => [
+                'categories'      => 'required|array',
+                'categories.*'    => 'exists:categories,id',
+            ]
+        ],
     ],
 
     'sliderGroups' => [
