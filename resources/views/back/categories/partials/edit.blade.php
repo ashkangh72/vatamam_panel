@@ -6,6 +6,16 @@
         </div>
     </div>
     <div class="col-md-6">
+        <fieldset class="form-group">
+            <label>تصویر</label>
+            <div id="picture-{{ $category->id }}" class="custom-file">
+                <input type="file" accept="image/*" name="picture" class="custom-file-input">
+                <label class="custom-file-label" for="picture">{{ $category->picture }}</label>
+                <small>بهترین اندازه <span class="text-danger"> - </span> پیکسل می باشد.</small>
+            </div>
+        </fieldset>
+    </div>
+    <div class="col-md-6">
         <div class="form-group">
             <label>عنوان سئو </label>
             <input type="text" name="meta_title" class="form-control" value="{{ $category->meta_title }}">

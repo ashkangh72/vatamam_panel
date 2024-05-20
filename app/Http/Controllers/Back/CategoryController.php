@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -88,9 +89,20 @@ class CategoryController extends Controller
             $slug = SlugService::createSlug(Category::class, 'slug', $request->slug ?: $request->title);
         }
 
+        $picture = $request->file('picture');
+        if ($picture) {
+            $oldPicture = $category->picture;
+            if ($oldPicture && Storage::disk('local')->exists($oldPicture)) {
+                Storage::disk('local')->delete($oldPicture);
+            }
+
+            $picture = $this->uploadImage($picture);
+        }
+
         $category->update([
             'title' => $request->title,
             'slug' => $slug,
+            'picture' => $picture,
             'meta_title' => $request->meta_title,
             'meta_description' => $request->meta_description,
             'description' => $request->description,
@@ -145,5 +157,13 @@ class CategoryController extends Controller
         $slug = SlugService::createSlug(Category::class, 'slug', $request->title);
 
         return response()->json(['slug' => $slug]);
+    }
+
+    private function uploadImage($file): string
+    {
+        $name = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('categories', $name);
+
+        return '/uploads/categories/' . $name;
     }
 }
