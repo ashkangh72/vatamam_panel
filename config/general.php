@@ -949,6 +949,59 @@ return [
                 'categories.*'    => 'exists:categories,id',
             ]
         ],
+        'double_poster' => [
+            'title' => 'پوستر دوتایی',
+            'image' => 'widgets/banner.jpg',
+            'options' => [
+                [
+                    'title'      => 'تعداد قابل نمایش',
+                    'key'        => 'number',
+                    'input-type' => 'input',
+                    'type'       => 'number',
+                    'default'    => '2',
+                    'class'      => 'col-md-4 col-6',
+                    'attributes' => 'required'
+                ],
+                [
+                    'title'      => 'ترتیب نمایش',
+                    'key'        => 'ordering',
+                    'input-type' => 'select',
+                    'class'      => 'col-md-4',
+                    'options'    => [
+                        [
+                            'value' => 'asc',
+                            'title' => 'صعودی'
+                        ],
+                        [
+                            'value' => 'desc',
+                            'title' => 'نزولی'
+                        ]
+                    ],
+                ],
+                [
+                    'title' => 'پوستر اول',
+                    'key' => 'poster1',
+                    'input-type' => 'file',
+                    'type' => 'file',
+                    'class' => 'col-md-4 col-6',
+                    'attributes' => 'required accept="image/*"',
+                    'help' => 'بهترین اندازه ? * ?'
+                ],
+                [
+                    'title' => 'پوستر دوم',
+                    'key' => 'poster2',
+                    'input-type' => 'file',
+                    'type' => 'file',
+                    'class' => 'col-md-4 col-6',
+                    'attributes' => 'required accept="image/*"',
+                    'help' => 'بهترین اندازه ? * ?'
+                ],
+
+            ],
+            'rules' => [
+                'number' => 'required',
+            ]
+        ],
     ],
 
     'sliderGroups' => [

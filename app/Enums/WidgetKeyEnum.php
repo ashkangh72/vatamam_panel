@@ -19,4 +19,5 @@ enum WidgetKeyEnum: int
     case blog_posts = 9;
     case poster = 10;
     case categories = 11;
+    case double_poster = 12;
 }
