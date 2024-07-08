@@ -17,6 +17,7 @@ class Auction extends JsonResource
 
         return [
             'id' => $this->id,
+            'type' => $this->getType(),
             'picture' => $this->picture,
             'url' => $this->getUrl(),
             'title' => htmlspecialchars($this->title),

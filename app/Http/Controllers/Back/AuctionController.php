@@ -77,16 +77,24 @@ class AuctionController extends Controller
         ]);
 
         $auction = Auction::where('id', $validated['id'])->first();
-        $difference = Carbon::parse($auction->created_at)->diffInMinutes(Carbon::parse($auction->end_at));
-        $auction->status = AuctionStatusEnum::approved;
-        $auction->end_at = Carbon::now()->addMinutes($difference);
-        $auction->save();
+        if ($auction->type == 'auction') {
+            $difference = Carbon::parse($auction->created_at)->diffInMinutes(Carbon::parse($auction->end_at));
+            $auction->status = AuctionStatusEnum::approved;
+            $auction->end_at = Carbon::now()->addMinutes($difference);
+            $auction->save();
 
-        dispatch(new AuctionWinnerJob($auction->id))->delay(Carbon::parse($auction->end_at)->addMinute());
-        dispatch(new FollowedAuctionJob($auction->id))->delay(Carbon::parse($auction->end_at)->subHours(3));
-        dispatch(new NoticeAuctionJob($auction))->delay(Carbon::now()->addMinutes(10));
+            dispatch(new AuctionWinnerJob($auction->id))->delay(Carbon::parse($auction->end_at)->addMinute());
+            dispatch(new FollowedAuctionJob($auction->id))->delay(Carbon::parse($auction->end_at)->subHours(3));
+            dispatch(new NoticeAuctionJob($auction))->delay(Carbon::now()->addMinutes(10));
 
-        $auction->user->sendAuctionBeforeEndNotification($auction);
+            $auction->user->sendAuctionBeforeEndNotification($auction);
+        } else {
+            $auction->status = AuctionStatusEnum::approved;
+            $auction->save();
+
+            dispatch(new NoticeAuctionJob($auction))->delay(Carbon::now()->addMinutes(10));
+
+        }
         $auction->user->sendAuctionAcceptNotification($auction);
 
         return response('success');

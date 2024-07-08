@@ -69,7 +69,13 @@ let auction_datatable = function () {
                 title: 'عنوان',
                 width: 150,
                 template: function (row) {
-                    return '<a href="' + row.url + '">' + row.title + '</a>';
+                    let title = ``;
+                    if (row.type === 'محصول')
+                        title =  `<a href="${row.url}">${row.title}</a> <span class="badge badge-info">${row.type}</span>`;
+                    if (row.type === 'مزایده')
+                        title =  `<a href="${row.url}">${row.title}</a> <span class="badge badge-primary">${row.type}</span>`;
+
+                    return title;
                 }
             },
             {

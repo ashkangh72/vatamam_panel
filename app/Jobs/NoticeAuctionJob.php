@@ -42,7 +42,7 @@ class NoticeAuctionJob implements ShouldQueue
 
         $users = User::whereIn('id', $noticesUserIds->pluck('user_id'))->get();
 
-        $title = env('APP_NAME') . " - مزایده جدید";
+        $title = env('APP_NAME') . " - " . $this->auction->getType() . " جدید";
         $message = setNotificationMessage(
             'sms_on_notice_auction',
             'sms_text_on_notice_auction',

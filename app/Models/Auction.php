@@ -296,6 +296,14 @@ class Auction extends Model
         return env('WEBSITE_URL') . '/auction/' . $this->slug;
     }
 
+    public function getType(): string
+    {
+        return match ($this->type) {
+            'product' => 'محصول',
+            'auction' => 'مزایده'
+        };
+    }
+
     public function scopeFilter($query, Request $request)
     {
         if ($title = $request->input('query.title')) {

@@ -1002,6 +1002,111 @@ return [
                 'number' => 'required',
             ]
         ],
+        'product' => [
+            'title' => 'ردیف محصول',
+            'options' => [
+                [
+                    'title' => 'نوع مرتب سازی',
+                    'key' => 'sort_type',
+                    'input-type' => 'select',
+                    'class' => 'col-md-4 col-6',
+                    'options' => [
+                        [
+                            'value' => 'latest',
+                            'title' => 'جدیدترین'
+                        ],
+                        [
+                            'value' => 'expensive',
+                            'title' => 'گرانترین'
+                        ],
+                        [
+                            'value' => 'cheap',
+                            'title' => 'ارزانترین'
+                        ],
+                    ],
+                    'attributes' => 'required'
+                ],
+                [
+                    'title' => 'تعداد',
+                    'key' => 'number',
+                    'input-type' => 'input',
+                    'type' => 'number',
+                    'class' => 'col-md-4 col-6',
+                    'default' => '10',
+                    'attributes' => 'required'
+                ],
+                [
+                    'title' => 'انتخاب دسته بندی ها (اختیاری)',
+                    'key' => 'categories',
+                    'input-type' => 'categories',
+                    'class' => 'col-md-9',
+                ],
+                [
+                    'title' => 'شامل محصولات زیر دسته ها',
+                    'key' => 'sub_category_auction',
+                    'input-type' => 'select',
+                    'class' => 'col-md-3',
+                    'options' => [
+                        [
+                            'value' => 'yes',
+                            'title' => 'بله'
+                        ],
+                        [
+                            'value' => 'no',
+                            'title' => 'خیر'
+                        ]
+                    ],
+                ],
+                [
+                    'title' => 'انتخاب وضعیت کالا (اختیاری)',
+                    'key' => 'condition',
+                    'input-type' => 'condition',
+                    'class' => 'col-md-3',
+                ],
+                [
+                    'title' => 'نمایش فقط محصولات فعال (اختیاری)',
+                    'key' => 'show_only_not_ended',
+                    'input-type' => 'select',
+                    'class' => 'col-md-3',
+                    'options' => [
+                        [
+                            'value' => '',
+                            'title' => 'انتخاب کنید...'
+                        ],
+                        [
+                            'value' => 'yes',
+                            'title' => 'بله'
+                        ],
+                        [
+                            'value' => 'no',
+                            'title' => 'خیر'
+                        ]
+                    ],
+                ],
+                [
+                    'title' => 'لینک',
+                    'key' => 'link',
+                    'input-type' => 'input',
+                    'type' => 'text',
+                    'class' => 'col-6',
+                ],
+                [
+                    'title' => 'عنوان لینک',
+                    'key' => 'link_title',
+                    'input-type' => 'input',
+                    'type' => 'text',
+                    'class' => 'col-md-3 col-6',
+                ],
+            ],
+            'rules' => [
+                'sort_type' => 'required|in:latest,expensive,cheap',
+                'link' => 'nullable|string',
+                'link_title' => 'nullable|string',
+                'number' => 'required',
+                'categories' => 'nullable|array',
+                'categories.*' => 'nullable|exists:categories,id',
+            ]
+        ],
     ],
 
     'sliderGroups' => [
