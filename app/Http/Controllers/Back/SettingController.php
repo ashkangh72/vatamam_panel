@@ -39,8 +39,8 @@ class SettingController extends Controller
         ]);
 
         if ($request->hasFile('info_logo')) {
-            $name = uniqid() . '_' . time() . '.' . $request->image->getClientOriginalExtension();
-            $request->image->storeAs('/', $name);
+            $name = uniqid() . '_' . time() . '.' . $request->info_logo->getClientOriginalExtension();
+            $request->info_logo->storeAs('/', $name);
 
             $old_logo = option('info_logo');
 
