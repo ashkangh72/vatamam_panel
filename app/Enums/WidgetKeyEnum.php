@@ -21,4 +21,5 @@ enum WidgetKeyEnum: int
     case categories = 11;
     case double_poster = 12;
     case product = 13;
+    case suggested_auction = 14;
 }

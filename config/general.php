@@ -415,7 +415,160 @@ return [
             ]
         ],
         'auction' => [
-            'title' => 'ردیف مزایده',
+            'title' => 'ردیف مزایدات',
+            'options' => [
+                [
+                    'title' => 'نوع مرتب سازی',
+                    'key' => 'sort_type',
+                    'input-type' => 'select',
+                    'class' => 'col-md-4 col-6',
+                    'options' => [
+                        [
+                            'value' => 'latest',
+                            'title' => 'جدیدترین'
+                        ],
+                        [
+                            'value' => 'last_end_at',
+                            'title' => 'بیشترین زمان باقی مانده'
+                        ],
+                        [
+                            'value' => 'end_at',
+                            'title' => 'کمترین زمان باقی مانده'
+                        ],
+                        [
+                            'value' => 'expensive',
+                            'title' => 'گرانترین'
+                        ],
+                        [
+                            'value' => 'cheap',
+                            'title' => 'ارزانترین'
+                        ],
+                    ],
+                    'attributes' => 'required'
+                ],
+                [
+                    'title' => 'تعداد',
+                    'key' => 'number',
+                    'input-type' => 'input',
+                    'type' => 'number',
+                    'class' => 'col-md-4 col-6',
+                    'default' => '10',
+                    'attributes' => 'required'
+                ],
+                [
+                    'title' => 'انتخاب دسته بندی ها (اختیاری)',
+                    'key' => 'categories',
+                    'input-type' => 'categories',
+                    'class' => 'col-md-9',
+                ],
+                [
+                    'title' => 'شامل محصولات زیر دسته ها',
+                    'key' => 'sub_category_auction',
+                    'input-type' => 'select',
+                    'class' => 'col-md-3',
+                    'options' => [
+                        [
+                            'value' => 'yes',
+                            'title' => 'بله'
+                        ],
+                        [
+                            'value' => 'no',
+                            'title' => 'خیر'
+                        ]
+                    ],
+                ],
+                [
+                    'title' => 'انتخاب دوره زمانی (اختیاری)',
+                    'key' => 'historical_period',
+                    'input-type' => 'historical_period',
+                    'class' => 'col-md-6',
+                ],
+                [
+                    'title' => 'انتخاب اصالت (اختیاری)',
+                    'key' => 'originality',
+                    'input-type' => 'originality',
+                    'class' => 'col-md-6',
+                ],
+                [
+                    'title' => 'انتخاب وضعیت کالا (اختیاری)',
+                    'key' => 'condition',
+                    'input-type' => 'condition',
+                    'class' => 'col-md-6',
+                ],
+                [
+                    'title' => 'انتخاب منطقه زمانی (اختیاری)',
+                    'key' => 'timezone',
+                    'input-type' => 'timezone',
+                    'class' => 'col-md-6',
+                ],
+                [
+                    'title' => 'نمایش فقط مزایدات تضمینی (اختیاری)',
+                    'key' => 'show_only_guaranteed',
+                    'input-type' => 'select',
+                    'class' => 'col-md-3',
+                    'options' => [
+                        [
+                            'value' => '',
+                            'title' => 'انتخاب کنید...'
+                        ],
+                        [
+                            'value' => 'yes',
+                            'title' => 'بله'
+                        ],
+                        [
+                            'value' => 'no',
+                            'title' => 'خیر'
+                        ]
+                    ],
+                ],
+                [
+                    'title' => 'نمایش فقط مزایدات فعال (اختیاری)',
+                    'key' => 'show_only_not_ended',
+                    'input-type' => 'select',
+                    'class' => 'col-md-3',
+                    'options' => [
+                        [
+                            'value' => '',
+                            'title' => 'انتخاب کنید...'
+                        ],
+                        [
+                            'value' => 'yes',
+                            'title' => 'بله'
+                        ],
+                        [
+                            'value' => 'no',
+                            'title' => 'خیر'
+                        ]
+                    ],
+                ],
+                [
+                    'title' => 'لینک',
+                    'key' => 'link',
+                    'input-type' => 'input',
+                    'type' => 'text',
+                    'class' => 'col-6',
+                ],
+                [
+                    'title' => 'عنوان لینک',
+                    'key' => 'link_title',
+                    'input-type' => 'input',
+                    'type' => 'text',
+                    'class' => 'col-md-3 col-6',
+                ],
+            ],
+            'rules' => [
+                'sort_type' => 'required|in:latest,last_end_at,end_at,expensive,cheap',
+                'link' => 'nullable|string',
+                'link_title' => 'nullable|string',
+                'number' => 'required',
+                'categories' => 'nullable|array',
+                'categories.*' => 'nullable|exists:categories,id',
+                'originality' => 'nullable|exists:originality,id',
+                'historical_period' => 'nullable|exists:historical_periods,id',
+            ]
+        ],
+        'suggested_auction' => [
+            'title' => 'ردیف پیشنهادات وتمام',
             'options' => [
                 [
                     'title' => 'نوع مرتب سازی',

@@ -8,6 +8,7 @@ use App\Models\{Category, HistoricalPeriod, Originality, Widget};
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\{Request, Response};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -58,7 +59,9 @@ class WidgetController extends Controller
         $keys = implode(',', WidgetKeyEnum::getNames());
 
         $request->validate([
-            'key' => "required|in:$keys",
+            'key' => [
+                'required', "in:$keys", 'unique:widgets'
+            ],
             'options' => 'required|array',
             'is_active' => 'boolean'
         ]);
