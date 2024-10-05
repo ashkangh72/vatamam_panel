@@ -4,6 +4,7 @@ use App\Http\Controllers\Back\{AuctionController,
     CategoryController,
     CityController,
     CommentController,
+    CommissionTariffController,
     DeveloperController,
     DiscountController,
     LinkController,
@@ -185,6 +186,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('file-manager', [MainController::class, 'fileManager'])->name('file-manager');
     Route::get('file-manager-iframe', [MainController::class, 'fileManagerIframe'])->name('file-manager-iframe');
 
+    // commission tariffs
+    Route::resource('commission_tariffs', CommissionTariffController::class)->except(['show']);
 });
 
 Route::middleware('auth')->group(function () {

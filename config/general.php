@@ -83,6 +83,16 @@ return [
             ]
         ],
 
+        'commission_tariffs' => [
+            'title' => 'مدیریت تعرفه های کمیسیون',
+            'values' => [
+                'index' => 'لیست تعرفه ها',
+                'create' => 'ایجاد تعرفه',
+                'update' => 'ویرایش تعرفه',
+                'delete' => 'حذف تعرفه'
+            ]
+        ],
+
         'pages' => [
             'title' => 'مدیریت صفحات',
             'values' => [
