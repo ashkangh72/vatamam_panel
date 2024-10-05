@@ -77,8 +77,7 @@ class AuctionWinnerJob implements ShouldQueue
         } else {
             $order->update([
                 'price' => $order->price + $winnerBid->amount,
-                'discount_price' => $order->discount_price + $winnerBid->amount,
-                'status' => OrderStatusEnum::locked
+                'discount_price' => $order->discount_price + $winnerBid->amount
             ]);
         }
 
