@@ -183,6 +183,32 @@
                     </ul>
                 </li>
             @endcan
+            @can('commission_tariffs')
+                <li class="nav-item has-sub {{ open_class(['admin.commission_tariffs.*']) }}">
+                    <a href="#">
+                        <i class="feather icon-link"></i>
+                        <span class="menu-title" >تعرفه های کمیسیون</span>
+                    </a>
+                    <ul class="menu-content">
+                        @can('commission_tariffs.index')
+                            <li class="{{ active_class('admin.commission_tariffs.index') }}">
+                                <a href="{{ route('admin.commission_tariffs.index') }}">
+                                    <i class="feather icon-circle"></i>
+                                    <span class="menu-item">لیست تعرفه ها</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('commission_tariffs.create')
+                            <li class="{{ active_class('admin.commission_tariffs.create') }}">
+                                <a href="{{ route('admin.commission_tariffs.create') }}">
+                                    <i class="feather icon-circle"></i>
+                                    <span class="menu-item">ایجاد تعرفه </span>
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcan
             @can('pages')
                 <li class="nav-item has-sub {{ open_class(['admin.pages.*']) }}">
                     <a href="#">
