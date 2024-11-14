@@ -1159,6 +1159,24 @@ return [
                     'attributes' => 'required accept="image/*"',
                     'help' => 'بهترین اندازه ? * ?'
                 ],
+                [
+                    'title' => 'پوستر اول حالت موبایل',
+                    'key' => 'poster1_mobile',
+                    'input-type' => 'file',
+                    'type' => 'file',
+                    'class' => 'col-md-4 col-6',
+                    'attributes' => 'required accept="image/*"',
+                    'help' => 'بهترین اندازه ? * ?'
+                ],
+                [
+                    'title' => 'پوستر دوم حالت موبایل',
+                    'key' => 'poster2_mobile',
+                    'input-type' => 'file',
+                    'type' => 'file',
+                    'class' => 'col-md-4 col-6',
+                    'attributes' => 'required accept="image/*"',
+                    'help' => 'بهترین اندازه ? * ?'
+                ],
 
             ],
             'rules' => [
