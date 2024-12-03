@@ -415,6 +415,16 @@
                     </a>
                 </li>
             @endcan
+            @can('comments')
+                <li class="{{ active_class('admin.tickets.*') }} nav-item"><a href="{{ route('admin.tickets.index') }}">
+                        <i class="feather icon-message-circle"></i>
+                        <span class="menu-title"> تیکت ها</span>
+                        @if($ticketsCount)
+                            <span class="badge badge badge-primary badge-pill float-right mr-2"> {{ $ticketsCount }}</span>
+                        @endif
+                    </a>
+                </li>
+            @endcan
             @can('transactions')
                 <li class="{{ active_class('admin.transactions.*') }} nav-item">
                     <a href="{{ route('admin.transactions.index') }}">

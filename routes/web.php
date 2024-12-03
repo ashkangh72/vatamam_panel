@@ -22,6 +22,7 @@ use App\Http\Controllers\Back\{AuctionController,
     SliderController,
     SmsController,
     StatisticsController,
+    TicketController,
     TransactionController,
     UserController,
     WalletCheckoutController,
@@ -134,6 +135,14 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     // ------------------ comments
     Route::get('comments/{comment}/replies', [CommentController::class, "replies"])->name('comments.replies');
     Route::resource('comments', CommentController::class)->only(['index', 'show', 'destroy', 'update']);
+
+    // ------------------ tickets
+    Route::get('tickets/{ticket}/replies', [TicketController::class, "replies"])->name('tickets.replies');
+    Route::get('tickets', [TicketController::class, "index"])->name('tickets.index');
+    Route::delete('tickets/{ticket}', [TicketController::class, "destroy"])->name('tickets.destroy');
+    Route::post('tickets/{ticket}/close', [TicketController::class, "close"])->name('tickets.close');
+    Route::post('tickets/{ticket}/reply', [TicketController::class, "reply"])->name('tickets.reply');
+    // Route::resource('tickets', TicketController::class)->only(['index', 'show', 'destroy', 'update']);
 
     // ------------------ transactions
     Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);
