@@ -14,7 +14,7 @@ let auction_datatable = function () {
             source: {
                 read: {
                     url: $('#auctions_datatable').data('action'),
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                     map: function (raw) {
 
                         // sample data mapping
@@ -54,101 +54,101 @@ let auction_datatable = function () {
             },
             textAlign: 'center',
         },
-            {
-                field: 'picture',
-                title: 'تصویر',
-                sortable: false,
-                width: 80,
-                template: function (row) {
+        {
+            field: 'picture',
+            title: 'تصویر',
+            sortable: false,
+            width: 80,
+            template: function (row) {
 
-                    return '<img class="post-thumb" src="' + row.picture + '" alt="' + row.title + '">';
-                }
-            },
-            {
-                field: 'title',
-                title: 'عنوان',
-                width: 150,
-                template: function (row) {
-                    let title = ``;
-                    if (row.type === 'محصول')
-                        title =  `<a href="${row.url}">${row.title}</a> <span class="badge badge-info">${row.type}</span>`;
-                    if (row.type === 'مزایده')
-                        title =  `<a href="${row.url}">${row.title}</a> <span class="badge badge-primary">${row.type}</span>`;
+                return '<img class="post-thumb" src="' + row.picture + '" alt="' + row.title + '">';
+            }
+        },
+        {
+            field: 'title',
+            title: 'عنوان',
+            width: 150,
+            template: function (row) {
+                let title = ``;
+                if (row.type === 'محصول')
+                    title = `<a href="${row.url}">${row.title}</a> <span class="badge badge-info">${row.type}</span>`;
+                if (row.type === 'مزایده')
+                    title = `<a href="${row.url}">${row.title}</a> <span class="badge badge-primary">${row.type}</span>`;
 
-                    return title;
-                }
-            },
-            {
-                field: 'sku',
-                title: 'شناسه مزایده',
-                width: 80,
-                template: function (row) {
-                    return row.sku;
-                }
-            },
-            {
-                field: 'base_price',
-                title: 'قیمت پایه',
-                width: 150,
-                template: function (row) {
-                    return row.base_price;
-                }
-            },
-            {
-                field: 'username',
-                title: 'نام کاربر',
-                width: 150,
-                template: function (row) {
-                    return row.username;
-                }
-            },
-            {
-                field: 'category',
-                title: 'دسته',
-                width: 100,
-                template: function (row) {
-                    return row.category;
-                }
-            },
-            {
-                field: 'status',
-                width: 80,
-                sortable: 'desc',
-                title: 'وضعیت',
-                template: function (row) {
-                    let status = ``;
-                    if (row.status === 'rejected')
-                        status = `<span class="badge badge-danger">رد شده</span><br/><small>دلیل: ${row.reject_reason}</small>`;
-                    if (row.status === 'approved')
-                        status = `<span class="badge badge-success">تایید شده</span>`;
-                    if (row.status === 'pending_approval')
-                        status = `<span class="badge badge-info">منتظر تایید</span>`;
-                    return status;
-                }
-            },
-            {
-                field: 'created_at',
-                width: 100,
-                sortable: 'desc',
-                title: 'تاریخ ثبت',
-                template: function (row) {
-                    return '<span class="ltr">' + row.created_at + '</span>';
-                }
-            },
-            {
-                field: 'actions',
-                title: 'عملیات',
-                textAlign: 'center',
-                sortable: false,
-                width: 150,
-                overflow: 'visible',
-                autoHide: false,
-                template: function (row) {
-                    return `<a href="${row.links.show}" class="btn btn-info waves-effect waves-light">مشاهده</a>
+                return title;
+            }
+        },
+        {
+            field: 'sku',
+            title: 'شناسه مزایده',
+            width: 80,
+            template: function (row) {
+                return row.sku;
+            }
+        },
+        {
+            field: 'base_price',
+            title: 'قیمت پایه',
+            width: 150,
+            template: function (row) {
+                return row.base_price;
+            }
+        },
+        {
+            field: 'username',
+            title: 'نام کاربر',
+            width: 150,
+            template: function (row) {
+                return row.username;
+            }
+        },
+        {
+            field: 'category',
+            title: 'دسته',
+            width: 100,
+            template: function (row) {
+                return row.category;
+            }
+        },
+        {
+            field: 'status',
+            width: 80,
+            sortable: 'desc',
+            title: 'وضعیت',
+            template: function (row) {
+                let status = ``;
+                if (row.status === 'rejected')
+                    status = `<span class="badge badge-danger">رد شده</span><br/><small>دلیل: ${row.reject_reason}</small>`;
+                if (row.status === 'approved')
+                    status = `<span class="badge badge-success">تایید شده</span>`;
+                if (row.status === 'pending_approval')
+                    status = `<span class="badge badge-info">منتظر تایید</span>`;
+                return status;
+            }
+        },
+        {
+            field: 'created_at',
+            width: 100,
+            sortable: 'desc',
+            title: 'تاریخ ثبت',
+            template: function (row) {
+                return '<span class="ltr">' + row.created_at + '</span>';
+            }
+        },
+        {
+            field: 'actions',
+            title: 'عملیات',
+            textAlign: 'center',
+            sortable: false,
+            width: 150,
+            overflow: 'visible',
+            autoHide: false,
+            template: function (row) {
+                return `<a href="${row.links.show}" class="btn btn-info waves-effect waves-light">مشاهده</a>
                     <div class="btn-group-vertical"><a data-id="${row.id}" id="reject-btn" href ="${row.links.reject}"class="btn btn-outline-danger waves-effect waves-light">رد</a>
                           <a data-id="${row.id}" id="accept-btn" href ="${row.links.accept}"class="btn btn-outline-success waves-effect waves-light">تایید</a></div>`;
-                },
             },
+        },
         ],
     };
 
