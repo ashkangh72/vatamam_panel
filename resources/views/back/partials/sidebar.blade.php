@@ -67,7 +67,7 @@
                 <li class="nav-item has-sub {{ open_class(['admin.auctions.*']) }}">
                     <a href="#">
                         <i class="feather icon-shopping-cart"></i>
-                        <span class="menu-title" > مزایده ها</span>
+                        <span class="menu-title" > مزایده ها و محصولات</span>
                     </a>
                     <ul class="menu-content">
                         @can('auctions.index')
@@ -75,6 +75,12 @@
                                 <a href="{{ route('admin.auctions.index') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">لیست مزایده ها</span>
+                                </a>
+                            </li>
+                            <li class="{{ active_class('admin.products.index') }}">
+                                <a href="{{ route('admin.products.index') }}">
+                                    <i class="feather icon-circle"></i>
+                                    <span class="menu-item">لیست محصولات</span>
                                 </a>
                             </li>
                         @endcan

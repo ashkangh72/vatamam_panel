@@ -30,6 +30,7 @@ class Auction extends JsonResource
             'created_at' => tverta($this->created_at)->format('%d %B %Y'),
 
             'links' => [
+                'show' => route('admin.auctions.show', ['auction' => $this]),
                 'accept' => route('admin.auctions.accept', ['auction' => $this]),
                 'reject' => route('admin.auctions.reject', ['auction' => $this]),
             ]

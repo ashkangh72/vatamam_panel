@@ -76,12 +76,15 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('wallet-checkouts/reject', [WalletCheckoutController::class, 'reject'])->name('wallets.checkouts.reject');
 
     // ------------------ auctions
+    Route::get('auctions/{auction}', [AuctionController::class, 'show'])->name('auctions.show');
     Route::get('auctions', [AuctionController::class, 'index'])->name('auctions.index');
     Route::post('auctions/api/index', [AuctionController::class, 'apiIndex'])->name('auctions.apiIndex');
     Route::post('auctions/accept', [AuctionController::class, 'accept'])->name('auctions.accept');
     Route::post('auctions/reject', [AuctionController::class, 'reject'])->name('auctions.reject');
     Route::delete('auctions/api/multipleDestroy', [AuctionController::class, 'multipleDestroy'])->name('auctions.multipleDestroy');
     Route::get('auctions/title', [AuctionController::class, 'getAuctionByTitle'])->name('auctions.search.title');
+    Route::get('products', [AuctionController::class, 'indexProducts'])->name('products.index');
+    Route::post('products/api/index', [AuctionController::class, 'apiIndexProducts'])->name('products.apiIndex');
 
     // ------------------ categories
     Route::resource('categories', CategoryController::class)->only(['index', 'update', 'destroy', 'store', 'edit']);

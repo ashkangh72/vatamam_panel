@@ -32,6 +32,33 @@ class AuctionController extends Controller
         $this->authorize('auctions.index');
 
         $auctions = Auction::with(['user', 'category'])
+            ->where('type', 'auction')
+            ->orderByDesc('created_at')
+            ->filter($request);
+
+        $auctions = datatable($request, $auctions);
+
+        return new AuctionCollection($auctions);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function indexProducts()
+    {
+        $this->authorize('auctions.index');
+
+        return view('back.auctions.index_products');
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function apiIndexProducts(Request $request)
+    {
+        $this->authorize('auctions.index');
+        $auctions = Auction::with(['user', 'category'])
+            ->where('type', 'product')
             ->orderByDesc('created_at')
             ->filter($request);
 
@@ -93,7 +120,6 @@ class AuctionController extends Controller
             $auction->save();
 
             dispatch(new NoticeAuctionJob($auction))->delay(Carbon::now()->addMinutes(10));
-
         }
         $auction->user->sendAuctionAcceptNotification($auction);
 
@@ -112,7 +138,7 @@ class AuctionController extends Controller
             'reason' => ['required', 'string'],
         ]);
 
-        $auction = Auction::where('id', $validated['id']);
+        $auction = Auction::where('id', $validated['id'])->first();
         $auction->update([
             'status' => AuctionStatusEnum::rejected,
             'reject_reason' => $validated['reason']
@@ -145,5 +171,12 @@ class AuctionController extends Controller
         }
 
         return response()->json([]);
+    }
+
+    public function show(Auction $auction)
+    {
+        $this->authorize('auctions.index');
+
+        return view('back.auctions.show', compact('auction'));
     }
 }
