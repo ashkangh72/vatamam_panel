@@ -144,7 +144,8 @@ let auction_datatable = function () {
                 overflow: 'visible',
                 autoHide: false,
                 template: function (row) {
-                    return `<div class="btn-group-vertical"><a data-id="${row.id}" id="reject-btn" href ="${row.links.reject}"class="btn btn-outline-danger waves-effect waves-light">رد</a>
+                    return `<a href="${row.links.show}" class="btn btn-info waves-effect waves-light">مشاهده</a>
+                    <div class="btn-group-vertical"><a data-id="${row.id}" id="reject-btn" href ="${row.links.reject}"class="btn btn-outline-danger waves-effect waves-light">رد</a>
                           <a data-id="${row.id}" id="accept-btn" href ="${row.links.accept}"class="btn btn-outline-success waves-effect waves-light">تایید</a></div>`;
                 },
             },
