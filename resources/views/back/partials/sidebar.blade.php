@@ -77,7 +77,7 @@
                     </a>
                     <ul class="menu-content">
                         @can('auctions.index')
-                            <li class="{{ active_class('admin.auctions.index') }}">
+                            <li class="{{ active_class('admin.auctions.index') nav-item}}">
                                 <a href="{{ route('admin.auctions.index') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">لیست مزایده ها</span>
@@ -87,7 +87,7 @@
                                     @endIf
                                 </a>
                             </li>
-                            <li class="{{ active_class('admin.products.index') }}">
+                            <li class="{{ active_class('admin.products.index') nav-item}}">
                                 <a href="{{ route('admin.products.index') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">لیست محصولات</span>
