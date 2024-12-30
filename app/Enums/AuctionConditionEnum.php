@@ -21,7 +21,7 @@ enum AuctionConditionEnum: int
         return match ($enum) {
             self::collectible => 'آنتیک کلکسیونی',
             self::decorative => 'آنتیک دكوراتيو',
-            self::used => 'آنتیک استفاده شده',
+            self::used => 'آنتیک کاربردی',
             self::repaired => 'آنتیک مرمت شده',
             self::need_repair => 'آنتیک نیاز مند به تعمیر',
             self::new_lux => 'لوکس جدید',
