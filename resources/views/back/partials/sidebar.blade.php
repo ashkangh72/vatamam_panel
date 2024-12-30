@@ -1,4 +1,5 @@
-<div class="main-menu menu-fixed menu-accordion menu-shadow {{ user_option('theme_color') == 'dark' ? 'menu-dark' : 'menu-light' }}" data-scroll-to-active="true">
+<div class="main-menu menu-fixed menu-accordion menu-shadow {{ user_option('theme_color') == 'dark' ? 'menu-dark' : 'menu-light' }}"
+    data-scroll-to-active="true">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item mr-auto">
@@ -19,10 +20,11 @@
             </li>
 
             @can('users')
-                <li class="nav-item has-sub {{ open_class(['admin.users.*', 'admin.wallets.*', 'admin.wallet-checkouts.*']) }}">
+                <li
+                    class="nav-item has-sub {{ open_class(['admin.users.*', 'admin.wallets.*', 'admin.wallet-checkouts.*']) }}">
                     <a href="#">
                         <i class="feather icon-users"></i>
-                        <span class="menu-title" > کاربران</span>
+                        <span class="menu-title"> کاربران</span>
                     </a>
                     <ul class="menu-content">
                         @can('users.index')
@@ -67,7 +69,11 @@
                 <li class="nav-item has-sub {{ open_class(['admin.auctions.*']) }}">
                     <a href="#">
                         <i class="feather icon-shopping-cart"></i>
-                        <span class="menu-title" > مزایده ها و محصولات</span>
+                        <span class="menu-title"> مزایده ها و محصولات</span>
+                        @if (auth()->user()->panelNotifies('new_auctions_products') > 0)
+                            <span class="badge badge badge-primary badge-pill float-right mr-2">
+                                {{ auth()->user()->panelNotifies('new_auctions_products') }}</span>
+                        @endIf
                     </a>
                     <ul class="menu-content">
                         @can('auctions.index')
@@ -75,12 +81,20 @@
                                 <a href="{{ route('admin.auctions.index') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">لیست مزایده ها</span>
+                                    @if (auth()->user()->panelNotifies('new_auctions') > 0)
+                                        <span class="badge badge badge-primary badge-pill float-right mr-2">
+                                            {{ auth()->user()->panelNotifies('new_products') }}</span>
+                                    @endIf
                                 </a>
                             </li>
                             <li class="{{ active_class('admin.products.index') }}">
                                 <a href="{{ route('admin.products.index') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">لیست محصولات</span>
+                                    @if (auth()->user()->panelNotifies('new_products') > 0)
+                                        <span class="badge badge badge-primary badge-pill float-right mr-2">
+                                            {{ auth()->user()->panelNotifies('new_products') }}</span>
+                                    @endIf
                                 </a>
                             </li>
                         @endcan
@@ -104,7 +118,8 @@
                     <ul class="menu-content">
                         @can('discounts.index')
                             <li class="{{ active_class('admin.discounts.index') }}">
-                                <a class="{{ active_class('admin.discounts.index') }}" href="{{ route('admin.discounts.index') }}">
+                                <a class="{{ active_class('admin.discounts.index') }}"
+                                    href="{{ route('admin.discounts.index') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">لیست تخفیف ها</span>
                                 </a>
@@ -112,7 +127,8 @@
                         @endcan
                         @can('discounts.create')
                             <li class="{{ active_class('admin.discounts.create') }}">
-                                <a class="{{ active_class('admin.discounts.create') }}" href="{{ route('admin.discounts.create') }}">
+                                <a class="{{ active_class('admin.discounts.create') }}"
+                                    href="{{ route('admin.discounts.create') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">ایجاد تخفیف</span>
                                 </a>
@@ -130,7 +146,8 @@
                     <ul class="menu-content">
                         @can('carriers.provinces.index')
                             <li class="{{ active_class('admin.provinces.*') }}">
-                                <a class="{{ active_class('admin.provinces.index') }}" href="{{ route('admin.provinces.index') }}">
+                                <a class="{{ active_class('admin.provinces.index') }}"
+                                    href="{{ route('admin.provinces.index') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">لیست استان ها</span>
                                 </a>
@@ -138,7 +155,8 @@
                         @endcan
                         @can('carriers.provinces.create')
                             <li class="{{ active_class('admin.provinces.*') }}">
-                                <a class="{{ active_class('admin.provinces.create') }}" href="{{ route('admin.provinces.create') }}">
+                                <a class="{{ active_class('admin.provinces.create') }}"
+                                    href="{{ route('admin.provinces.create') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">ایجاد استان</span>
                                 </a>
@@ -146,7 +164,8 @@
                         @endcan
                         @can('carriers.cities.create')
                             <li class="{{ active_class('admin.cities.*') }}">
-                                <a class="{{ active_class('admin.cities.create') }}" href="{{ route('admin.cities.create') }}">
+                                <a class="{{ active_class('admin.cities.create') }}"
+                                    href="{{ route('admin.cities.create') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">ایجاد شهر</span>
                                 </a>
@@ -159,7 +178,7 @@
                 <li class="nav-item has-sub {{ open_class(['admin.links.*']) }}">
                     <a href="#">
                         <i class="feather icon-link"></i>
-                        <span class="menu-title" > لینک های فوتر</span>
+                        <span class="menu-title"> لینک های فوتر</span>
                     </a>
                     <ul class="menu-content">
                         @can('links.index')
@@ -193,7 +212,7 @@
                 <li class="nav-item has-sub {{ open_class(['admin.commission_tariffs.*']) }}">
                     <a href="#">
                         <i class="feather icon-link"></i>
-                        <span class="menu-title" >تعرفه های کمیسیون</span>
+                        <span class="menu-title">تعرفه های کمیسیون</span>
                     </a>
                     <ul class="menu-content">
                         @can('commission_tariffs.index')
@@ -219,7 +238,7 @@
                 <li class="nav-item has-sub {{ open_class(['admin.pages.*']) }}">
                     <a href="#">
                         <i class="feather icon-file"></i>
-                        <span class="menu-title" >صفحات</span>
+                        <span class="menu-title">صفحات</span>
                     </a>
                     <ul class="menu-content">
                         @can('pages.index')
@@ -245,7 +264,7 @@
                 <li class="nav-item has-sub {{ open_class(['admin.roles.*']) }}">
                     <a href="#">
                         <i class="feather icon-unlock"></i>
-                        <span class="menu-title" > نقش ها</span>
+                        <span class="menu-title"> نقش ها</span>
                     </a>
                     <ul class="menu-content">
                         @can('roles.index')
@@ -271,7 +290,7 @@
                 <li class="nav-item has-sub {{ open_class(['admin.widgets.*', 'admin.slides.*']) }}">
                     <a href="#">
                         <i class="feather icon-layout"></i>
-                        <span class="menu-title" >مدیریت صفحه اصلی</span>
+                        <span class="menu-title">مدیریت صفحه اصلی</span>
                     </a>
                     <ul class="menu-content">
                         @can('widgets')
@@ -288,7 +307,7 @@
                             <li class="{{ open_class(['admin.slides.*']) }}">
                                 <a href="#">
                                     <i class="feather icon-circle"></i>
-                                    <span class="menu-title" >اسلایدرها</span>
+                                    <span class="menu-title">اسلایدرها</span>
                                 </a>
                                 <ul class="menu-content">
                                     @can('slides.index')
@@ -314,7 +333,7 @@
                             <li class="{{ open_class(['admin.posters.*']) }}">
                                 <a href="#">
                                     <i class="feather icon-circle"></i>
-                                    <span class="menu-title" >پوسترها</span>
+                                    <span class="menu-title">پوسترها</span>
                                 </a>
                                 <ul class="menu-content">
                                     @can('posters.index')
@@ -340,29 +359,33 @@
                 </li>
             @endcan
             @can('statistics')
-            <li class="nav-item has-sub {{ open_class(['admin.statistics.*']) }}">
-                <a href="#"><i class="feather icon-pie-chart"></i><span class="menu-title" >گزارشات</span></a>
-                <ul class="menu-content">
-                    @can('statistics.orders')
-                        <li class="{{ active_class('admin.statistics.orders') }}">
-                            <a href="{{ route('admin.statistics.orders') }}"><i class="feather icon-circle"></i><span class="menu-item">سفارشات</span></a>
-                        </li>
-                    @endcan
-                    @can('statistics.users')
-                        <li class="{{ active_class('admin.statistics.users') }}">
-                            <a href="{{ route('admin.statistics.users') }}"><i class="feather icon-circle"></i><span class="menu-item">کاربران</span></a>
-                        </li>
-                    @endcan
-                    @can('statistics.sms')
-                        <li class="{{ active_class('admin.statistics.smsLog') }}">
-                            <a href="{{ route('admin.statistics.smsLog') }}"><i class="feather icon-circle"></i><span class="menu-item"> لاگ پیامک های ارسالی</span></a>
-                        </li>
-                    @endcan
-                </ul>
-            </li>
+                <li class="nav-item has-sub {{ open_class(['admin.statistics.*']) }}">
+                    <a href="#"><i class="feather icon-pie-chart"></i><span class="menu-title">گزارشات</span></a>
+                    <ul class="menu-content">
+                        @can('statistics.orders')
+                            <li class="{{ active_class('admin.statistics.orders') }}">
+                                <a href="{{ route('admin.statistics.orders') }}"><i class="feather icon-circle"></i><span
+                                        class="menu-item">سفارشات</span></a>
+                            </li>
+                        @endcan
+                        @can('statistics.users')
+                            <li class="{{ active_class('admin.statistics.users') }}">
+                                <a href="{{ route('admin.statistics.users') }}"><i class="feather icon-circle"></i><span
+                                        class="menu-item">کاربران</span></a>
+                            </li>
+                        @endcan
+                        @can('statistics.sms')
+                            <li class="{{ active_class('admin.statistics.smsLog') }}">
+                                <a href="{{ route('admin.statistics.smsLog') }}"><i class="feather icon-circle"></i><span
+                                        class="menu-item"> لاگ پیامک های ارسالی</span></a>
+                            </li>
+                        @endcan
+                    </ul>
+                </li>
             @endcan
             @can('orders')
-                <li class="nav-item has-sub {{ open_class(['admin.orders.*']) }}"><a href="#"><i class="feather icon-briefcase"></i><span class="menu-title" > سفارشات</span></a>
+                <li class="nav-item has-sub {{ open_class(['admin.orders.*']) }}"><a href="#"><i
+                            class="feather icon-briefcase"></i><span class="menu-title"> سفارشات</span></a>
                     <ul class="menu-content">
                         @can('orders.index')
                             <li class="{{ active_class('admin.orders.index') }}">
@@ -405,28 +428,33 @@
                     <a href="{{ route('admin.notifications') }}">
                         <i class="feather icon-bell"></i>
                         <span class="menu-title">اعلان ها</span>
-                        @if($notificationsCount)
-                            <span class="badge badge badge-primary badge-pill float-right mr-2"> {{ $notificationsCount }}</span>
+                        @if ($notificationsCount)
+                            <span class="badge badge badge-primary badge-pill float-right mr-2">
+                                {{ $notificationsCount }}</span>
                         @endif
                     </a>
                 </li>
             @endcan
             @can('comments')
-                <li class="{{ active_class('admin.comments.*') }} nav-item"><a href="{{ route('admin.comments.index') }}">
+                <li class="{{ active_class('admin.comments.*') }} nav-item"><a
+                        href="{{ route('admin.comments.index') }}">
                         <i class="feather icon-message-circle"></i>
                         <span class="menu-title"> نظرات</span>
-                        @if($commentsCount)
-                            <span class="badge badge badge-primary badge-pill float-right mr-2"> {{ $commentsCount }}</span>
+                        @if ($commentsCount)
+                            <span class="badge badge badge-primary badge-pill float-right mr-2">
+                                {{ $commentsCount }}</span>
                         @endif
                     </a>
                 </li>
             @endcan
             @can('comments')
-                <li class="{{ active_class('admin.tickets.*') }} nav-item"><a href="{{ route('admin.tickets.index') }}">
+                <li class="{{ active_class('admin.tickets.*') }} nav-item"><a
+                        href="{{ route('admin.tickets.index') }}">
                         <i class="feather icon-message-circle"></i>
                         <span class="menu-title"> تیکت ها</span>
-                        @if($ticketsCount)
-                            <span class="badge badge badge-primary badge-pill float-right mr-2"> {{ $ticketsCount }}</span>
+                        @if ($ticketsCount)
+                            <span class="badge badge badge-primary badge-pill float-right mr-2">
+                                {{ $ticketsCount }}</span>
                         @endif
                     </a>
                 </li>
@@ -442,41 +470,48 @@
 
             @can('settings')
                 <li class="nav-item has-sub {{ open_class(['admin.settings.*']) }}">
-                    <a href="#"><i class="feather icon-settings"></i><span class="menu-title" >تنظیمات</span></a>
+                    <a href="#"><i class="feather icon-settings"></i><span class="menu-title">تنظیمات</span></a>
                     <ul class="menu-content">
                         @can('settings.information')
                             <li class="{{ active_class('admin.settings.information') }}">
-                                <a href="{{ route('admin.settings.information') }}"><i class="feather icon-circle"></i><span class="menu-item">اطلاعات کلی</span></a>
+                                <a href="{{ route('admin.settings.information') }}"><i class="feather icon-circle"></i><span
+                                        class="menu-item">اطلاعات کلی</span></a>
                             </li>
                         @endcan
 
                         @can('settings.socials')
                             @if (config('general.socials'))
                                 <li class="{{ active_class('admin.settings.socials') }}">
-                                    <a href="{{ route('admin.settings.socials') }}"><i class="feather icon-circle"></i><span class="menu-item">شبکه های اجتماعی</span></a>
+                                    <a href="{{ route('admin.settings.socials') }}"><i class="feather icon-circle"></i><span
+                                            class="menu-item">شبکه های اجتماعی</span></a>
                                 </li>
                             @endif
                         @endcan
 
                         @can('settings.sms')
                             <li class="{{ active_class('admin.settings.sms') }}">
-                                <a href="{{ route('admin.settings.sms') }}"><i class="feather icon-circle"></i><span class="menu-item">تنظیمات پیامک</span></a>
+                                <a href="{{ route('admin.settings.sms') }}"><i class="feather icon-circle"></i><span
+                                        class="menu-item">تنظیمات پیامک</span></a>
                             </li>
                         @endcan
                     </ul>
                 </li>
             @endcan
 
-            @if(auth()->user()->level == 'creator')
-                <li class="nav-item has-sub {{ open_class(['admin.permissions.*', 'admin.developer.*', 'admin.logs.*']) }}">
-                    <a href="#"><i class="feather icon-alert-octagon"></i><span class="menu-title" >توسعه دهنده</span><span class="badge badge-danger badge-pill float-right mr-2">creator</span></a>
+            @if (auth()->user()->level == 'creator')
+                <li
+                    class="nav-item has-sub {{ open_class(['admin.permissions.*', 'admin.developer.*', 'admin.logs.*']) }}">
+                    <a href="#"><i class="feather icon-alert-octagon"></i><span class="menu-title">توسعه
+                            دهنده</span><span class="badge badge-danger badge-pill float-right mr-2">creator</span></a>
                     <ul class="menu-content">
                         <li class="{{ active_class('admin.permissions.*') }}">
-                            <a href="{{ route('admin.permissions.index') }}"><i class="feather icon-circle"></i><span class="menu-item">دسترسی ها</span></a>
+                            <a href="{{ route('admin.permissions.index') }}"><i
+                                    class="feather icon-circle"></i><span class="menu-item">دسترسی ها</span></a>
                         </li>
 
                         <li class="{{ active_class('admin.logs.*') }}">
-                            <a target="_blank" href="{{ route('admin.logs.index') }}"><i class="feather icon-circle"></i><span class="menu-item">لاگ ها</span></a>
+                            <a target="_blank" href="{{ route('admin.logs.index') }}"><i
+                                    class="feather icon-circle"></i><span class="menu-item">لاگ ها</span></a>
                         </li>
                     </ul>
                 </li>

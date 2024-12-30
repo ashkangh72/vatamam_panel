@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
-use App\Notifications\{AuctionAcceptNotification,
+use App\Enums\AuctionStatusEnum;
+use App\Notifications\{
+    AuctionAcceptNotification,
     AuctionBeforeEndNotification,
     AuctionEndNotification,
     AuctionRejectNotification,
     DiscountNotification,
     FavoriteNotification,
     FollowedAuctionNotification,
-    WinningAuctionNotification};
+    WinningAuctionNotification
+};
 use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasOne, HasMany, MorphMany};
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -153,32 +156,28 @@ class User extends Model implements AuthenticatableContract
 
         if ($level = $request->input('query.level')) {
             switch ($level) {
-                case "admin":
-                {
-                    $query->where('level', 'admin');
-                    break;
-                }
-                case "user":
-                {
-                    $query->where('level', 'user');
-                    break;
-                }
+                case "admin": {
+                        $query->where('level', 'admin');
+                        break;
+                    }
+                case "user": {
+                        $query->where('level', 'user');
+                        break;
+                    }
             }
         }
 
         if ($request->sort) {
             switch ($request->sort['field']) {
-                case 'fullname':
-                {
-                    $query->orderBy('first_name', $request->sort['sort'])->orderBy('last_name', $request->sort['sort']);
-                    break;
-                }
-                default:
-                {
-                    if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
-                        $query->orderBy($request->sort['field'], $request->sort['sort']);
+                case 'fullname': {
+                        $query->orderBy('first_name', $request->sort['sort'])->orderBy('last_name', $request->sort['sort']);
+                        break;
                     }
-                }
+                default: {
+                        if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
+                            $query->orderBy($request->sort['field'], $request->sort['sort']);
+                        }
+                    }
             }
         }
 
@@ -209,17 +208,17 @@ class User extends Model implements AuthenticatableContract
 
     public function sendEmailVerificationNotification()
     {
-//        $this->notify(new VerifyEmailNotification());
+        //        $this->notify(new VerifyEmailNotification());
     }
 
     public function auctions(): HasMany
     {
-        return $this->hasMany(Auction::class,'user_id','id');
+        return $this->hasMany(Auction::class, 'user_id', 'id');
     }
 
     public function reports(): HasOne
     {
-        return $this->hasOne(UserReport::class,'user_id','id');
+        return $this->hasOne(UserReport::class, 'user_id', 'id');
     }
 
     public function auctionBids(): HasMany
@@ -382,5 +381,22 @@ class User extends Model implements AuthenticatableContract
         if (!$message) return;
 
         $this->notify(new AuctionRejectNotification($auction, $title, $message, $url, 'sell'));
+    }
+
+    function panelNotifies($type)
+    {
+        if ($type == 'new_auctions_products') {
+            return Auction::where('status', AuctionStatusEnum::pending_approval)->count();
+        }
+
+        if ($type == 'new_auctions') {
+            return Auction::where('type', 'auction')->where('status', AuctionStatusEnum::pending_approval)->count();
+        }
+
+        if ($type == 'new_products') {
+            return Auction::where('type', 'product')->where('status', AuctionStatusEnum::pending_approval)->count();
+        }
+
+        return 0;
     }
 }
