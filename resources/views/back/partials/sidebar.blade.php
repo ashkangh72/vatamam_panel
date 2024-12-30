@@ -83,7 +83,7 @@
                                     <span class="menu-item">لیست مزایده ها</span>
                                     @if (auth()->user()->panelNotifies('new_auctions') > 0)
                                         <span class="badge badge badge-primary badge-pill float-right mr-2">
-                                            {{ auth()->user()->panelNotifies('new_products') }}</span>
+                                            {{ auth()->user()->panelNotifies('new_auctions') }}</span>
                                     @endIf
                                 </a>
                             </li>
