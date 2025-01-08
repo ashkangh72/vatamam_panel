@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\WalletHistoryTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, MorphTo};
+use Illuminate\Support\Facades\Log;
 
 class Transaction extends Model
 {
@@ -109,6 +110,7 @@ class Transaction extends Model
             if ($transaction_type == 'by_admin' || $transaction_type == 'others') {
                 $query->whereHasMorph('transactionable', [WalletHistory::class], function ($q) use ($transaction_type) {
                     if ($transaction_type == 'by_admin'){
+                        Log::error(WalletHistoryTypeEnum::getValues(['admin_withdraw', 'admin_deposit']));
                         $q->whereIn('type', WalletHistoryTypeEnum::getValues(['admin_withdraw', 'admin_deposit']));
                     }else{
                         $q->whereNotIn('type', WalletHistoryTypeEnum::getValues(['admin_withdraw', 'admin_deposit']));

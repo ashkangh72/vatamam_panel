@@ -143,12 +143,16 @@
                                                             <tr>
                                                                 <td class="font-weight-bold">تضمینی است؟</td>
                                                                 <td>
-                                                                    @if ($auction->guranteed)
+                                                                    @if ($auction->guaranteed)
                                                                         بله
                                                                     @else
                                                                         خیر
                                                                     @endif
                                                                 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="font-weight-bold">مبلغ تضمین</td>
+                                                                <td>{{ number_format($auction->guaranteePrice()) }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">توضیحات</td>
