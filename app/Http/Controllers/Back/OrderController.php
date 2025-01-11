@@ -109,6 +109,8 @@ class OrderController extends Controller
 
         $order->refundPayment();
 
+        $order->refund()->update(['refunded_payment' => true]);
+
         return response('success');
     }
 }
