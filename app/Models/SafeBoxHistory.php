@@ -22,4 +22,9 @@ class SafeBoxHistory extends Model
     {
         return $this->morphTo();
     }
+
+    public function scopeSuccess($query)
+    {
+        return $query->where('success', true);
+    }
 }

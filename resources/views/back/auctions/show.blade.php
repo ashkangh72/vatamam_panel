@@ -107,11 +107,6 @@
                                                                 <td class="font-weight-bold">قیمت فروش سریع</td>
                                                                 <td>{{ number_format($auction->quick_sale_price) }}</td>
                                                             </tr>
-                                                            <tr>
-                                                                <td class="font-weight-bold">قیمت فروش همکاری</td>
-                                                                <td>{{ number_format($auction->partner_quick_sale_price) }}
-                                                                </td>
-                                                            </tr>
                                                         </table>
                                                     </div>
                                                     <div class="col-12 col-md-12 col-lg-5">
