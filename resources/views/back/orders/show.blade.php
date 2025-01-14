@@ -39,14 +39,14 @@
                                     <div class="row">
 
                                         <div class="col-md-4">
-                                            <span>{{ ($order->status != \App\Enums\OrderStatusEnum::paid) ? 'سفارش پرداخت نشده است' : '' }}</span>
+                                            <span>{{ $order->status != \App\Enums\OrderStatusEnum::paid ? 'سفارش پرداخت نشده است' : '' }}</span>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="float-right">
                                                 <a type="button"
-                                                   href="{{ route('admin.orders.factor', ['order' => $order->id]) }}"
-                                                   target="_blank"
-                                                   class="btn btn-outline-primary mr-1 waves-effect waves-light">
+                                                    href="{{ route('admin.orders.factor', ['order' => $order->id]) }}"
+                                                    target="_blank"
+                                                    class="btn btn-outline-primary mr-1 waves-effect waves-light">
                                                     <i class="feather icon-printer"></i>فاکتور
                                                 </a>
                                             </div>
@@ -64,7 +64,7 @@
                                         <ul class="list-inline mb-0">
                                             <li>
                                                 <a href="{{ route('admin.users.show', ['user' => $order->user]) }}"
-                                                   target="_blank">
+                                                    target="_blank">
                                                     <i class="feather icon-external-link"></i>
                                                 </a>
                                             </li>
@@ -119,50 +119,52 @@
                                     <div class="col-md-6 col-12 ">
                                         <table class="details">
                                             <tbody>
-                                            <tr>
-                                                <td class="font-weight-bold">استان :</td>
-                                                <td>{{ $order->address ? ($order->address->city ? $order->address->city->province->name : '--') : '--' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="font-weight-bold">شهر :</td>
-                                                <td>{{ $order->address ? ($order->address->city ? $order->address->city->name : '--') : '--' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="font-weight-bold">کد پستی :</td>
-                                                <td>{{ $order->address ? $order->address->postal_code : '--' }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="font-weight-bold">آدرس کامل :</td>
-                                                <td>{{ $order->address ? $order->address->address : '--' }}</td>
-                                            </tr>
+                                                <tr>
+                                                    <td class="font-weight-bold">استان :</td>
+                                                    <td>{{ $order->address ? ($order->address->city ? $order->address->city->province->name : '--') : '--' }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-weight-bold">شهر :</td>
+                                                    <td>{{ $order->address ? ($order->address->city ? $order->address->city->name : '--') : '--' }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-weight-bold">کد پستی :</td>
+                                                    <td>{{ $order->address ? $order->address->postal_code : '--' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-weight-bold">آدرس کامل :</td>
+                                                    <td>{{ $order->address ? $order->address->address : '--' }}</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="col-md-6 col-12 ">
                                         <table class="details">
                                             <tbody>
-                                            <tr>
-                                                <td class="font-weight-bold">تاریخ ثبت :</td>
-                                                <td>{{ tverta($order->created_at) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="font-weight-bold">هزینه ارسال:</td>
-                                                <td>{{ number_format($order->shipping_cost) }} تومان</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="font-weight-bold">تخفیف:</td>
-                                                <td>{{ number_format($order->discount_amount) }} تومان</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="font-weight-bold">جمع قیمت</td>
-                                                <td>{{ number_format($order->price) }} تومان</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="font-weight-bold">توضیحات سفارش :</td>
-                                                <td>
-                                                    {{ $order->description }}
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td class="font-weight-bold">تاریخ ثبت :</td>
+                                                    <td>{{ tverta($order->created_at) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-weight-bold">هزینه ارسال:</td>
+                                                    <td>{{ number_format($order->shipping_cost) }} تومان</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-weight-bold">تخفیف:</td>
+                                                    <td>{{ number_format($order->discount_amount) }} تومان</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-weight-bold">جمع قیمت</td>
+                                                    <td>{{ number_format($order->price) }} تومان</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-weight-bold">توضیحات سفارش :</td>
+                                                    <td>
+                                                        {{ $order->description }}
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -178,29 +180,37 @@
                                                     <th>تعداد</th>
                                                     <th>قیمت واحد</th>
                                                     <th>قیمت کل</th>
-                                                    @if($order->isRefunded()) <th>دلیل مرجوعی</th>@endif
+                                                    @if ($order->isRefunded())
+                                                        <th>دلیل مرجوعی</th>
+                                                    @endif
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($order->auctions as $auction)
+                                                @foreach ($order->auctions as $auction)
                                                     <tr>
                                                         <td>{{ $auction->sku }}</td>
                                                         <td>
-                                                            <a href="{{ env('WEBSITE_URL') . '/auction/' . $auction->slug }}" target="_blank">
+                                                            <a href="{{ env('WEBSITE_URL') . '/auction/' . $auction->slug }}"
+                                                                target="_blank">
                                                                 <img class="table-img" src="{{ $auction->picture }}">
                                                             </a>
                                                         </td>
                                                         <td class="order-product-name">{{ $auction->title }}</td>
                                                         <td>{{ $auction->pivot->quantity }}</td>
                                                         <td>{{ number_format($auction->pivot->price) }} تومان</td>
-                                                        <td>{{ number_format($auction->pivot->quantity * $auction->pivot->price) }} تومان</td>
-                                                        @if($order->refund && $order->refund->auctions()->where('auction_id', $auction->id)->first())
+                                                        <td>{{ number_format($auction->pivot->quantity * $auction->pivot->price) }}
+                                                            تومان</td>
+                                                        @if (
+                                                            $order->refund &&
+                                                                $order->refund->auctions()->where('auction_id', $auction->id)->first())
                                                             <td>
-                                                                @switch($order->refund->auctions()->where('auction_id', $auction->id)->first()->pivot->reason)
-                                                                    @case('fracture') شکسته @break
-                                                                    @case('incompatibility') عدم تطابق@break
-                                                                    @case('intact')سالم @break
-                                                                @endswitch
+                                                                {{ $order->feedback->description }}
+                                                                </br>
+                                                                @foreach ($order->feedback->files as $item)
+                                                                    <a href="{{ $item->path }}" target="_blank">
+                                                                        <img class="table-img" src="{{ $item->path }}">
+                                                                    </a>
+                                                                @endforeach
                                                             </td>
                                                         @endif
                                                     </tr>
