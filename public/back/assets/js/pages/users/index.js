@@ -86,6 +86,14 @@ var user_datatable = function() {
                 }
             },
             {
+                field: 'originality_id',
+                title: 'کد ملی',
+                width: 200,
+                template: function(row) {
+                    return row.originality_id ? row.originality_id : '---';
+                }
+            },
+            {
                 field: 'created_at',
                 sortable: 'desc',
                 title: 'تاریخ عضویت',

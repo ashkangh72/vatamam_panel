@@ -69,8 +69,9 @@
                 <li class="nav-item has-sub {{ open_class(['admin.auctions.*']) }}">
                     <a href="#">
                         <i class="feather icon-shopping-cart"></i>
-                        <span class="menu-title"> مزایده ها و محصولات</span>
+                        <span class="menu-title" style="margin-right: 10px;"> مزایده ها و محصولات</span>
                         @if (auth()->user()->panelNotifies('new_auctions_products') > 0)
+
                             <span class="badge badge badge-primary badge-pill float-right mr-2">
                                 {{ auth()->user()->panelNotifies('new_auctions_products') }}</span>
                         @endIf
@@ -80,7 +81,7 @@
                             <li class="{{ active_class('admin.auctions.index') }} nav-item">
                                 <a href="{{ route('admin.auctions.index') }}">
                                     <i class="feather icon-circle"></i>
-                                    <span class="menu-item">لیست مزایده ها</span>
+                                    <span class="menu-item" style="margin-right: 10px;">لیست مزایده ها</span>
                                     @if (auth()->user()->panelNotifies('new_auctions') > 0)
                                         <span class="badge badge badge-primary badge-pill float-right mr-2">
                                             {{ auth()->user()->panelNotifies('new_auctions') }}</span>
@@ -90,7 +91,7 @@
                             <li class="{{ active_class('admin.products.index')}} nav-item">
                                 <a href="{{ route('admin.products.index') }}">
                                     <i class="feather icon-circle"></i>
-                                    <span class="menu-item">لیست محصولات</span>
+                                    <span class="menu-item" style="margin-right: 10px;">لیست محصولات</span>
                                     @if (auth()->user()->panelNotifies('new_products') > 0)
                                         <span class="badge badge badge-primary badge-pill float-right mr-2">
                                             {{ auth()->user()->panelNotifies('new_products') }}</span>
