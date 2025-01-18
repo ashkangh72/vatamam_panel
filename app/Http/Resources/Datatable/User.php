@@ -21,7 +21,7 @@ class User extends JsonResource
             'username' => $this->username,
             'phone' => $this->phone,
             'email' => $this->email,
-            'originality_id' => $this->originality_id,
+            'national_id' => $this->national_id,
             'created_at' => tverta($this->created_at)->format('%d %B %Y'),
 
             'links' => [
