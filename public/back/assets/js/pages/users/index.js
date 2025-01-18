@@ -86,11 +86,11 @@ var user_datatable = function() {
                 }
             },
             {
-                field: 'originality_id',
+                field: 'national_id',
                 title: 'کد ملی',
                 width: 200,
                 template: function(row) {
-                    return row.originality_id ? row.originality_id : '---';
+                    return row.national_id ? row.national_id : '---';
                 }
             },
             {
