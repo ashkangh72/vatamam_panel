@@ -19,6 +19,7 @@ class Transaction extends JsonResource
             'id'                => $this->id,
             'transaction_id'    => $this->id,
             'name'              => $this->user ? htmlspecialchars($this->user->name) : '-',
+            'national_id'              => $this->user ? $this->user->national_id : '-',
             'created_at'        => tverta($this->created_at)->format('%d %B %Y'),
             'amount'            => number_format($this->amount) . ' تومان',
             'status'            => $this->status,

@@ -118,7 +118,7 @@ let auction_datatable = function () {
             template: function (row) {
                 let status = ``;
                 if (row.status === 'rejected')
-                    status = `<span class="badge badge-danger">رد شده</span><br/><small>دلیل: ${row.reject_reason}</small>`;
+                    status = `<span class="badge badge-danger">رد شده</span><br/>`;//<small>دلیل: ${row.reject_reason}</small>`;
                 if (row.status === 'approved')
                     status = `<span class="badge badge-success">تایید شده</span>`;
                 if (row.status === 'pending_approval')
