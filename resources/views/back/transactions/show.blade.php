@@ -55,7 +55,7 @@
         </tr>
         <tr>
             <th scope="row">توضیحات</th>
-            <td>{!! $transaction->message ?: '--' !!}</td>
+            <td>{!! $transaction->description ?: '--' !!}</td>
         </tr>
         </tbody>
     </table>

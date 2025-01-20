@@ -20,6 +20,7 @@ class TransactionController extends Controller
     {
         $this->authorize('transactions.index');
 
+
         $transactions = Transaction::filter($request);
 
         $transactions = datatable($request, $transactions);

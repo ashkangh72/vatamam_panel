@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Back;
 use App\Enums\WalletHistoryTypeEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
-use App\Models\{Wallet, WalletHistory};
+use App\Models\{Transaction, Wallet, WalletHistory};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -35,7 +35,7 @@ class WalletController extends Controller
         $this->authorize('users.wallets.create');
 
         $data = $request->validate([
-            'type'        => 'required|in:'. implode(',', WalletHistoryTypeEnum::getValues(['admin_withdraw', 'admin_deposit'])) ,
+            'type'        => 'required|in:' . implode(',', WalletHistoryTypeEnum::getValues(['admin_withdraw', 'admin_deposit'])),
             'amount'      => 'required|numeric|max:100000000',
             'description' => 'nullable'
         ]);
@@ -49,7 +49,20 @@ class WalletController extends Controller
         };
 
         DB::transaction(function () use ($wallet, $data) {
-            $wallet->histories()->create($data);
+            $history = $wallet->histories()->create($data);
+
+            Transaction::create([
+                'status' => true,
+                'amount' => $data['amount'],
+                'description' => WalletHistoryTypeEnum::admin_deposit->value ==  (int)$data['type'] ? 'تراکنش ایجاد شده توسط ادمین - اضافه کردن به کیف پول' : 'تراکنش ایجاد شده توسط ادمین - کم کردن از کیف پول',
+                'transId' => rand(),
+                'user_id' => auth()->user()->id,
+                'transactionable_type' => WalletHistory::class,
+                'transactionable_id' => $history->id,
+                'gateway' => null,
+                'cardNumber' => null,
+                'traceNumber' => null,
+            ]);
 
             $wallet->refreshBalance();
         });
