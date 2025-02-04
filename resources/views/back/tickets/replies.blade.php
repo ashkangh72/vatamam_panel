@@ -172,7 +172,7 @@
                     success: function(data) {
 
                         $('#show-modal').modal('hide');
-                        window.location.reload();
+                        window.history.back();
                     },
                     beforeSend: function(xhr) {
                         block('#main-card');
