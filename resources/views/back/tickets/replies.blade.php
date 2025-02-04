@@ -125,7 +125,8 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form id="ticket-reply-form" action="{{ route('admin.tickets.reply', ['ticket' => $ticket]) }}" method="post">
+                <form id="ticket-reply-form" action="{{ route('admin.tickets.reply', ['ticket' => $ticket]) }}"
+                    method="post">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">پاسخ تیکت</h5>
@@ -153,6 +154,44 @@
     <script>
         $(document).on('click', '.reply-ticket', function() {
             $('#show-modal').modal('show');
+        });
+
+        $(document).ready(function() {
+
+            $('#ticket-reply-form').submit(function(e) {
+                e.preventDefault();
+
+                // console.log(this);
+                // return;
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    success: function(data) {
+                        if ($.isEmptyObject(data.status == 400)) {
+                            window.location.href = redirect_url;
+                        }
+                        if ($.isEmptyObject(data.error)) {
+                            window.location.href = redirect_url;
+                        }
+                        window.location.href = FRONT_URL;
+                    },
+                    beforeSend: function(xhr) {
+                        block('#main-card');
+                        xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr(
+                            'content'));
+                    },
+                    complete: function() {
+                        unblock('#main-card');
+                    },
+
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+            });
         });
     </script>
     <script src="{{ asset('public/back/app-assets/plugins/autosize-js/autosize.min.js') }}"></script>
