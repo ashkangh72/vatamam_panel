@@ -125,8 +125,8 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form id="ticket-reply-form" action="{{ route('admin.tickets.reply', ['ticket' => $ticket]) }}" redirect="{{ route('admin.tickets.replies', ['ticket' => $ticket]) }}"
-                    method="post">
+                <form id="ticket-reply-form" action="{{ route('admin.tickets.index') }}"
+                    redirect="{{ route('admin.tickets.replies', ['ticket' => $ticket]) }}" method="post">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">پاسخ تیکت</h5>
@@ -171,7 +171,7 @@
                     type: 'POST',
                     data: formData,
                     success: function(data) {
-                        window.location.href = form.data('redirect');
+                        $('#show-modal').modal('hide');
                     },
                     beforeSend: function(xhr) {
                         block('#main-card');
