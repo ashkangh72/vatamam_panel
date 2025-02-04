@@ -172,6 +172,7 @@
                     data: formData,
                     success: function(data) {
                         $('#show-modal').modal('hide');
+                        window.location.href = form.data('redirect');
                     },
                     beforeSend: function(xhr) {
                         block('#main-card');
