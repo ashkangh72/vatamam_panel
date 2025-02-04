@@ -24,4 +24,9 @@ class TicketMessage extends Model
     {
         return $value ? env('API_URL') . '/public' . $value : null;
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

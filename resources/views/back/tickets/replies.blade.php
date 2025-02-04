@@ -41,14 +41,21 @@
                                                     @if ($message->from == 'user')
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                                <div class="card user-statistics-card">
+                                                                <div class="card">
                                                                     <div class="card-header d-flex align-items-start pb-0">
                                                                         <div>
-                                                                            <h2 class="text-bold-700 mb-0">
-                                                                                {{ $message->message }}</h2>
+
                                                                         </div>
                                                                     </div>
                                                                     <div class="card-footer">
+                                                                        <p>{{$ticket->user->name}}</p>
+                                                                        
+                                                                        <h4 class="text-bold-300 mb-0">
+                                                                            {{ $message->message }}</h4>
+                                                                        <h5 class="text-right">
+                                                                            {{ verta($message->created_at)->format('%d %B %Y') }}
+                                                                        </h5>
+                                                                        <br />
                                                                         @if ($message->first_attachment)
                                                                             <span>
                                                                                 <a href="{{ $message->first_attachment }}"
@@ -75,13 +82,17 @@
                                                                 <div class="card user-statistics-card">
                                                                     <div class="card-header d-flex align-items-start pb-0">
                                                                         <div class=" bg-rgba-info p-50 m-0">
-                                                                            <h2 class="text-bold-700 mb-0">
-                                                                                {{ $message->message }}</h2>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card-footer">
-                                                                        <span>
-                                                                        </span>
+                                                                        <p>{{$message->user?->name}}</p>
+                                                                        
+                                                                        <h4 class="text-bold-300 mb-0">
+                                                                            {{ $message->message }}</h4>
+                                                                        <h5 class="text-right">
+                                                                            {{ verta($message->created_at)->format('%d %B %Y') }}
+                                                                        </h5>
+                                                                        <br />
                                                                     </div>
                                                                 </div>
                                                             </div>

@@ -62,6 +62,7 @@ class TicketController extends Controller
 
         $ticket->messages()->create([
             'from' => 'admin',
+            'user_id' => auth()->user()->id,
             'message' => $request->replay,
         ]);
 
