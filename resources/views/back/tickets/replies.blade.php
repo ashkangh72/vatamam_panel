@@ -150,6 +150,11 @@
 @endsection
 
 @push('scripts')
+    <script>
+        $(document).on('click', '.reply-ticket', function() {
+            $('#show-modal').modal('show');
+        });
+    </script>
     <script src="{{ asset('public/back/app-assets/plugins/autosize-js/autosize.min.js') }}"></script>
     <script src="{{ asset('public/back/assets/js/pages/tickets/index.js') }}"></script>
 @endpush
