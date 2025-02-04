@@ -125,9 +125,7 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form id="ticket-reply-form" action="{{ route('admin.tickets.reply', ['ticket' => $ticket]) }}"
-                    redirect="{{ route('admin.tickets.index') }}" method="post">
-                    @csrf
+                <form id="ticket-reply-form" action="{{ route('admin.tickets.reply', ['ticket' => $ticket]) }}">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">پاسخ تیکت</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -157,12 +155,12 @@
         });
 
         $(document).ready(function() {
-
             $('#ticket-reply-form').submit(function(e) {
-                // e.preventDefault();
+                e.preventDefault();
                 let form = $(this);
-                // console.log(this);
+                // console.log('this');
                 // return;
+                console.log('asas');
                 var formData = new FormData(this);
 
                 $.ajax({
@@ -171,17 +169,16 @@
                     data: formData,
                     success: function(data) {
 
+                        toastr.success('پاسخ ثبت شد.');
                         $('#show-modal').modal('hide');
-                        window.history.back();
+                        window.location.reload();
+                        // window.history.back();
                     },
                     beforeSend: function(xhr) {
-                        block('#main-card');
                         xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr(
                             'content'));
                     },
-                    complete: function() {
-                        unblock('#main-card');
-                    },
+                    complete: function() {},
 
                     cache: false,
                     contentType: false,
@@ -191,5 +188,4 @@
         });
     </script>
     <script src="{{ asset('public/back/app-assets/plugins/autosize-js/autosize.min.js') }}"></script>
-    <script src="{{ asset('public/back/assets/js/pages/tickets/index.js') }}"></script>
 @endpush
