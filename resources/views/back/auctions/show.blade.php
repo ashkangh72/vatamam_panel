@@ -147,17 +147,23 @@
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">مبلغ تضمین</td>
-                                                                <td>{{ number_format($auction->guaranteePrice()) }}</td>
+                                                                @if ($auction->guaranteed)
+                                                                    <td>{{ number_format($auction->guaranteePrice()) }}</td>
+                                                                @else
+                                                                    --
+                                                                @endif
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">توضیحات</td>
                                                                 <td>{{ $auction->description }}</td>
                                                             </tr>
+                                                            @if ($auction->status->name != 'pending_approval')
                                                             <tr>
                                                                 <td class="font-weight-bold">مشاهده محصول در وب سایت</td>
                                                                 <td><a href="{{ $auction->getUrl() }}" target="blank">
                                                                         مشاهده </a></td>
                                                             </tr>
+                                                            @endif
                                                             <tr>
                                                                 <td class="font-weight-bold">تصویر اصلی</td>
                                                                 <td>

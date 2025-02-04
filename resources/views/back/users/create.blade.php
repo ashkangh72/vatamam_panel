@@ -56,7 +56,7 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label>شماره همراه</label>
-                                                    <input type="text" class="form-control ltr" name="phone">
+                                                    <input type="text" class="form-control ltr" name="phone" placeholder="9 - -   - - -   - - - -">
                                                 </div>
                                             </div>
 
