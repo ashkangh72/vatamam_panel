@@ -126,7 +126,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <form id="ticket-reply-form" action="{{ route('admin.tickets.reply', ['ticket' => $ticket]) }}" method="post">
-                    @method('post')
+                    @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">پاسخ تیکت</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
