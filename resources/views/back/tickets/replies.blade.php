@@ -170,7 +170,7 @@
                     type: 'POST',
                     data: formData,
                     success: function(data) {
-                        window.location.href = form.data('redirect');
+                        window.location.href = formData.data('redirect');
                     },
                     beforeSend: function(xhr) {
                         block('#main-card');
