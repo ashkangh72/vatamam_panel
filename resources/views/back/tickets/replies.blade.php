@@ -125,7 +125,7 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form id="ticket-reply-form" action="{{ route('admin.tickets.reply', ['ticket' => $ticket]) }}"
+                <form id="ticket-reply-form" action="{{ route('admin.tickets.reply', ['ticket' => $ticket]) }}" redirect="{{ route('admin.tickets.replies', ['ticket' => $ticket]) }}"
                     method="post">
                     @csrf
                     <div class="modal-header">
@@ -170,13 +170,7 @@
                     type: 'POST',
                     data: formData,
                     success: function(data) {
-                        if ($.isEmptyObject(data.status == 400)) {
-                            window.location.href = redirect_url;
-                        }
-                        if ($.isEmptyObject(data.error)) {
-                            window.location.href = redirect_url;
-                        }
-                        window.location.href = FRONT_URL;
+                        window.location.href = form.data('redirect');
                     },
                     beforeSend: function(xhr) {
                         block('#main-card');
