@@ -159,9 +159,8 @@
         $(document).ready(function() {
 
             $('#ticket-reply-form').submit(function(e) {
-                e.preventDefault();
+                // e.preventDefault();
                 let form = $(this);
-
                 // console.log(this);
                 // return;
                 var formData = new FormData(this);
@@ -171,8 +170,9 @@
                     type: 'POST',
                     data: formData,
                     success: function(data) {
+
                         $('#show-modal').modal('hide');
-                        window.location.href = form.data('redirect');
+                        window.location.reload();
                     },
                     beforeSend: function(xhr) {
                         block('#main-card');
