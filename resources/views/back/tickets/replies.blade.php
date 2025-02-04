@@ -160,6 +160,7 @@
 
             $('#ticket-reply-form').submit(function(e) {
                 e.preventDefault();
+                let form = $(this);
 
                 // console.log(this);
                 // return;
@@ -170,7 +171,7 @@
                     type: 'POST',
                     data: formData,
                     success: function(data) {
-                        window.location.href = formData.data('redirect');
+                        window.location.href = form.data('redirect');
                     },
                     beforeSend: function(xhr) {
                         block('#main-card');
