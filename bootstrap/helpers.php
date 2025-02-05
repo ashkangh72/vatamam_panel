@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Jobs\LogSmsJob;
 use App\Enums\UserCountryEnum;
 use App\Channels\{PushChannel, SmsChannel};
+use App\Enums\NotificationSettingKeyEnum;
 use App\Models\{Tag, User, Option, UserOption, Viewer};
 use App\Services\{FarazSms, KaveNegar, NajvaService};
 use GuzzleHttp\Exception\GuzzleException;
@@ -334,10 +335,28 @@ function convert_number($number)
         "نونزده"
     );
     $tens = array(
-        "", "", "بیست", "سی", "چهل", "پنجاه", "شصت", "هفتاد", "هشتاد", "نود"
+        "",
+        "",
+        "بیست",
+        "سی",
+        "چهل",
+        "پنجاه",
+        "شصت",
+        "هفتاد",
+        "هشتاد",
+        "نود"
     );
     $tows = array(
-        "", "صد", "دویست", "سیصد", "چهار صد", "پانصد", "ششصد", "هفتصد", "هشت صد", "نه صد"
+        "",
+        "صد",
+        "دویست",
+        "سیصد",
+        "چهار صد",
+        "پانصد",
+        "ششصد",
+        "هفتصد",
+        "هشت صد",
+        "نه صد"
     );
 
     if (($number < 0) || ($number > 999999999)) {
@@ -492,7 +511,8 @@ function notificationChannels(User $user, array $channels, $key): array
     if (!$notifiableNotificationSetting) return $channels;
 
     if ($user->email && $notifiableNotificationSetting->email) $channels[] = 'mail';
-    if ($user->phone && $notifiableNotificationSetting->sms) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::favorites) $channels[] = SmsChannel::class;
+    else if ($user->phone && $notifiableNotificationSetting->sms) $channels[] = SmsChannel::class;
     if ($user->push_token && $notifiableNotificationSetting->push) $channels[] = PushChannel::class;
 
     return $channels;
@@ -508,14 +528,25 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
 
     return str_replace(
         [
-            "{newLine}", "{siteTitle}", "{orderId}", "{userUsername}", "{auctionTitle}", "{transactionAmount}",
-            "{transactionAmount}", "{discountType}", "{discountAmount}"
+            "{newLine}",
+            "{siteTitle}",
+            "{orderId}",
+            "{userUsername}",
+            "{auctionTitle}",
+            "{transactionAmount}",
+            "{transactionAmount}",
+            "{discountType}",
+            "{discountAmount}"
         ],
         [
-            "\n", env('APP_NAME'),
-            Arr::get($parameters, 'orderId', ''), Arr::get($parameters, 'userUsername', ''),
-            Arr::get($parameters, 'auctionTitle', ''), Arr::get($parameters, 'transactionAmount', ''),
-            Arr::get($parameters, 'transactionDescription', ''), Arr::get($parameters, 'discountType', ''),
+            "\n",
+            env('APP_NAME'),
+            Arr::get($parameters, 'orderId', ''),
+            Arr::get($parameters, 'userUsername', ''),
+            Arr::get($parameters, 'auctionTitle', ''),
+            Arr::get($parameters, 'transactionAmount', ''),
+            Arr::get($parameters, 'transactionDescription', ''),
+            Arr::get($parameters, 'discountType', ''),
             Arr::get($parameters, 'discountAmount', '')
         ],
         $message
