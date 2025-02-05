@@ -41,11 +41,13 @@ class NoticeAuctionJob implements ShouldQueue
         if ($this->auction->tags->count() > 0) {
             $noticesUserIds = $noticesUserIds->orWhereRaw("noticeable_type = 'App\Models\Tag' AND noticeable_id IN (" . implode(',', $this->auction->tags->pluck('id')->toArray()) . ")");
         }
-        Log::error($noticesUserIds->count());
+        Log::error('$noticesUserIds->count()');
 
         if ($noticesUserIds->count() == 0) return;
+        Log::error('$noticesUserIds->----()');
 
         $users = User::whereIn('id', $noticesUserIds->pluck('user_id'))->get();
+        Log::error($users->count());
 
         $title = env('APP_NAME') . " - " . $this->auction->getType() . " جدید";
         $message = setNotificationMessage(
