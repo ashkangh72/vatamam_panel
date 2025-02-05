@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class NoticeAuctionJob// implements ShouldQueue
+class NoticeAuctionJob // implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -37,9 +37,20 @@ class NoticeAuctionJob// implements ShouldQueue
         $categories = array_unique(array_merge($categories, $this->auction->category->parents()->toArray(), $this->auction->category->allChildCategories()));
         Log::error($categories);
 
-        $noticesUserIds = Notice::whereRaw("noticeable_type = 'App\Models\Category' AND noticeable_id IN (" . implode(',', $categories) . ")");
+        // $noticesUserIds = Notice::whereRaw("noticeable_type = 'App\Models\Category' AND noticeable_id IN (" . implode(',', $categories) . ")");
+        // if ($this->auction->tags->count() > 0) {
+        //     $noticesUserIds = $noticesUserIds->orWhereRaw("noticeable_type = 'App\Models\Tag' AND noticeable_id IN (" . implode(',', $this->auction->tags->pluck('id')->toArray()) . ")");
+        // }
+        $noticesUserIds = Notice::where(function ($query) use ($categories) {
+            $query->where('noticeable_type', 'App\Models\Category')
+                ->whereIn('noticeable_id', $categories);
+        });
+
         if ($this->auction->tags->count() > 0) {
-            $noticesUserIds = $noticesUserIds->orWhereRaw("noticeable_type = 'App\Models\Tag' AND noticeable_id IN (" . implode(',', $this->auction->tags->pluck('id')->toArray()) . ")");
+            $noticesUserIds = $noticesUserIds->orWere(function ($query) {
+                $query->where('noticeable_type', 'App\Models\Tag')
+                    ->whereIn('noticeable_id', $this->auction->tags->pluck('id')->toArray());
+            });
         }
         Log::error('$noticesUserIds->count()');
 
