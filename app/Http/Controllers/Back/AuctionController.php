@@ -176,6 +176,7 @@ class AuctionController extends Controller
     public function show(Auction $auction)
     {
         $this->authorize('auctions.index');
+        dispatch(new NoticeAuctionJob($auction));//->delay(Carbon::now()->addMinutes(1));
 
         return view('back.auctions.show', compact('auction'));
     }
