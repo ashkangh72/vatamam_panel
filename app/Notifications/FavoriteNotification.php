@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 
-class FavoriteNotification extends Notification implements ShouldQueue
+class FavoriteNotification extends Notification //implements ShouldQueue
 {
     use Queueable;
 
