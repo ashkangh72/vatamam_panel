@@ -81,8 +81,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="card user-statistics-card">
                                                                     <div class="card-header d-flex align-items-start pb-0">
-                                                                        <div class=" bg-rgba-info p-50 m-0">
-                                                                        </div>
+                                                                     
                                                                     </div>
                                                                     <div class="card-footer">
                                                                         <p>{{$message->user?->name}}</p>
