@@ -41,7 +41,7 @@ class NoticeAuctionJob implements ShouldQueue
         if ($this->auction->tags->count() > 0) {
             $noticesUserIds = $noticesUserIds->orWhereRaw("noticeable_type = 'App\Models\Tag' AND noticeable_id IN (" . implode(',', $this->auction->tags->pluck('id')->toArray()) . ")");
         }
-        Log::error($noticesUserIds);
+        Log::error($noticesUserIds->count());
 
         if ($noticesUserIds->count() == 0) return;
 
