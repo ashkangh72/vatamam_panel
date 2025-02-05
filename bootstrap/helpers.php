@@ -452,17 +452,17 @@ function get_option_property($obj, $property)
 function sendSms(string $message, User $user, string $type): void
 {
     $userCountry = ($user->country instanceof UserCountryEnum) ? $user->country : UserCountryEnum::from($user->country);
-    if ($userCountry == UserCountryEnum::iran) {
-        if ($user->smsBox->balance < 500) return;
+    // if ($userCountry == UserCountryEnum::iran) {
+    //     if ($user->smsBox->balance < 500) return;
 
-        $response = FarazSms::sendSms($message, [getCountryCode($userCountry) . $user->phone]);
-        $delay = 10;
-    } else {
-        if ($user->smsBox->balance < 15000) return;
+    //     $response = FarazSms::sendSms($message, [getCountryCode($userCountry) . $user->phone]);
+    //     $delay = 10;
+    // } else {
+    //     if ($user->smsBox->balance < 15000) return;
 
         $response = KaveNegar::sendSms($message, [getCountryCode($userCountry) . $user->phone]);
         $delay = 30;
-    }
+    // }
 
     if (!$response) return;
 
