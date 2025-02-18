@@ -28,6 +28,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:restart')
             ->hourly();
 
+        $schedule->command('call:winner_job')
+            ->everyMinute();
+
         $schedule->call(function () {
             option_update('schedule_run', now());
         })->everyMinute();

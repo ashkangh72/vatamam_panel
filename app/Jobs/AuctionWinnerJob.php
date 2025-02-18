@@ -17,7 +17,8 @@ class AuctionWinnerJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $auctionId;
-
+    public $auction;
+    
     /**
      * Create a new job instance.
      */
@@ -32,6 +33,7 @@ class AuctionWinnerJob implements ShouldQueue
     public function handle(): void
     {
         $auction = Auction::find($this->auctionId);
+        $this->auction = $auction;
         $winnerBidExists = $auction->bids()->where('is_winner', true)->exists();
         $winnerBid = $auction->bids()
             ->where('type', AuctionBidTypeEnum::bid)
