@@ -110,7 +110,7 @@ class AuctionController extends Controller
             $auction->end_at = Carbon::now()->addMinutes($difference);
             $auction->save();
 
-            dispatch(new AuctionWinnerJob($auction->id))->delay(Carbon::parse($auction->end_at)->addMinute());
+            // dispatch(new AuctionWinnerJob($auction->id))->delay(Carbon::parse($auction->end_at)->addMinute());
             dispatch(new FollowedAuctionJob($auction->id))->delay(Carbon::parse($auction->end_at)->subHours(3));
             dispatch(new NoticeAuctionJob($auction))->delay(Carbon::now()->addMinutes(10));
 

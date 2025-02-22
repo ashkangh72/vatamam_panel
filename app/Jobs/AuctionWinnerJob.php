@@ -69,6 +69,7 @@ class AuctionWinnerJob implements ShouldQueue
                 'user_id' => $winner->id,
                 'seller_id' => $auction->user_id,
                 'quantity' => 1,
+                'status' => OrderStatusEnum::locked,
                 'price' => $winnerBid->amount,
                 'discount_price' => $winnerBid->amount,
                 'discount_amount' => 0,
