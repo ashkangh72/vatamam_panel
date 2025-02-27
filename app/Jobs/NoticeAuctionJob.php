@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\{User, Notice, Auction};
 use App\Notifications\FavoriteNotification;
+use Exception;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Bus\Queueable;
@@ -69,7 +70,11 @@ class NoticeAuctionJob // implements ShouldQueue
         $url = env('WEBSITE_URL') . '/auction/' . $this->auction->slug;
         Log::error($message);
 
-        if ($message)
-            Notification::send($users, new FavoriteNotification($this->auction, $title, $message, $url, 'buy'));
+        try {
+            if ($message)
+                Notification::send($users, new FavoriteNotification($this->auction, $title, $message, $url, 'buy'));
+        } catch (Exception $exception) {
+            Log::error("exception in gosh be zang because: {$exception->getMessage()}.");
+        }
     }
 }
