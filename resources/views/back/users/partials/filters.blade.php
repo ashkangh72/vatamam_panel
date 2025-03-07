@@ -11,31 +11,34 @@
     <div class="card-content collapse {{ request()->except('page') ? 'show' : '' }}">
         <div class="card-body">
             <div class="users-list-filter">
-                <form id="filter-users-form" method="GET"
-                      action="{{ route('admin.users.index') }}">
+                <form id="filter-users-form" method="GET" action="{{ route('admin.users.index') }}">
                     <div class="row">
                         <div class="col-md-3">
                             <label>نام</label>
                             <fieldset class="form-group">
-                                <input class="form-control datatable-filter" name="fullname" value="{{ request('fullname') }}">
+                                <input class="form-control datatable-filter" name="fullname"
+                                    value="{{ request('fullname') }}">
                             </fieldset>
                         </div>
                         <div class="col-md-3">
                             <label>نام کاربری</label>
                             <fieldset class="form-group">
-                                <input class="form-control datatable-filter" name="username" value="{{ request('username') }}">
+                                <input class="form-control datatable-filter" name="username"
+                                    value="{{ request('username') }}">
                             </fieldset>
                         </div>
                         <div class="col-md-3">
                             <label>شماره کاربر</label>
                             <fieldset class="form-group">
-                                <input class="form-control datatable-filter" name="phone" value="{{ request('phone') }}">
+                                <input class="form-control datatable-filter" name="phone"
+                                    value="{{ request('phone') }}">
                             </fieldset>
                         </div>
                         <div class="col-md-3">
                             <label>ایمیل</label>
                             <fieldset class="form-group">
-                                <input class="form-control datatable-filter" name="email" value="{{ request('email') }}">
+                                <input class="form-control datatable-filter" name="email"
+                                    value="{{ request('email') }}">
                             </fieldset>
                         </div>
 
@@ -55,6 +58,11 @@
                                 </select>
                             </fieldset>
                         </div>
+                        <label>کد ملی</label>
+                        <fieldset class="form-group">
+                            <input class="form-control datatable-filter" name="national_id"
+                                value="{{ request('national_id') }}">
+                        </fieldset>
                     </div>
                     <div class="row">
                         <div class="col-md-3">

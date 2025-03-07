@@ -151,6 +151,10 @@ class User extends Model implements AuthenticatableContract
             $query->where('username', 'like', '%' . $username . '%');
         }
 
+        if ($national_id = $request->input('query.national_id')) {
+            $query->where('national_id', 'like', '%' . $national_id . '%');
+        }
+
         if ($phone = $request->input('query.phone')) {
             $query->where('phone', 'like', '%' . $phone . '%');
         }
