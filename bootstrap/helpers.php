@@ -359,9 +359,12 @@ function convert_number($number)
         "نه صد"
     );
 
-    if (($number < 0) || ($number > 999999999)) {
+    if (($number < 0) || ($number > 999999999999)) {
         throw new Exception("Number is out of range");
     }
+    $Tn = floor($number / 1000000000);
+    /* Millions (tra) */
+    $number -= $Tn * 1000000;
     $Gn = floor($number / 1000000);
     /* Millions (giga) */
     $number -= $Gn * 1000000;
@@ -376,6 +379,9 @@ function convert_number($number)
     $n = $number % 10;
     /* Ones */
     $res = "";
+    if ($Tn) {
+        $res .= convert_number($Tn) . " میلیارد و ";
+    }
     if ($Gn) {
         $res .= convert_number($Gn) . " میلیون و ";
     }
