@@ -33,7 +33,7 @@ class AuctionController extends Controller
 
         $auctions = Auction::with(['user', 'category'])
             ->where('type', 'auction')
-            ->orderByDesc('created_at')
+            ->orderByDesc('status', 'created_at')
             ->filter($request);
 
         $auctions = datatable($request, $auctions);
@@ -59,7 +59,7 @@ class AuctionController extends Controller
         $this->authorize('auctions.index');
         $auctions = Auction::with(['user', 'category'])
             ->where('type', 'product')
-            ->orderByDesc('created_at')
+            ->orderByDesc('status','created_at')
             ->filter($request);
 
         $auctions = datatable($request, $auctions);
