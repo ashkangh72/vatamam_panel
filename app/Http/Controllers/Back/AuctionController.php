@@ -76,12 +76,12 @@ class AuctionController extends Controller
 
         $request->validate([
             'ids' => 'required|array',
-            'ids.*' => [
-                Rule::exists('auctions', 'id')->where(function ($query) {
-                    $query->where('status', '!=', AuctionStatusEnum::approved)
-                        ->orWhere('is_ended', true);
-                })
-            ]
+            // 'ids.*' => [
+            //     Rule::exists('auctions', 'id')->where(function ($query) {
+            //         $query->where('status', '!=', AuctionStatusEnum::approved)
+            //             ->orWhere('is_ended', true);
+            //     })
+            // ]
         ]);
 
         foreach ($request->ids as $id) {
