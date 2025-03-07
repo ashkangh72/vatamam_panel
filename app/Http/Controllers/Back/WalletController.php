@@ -36,7 +36,7 @@ class WalletController extends Controller
 
         $data = $request->validate([
             'type'        => 'required|in:' . implode(',', WalletHistoryTypeEnum::getValues(['admin_withdraw', 'admin_deposit'])),
-            'amount'      => 'required|numeric|max:100000000',
+            'amount'      => 'required|numeric|min:0',
             'description' => 'nullable'
         ]);
 
