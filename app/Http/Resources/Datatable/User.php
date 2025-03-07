@@ -22,6 +22,7 @@ class User extends JsonResource
             'phone' => $this->phone,
             'email' => $this->email,
             'national_id' => $this->national_id,
+            'money' => $this->getWallet()->balance,
             'created_at' => tverta($this->created_at)->format('%d %B %Y'),
 
             'links' => [

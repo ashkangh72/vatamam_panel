@@ -60,6 +60,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('users/{user}/views', [UserController::class, 'views'])->name('users.views');
     Route::get('user/profile', [UserController::class, 'showProfile'])->name('user.profile.show');
     Route::put('user/profile', [UserController::class, 'updateProfile'])->name('user.profile.update');
+    Route::get('wallets', [UserController::class, 'indexWallet'])->name('users.wallets');
+    Route::post('wallets/api/index', [UserController::class, 'apiIndexWallet'])->name('users.wallets.apiIndex');
 
     Route::get('partners', [PartnerController::class, 'index'])->name('user.partners.index');
     Route::post('partners/accept', [PartnerController::class, 'accept'])->name('user.partners.accept');

@@ -35,6 +35,22 @@ class UserController extends Controller
         return new UserCollection($users);
     }
 
+    public function indexWallet()
+    {
+        return view('back.users.wallets');
+    }
+
+    public function apiIndexWallet(Request $request)
+    {
+        $this->authorize('users.index');
+
+        $users = User::filter($request);
+
+        $users = datatable($request, $users);
+
+        return new UserCollection($users);
+    }
+
     public function create()
     {
         $this->authorize('users.create');

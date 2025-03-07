@@ -178,6 +178,18 @@ class User extends Model implements AuthenticatableContract
                         $query->orderBy('first_name', $request->sort['sort'])->orderBy('last_name', $request->sort['sort']);
                         break;
                     }
+                case 'money': {
+                        $query->join('wallets', 'users.id', '=', 'wallets.user_id')->select([
+                            'users.id',
+                            'name',
+                            'username',
+                            'phone',
+                            'email',
+                            'national_id',
+                            'balance'
+                        ])->orderBy('balance', $request->sort['sort']);
+                        break;
+                    }
                 default: {
                         if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
                             $query->orderBy($request->sort['field'], $request->sort['sort']);

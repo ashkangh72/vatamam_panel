@@ -80,6 +80,12 @@ function user_option_update($option_name, $option_value, $user_id = null): void
     $option->save();
 }
 
+function convertPrice($price)
+{
+    $price = floor($price);
+    return number_format($price, 0, '.', '.');
+}
+
 function user_option($option_name, $default_value = '', $user_id = null)
 {
     if (!$user_id) {

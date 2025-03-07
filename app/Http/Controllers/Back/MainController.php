@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
+use App\Models\Wallet;
 
 class MainController extends Controller
 {
     public function index()
     {
-        return view('back.index');
+        $total_price = Wallet::sum('balance');
+        return view('back.index', compact('total_price'));
     }
 
     public function login()
