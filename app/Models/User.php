@@ -158,7 +158,7 @@ class User extends Model implements AuthenticatableContract
         if ($profile = $request->input('query.profile') && $request->input('query.profile') != 'all') {
             if ($profile == 'completed')
                 $query->whereNotNull('national_id');
-            else
+            else if ($profile ==  'not_completed')
                 $query->whereNull('national_id');
         }
 
