@@ -776,6 +776,12 @@ return [
                     'attributes' => 'required'
                 ],
                 [
+                    'title' => 'انتخاب مزایده (اختیاری)',
+                    'key' => 'auctions',
+                    'input-type' => 'auctions',
+                    'class' => 'col-md-12',
+                ],
+                [
                     'title' => 'انتخاب دسته بندی ها (اختیاری)',
                     'key' => 'categories',
                     'input-type' => 'categories',

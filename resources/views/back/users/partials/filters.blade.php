@@ -65,6 +65,22 @@
                                     value="{{ request('national_id') }}">
                             </fieldset>
                         </div>
+                        <div class="col-md-3">
+                            <label>وضعیت پروفایل</label>
+                            <fieldset class="form-group">
+                                <select class="form-control datatable-filter" name="profile">
+                                    <option value="all" {{ request('profile') == 'all' ? 'selected' : '' }}>
+                                        همه
+                                    </option>
+                                    <option value="completed" {{ request('profile') == 'completed' ? 'selected' : '' }}>
+                                        تکمیل شده
+                                    </option>
+                                    <option value="not_completed" {{ request('profile') == 'not_completed' ? 'selected' : '' }}>
+                                        تکمیل نشده
+                                    </option>
+                                </select>
+                            </fieldset>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">

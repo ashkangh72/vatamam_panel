@@ -304,6 +304,31 @@ class Auction extends Model
         };
     }
 
+    public function scopeApproved($query)
+    {
+        $query->where('status', AuctionStatusEnum::approved);
+
+        return $query;
+    }
+
+    public function scopeNotEnded($query)
+    {
+        if ($this->type == 'auction') {
+            $query->where('is_ended', false);//->orWhere('end_at', '<', now()->addMonths(-1));
+        } else {
+            $query->where('is_ended', false);
+        }
+
+        return $query;
+    }
+
+    public function scopeAuction($query)
+    {
+        $query->where('type', 'auction');
+
+        return $query;
+    }
+    
     public function scopeFilter($query, Request $request)
     {
         if ($title = $request->input('query.title')) {

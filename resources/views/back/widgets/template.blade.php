@@ -2,27 +2,38 @@
     @switch($option['input-type'])
         @case('input')
             @include('back.widgets.partials.input')
-            @break
+        @break
+
         @case('select')
             @include('back.widgets.partials.select')
-            @break
+        @break
+
         @case('file')
             @include('back.widgets.partials.file')
-            @break
+        @break
+
+        @case('auctions')
+            @include('back.widgets.partials.auctions')
+        @break
+
         @case('categories')
             @include('back.widgets.partials.categories')
-            @break
+        @break
+
         @case('historical_period')
             @include('back.widgets.partials.historical_period')
-            @break
+        @break
+
         @case('originality')
             @include('back.widgets.partials.originality')
-            @break
+        @break
+
         @case('condition')
             @include('back.widgets.partials.condition')
-            @break
+        @break
+
         @case('timezone')
             @include('back.widgets.partials.timezone')
-            @break
+        @break
     @endswitch
 @endforeach
