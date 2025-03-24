@@ -75,7 +75,7 @@
                         @csrf
                         @method('delete')
                         <button type="button" class="btn btn-success waves-effect waves-light" data-dismiss="modal">خیر</button>
-                        <button type="submit" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">بله حذف شود</button>
+                        <button type="submit" class="btn btn-danger waves-effect waves-light">بله حذف شود</button>
                     </form>
                 </div>
             </div>
