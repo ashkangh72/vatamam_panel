@@ -121,8 +121,8 @@
                                                     <tr id="redirect-{{ $redirect->id }}-tr">
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td class="text-center">{{ $redirect->http_code }}</td>
-                                                        <td class="text-center">{{ $redirect->old_url }}</td>
-                                                        <td class="text-center">{{ $redirect->new_url }}</td>
+                                                        <td class="text-center">{{ urldecode($redirect->old_url) }}</td>
+                                                        <td class="text-center">{{ urldecode($redirect->new_url) }}</td>
                                                         <td class="text-center">
                                                             <button type="button" data-id="{{ $redirect->id }}"
                                                                 class="btn btn-danger mr-1 waves-effect waves-light btn-delete"
