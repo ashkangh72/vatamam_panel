@@ -152,7 +152,7 @@ class UserController extends Controller
         $this->authorize('users.delete', User::class);
 
         $user->username = $user->username . '_deleted';
-        $user->username = $user->national_id . '_deleted';
+        $user->national_id = $user->national_id . '_deleted';
         $user->save();
         
         $user->delete();
