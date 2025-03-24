@@ -196,7 +196,7 @@ class WidgetController extends Controller
         }
 
         $categories = Category::orderBy('ordering')->get();
-        $auctions = Auction::get(); //approved()->notEnded()->auction()->get();
+        $auctions = Auction::approved()->notEnded()->auction()->get();
         $historicalPeriods = HistoricalPeriod::get();
         $originality = Originality::get();
 
