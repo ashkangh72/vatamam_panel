@@ -10,7 +10,7 @@ use App\Enums\NotificationSettingKeyEnum;
 use App\Models\{Tag, User, Option, UserOption, Viewer};
 use App\Services\{FarazSms, KaveNegar, NajvaService};
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Facades\{Artisan, Cache, Route};
+use Illuminate\Support\Facades\{Artisan, Cache, Log, Route};
 use Illuminate\Support\{Str, Arr};
 
 /* add active class to li */
@@ -472,8 +472,8 @@ function sendSms(string $message, User $user, string $type): void
     // } else {
     //     if ($user->smsBox->balance < 15000) return;
 
-        $response = KaveNegar::sendSms($message, [getCountryCode($userCountry) . $user->phone]);
-        $delay = 30;
+    $response = KaveNegar::sendSms($message, [getCountryCode($userCountry) . $user->phone]);
+    $delay = 30;
     // }
 
     if (!$response) return;
@@ -539,6 +539,9 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
 
     $message = Option::getValue($messageText);
     if (is_null($message)) return false;
+    
+    Log::error(Arr::get($parameters, 'reason', ''));
+    Log::error($message);
 
     return str_replace(
         [
@@ -546,7 +549,7 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
             "{siteTitle}",
             "{auctionTitle}",
             "{reason}",
-            
+
             "{orderId}",
             "{userUsername}",
             "{transactionAmount}",
@@ -560,7 +563,7 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
             Arr::get($parameters, 'auctionTitle', ''),
             Arr::get($parameters, 'productTitle', ''),
             Arr::get($parameters, 'reason', ''),
-            
+
             Arr::get($parameters, 'orderId', ''),
             Arr::get($parameters, 'userUsername', ''),
             Arr::get($parameters, 'transactionAmount', ''),

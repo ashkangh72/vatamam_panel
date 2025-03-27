@@ -22,6 +22,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 
 class User extends Model implements AuthenticatableContract
 {
@@ -426,7 +427,7 @@ class User extends Model implements AuthenticatableContract
 
             $url = env('WEBSITE_URL') . '/product/' . $auction->slug;
         }
-
+        Log::error($auction->reject_reason);
         if (!$message) return;
 
         $this->notify(new AuctionRejectNotification($auction, $title, $message, $url, 'sell'));
