@@ -539,17 +539,14 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
 
     $message = Option::getValue($messageText);
     if (is_null($message)) return false;
-    
-    Log::error(Arr::get($parameters, 'reason', ''));
-    Log::error($message);
 
     return str_replace(
         [
             "{newLine}",
             "{siteTitle}",
             "{auctionTitle}",
+            "{productTitle}",
             "{reason}",
-
             "{orderId}",
             "{userUsername}",
             "{transactionAmount}",
@@ -563,14 +560,12 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
             Arr::get($parameters, 'auctionTitle', ''),
             Arr::get($parameters, 'productTitle', ''),
             Arr::get($parameters, 'reason', ''),
-
             Arr::get($parameters, 'orderId', ''),
             Arr::get($parameters, 'userUsername', ''),
             Arr::get($parameters, 'transactionAmount', ''),
             Arr::get($parameters, 'transactionDescription', ''),
             Arr::get($parameters, 'discountType', ''),
             Arr::get($parameters, 'discountAmount', ''),
-
         ],
         $message
     );

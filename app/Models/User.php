@@ -427,7 +427,6 @@ class User extends Model implements AuthenticatableContract
 
             $url = env('WEBSITE_URL') . '/product/' . $auction->slug;
         }
-        Log::error($auction->reject_reason);
         if (!$message) return;
 
         $this->notify(new AuctionRejectNotification($auction, $title, $message, $url, 'sell'));
