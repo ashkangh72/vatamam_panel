@@ -522,8 +522,9 @@ function notificationChannels(User $user, array $channels, $key): array
 
     if (!$notifiableNotificationSetting) return $channels;
 
-    if ($user->email && $notifiableNotificationSetting->email) $channels[] = 'mail';
+    // if ($user->email && $notifiableNotificationSetting->email) $channels[] = 'mail';
     if ($user->phone && $key == NotificationSettingKeyEnum::favorites) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::auction_accept) $channels[] = SmsChannel::class;
     else if ($user->phone && $notifiableNotificationSetting->sms) $channels[] = SmsChannel::class;
     if ($user->push_token && $notifiableNotificationSetting->push) $channels[] = PushChannel::class;
 
@@ -542,9 +543,10 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
         [
             "{newLine}",
             "{siteTitle}",
+            "{auctionTitle}",
+            
             "{orderId}",
             "{userUsername}",
-            "{auctionTitle}",
             "{transactionAmount}",
             "{transactionAmount}",
             "{discountType}",
@@ -553,13 +555,16 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
         [
             "\n",
             env('APP_NAME'),
+            Arr::get($parameters, 'auctionTitle', ''),
+            Arr::get($parameters, 'productTitle', ''),
+            
             Arr::get($parameters, 'orderId', ''),
             Arr::get($parameters, 'userUsername', ''),
-            Arr::get($parameters, 'auctionTitle', ''),
             Arr::get($parameters, 'transactionAmount', ''),
             Arr::get($parameters, 'transactionDescription', ''),
             Arr::get($parameters, 'discountType', ''),
-            Arr::get($parameters, 'discountAmount', '')
+            Arr::get($parameters, 'discountAmount', ''),
+
         ],
         $message
     );

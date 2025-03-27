@@ -149,7 +149,45 @@ class SettingController extends Controller
             'sms_on_auction_first_bid',
             'sms_on_auction_accept',
             'sms_on_auction_reject',
-            'sms_on_auction_create'
+            'sms_on_auction_create',
+
+
+            'sms_on_buy_product_to_seller',
+            'sms_on_send_product_to_seller',
+            'sms_on_satisfied_product_to_seller',
+            'sms_on_unsatisfied_product_to_seller',
+            'sms_on_win_auction_to_seller',
+            'sms_on_end_auction_to_seller',
+            
+            'sms_on_send_product_to_buyer',
+            'sms_on_accept_unsatisfied_product_to_buyer',
+            'sms_on_win_auction_to_buyer',
+            'sms_on_buy_product_to_buyer',
+
+            'sms_on_accept_product_to_seller',
+            'sms_on_accept_auction_to_seller',
+            'sms_on_reject_product_to_seller',
+            'sms_on_reject_auction_to_seller',
+
+        ];
+
+        $texts = [
+            'sms_text_on_buy_product_to_seller',
+            'sms_text_on_send_product_to_seller',
+            'sms_text_on_satisfied_product_to_seller',
+            'sms_text_on_unsatisfied_product_to_seller',
+            'sms_text_on_win_auction_to_seller',
+            'sms_text_on_end_auction_to_seller',
+
+            'sms_text_on_send_product_to_buyer',
+            'sms_text_on_accept_unsatisfied_product_to_buyer',
+            'sms_text_on_win_auction_to_buyer',
+            'sms_text_on_buy_product_to_buyer',
+
+            'sms_text_on_accept_product_to_seller',
+            'sms_text_on_accept_auction_to_seller',
+            'sms_text_on_reject_product_to_seller',
+            'sms_text_on_reject_auction_to_seller',
         ];
 
         $sms = $request->except($except);

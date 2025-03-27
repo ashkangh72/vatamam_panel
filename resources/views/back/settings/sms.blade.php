@@ -1,7 +1,6 @@
 @extends('back.layouts.master')
 
 @section('content')
-
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -33,7 +32,7 @@
                                 <div class="tab-content">
                                     <form id="sms-form" action="{{ route('admin.settings.sms') }}" method="POST">
 
-                                        {{--<h3 class="my-2">اطلاعات اطلاع رسانی</h3>
+                                        {{-- <h3 class="my-2">اطلاعات اطلاع رسانی</h3>
                                         <hr>
                                         <div class="row">
                                             <div class="col-md-4">
@@ -52,33 +51,130 @@
                                                            value="{{ option('admin_email_address') }}">
                                                 </div>
                                             </div>
-                                        </div>--}}
+                                        </div> --}}
 
                                         <h3 class="my-2">تنظیمات ارسال پیامک</h3>
                                         <hr>
+
+                                        <span class="">فروشنده</span>
+                                        <br />
+                                        <br />
+
                                         <div class="form-group row">
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_order_paid" type="checkbox"
-                                                           name="sms_on_order_paid" {{ option('sms_on_order_paid') == 'on' ? 'checked' : '' }} >
+                                                    <input data-class="sms_on_buy_product_to_seller" type="checkbox"
+                                                        name="sms_on_buy_product_to_seller"
+                                                        {{ option('sms_on_buy_product_to_seller') == 'on' ? 'checked' : '' }}>
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
                                                         </span>
                                                     </span>
-                                                    <span class="">اطلاع رسانی پرداخت سفارش به فروشنده</span>
+                                                    <span class="">اطلاع رسانی خرید محصول به فروشنده</span>
                                                 </div>
-                                                <textarea class="form-control" name="sms_text_on_order_paid"
-                                                          placeholder="{siteTitle} - پرداخت سفارش {newLine} سفارش شماره {orderId} توسط کاربر {userUsername} پرداخت شد"
-                                                          rows="2">{{ option('sms_text_on_order_paid') }}</textarea>
+                                                <textarea class="form-control" name="sms_text_on_buy_product_to_seller"
+                                                    placeholder="کاربر گرامی {newLine} کالای شما {productTitle} در وب سایت وتمام توسط {buyerName} خریداری شد. لطفاْ جهت تکمیل مراحل فروش به پنل کاربری خود مراجعه کنید"
+                                                    rows="2">{{ option('sms_text_on_buy_product_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {orderId} : شناسه سفارش, {userUsername} : نام کاربری کاربر
+                                                    {newLine} : خط جدید, {productTitle} : عنوان کالا, {buyerName} : نام
+                                                    کاربر
                                                 </small>
                                             </fieldset>
+
+
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_auction_end" type="checkbox"
-                                                           name="sms_on_auction_end" {{ option('sms_on_auction_end') == 'on' ? 'checked' : '' }} >
+                                                    <input data-class="sms_on_send_product_to_seller" type="checkbox"
+                                                        name="sms_on_send_product_to_seller"
+                                                        {{ option('sms_on_send_product_to_seller') == 'on' ? 'checked' : '' }}>
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی ارسال کالا توسط خریدار به
+                                                        فروشنده</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_send_product_to_seller"
+                                                    placeholder="کاربر گرامی وتمام {newLine} کالای شما با کد رهگیری {trackingCode} ارسال شد." rows="2">{{ option('sms_text_on_send_product_to_seller') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {trackingCode} : کد رهگیری
+                                                </small>
+                                            </fieldset>
+
+
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_satisfied_product_to_seller" type="checkbox"
+                                                        name="sms_on_satisfied_product_to_seller"
+                                                        {{ option('sms_on_satisfied_product_to_seller') == 'on' ? 'checked' : '' }}>
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی تحویل کالا و رضایت خریدار به
+                                                        فروشنده</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_satisfied_product_to_seller"
+                                                    placeholder="فروشنده گرامی{newLine} کالای شما با موفقیت به خریدار تحویل داده شد و خریدار رضایت خود را از کالا اعلام کرده است{newLine}با تشکر از حسن معامله ی شما منتظر حضور مجدد شما در وتمام هستیم"
+                                                    rows="2">{{ option('sms_text_on_satisfied_product_to_seller') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید
+                                                </small>
+                                            </fieldset>
+
+
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_unsatisfied_product_to_seller" type="checkbox"
+                                                        name="sms_on_unsatisfied_product_to_seller"
+                                                        {{ option('sms_on_unsatisfied_product_to_seller') == 'on' ? 'checked' : '' }}>
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی تحویل کالا و نارضایتی خریدار به
+                                                        فروشنده</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_unsatisfied_product_to_seller"
+                                                    placeholder="فروشنده گرامی{newLine} کالای شما به خریدار تحویل داده شد. اما خریدار از کالا اعلام نارضایتی کرد و مبلغ واریزی از صندوق امانات شماکسر شد. لطفا جهت پیگیری روند بازگشت کالا به وب سایت وتمام مراجعه نمایید."
+                                                    rows="2">{{ option('sms_text_on_unsatisfied_product_to_seller') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید
+                                                </small>
+                                            </fieldset>
+
+
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_win_auction_to_seller" type="checkbox"
+                                                        name="sms_on_win_auction_to_seller"
+                                                        {{ option('sms_on_win_auction_to_seller') == 'on' ? 'checked' : '' }}>
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی خرید مزایده به فروشنده</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_win_auction_to_seller"
+                                                    placeholder="وتمام!{newLine}کالای شما {auctionTitle} در مزایده خریداری شد! لطفا جهت تکمیل مراحل فروش و ارسال کالا به پنل کاربری خود مراجعه کنید"
+                                                    rows="2">{{ option('sms_text_on_win_auction_to_seller') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان
+                                                    مزایده
+                                                </small>
+                                            </fieldset>
+
+
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_end_auction_to_seller" type="checkbox"
+                                                        name="sms_on_end_auction_to_seller"
+                                                        {{ option('sms_on_end_auction_to_seller') == 'on' ? 'checked' : '' }}>
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
@@ -86,227 +182,189 @@
                                                     </span>
                                                     <span class="">اطلاع رسانی پایان مزایده به فروشنده</span>
                                                 </div>
-                                                <textarea class="form-control" name="sms_text_on_auction_end"
-                                                          placeholder="{siteTitle} - اتمام مزایده {newLine} مزایده {auctionTitle} به پایان رسید"
-                                                          rows="2">{{ option('sms_text_on_auction_end') }}</textarea>
+                                                <textarea class="form-control" name="sms_text_on_end_auction_to_seller"
+                                                    placeholder="کاربر گرامی وتمام!{newLine}زمان مزایده شما به اتمام رسید متاسفانه پیشنهادی به حداقل میزان مبلغ فروش نرسید لطفا جهت ثبت مجدد یا ویرایش مزایده خود به پنل کاربری خود مراجعه کنید"
+                                                    rows="2">{{ option('sms_text_on_end_auction_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
+                                                    {newLine} : خط جدید
                                                 </small>
                                             </fieldset>
+                                        </div>
+
+                                        <span class="">خریدار</span>
+                                        <br />
+                                        <br />
+
+                                        <div class="form-group row">
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_auction_first_bid" type="checkbox"
-                                                           name="sms_on_auction_first_bid" {{ option('sms_on_auction_first_bid') == 'on' ? 'checked' : '' }} >
+                                                    <input data-class="sms_on_send_product_to_buyer" type="checkbox"
+                                                        name="sms_on_send_product_to_buyer"
+                                                        {{ option('sms_on_send_product_to_buyer') == 'on' ? 'checked' : '' }}>
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
                                                         </span>
                                                     </span>
-                                                    <span class="">اطلاع رسانی اولین پیشنهاد مزایده به فروشنده</span>
+                                                    <span class="">اطلاع رسانی ارسال کالا توسط فروشنده به
+                                                        خریدار</span>
                                                 </div>
-                                                <textarea class="form-control" name="sms_text_on_auction_first_bid"
-                                                          placeholder="{siteTitle} - اولین پیشنهاد {newLine} مزایده {auctionTitle} اولین پیشنهاد خود را دریافت کرد"
-                                                          rows="2">{{ option('sms_text_on_auction_first_bid') }}</textarea>
+                                                <textarea class="form-control" name="sms_on_send_product_to_buyer"
+                                                    placeholder="کاربر گرامی وتمام {newLine} کالای شما با کد رهگیری {trackingCode} ارسال شد." rows="2">{{ option('sms_on_send_product_to_buyer') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
+                                                    {newLine} : خط جدید, {trackingCode} : کد رهگیری
                                                 </small>
                                             </fieldset>
+
+
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_auction_accept" type="checkbox"
-                                                           name="sms_on_auction_accept" {{ option('sms_on_auction_accept') == 'on' ? 'checked' : '' }} >
+                                                    <input data-class="sms_on_accept_unsatisfied_product_to_buyer"
+                                                        type="checkbox" name="sms_on_accept_unsatisfied_product_to_buyer"
+                                                        {{ option('sms_on_accept_unsatisfied_product_to_buyer') == 'on' ? 'checked' : '' }}>
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
                                                         </span>
                                                     </span>
-                                                    <span class="">اطلاع رسانی تایید مزایده به فروشنده</span>
+                                                    <span class="">اطلاع رسانی وضعیت اعلام نارضایتی به 
+                                                        خریدار</span>
                                                 </div>
-                                                <textarea class="form-control" name="sms_text_on_auction_accept"
-                                                          placeholder="{siteTitle} - تایید مزایده {newLine} مزایده {auctionTitle} تایید شد"
-                                                          rows="2">{{ option('sms_text_on_auction_accept') }}</textarea>
+                                                <textarea class="form-control" name="sms_text_on_accept_unsatisfied_product_to_buyer"
+                                                    placeholder="کاربر گرامی وتمام {newLine} اعلام نارضایتی شما توسط کارشناسان وتمام بررسی شد. جهت تکمیل مراحل خرید به پنل کاربری خود مراجعه کنید"
+                                                    rows="2">{{ option('sms_text_on_accept_unsatisfied_product_to_buyer') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
+                                                    {newLine} : خط جدید
                                                 </small>
                                             </fieldset>
+
+
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_auction_reject" type="checkbox"
-                                                           name="sms_on_auction_reject" {{ option('sms_on_auction_reject') == 'on' ? 'checked' : '' }} >
+                                                    <input data-class="sms_on_win_auction_to_buyer" type="checkbox"
+                                                        name="sms_on_win_auction_to_buyer"
+                                                        {{ option('sms_on_win_auction_to_buyer') == 'on' ? 'checked' : '' }}>
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
                                                         </span>
                                                     </span>
-                                                    <span class="">اطلاع رسانی رد مزایده به فروشنده</span>
+                                                    <span class="">اطلاع رسانی برنده شدن در مزایده به
+                                                        خریدار</span>
                                                 </div>
-                                                <textarea class="form-control" name="sms_text_on_auction_reject"
-                                                          placeholder="{siteTitle} - رد مزایده {newLine} مزایده {auctionTitle} رد شد"
-                                                          rows="2">{{ option('sms_text_on_auction_reject') }}</textarea>
+                                                <textarea class="form-control" name="sms_text_on_win_auction_to_buyer"
+                                                    placeholder="کاربر گرامی وتمام {newLine} شما در مزایده {auctionTitle} برنده شدید. جهت تکمیل مراحل خرید به پنل کاربری خود مراجعه کنید"
+                                                    rows="2">{{ option('sms_text_on_win_auction_to_buyer') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
+                                                    {newLine} : خط جدید, {auctionTitle} : عنوان مزایده
                                                 </small>
                                             </fieldset>
+
+
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_auction_before_end" type="checkbox"
-                                                           name="sms_on_auction_before_end" {{ option('sms_on_auction_before_end') == 'on' ? 'checked' : '' }} >
+                                                    <input data-class="sms_on_buy_product_to_buyer" type="checkbox"
+                                                        name="sms_on_buy_product_to_buyer"
+                                                        {{ option('sms_on_buy_product_to_buyer') == 'on' ? 'checked' : '' }}>
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
                                                         </span>
                                                     </span>
-                                                    <span class="">اطلاع رسانی قبل از پایان مزایده به فروشنده</span>
+                                                    <span class="">اطلاع رسانی خرید محصول به خریدار</span>
                                                 </div>
-                                                <textarea class="form-control" name="sms_text_on_auction_before_end"
-                                                          placeholder="{siteTitle} - اتمام مزایده {newLine} مزایده {auctionTitle} تا نیم ساعت دیگر به پایان می رسد"
-                                                          rows="2">{{ option('sms_text_on_auction_before_end') }}</textarea>
+                                                <textarea class="form-control" name="sms_text_on_buy_product_to_buyer"
+                                                    placeholder="کاربر گرامی {newLine} کالای {productTitle} با موفقیت خریداری شد. با ارسال کالا توسط فروشنده به شما اطلاع رسانی خواهد شد."
+                                                    rows="2">{{ option('sms_text_on_buy_product_to_buyer') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
+                                                    {newLine} : خط جدید, {productTitle} : عنوان کالا, {buyerName} : نام
+                                                    کاربر
                                                 </small>
                                             </fieldset>
+                                        </div>
+
+
+                                        <span class="">درج کالا</span>
+                                        <br />
+                                        <br />
+
+                                        <div class="form-group row">
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_auction_create" type="checkbox"
-                                                           name="sms_on_auction_create" {{ option('sms_on_auction_create') == 'on' ? 'checked' : '' }} >
+                                                    <input data-class="sms_on_accept_product_to_seller" type="checkbox"
+                                                        name="sms_on_accept_product_to_seller"
+                                                        {{ option('sms_on_accept_product_to_seller') == 'on' ? 'checked' : '' }}>
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
                                                         </span>
                                                     </span>
-                                                    <span class="">اطلاع رسانی ایجاد مزایده به مدیران</span>
+                                                    <span class="">اطلاع رسانی تایید محصول درج شده به فروشنده</span>
                                                 </div>
-                                                <textarea class="form-control" name="sms_text_on_auction_create"
-                                                          placeholder="{siteTitle} - ایجاد مزایده {newLine} مزایده {auctionTitle} ایجاد شد ومنتظر تایید مدیران است"
-                                                          rows="2">{{ option('sms_text_on_auction_create') }}</textarea>
+                                                <textarea class="form-control" name="sms_text_on_accept_product_to_seller"
+                                                    placeholder="کاربر گرامی وتمام {newLine} کالای شما {productTitle} در گالری آنلاین تایید و ثبت شد. {newLine}با تشکر از همراهی شما{newLine}منتظر خریداران وتمام باشید!." rows="2">{{ option('sms_text_on_accept_product_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
+                                                    {newLine} : خط جدید, {productTitle} : عنوان کالا
                                                 </small>
                                             </fieldset>
+
+
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_thanks_for_buy" type="checkbox"
-                                                           name="sms_on_thanks_for_buy" {{ option('sms_on_thanks_for_buy') == 'on' ? 'checked' : '' }} >
+                                                    <input data-class="sms_on_accept_auction_to_seller" type="checkbox"
+                                                        name="sms_on_accept_auction_to_seller"
+                                                        {{ option('sms_on_accept_auction_to_seller') == 'on' ? 'checked' : '' }}>
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
                                                         </span>
                                                     </span>
-                                                    <span class="">پیام تشکر از خرید به خریدار</span>
+                                                    <span class="">اطلاع رسانی تایید مزایده درج شده به فروشنده</span>
                                                 </div>
-                                                <textarea class="form-control" name="sms_text_on_thanks_for_buy"
-                                                          placeholder="{siteTitle} - تشکر از خرید شما {newLine} بابت انتخاب و خرید شما از {siteTitle} سپاسگزاریم. سفارش شماره {orderId} دریافت شد"
-                                                          rows="2">{{ option('sms_text_on_thanks_for_buy') }}</textarea>
+                                                <textarea class="form-control" name="sms_text_on_accept_auction_to_seller"
+                                                    placeholder="کاربر گرامی وتمام {newLine} مزایده شما {auctionTitle} در گالری آنلاین تایید و ثبت شد. {newLine}با تشکر از همراهی شما{newLine}منتظر خریداران وتمام باشید!." rows="2">{{ option('sms_text_on_accept_auction_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {orderId} : شناسه سفارش
+                                                    {newLine} : خط جدید, {auctionTitle} : عنوان مزایده
                                                 </small>
                                             </fieldset>
+
+
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_winning_auction" type="checkbox"
-                                                           name="sms_on_winning_auction" {{ option('sms_on_winning_auction') == 'on' ? 'checked' : '' }} >
+                                                    <input data-class="sms_on_reject_product_to_seller" type="checkbox"
+                                                        name="sms_on_reject_product_to_seller"
+                                                        {{ option('sms_on_reject_product_to_seller') == 'on' ? 'checked' : '' }}>
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
                                                         </span>
                                                     </span>
-                                                    <span class="">اطلاع رسانی برنده شدن در مزایده به خریدار</span>
+                                                    <span class="">اطلاع رسانی رد محصول درج شده به فروشنده</span>
                                                 </div>
-                                                <textarea class="form-control" name="sms_text_on_winning_auction"
-                                                          placeholder="{siteTitle} - برنده شدید! {newLine} تبریک! شما در مزایده {auctionTitle} برنده شدید. برای تسویه حساب 12 ساعت فرصت دارید"
-                                                          rows="2">{{ option('sms_text_on_winning_auction') }}</textarea>
+                                                <textarea class="form-control" name="sms_text_on_reject_product_to_seller"
+                                                    placeholder="کاربر گرامی وتمام {newLine} کالای شما {productTitle} در گالری آنلاین رد شد. {newLine}جهت ویرایش کالای خود به پنل کاربری مراجعه کنید" rows="2">{{ option('sms_text_on_reject_product_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
+                                                    {newLine} : خط جدید, {productTitle} : عنوان کالا
                                                 </small>
                                             </fieldset>
+
+
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_auction_higher_bid" type="checkbox"
-                                                           name="sms_on_auction_higher_bid" {{ option('sms_on_auction_higher_bid') == 'on' ? 'checked' : '' }} >
+                                                    <input data-class="sms_on_reject_auction_to_seller" type="checkbox"
+                                                        name="sms_on_reject_auction_to_seller"
+                                                        {{ option('sms_on_reject_auction_to_seller') == 'on' ? 'checked' : '' }}>
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
                                                         </span>
                                                     </span>
-                                                    <span class="">اطلاع رسانی پیشنهاد بالاتر در مزایده به خریدار</span>
+                                                    <span class="">اطلاع رسانی رد مزایده درج شده به فروشنده</span>
                                                 </div>
-                                                <textarea class="form-control" name="sms_text_on_auction_higher_bid"
-                                                          placeholder="{siteTitle} - پیشنهاد بالاتر {newLine} برای مزایده {auctionTitle} پیشنهاد بالاتری ثبت شد"
-                                                          rows="2">{{ option('sms_text_on_auction_higher_bid') }}</textarea>
+                                                <textarea class="form-control" name="sms_text_on_reject_auction_to_seller"
+                                                    placeholder="کاربر گرامی وتمام {newLine} مزایده شما {auctionTitle} در گالری آنلاین رد شد. {newLine}جهت ویرایش کالای خود به پنل کاربری مراجعه کنید" rows="2">{{ option('sms_text_on_reject_auction_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
-                                                </small>
-                                            </fieldset>
-                                            <fieldset class="checkbox col-md-6 col-12">
-                                                <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_followed_auction" type="checkbox"
-                                                           name="sms_on_followed_auction" {{ option('sms_on_followed_auction') == 'on' ? 'checked' : '' }} >
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">اطلاع رسانی پایان مزایده دنبال شده به خریدار</span>
-                                                </div>
-                                                <textarea class="form-control" name="sms_text_on_followed_auction"
-                                                          placeholder="{siteTitle} - اتمام مزایده {newLine} مزایده {auctionTitle} تا 3 ساعت دیگر به پایان می رسد"
-                                                          rows="2">{{ option('sms_text_on_followed_auction') }}</textarea>
-                                                <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
-                                                </small>
-                                            </fieldset>
-                                            <fieldset class="checkbox col-md-6 col-12">
-                                                <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_notice_auction" type="checkbox"
-                                                           name="sms_on_followed_auction" {{ option('sms_on_notice_auction') == 'on' ? 'checked' : '' }} >
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">اطلاع رسانی مزایده های موردعلاقه به خریدار</span>
-                                                </div>
-                                                <textarea class="form-control" name="sms_text_on_notice_auction"
-                                                          placeholder="{siteTitle} - مزایده جدید {newLine} مزایده {auctionTitle} در دسته بندی موردعلاقه شما ایجاد شده است"
-                                                          rows="2">{{ option('sms_text_on_notice_auction') }}</textarea>
-                                                <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان مزایده
-                                                </small>
-                                            </fieldset>
-                                            <fieldset class="checkbox col-md-6 col-12">
-                                                <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_transaction" type="checkbox"
-                                                           name="sms_on_transaction" {{ option('sms_on_transaction') == 'on' ? 'checked' : '' }} >
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">اطلاع رسانی تراکنش جدید به خریدار</span>
-                                                </div>
-                                                <textarea class="form-control" name="sms_text_on_transaction"
-                                                          placeholder="{siteTitle} - تراکنش جدید {newLine} تراکنش جدیدی به مبلغ {transactionAmount} جزئیات: {transactionDescription} ایجاد شد"
-                                                          rows="2">{{ option('sms_text_on_transaction') }}</textarea>
-                                                <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {transactionAmount} : مبلغ تراکنش, {transactionDescription} : جزئیات تراکنش
-                                                </small>
-                                            </fieldset>
-                                            <fieldset class="checkbox col-md-6 col-12">
-                                                <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input data-class="sms_on_discount" type="checkbox"
-                                                           name="sms_on_discount" {{ option('sms_on_discount') == 'on' ? 'checked' : '' }} >
-                                                    <span class="vs-checkbox">
-                                                        <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
-                                                        </span>
-                                                    </span>
-                                                    <span class="">اطلاع رسانی کدتخفیف جدید به خریدار</span>
-                                                </div>
-                                                <textarea class="form-control" name="sms_text_on_discount"
-                                                          placeholder="{siteTitle} - کد تخفیف جدید {newLine} کد تخفیف جدیدی با {discountType} {discountAmount} برای شما ایجاد شد"
-                                                          rows="2">{{ option('sms_text_on_discount') }}</textarea>
-                                                <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {discountType} : نوع تخفیف, {discountAmount} : مقدار تخفیف
+                                                    {newLine} : خط جدید, {auctionTitle} : عنوان مزایده
                                                 </small>
                                             </fieldset>
                                         </div>

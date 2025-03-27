@@ -379,13 +379,26 @@ class User extends Model implements AuthenticatableContract
 
     public function sendAuctionAcceptNotification(Auction $auction)
     {
-        $title = env('APP_NAME') . " - تایید مزایده";
-        $message = setNotificationMessage(
-            'sms_on_auction_accept',
-            'sms_text_on_auction_accept',
-            ['auctionTitle' => $auction->title]
-        );
-        $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+        if ($auction->type == 'auction') {
+            $title = env('APP_NAME') . " - تایید مزایده";
+            $message = setNotificationMessage(
+                'sms_on_accept_auction_to_seller',
+                'sms_text_on_accept_auction_to_seller',
+                ['auctionTitle' => $auction->title]
+            );
+
+            $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+        } else {
+            $title = env('APP_NAME') . " - تایید محصول";
+            $message = setNotificationMessage(
+                'sms_on_accept_product_to_seller',
+                'sms_text_on_accept_product_to_seller',
+                ['productTitle' => $auction->title]
+            );
+
+            $url = env('WEBSITE_URL') . '/product/' . $auction->slug;
+        }
+
 
         if (!$message) return;
 
@@ -394,13 +407,25 @@ class User extends Model implements AuthenticatableContract
 
     public function sendAuctionRejectNotification(Auction $auction)
     {
-        $title = env('APP_NAME') . " - رد مزایده";
-        $message = setNotificationMessage(
-            'sms_on_auction_reject',
-            'sms_text_on_auction_reject',
-            ['auctionTitle' => $auction->title]
-        );
-        $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+        if ($auction->type == 'auction') {
+            $title = env('APP_NAME') . " - رد مزایده";
+            $message = setNotificationMessage(
+                'sms_on_reject_auction_to_seller',
+                'sms_text_on_reject_auction_to_seller',
+                ['auctionTitle' => $auction->title]
+            );
+
+            $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+        } else {
+            $title = env('APP_NAME') . " - رد محصول";
+            $message = setNotificationMessage(
+                'sms_on_reject_product_to_seller',
+                'sms_text_on_reject_product_to_seller',
+                ['productTitle' => $auction->title]
+            );
+
+            $url = env('WEBSITE_URL') . '/product/' . $auction->slug;
+        }
 
         if (!$message) return;
 
