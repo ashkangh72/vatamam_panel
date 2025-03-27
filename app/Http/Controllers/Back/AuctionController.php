@@ -146,7 +146,7 @@ class AuctionController extends Controller
             'reject_reason' => $validated['reason']
         ]);
 
-        $auction->user->sendAuctionRejectNotification($auction);
+        $auction->user->sendAuctionRejectNotification(Auction::find($auction->id));
 
         return response('success');
     }
