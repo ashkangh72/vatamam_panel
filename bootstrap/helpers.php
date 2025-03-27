@@ -544,6 +544,7 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
             "{newLine}",
             "{siteTitle}",
             "{auctionTitle}",
+            "{reason}",
             
             "{orderId}",
             "{userUsername}",
@@ -557,6 +558,7 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
             env('APP_NAME'),
             Arr::get($parameters, 'auctionTitle', ''),
             Arr::get($parameters, 'productTitle', ''),
+            Arr::get($parameters, 'reason', ''),
             
             Arr::get($parameters, 'orderId', ''),
             Arr::get($parameters, 'userUsername', ''),

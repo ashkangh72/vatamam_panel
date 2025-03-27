@@ -412,7 +412,7 @@ class User extends Model implements AuthenticatableContract
             $message = setNotificationMessage(
                 'sms_on_reject_auction_to_seller',
                 'sms_text_on_reject_auction_to_seller',
-                ['auctionTitle' => $auction->title]
+                ['auctionTitle' => $auction->title, 'reason' => $auction->reject_reason]
             );
 
             $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
@@ -421,7 +421,7 @@ class User extends Model implements AuthenticatableContract
             $message = setNotificationMessage(
                 'sms_on_reject_product_to_seller',
                 'sms_text_on_reject_product_to_seller',
-                ['productTitle' => $auction->title]
+                ['productTitle' => $auction->title, 'reason' => $auction->reject_reason]
             );
 
             $url = env('WEBSITE_URL') . '/product/' . $auction->slug;

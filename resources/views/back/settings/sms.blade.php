@@ -342,9 +342,9 @@
                                                     <span class="">اطلاع رسانی رد محصول درج شده به فروشنده</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_reject_product_to_seller"
-                                                    placeholder="کاربر گرامی وتمام {newLine} کالای شما {productTitle} در گالری آنلاین رد شد. {newLine}جهت ویرایش کالای خود به پنل کاربری مراجعه کنید" rows="2">{{ option('sms_text_on_reject_product_to_seller') }}</textarea>
+                                                    placeholder="کاربر گرامی وتمام {newLine} کالای شما {productTitle} در گالری آنلاین رد شد. {newLine}جهت ویرایش کالای خود به پنل کاربری مراجعه کنید.{newLine}دلیل رد: {reason}" rows="2">{{ option('sms_text_on_reject_product_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {productTitle} : عنوان کالا
+                                                    {newLine} : خط جدید, {productTitle} : عنوان کالا, {reason} : دلیل رد
                                                 </small>
                                             </fieldset>
 
@@ -362,9 +362,9 @@
                                                     <span class="">اطلاع رسانی رد مزایده درج شده به فروشنده</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_reject_auction_to_seller"
-                                                    placeholder="کاربر گرامی وتمام {newLine} مزایده شما {auctionTitle} در گالری آنلاین رد شد. {newLine}جهت ویرایش کالای خود به پنل کاربری مراجعه کنید" rows="2">{{ option('sms_text_on_reject_auction_to_seller') }}</textarea>
+                                                    placeholder="کاربر گرامی وتمام {newLine} مزایده شما {auctionTitle} در گالری آنلاین رد شد. {newLine}جهت ویرایش کالای خود به پنل کاربری مراجعه کنید.{newLine}دلیل رد: {reason}" rows="2">{{ option('sms_text_on_reject_auction_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {auctionTitle} : عنوان مزایده
+                                                    {newLine} : خط جدید, {auctionTitle} : عنوان مزایده, {reason} : دلیل رد
                                                 </small>
                                             </fieldset>
                                         </div>
