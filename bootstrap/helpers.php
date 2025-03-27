@@ -525,6 +525,7 @@ function notificationChannels(User $user, array $channels, $key): array
     // if ($user->email && $notifiableNotificationSetting->email) $channels[] = 'mail';
     if ($user->phone && $key == NotificationSettingKeyEnum::favorites) $channels[] = SmsChannel::class;
     if ($user->phone && $key == NotificationSettingKeyEnum::auction_accept) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::auction_reject) $channels[] = SmsChannel::class;
     else if ($user->phone && $notifiableNotificationSetting->sms) $channels[] = SmsChannel::class;
     if ($user->push_token && $notifiableNotificationSetting->push) $channels[] = PushChannel::class;
 
