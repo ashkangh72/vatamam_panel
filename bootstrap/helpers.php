@@ -526,6 +526,8 @@ function notificationChannels(User $user, array $channels, $key): array
     if ($user->phone && $key == NotificationSettingKeyEnum::favorites) $channels[] = SmsChannel::class;
     if ($user->phone && $key == NotificationSettingKeyEnum::auction_accept) $channels[] = SmsChannel::class;
     if ($user->phone && $key == NotificationSettingKeyEnum::auction_reject) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::winning_auction) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::auction_refound_check) $channels[] = SmsChannel::class;
     else if ($user->phone && $notifiableNotificationSetting->sms) $channels[] = SmsChannel::class;
     if ($user->push_token && $notifiableNotificationSetting->push) $channels[] = PushChannel::class;
 
@@ -547,6 +549,7 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
             "{auctionTitle}",
             "{productTitle}",
             "{reason}",
+            "{trackingCode}",
             "{orderId}",
             "{userUsername}",
             "{transactionAmount}",
@@ -560,6 +563,7 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
             Arr::get($parameters, 'auctionTitle', ''),
             Arr::get($parameters, 'productTitle', ''),
             Arr::get($parameters, 'reason', ''),
+            Arr::get($parameters, 'trackingCode', ''),
             Arr::get($parameters, 'orderId', ''),
             Arr::get($parameters, 'userUsername', ''),
             Arr::get($parameters, 'transactionAmount', ''),

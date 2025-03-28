@@ -7,6 +7,7 @@ use App\Notifications\{
     AuctionAcceptNotification,
     AuctionBeforeEndNotification,
     AuctionEndNotification,
+    AuctionRefoundCheckNotification,
     AuctionRejectNotification,
     DiscountNotification,
     FavoriteNotification,
@@ -367,8 +368,8 @@ class User extends Model implements AuthenticatableContract
     {
         $title = env('APP_NAME') . " - برنده شدید!";
         $message = setNotificationMessage(
-            'sms_on_winning_auction',
-            'sms_text_on_winning_auction',
+            'sms_on_win_auction_to_buyer',
+            'sms_text_on_win_auction_to_buyer',
             ['auctionTitle' => $auction->title]
         );
         $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
@@ -430,6 +431,21 @@ class User extends Model implements AuthenticatableContract
         if (!$message) return;
 
         $this->notify(new AuctionRejectNotification($auction, $title, $message, $url, 'sell'));
+    }
+
+    public function sendRefoundCheckNotification(Order $order)
+    {
+        $title = env('APP_NAME') . " - بررسی اعلام نارضایتی";
+        $message = setNotificationMessage(
+            'sms_on_accept_unsatisfied_product_to_buyer',
+            'sms_text_on_accept_unsatisfied_product_to_buyer',
+            []
+        );
+        $url = env('WEBSITE_URL') . '/profile/buying/buying-basket/' . $order->id;
+
+        if (!$message) return;
+
+        $this->notify(new AuctionRefoundCheckNotification($order, $title, $message, $url, 'sell'));
     }
 
     function panelNotifies($type)

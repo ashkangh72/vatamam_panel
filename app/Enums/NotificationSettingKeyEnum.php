@@ -21,6 +21,7 @@ enum NotificationSettingKeyEnum: int
     case winning_auction = 5;
     case auction_higher_bid = 6;
     case followed_auction = 7;
+    case auction_refound_check = 18;
 
     // system
     case events = 8;

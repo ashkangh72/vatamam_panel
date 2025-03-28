@@ -81,6 +81,8 @@ class OrderController extends Controller
 
         $order->refund()->update(['status' => 'accepted']);
 
+        $order->user->sendRefoundCheckNotification($order);
+
         return response('success');
     }
 
@@ -94,6 +96,8 @@ class OrderController extends Controller
         $this->authorize('orders.refund.reject');
 
         $order->refund()->update(['status' => 'rejected']);
+
+        $order->user->sendRefoundCheckNotification($order);
 
         return response('success');
     }
