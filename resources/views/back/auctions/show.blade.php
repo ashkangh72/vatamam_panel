@@ -87,7 +87,7 @@
                                                                 <td class="font-weight-bold">ویدئو</td>
                                                                 <td>
                                                                     <a href="{{ $auction->video }}" target="_blank">
-                                                                        <img class="table-img" src="{{ $auction->video }}">
+                                                                        <video class="table-img" src="{{ $auction->video }}">
                                                                     </a>
                                                                 </td>
                                                             </tr>
