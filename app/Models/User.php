@@ -335,8 +335,8 @@ class User extends Model implements AuthenticatableContract
     {
         $title = env('APP_NAME') . " - اتمام مزایده";
         $message = setNotificationMessage(
-            'sms_on_auction_end',
-            'sms_text_on_auction_end',
+            'sms_on_end_auction_to_seller',
+            'sms_text_on_end_auction_to_seller',
             ['auctionTitle' => $auction->title]
         );
         $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
@@ -445,7 +445,23 @@ class User extends Model implements AuthenticatableContract
 
         if (!$message) return;
 
-        $this->notify(new AuctionRefoundCheckNotification($order, $title, $message, $url, 'sell'));
+        $this->notify(new AuctionRefoundCheckNotification($order, $title, $message, $url, 'buy'));
+    }
+
+    public function sendOrderUnSatisfiedNotification(Order $order)
+    {
+        $title = env('APP_NAME') . " - اعلام نارضایتی مشتری";
+        $message = setNotificationMessage(
+            'sms_on_unsatisfied_product_to_seller',
+            'sms_text_on_unsatisfied_product_to_seller',
+            []
+        );
+
+        $url = env('WEBSITE_URL') . '/profile/selling/selling-basket/' . $order->id;
+
+        if (!$message) return;
+
+        $this->notify(new OrderSatisfiedNotification($order, $title, $message, $url, 'sell'));
     }
 
     function panelNotifies($type)
@@ -464,4 +480,5 @@ class User extends Model implements AuthenticatableContract
 
         return 0;
     }
+
 }

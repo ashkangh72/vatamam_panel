@@ -520,7 +520,7 @@ function notificationChannels(User $user, array $channels, $key): array
         ->where('key', $key)
         ->first();
 
-    if (!$notifiableNotificationSetting) return $channels;
+    // if (!$notifiableNotificationSetting) return $channels;
 
     // if ($user->email && $notifiableNotificationSetting->email) $channels[] = 'mail';
     if ($user->phone && $key == NotificationSettingKeyEnum::favorites) $channels[] = SmsChannel::class;
@@ -528,8 +528,10 @@ function notificationChannels(User $user, array $channels, $key): array
     if ($user->phone && $key == NotificationSettingKeyEnum::auction_reject) $channels[] = SmsChannel::class;
     if ($user->phone && $key == NotificationSettingKeyEnum::winning_auction) $channels[] = SmsChannel::class;
     if ($user->phone && $key == NotificationSettingKeyEnum::auction_refound_check) $channels[] = SmsChannel::class;
-    else if ($user->phone && $notifiableNotificationSetting->sms) $channels[] = SmsChannel::class;
-    if ($user->push_token && $notifiableNotificationSetting->push) $channels[] = PushChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::auction_end) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::order_unsatisfied) $channels[] = SmsChannel::class;
+    // else if ($user->phone && $notifiableNotificationSetting->sms) $channels[] = SmsChannel::class;
+    // if ($user->push_token && $notifiableNotificationSetting->push) $channels[] = PushChannel::class;
 
     return $channels;
 }

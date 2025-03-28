@@ -44,12 +44,12 @@ class AuctionWinnerJob implements ShouldQueue
 
         if (Carbon::parse($auction->end_at)->isFuture()) return;
 
-        $auction->user->sendAuctionEndNotification($auction);
-
         if (!$winnerBid || $auction->minimum_sale_price > $winnerBid->amount) {
             $auction->update([
                 'is_ended' => true,
             ]);
+            
+            $auction->user->sendAuctionEndNotification($auction);
 
             if ($this->auction->guaranteed) $this->refundUsersGuarantee();
 
