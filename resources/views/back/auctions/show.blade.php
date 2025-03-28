@@ -101,7 +101,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">حداقل قیمت فروش</td>
-                                                                <td>{{ number_format($auction->minimun_sale_price) }}</td>
+                                                                <td>{{ number_format($auction->minimum_sale_price) }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">قیمت فروش سریع</td>
