@@ -291,6 +291,11 @@ class Auction extends Model
         return $value ? env('API_URL') . '/public' . $value : null;
     }
 
+    public function getVideoAttribute($value): ?string
+    {
+        return $value ? env('API_URL') . '/public' . $value : null;
+    }
+
     public function getUrl(): string
     {
         return env('WEBSITE_URL') . '/auction/' . $this->slug;
