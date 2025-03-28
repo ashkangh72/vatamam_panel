@@ -209,10 +209,10 @@
                                                     <span class="">اطلاع رسانی ارسال کالا توسط فروشنده به
                                                         خریدار</span>
                                                 </div>
-                                                <textarea class="form-control" name="sms_on_send_product_to_buyer"
-                                                    placeholder="کاربر گرامی وتمام {newLine} کالای شما با کد رهگیری {trackingCode} ارسال شد." rows="2">{{ option('sms_on_send_product_to_buyer') }}</textarea>
+                                                <textarea class="form-control" name="sms_text_on_send_product_to_buyer"
+                                                    placeholder="کاربر گرامی وتمام {newLine} کالای شما {trackingCode} ارسال شد." rows="2">{{ option('sms_text_on_send_product_to_buyer') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {trackingCode} : کد رهگیری
+                                                    {newLine} : خط جدید, {trackingCode} :  ...با کد رهگیری
                                                 </small>
                                             </fieldset>
 

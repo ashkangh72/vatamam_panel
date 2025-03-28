@@ -51,7 +51,7 @@ class LogSmsJob implements ShouldQueue
     {
         try {
             $userCountry = UserCountryEnum::from($this->user->country);
-            if ($userCountry == UserCountryEnum::iran) {
+            if ($userCountry == UserCountryEnum::iran && false) {
                 $message = FarazSms::getSms($this->response->bulk_id);
 
                 if ($message->cost == 0 && $message->payback_cost == 0) {
@@ -86,9 +86,9 @@ class LogSmsJob implements ShouldQueue
 
                 if ($this->type == 'otp') return;
 
-                if ($message[0]->status == 10) {
-                    $this->createSmsBoxHistory($smsLog, ceil($message[0]->cost) / 10, "برداشت هزینه پیامک '" . $message[0]->message . "'");
-                }
+                // if ($message[0]->status == 10) {
+                //     $this->createSmsBoxHistory($smsLog, ceil($message[0]->cost) / 10, "برداشت هزینه پیامک '" . $message[0]->message . "'");
+                // }
             }
         } catch (Exception $exception) {
             Log::error("LogSmsJob failed for user_id {$this->user->id} \nbecause: {$exception->getMessage()}.");
