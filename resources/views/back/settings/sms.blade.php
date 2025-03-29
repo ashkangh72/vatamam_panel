@@ -212,7 +212,7 @@
                                                 <textarea class="form-control" name="sms_text_on_send_product_to_buyer"
                                                     placeholder="کاربر گرامی وتمام {newLine} کالای شما {trackingCode} ارسال شد." rows="2">{{ option('sms_text_on_send_product_to_buyer') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {trackingCode} :  ...با کد رهگیری
+                                                    {newLine} : خط جدید, {trackingCode} : ...با کد رهگیری
                                                 </small>
                                             </fieldset>
 
@@ -227,7 +227,7 @@
                                                             <i class="vs-icon feather icon-check"></i>
                                                         </span>
                                                     </span>
-                                                    <span class="">اطلاع رسانی وضعیت اعلام نارضایتی به 
+                                                    <span class="">اطلاع رسانی وضعیت اعلام نارضایتی به
                                                         خریدار</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_accept_unsatisfied_product_to_buyer"
@@ -302,7 +302,8 @@
                                                     <span class="">اطلاع رسانی تایید محصول درج شده به فروشنده</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_accept_product_to_seller"
-                                                    placeholder="کاربر گرامی وتمام {newLine} کالای شما {productTitle} در گالری آنلاین تایید و ثبت شد. {newLine}با تشکر از همراهی شما{newLine}منتظر خریداران وتمام باشید!." rows="2">{{ option('sms_text_on_accept_product_to_seller') }}</textarea>
+                                                    placeholder="کاربر گرامی وتمام {newLine} کالای شما {productTitle} در گالری آنلاین تایید و ثبت شد. {newLine}با تشکر از همراهی شما{newLine}منتظر خریداران وتمام باشید!."
+                                                    rows="2">{{ option('sms_text_on_accept_product_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
                                                     {newLine} : خط جدید, {productTitle} : عنوان کالا
                                                 </small>
@@ -322,7 +323,8 @@
                                                     <span class="">اطلاع رسانی تایید مزایده درج شده به فروشنده</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_accept_auction_to_seller"
-                                                    placeholder="کاربر گرامی وتمام {newLine} مزایده شما {auctionTitle} در گالری آنلاین تایید و ثبت شد. {newLine}با تشکر از همراهی شما{newLine}منتظر خریداران وتمام باشید!." rows="2">{{ option('sms_text_on_accept_auction_to_seller') }}</textarea>
+                                                    placeholder="کاربر گرامی وتمام {newLine} مزایده شما {auctionTitle} در گالری آنلاین تایید و ثبت شد. {newLine}با تشکر از همراهی شما{newLine}منتظر خریداران وتمام باشید!."
+                                                    rows="2">{{ option('sms_text_on_accept_auction_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
                                                     {newLine} : خط جدید, {auctionTitle} : عنوان مزایده
                                                 </small>
@@ -342,7 +344,8 @@
                                                     <span class="">اطلاع رسانی رد محصول درج شده به فروشنده</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_reject_product_to_seller"
-                                                    placeholder="کاربر گرامی وتمام {newLine} کالای شما {productTitle} در گالری آنلاین رد شد. {newLine}جهت ویرایش کالای خود به پنل کاربری مراجعه کنید.{newLine}دلیل رد: {reason}" rows="2">{{ option('sms_text_on_reject_product_to_seller') }}</textarea>
+                                                    placeholder="کاربر گرامی وتمام {newLine} کالای شما {productTitle} در گالری آنلاین رد شد. {newLine}جهت ویرایش کالای خود به پنل کاربری مراجعه کنید.{newLine}دلیل رد: {reason}"
+                                                    rows="2">{{ option('sms_text_on_reject_product_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
                                                     {newLine} : خط جدید, {productTitle} : عنوان کالا, {reason} : دلیل رد
                                                 </small>
@@ -362,11 +365,60 @@
                                                     <span class="">اطلاع رسانی رد مزایده درج شده به فروشنده</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_reject_auction_to_seller"
-                                                    placeholder="کاربر گرامی وتمام {newLine} مزایده شما {auctionTitle} در گالری آنلاین رد شد. {newLine}جهت ویرایش کالای خود به پنل کاربری مراجعه کنید.{newLine}دلیل رد: {reason}" rows="2">{{ option('sms_text_on_reject_auction_to_seller') }}</textarea>
+                                                    placeholder="کاربر گرامی وتمام {newLine} مزایده شما {auctionTitle} در گالری آنلاین رد شد. {newLine}جهت ویرایش کالای خود به پنل کاربری مراجعه کنید.{newLine}دلیل رد: {reason}"
+                                                    rows="2">{{ option('sms_text_on_reject_auction_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
                                                     {newLine} : خط جدید, {auctionTitle} : عنوان مزایده, {reason} : دلیل رد
                                                 </small>
                                             </fieldset>
+                                        </div>
+
+                                        <span class="">سرویس گوش به زنگ و تراکنش های مالی</span>
+                                        <br />
+                                        <br />
+
+                                        <div class="form-group row">
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_notice_auction" type="checkbox"
+                                                        name="sms_on_notice_auction"
+                                                        {{ option('sms_on_notice_auction') == 'on' ? 'checked' : '' }}>
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی سرویس گوش به زنگ</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_notice_auction"
+                                                    placeholder="{siteTitle} - کالای جدید {newLine} کالای {auctionTitle} در دسته بندی موردعلاقه شما ایجاد شده است"
+                                                    rows="2">{{ option('sms_text_on_notice_auction') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {auctionTitle} : عنوان کالا
+                                                </small>
+                                            </fieldset>
+
+
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_send_product_to_buyer" type="checkbox"
+                                                        name="sms_on_send_product_to_buyer"
+                                                        {{ option('sms_on_send_product_to_buyer') == 'on' ? 'checked' : '' }}>
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی تراکنش های مالی</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_transaction"
+                                                    placeholder="{siteTitle} - تراکنش جدید {newLine} تراکنش جدیدی به مبلغ {transactionAmount} جزئیات: {transactionDescription} ایجاد شد"
+                                                    rows="2">{{ option('sms_text_on_transaction') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {transactionAmount} : مقدار, {transactionDescription}: توضیحات
+                                                </small>
+                                            </fieldset>
+
                                         </div>
 
                                         <div class="row">

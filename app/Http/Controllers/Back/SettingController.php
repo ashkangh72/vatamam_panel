@@ -136,22 +136,20 @@ class SettingController extends Controller
         $this->authorize('settings.sms');
 
         $except = [
-            'sms_on_order_paid',
-            'sms_on_auction_end',
-            'sms_on_auction_before_end',
-            'sms_on_thanks_for_buy',
-            'sms_on_winning_auction',
-            'sms_on_auction_higher_bid',
-            'sms_on_followed_auction',
-            'sms_on_notice_auction',
-            'sms_on_transaction',
-            'sms_on_discount',
-            'sms_on_auction_first_bid',
-            'sms_on_auction_accept',
-            'sms_on_auction_reject',
-            'sms_on_auction_create',
-
-
+            // 'sms_on_order_paid',
+            // 'sms_on_auction_end',
+            // 'sms_on_auction_before_end',
+            // 'sms_on_thanks_for_buy',
+            // 'sms_on_winning_auction',
+            // 'sms_on_auction_higher_bid',
+            // 'sms_on_followed_auction',
+            // 'sms_on_discount',
+            // 'sms_on_auction_first_bid',
+            // 'sms_on_auction_accept',
+            // 'sms_on_auction_reject',
+            // 'sms_on_auction_create',
+            
+            
             'sms_on_buy_product_to_seller',
             'sms_on_send_product_to_seller',
             'sms_on_satisfied_product_to_seller',
@@ -163,12 +161,14 @@ class SettingController extends Controller
             'sms_on_accept_unsatisfied_product_to_buyer',
             'sms_on_win_auction_to_buyer',
             'sms_on_buy_product_to_buyer',
-
+            
             'sms_on_accept_product_to_seller',
             'sms_on_accept_auction_to_seller',
             'sms_on_reject_product_to_seller',
             'sms_on_reject_auction_to_seller',
-
+            
+            'sms_on_notice_auction',
+            'sms_on_transaction',
         ];
 
         $texts = [
@@ -188,6 +188,9 @@ class SettingController extends Controller
             'sms_text_on_accept_auction_to_seller',
             'sms_text_on_reject_product_to_seller',
             'sms_text_on_reject_auction_to_seller',
+
+            'sms_text_on_notice_auction',
+            'sms_text_on_transaction',
         ];
 
         $sms = $request->except($except);
