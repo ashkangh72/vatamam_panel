@@ -132,7 +132,7 @@ let auction_datatable = function () {
             sortable: 'desc',
             title: 'تاریخ ثبت',
             template: function (row) {
-                return '<span class="ltr">' + row.created_at + '</span>';
+                return '<span class="ltr">' + row.updated_at + '</span>';
             }
         },
         {

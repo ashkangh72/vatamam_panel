@@ -25,6 +25,10 @@
                     <a href="#">
                         <i class="feather icon-users"></i>
                         <span class="menu-title"> کاربران</span>
+                        @if (auth()->user()->panelNotifies('checkouts') > 0)
+                            <span class="badge badge badge-primary badge-pill float-right mr-2">
+                                {{ auth()->user()->panelNotifies('checkouts') }}</span>
+                        @endIf
                     </a>
                     <ul class="menu-content">
                         @can('users.index')
@@ -50,6 +54,10 @@
                                 <a href="{{ route('admin.wallets.checkouts.index') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">برداشت ها</span>
+                                    @if (auth()->user()->panelNotifies('checkouts') > 0)
+                                        <span class="badge badge badge-primary badge-pill float-right mr-2">
+                                            {{ auth()->user()->panelNotifies('checkouts') }}</span>
+                                    @endIf
                                 </a>
                             </li>
                         @endcan
@@ -71,7 +79,6 @@
                         <i class="feather icon-shopping-cart"></i>
                         <span class="menu-title" style="margin-left: 10px;"> مزایده ها و محصولات</span>
                         @if (auth()->user()->panelNotifies('new_auctions_products') > 0)
-
                             <span class="badge badge badge-primary badge-pill float-right mr-2">
                                 {{ auth()->user()->panelNotifies('new_auctions_products') }}</span>
                         @endIf
@@ -88,7 +95,7 @@
                                     @endIf
                                 </a>
                             </li>
-                            <li class="{{ active_class('admin.products.index')}} nav-item">
+                            <li class="{{ active_class('admin.products.index') }} nav-item">
                                 <a href="{{ route('admin.products.index') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item" style="margin-left: 10px;">لیست محصولات</span>
@@ -465,6 +472,10 @@
                     <a href="{{ route('admin.transactions.index') }}">
                         <i class="feather icon-credit-card"></i>
                         <span class="menu-title"> لیست تراکنش ها</span>
+                        @if (auth()->user()->panelNotifies('transactions') > 0)
+                            <span class="badge badge badge-primary badge-pill float-right mr-2">
+                                {{ auth()->user()->panelNotifies('transactions') }}</span>
+                        @endIf
                     </a>
                 </li>
             @endcan

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AuctionStatusEnum;
+use App\Enums\WalletCheckoutStatusEnum;
 use App\Notifications\{
     AuctionAcceptNotification,
     AuctionBeforeEndNotification,
@@ -12,6 +13,7 @@ use App\Notifications\{
     DiscountNotification,
     FavoriteNotification,
     FollowedAuctionNotification,
+    OrderUnSatisfiedNotification,
     WinningAuctionNotification
 };
 use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasOne, HasMany, MorphMany};
@@ -461,7 +463,7 @@ class User extends Model implements AuthenticatableContract
 
         if (!$message) return;
 
-        $this->notify(new OrderSatisfiedNotification($order, $title, $message, $url, 'sell'));
+        $this->notify(new OrderUnSatisfiedNotification($order, $title, $message, $url, 'sell'));
     }
 
     function panelNotifies($type)
@@ -476,6 +478,15 @@ class User extends Model implements AuthenticatableContract
 
         if ($type == 'new_products') {
             return Auction::where('type', 'product')->where('status', AuctionStatusEnum::pending_approval)->count();
+        }
+
+        if ($type == 'checkouts') {
+            return WalletCheckout::where('status', WalletCheckoutStatusEnum::pending_approval)->count();
+        }
+
+        if ($type == 'transactions') {
+            $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/transactions/api/index' . '%')->orderBy('created_at', 'desc')->first();
+            return is_null($lastLogin) ? Transaction::count() : Transaction::where('created_at', '>', $lastLogin->created_at)->count();
         }
 
         return 0;
