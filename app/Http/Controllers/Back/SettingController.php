@@ -51,18 +51,18 @@ class SettingController extends Controller
             $information['info_logo'] = '/uploads/' . $name;
         }
 
-        if ($request->hasFile('kasbokar')) {
-            $name = uniqid() . '_' . time() . '.' . $request->kasbokar->getClientOriginalExtension();
-            $request->kasbokar->storeAs('/', $name);
+        // if ($request->hasFile('kasbokar')) {
+        //     $name = uniqid() . '_' . time() . '.' . $request->kasbokar->getClientOriginalExtension();
+        //     $request->kasbokar->storeAs('/', $name);
 
-            $old_logo = option('kasbokar');
+        //     $old_logo = option('kasbokar');
 
-            if ($old_logo) {
-                Storage::disk('public')->delete($old_logo);
-            }
+        //     if ($old_logo) {
+        //         Storage::disk('public')->delete($old_logo);
+        //     }
 
-            $information['kasbokar'] = '/uploads/' . $name;
-        }
+        //     $information['kasbokar'] = '/uploads/' . $name;
+        // }
 
         if ($request->hasFile('logo_kasbokar')) {
             $name = uniqid() . '_' . time() . '.' . $request->logo_kasbokar->getClientOriginalExtension();

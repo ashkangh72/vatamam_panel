@@ -170,12 +170,9 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <fieldset class="form-group">
-                                                    <label for="basicInputFile">اتحادیه کسب و کار</label>
+                                                    <label for="basicInputFile">لینک اتحادیه کسب و کار</label>
                                                     <div class="custom-file">
-                                                        <input type="file" accept="*/*" name="kasbokar"
-                                                            class="custom-file-input">
-                                                        <label class="custom-file-label"
-                                                            for="inputGroupFile01">{{ option('kasbokar') ? env('API_URL') . '/public' . option('kasbokar') : '' }}</label>
+                                                        <input type="text" class="form-control" name="kasbokar" value="{{option('kasbokar')}}">
                                                         <p><small>بهترین اندازه <span class="text-danger">500*500</span>
                                                                 پیکسل میباشد.</small></p>
                                                     </div>
