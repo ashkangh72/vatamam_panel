@@ -23,6 +23,7 @@ class User extends JsonResource
             'email' => $this->email,
             'national_id' => $this->national_id,
             'money' => $this->getWallet()->balance,
+            'box' => is_null($this->safeBox) ? 0 : $this->safeBox->balance,
             'created_at' => tverta($this->created_at)->format('%d %B %Y'),
 
             'links' => [

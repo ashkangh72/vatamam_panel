@@ -56,7 +56,7 @@ var user_datatable = function() {
             {
                 field: 'name',
                 title: 'نام',
-                width: 200,
+                width: 180,
                 template: function(row) {
                     return row.name ? row.name : '---';
                 }
@@ -64,7 +64,7 @@ var user_datatable = function() {
             {
                 field: 'username',
                 title: 'نام کاربری',
-                width: 200,
+                width: 120,
                 template: function(row) {
                     return row.username;
                 }
@@ -72,31 +72,40 @@ var user_datatable = function() {
             {
                 field: 'phone',
                 title: 'شماره کاربر',
-                width: 200,
+                width: 120,
                 template: function(row) {
                     return row.phone ? row.phone : '---';
                 }
             },
             {
-                field: 'email',
-                title: 'ایمیل کاربر',
-                width: 200,
+                field: 'national_id',
+                title: 'کد ملی',
+                width: 120,
                 template: function(row) {
-                    return row.email ? row.email : '---';
+                    return row.national_id ? row.national_id : '---';
                 }
             },
             {
-                field: 'national_id',
-                title: 'کد ملی',
-                width: 200,
+                field: 'money',
+                title: 'کیف پول',
+                width: 120,
                 template: function(row) {
-                    return row.national_id ? row.national_id : '---';
+                    return row.money;
+                }
+            },
+            {
+                field: 'box',
+                title: 'صندوق امانات',
+                width: 120,
+                template: function(row) {
+                    return row.box;
                 }
             },
             {
                 field: 'created_at',
                 sortable: 'desc',
                 title: 'تاریخ عضویت',
+                width: 120,
                 template: function(row) {
                     return '<span class="ltr">' + row.created_at + '</span>';
                 }

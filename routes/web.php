@@ -62,6 +62,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::put('user/profile', [UserController::class, 'updateProfile'])->name('user.profile.update');
     Route::get('wallets', [UserController::class, 'indexWallet'])->name('users.wallets');
     Route::post('wallets/api/index', [UserController::class, 'apiIndexWallet'])->name('users.wallets.apiIndex');
+    Route::post('user/blacklist', [UserController::class, 'blackList'])->name('users.blacklist');
 
     Route::get('partners', [PartnerController::class, 'index'])->name('user.partners.index');
     Route::post('partners/accept', [PartnerController::class, 'accept'])->name('user.partners.accept');

@@ -245,7 +245,7 @@ class User extends Model implements AuthenticatableContract
     }
 
     public function reports(): HasOne
-    {
+    {                                          
         return $this->hasOne(UserReport::class, 'user_id', 'id');
     }
 
@@ -485,8 +485,16 @@ class User extends Model implements AuthenticatableContract
         }
 
         if ($type == 'transactions') {
-            $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/transactions/api/index' . '%')->orderBy('created_at', 'desc')->first();
+            $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/admin/transactions' . '%')->orderBy('created_at', 'desc')->first();
             return is_null($lastLogin) ? Transaction::count() : Transaction::where('created_at', '>', $lastLogin->created_at)->count();
+        }
+
+        if ($type == 'checkouts_transactions') {
+            $i = WalletCheckout::where('status', WalletCheckoutStatusEnum::pending_approval)->count();
+            $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/admin/transactions' . '%')->orderBy('created_at', 'desc')->first();
+            $i1 = is_null($lastLogin) ? Transaction::count() : Transaction::where('created_at', '>', $lastLogin->created_at)->count();
+
+            return ($i + $i1);
         }
 
         return 0;

@@ -298,7 +298,11 @@ class Auction extends Model
 
     public function getUrl(): string
     {
-        return env('WEBSITE_URL') . '/auction/' . $this->slug;
+        if($this->type == 'product'){
+            return env('WEBSITE_URL') . '/product/' . $this->slug;
+        }else{
+            return env('WEBSITE_URL') . '/auction/' . $this->slug;
+        }
     }
 
     public function getType(): string

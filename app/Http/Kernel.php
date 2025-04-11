@@ -35,6 +35,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\Viewer::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
@@ -65,6 +66,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         //
+        'Viewer' => \App\Http\Middleware\Viewer::class,
         'Admin' => \App\Http\Middleware\Admin::class,
         'CheckCreator' => \App\Http\Middleware\CheckCreator::class,
         'CheckUserExists' => \App\Http\Middleware\CheckUserExists::class,

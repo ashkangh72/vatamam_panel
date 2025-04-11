@@ -88,6 +88,7 @@ class AuctionController extends Controller
 
         foreach ($request->ids as $id) {
             $auction = Auction::find($id);
+            $auction->slug = $auction->slug . '_' . now() . '_deleted';
             $auction->delete();
         }
 

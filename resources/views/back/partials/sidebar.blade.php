@@ -25,10 +25,6 @@
                     <a href="#">
                         <i class="feather icon-users"></i>
                         <span class="menu-title"> کاربران</span>
-                        @if (auth()->user()->panelNotifies('checkouts') > 0)
-                            <span class="badge badge badge-primary badge-pill float-right mr-2">
-                                {{ auth()->user()->panelNotifies('checkouts') }}</span>
-                        @endIf
                     </a>
                     <ul class="menu-content">
                         @can('users.index')
@@ -45,19 +41,6 @@
                                 <a href="{{ route('admin.users.create') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">ایجاد کاربر</span>
-                                </a>
-                            </li>
-                        @endcan
-
-                        @can('users.wallets.checkouts')
-                            <li class="{{ active_class('admin.wallets.checkouts.index') }}">
-                                <a href="{{ route('admin.wallets.checkouts.index') }}">
-                                    <i class="feather icon-circle"></i>
-                                    <span class="menu-item">برداشت ها</span>
-                                    @if (auth()->user()->panelNotifies('checkouts') > 0)
-                                        <span class="badge badge badge-primary badge-pill float-right mr-2">
-                                            {{ auth()->user()->panelNotifies('checkouts') }}</span>
-                                    @endIf
                                 </a>
                             </li>
                         @endcan
@@ -456,8 +439,7 @@
                 </li>
             @endcan
             @can('comments')
-                <li class="{{ active_class('admin.tickets.*') }} nav-item"><a
-                        href="{{ route('admin.tickets.index') }}">
+                <li class="{{ active_class('admin.tickets.*') }} nav-item"><a href="{{ route('admin.tickets.index') }}">
                         <i class="feather icon-message-circle"></i>
                         <span class="menu-title"> تیکت ها</span>
                         @if ($ticketsCount)
@@ -468,15 +450,39 @@
                 </li>
             @endcan
             @can('transactions')
-                <li class="{{ active_class('admin.transactions.*') }} nav-item">
-                    <a href="{{ route('admin.transactions.index') }}">
-                        <i class="feather icon-credit-card"></i>
-                        <span class="menu-title"> لیست تراکنش ها</span>
-                        @if (auth()->user()->panelNotifies('transactions') > 0)
+                <li class="nav-item has-sub {{ open_class(['admin.transactions.*']) }}"><a href="#"><i
+                            class="feather icon-briefcase"></i><span class="menu-title">مالی</span>
+                        @if (auth()->user()->panelNotifies('checkouts_transactions') > 0)
                             <span class="badge badge badge-primary badge-pill float-right mr-2">
-                                {{ auth()->user()->panelNotifies('transactions') }}</span>
+                                {{ auth()->user()->panelNotifies('checkouts') }}</span>
                         @endIf
                     </a>
+                    <ul class="menu-content">
+                        @can('transactions')
+                            <li class="{{ active_class('admin.transactions.index') }}">
+                                <a href="{{ route('admin.transactions.index') }}">
+                                    <i class="feather icon-credit-card"></i>
+                                    <span class="menu-title"> لیست تراکنش ها</span>
+                                    @if (auth()->user()->panelNotifies('transactions') > 0)
+                                        <span class="badge badge badge-primary badge-pill float-right mr-2">
+                                            {{ auth()->user()->panelNotifies('transactions') }}</span>
+                                    @endIf
+                                </a>
+                            </li>
+                        @endcan
+                        @can('users.wallets.checkouts')
+                            <li class="{{ active_class('admin.wallets.checkouts.index') }}">
+                                <a href="{{ route('admin.wallets.checkouts.index') }}">
+                                    <i class="feather icon-circle"></i>
+                                    <span class="menu-item">برداشت ها</span>
+                                    @if (auth()->user()->panelNotifies('checkouts') > 0)
+                                        <span class="badge badge badge-primary badge-pill float-right mr-2">
+                                            {{ auth()->user()->panelNotifies('checkouts') }}</span>
+                                    @endIf
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
                 </li>
             @endcan
 
