@@ -18,9 +18,6 @@ class Viewer
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!application_installed()) {
-            return $next($request);
-        }
 
         if ($request->method() == 'GET') {
             $uri = strtolower(request()->getRequestUri());

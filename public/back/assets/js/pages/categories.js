@@ -22,7 +22,7 @@ $('#create-category').submit(function(e) {
         data: formData,
         success: function(data) {
             $('.dd-empty').remove();
-            $('.dd').nestable('add', { "id": data.id, "content": '<span class="category-title">' + data.title + '</span><a data-category="' + data.slug + '" class="float-right delete-category dd-nodrag" href="javascript:void(0)"><i class="fa fa-trash text-danger px-1"></i>حذف</a><a data-category="' + data.slug + '"  class="float-right edit-category dd-nodrag" href="javascript:void(0)"><i class="fa fa-pencil text-info px-1"></i>ویرایش</a>' });
+            $('.dd').nestable('add', { "id": data.id, "content": '<span class="category-title">' + data.title + '</span><a data-category="' + data.id + '" class="float-right delete-category dd-nodrag" href="javascript:void(0)"><i class="fa fa-trash text-danger px-1"></i>حذف</a><a data-category="' + data.id + '"  class="float-right edit-category dd-nodrag" href="javascript:void(0)"><i class="fa fa-pencil text-info px-1"></i>ویرایش</a>' });
             $('#create-category').trigger('reset');
 
             categories = $('.dd').nestable('serialize');

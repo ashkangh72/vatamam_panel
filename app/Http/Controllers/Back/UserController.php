@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use App\Models\{Role, User};
+use App\Models\{BlackListAdmin, Role, User};
 use App\Rules\{ValidaPhone, NotSpecialChar};
 use App\Exports\UsersExport;
 use Illuminate\Http\Request;
@@ -29,6 +29,22 @@ class UserController extends Controller
         $this->authorize('users.index');
 
         $users = User::excludeCreator()->filter($request);
+
+        $users = datatable($request, $users);
+
+        return new UserCollection($users);
+    }
+
+    public function indexWallet()
+    {
+        return view('back.users.wallets');
+    }
+
+    public function apiIndexWallet(Request $request)
+    {
+        $this->authorize('users.index');
+
+        $users = User::filter($request);
 
         $users = datatable($request, $users);
 
@@ -124,16 +140,42 @@ class UserController extends Controller
         return response('success');
     }
 
+    public function blackList(Request $request)
+    {
+        $this->authorize('users.update');
+        
+        if (BlackListAdmin::where('user_id', $request->user)->exists()) {
+
+            BlackListAdmin::where('user_id', $request->user)->delete();
+        } else {
+
+            BlackListAdmin::firstOrCreate([
+                'user_id' => $request->user
+            ]);
+        }
+
+        return response([
+            'button_text' => BlackListAdmin::where('user_id', $request->user)->exists()? 'آنبلاک کردن کاربر' : 'بلاک کردن کاربر',
+        ]);
+    }
+
     public function show(User $user)
     {
         $this->authorize('users.view');
 
-        return view('back.users.show', compact('user'));
+        $isBlacklist = BlackListAdmin::where('user_id', $user->id)->exists();
+
+        return view('back.users.show', compact('user', 'isBlacklist'));
     }
 
     public function destroy(User $user, $multiple = false)
     {
         $this->authorize('users.delete', User::class);
+
+        $user->username = $user->username . '_deleted_' . now();
+        $user->phone = $user->phone . '_deleted_' . now();
+        $user->national_id = $user->national_id . '_deleted_' . now();
+        $user->save();
 
         $user->delete();
 

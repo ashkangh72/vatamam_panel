@@ -4,7 +4,7 @@
 
 <head>
     @include('back.partials.meta')
-    <title>پارکینگ پروانه</title>
+    <title>وتمام</title>
 
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/vendors/css/vendors-rtl.min.css') }}">

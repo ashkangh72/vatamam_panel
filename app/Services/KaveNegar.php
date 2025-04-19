@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
  */
 class KaveNegar
 {
-    const APIKEY = "6130566564485A663967784B58322B787436564C4F627436496563494355464F372B2F464E486F747462343D";
+    const APIKEY = "70374D436D6D4D65616B3048314359434872353034456B514B66306A506B6B3257306C7A5A33306A6D68553D";
     const BASEURL = "https://api.kavenegar.com";
 
     /**
@@ -27,7 +27,9 @@ class KaveNegar
      */
     private static function execute(string $method, string $url): object
     {
-        $client = new Client();
+        $client = new Client([
+            'verify' => false 
+        ]);
 
         $result = $client->$method(
             $url,

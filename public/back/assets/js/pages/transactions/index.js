@@ -62,6 +62,13 @@ let transaction_datatable = function() {
                 }
             },
             {
+                field: 'national_id',
+                title: 'کد ملی',
+                template: function(row) {
+                    return row.national_id;
+                }
+            },
+            {
                 field: 'created_at',
                 sortable: 'desc',
                 title: 'تاریخ تراکنش',

@@ -2,14 +2,20 @@
 
 namespace App\Models;
 
-use App\Notifications\{AuctionAcceptNotification,
+use App\Enums\AuctionStatusEnum;
+use App\Enums\WalletCheckoutStatusEnum;
+use App\Notifications\{
+    AuctionAcceptNotification,
     AuctionBeforeEndNotification,
     AuctionEndNotification,
+    AuctionRefoundCheckNotification,
     AuctionRejectNotification,
     DiscountNotification,
     FavoriteNotification,
     FollowedAuctionNotification,
-    WinningAuctionNotification};
+    OrderUnSatisfiedNotification,
+    WinningAuctionNotification
+};
 use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasOne, HasMany, MorphMany};
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -18,10 +24,12 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 
 class User extends Model implements AuthenticatableContract
 {
-    use Authenticatable, HasFactory, Notifiable, Authorizable;
+    use Authenticatable, HasFactory, Notifiable, Authorizable, SoftDeletes;
 
     /**
      * The attributes that are guarded.
@@ -147,38 +155,57 @@ class User extends Model implements AuthenticatableContract
             $query->where('username', 'like', '%' . $username . '%');
         }
 
+        if ($national_id = $request->input('query.national_id')) {
+            $query->where('national_id', 'like', '%' . $national_id . '%');
+        }
+
+        if ($profile = $request->input('query.profile')) {
+            if ($profile == 'completed')
+                $query->whereNotNull('national_id');
+            else if ($profile == 'not_completed')
+                $query->whereNull('national_id');
+        }
+
         if ($phone = $request->input('query.phone')) {
             $query->where('phone', 'like', '%' . $phone . '%');
         }
 
         if ($level = $request->input('query.level')) {
             switch ($level) {
-                case "admin":
-                {
-                    $query->where('level', 'admin');
-                    break;
-                }
-                case "user":
-                {
-                    $query->where('level', 'user');
-                    break;
-                }
+                case "admin": {
+                        $query->where('level', 'admin');
+                        break;
+                    }
+                case "user": {
+                        $query->where('level', 'user');
+                        break;
+                    }
             }
         }
 
         if ($request->sort) {
             switch ($request->sort['field']) {
-                case 'fullname':
-                {
-                    $query->orderBy('first_name', $request->sort['sort'])->orderBy('last_name', $request->sort['sort']);
-                    break;
-                }
-                default:
-                {
-                    if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
-                        $query->orderBy($request->sort['field'], $request->sort['sort']);
+                case 'fullname': {
+                        $query->orderBy('first_name', $request->sort['sort'])->orderBy('last_name', $request->sort['sort']);
+                        break;
                     }
-                }
+                case 'money': {
+                        $query->join('wallets', 'users.id', '=', 'wallets.user_id')->select([
+                            'users.id',
+                            'name',
+                            'username',
+                            'phone',
+                            'email',
+                            'national_id',
+                            'balance'
+                        ])->orderBy('balance', $request->sort['sort']);
+                        break;
+                    }
+                default: {
+                        if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
+                            $query->orderBy($request->sort['field'], $request->sort['sort']);
+                        }
+                    }
             }
         }
 
@@ -209,17 +236,17 @@ class User extends Model implements AuthenticatableContract
 
     public function sendEmailVerificationNotification()
     {
-//        $this->notify(new VerifyEmailNotification());
+        //        $this->notify(new VerifyEmailNotification());
     }
 
     public function auctions(): HasMany
     {
-        return $this->hasMany(Auction::class,'user_id','id');
+        return $this->hasMany(Auction::class, 'user_id', 'id');
     }
 
     public function reports(): HasOne
-    {
-        return $this->hasOne(UserReport::class,'user_id','id');
+    {                                          
+        return $this->hasOne(UserReport::class, 'user_id', 'id');
     }
 
     public function auctionBids(): HasMany
@@ -310,8 +337,8 @@ class User extends Model implements AuthenticatableContract
     {
         $title = env('APP_NAME') . " - اتمام مزایده";
         $message = setNotificationMessage(
-            'sms_on_auction_end',
-            'sms_text_on_auction_end',
+            'sms_on_end_auction_to_seller',
+            'sms_text_on_end_auction_to_seller',
             ['auctionTitle' => $auction->title]
         );
         $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
@@ -343,8 +370,8 @@ class User extends Model implements AuthenticatableContract
     {
         $title = env('APP_NAME') . " - برنده شدید!";
         $message = setNotificationMessage(
-            'sms_on_winning_auction',
-            'sms_text_on_winning_auction',
+            'sms_on_win_auction_to_buyer',
+            'sms_text_on_win_auction_to_buyer',
             ['auctionTitle' => $auction->title]
         );
         $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
@@ -356,13 +383,26 @@ class User extends Model implements AuthenticatableContract
 
     public function sendAuctionAcceptNotification(Auction $auction)
     {
-        $title = env('APP_NAME') . " - تایید مزایده";
-        $message = setNotificationMessage(
-            'sms_on_auction_accept',
-            'sms_text_on_auction_accept',
-            ['auctionTitle' => $auction->title]
-        );
-        $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+        if ($auction->type == 'auction') {
+            $title = env('APP_NAME') . " - تایید مزایده";
+            $message = setNotificationMessage(
+                'sms_on_accept_auction_to_seller',
+                'sms_text_on_accept_auction_to_seller',
+                ['auctionTitle' => $auction->title]
+            );
+
+            $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+        } else {
+            $title = env('APP_NAME') . " - تایید محصول";
+            $message = setNotificationMessage(
+                'sms_on_accept_product_to_seller',
+                'sms_text_on_accept_product_to_seller',
+                ['productTitle' => $auction->title]
+            );
+
+            $url = env('WEBSITE_URL') . '/product/' . $auction->slug;
+        }
+
 
         if (!$message) return;
 
@@ -371,16 +411,93 @@ class User extends Model implements AuthenticatableContract
 
     public function sendAuctionRejectNotification(Auction $auction)
     {
-        $title = env('APP_NAME') . " - رد مزایده";
-        $message = setNotificationMessage(
-            'sms_on_auction_reject',
-            'sms_text_on_auction_reject',
-            ['auctionTitle' => $auction->title]
-        );
-        $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+        if ($auction->type == 'auction') {
+            $title = env('APP_NAME') . " - رد مزایده";
+            $message = setNotificationMessage(
+                'sms_on_reject_auction_to_seller',
+                'sms_text_on_reject_auction_to_seller',
+                ['auctionTitle' => $auction->title, 'reason' => $auction->reject_reason]
+            );
 
+            $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
+        } else {
+            $title = env('APP_NAME') . " - رد محصول";
+            $message = setNotificationMessage(
+                'sms_on_reject_product_to_seller',
+                'sms_text_on_reject_product_to_seller',
+                ['productTitle' => $auction->title, 'reason' => $auction->reject_reason]
+            );
+
+            $url = env('WEBSITE_URL') . '/product/' . $auction->slug;
+        }
         if (!$message) return;
 
         $this->notify(new AuctionRejectNotification($auction, $title, $message, $url, 'sell'));
     }
+
+    public function sendRefoundCheckNotification(Order $order)
+    {
+        $title = env('APP_NAME') . " - بررسی اعلام نارضایتی";
+        $message = setNotificationMessage(
+            'sms_on_accept_unsatisfied_product_to_buyer',
+            'sms_text_on_accept_unsatisfied_product_to_buyer',
+            []
+        );
+        $url = env('WEBSITE_URL') . '/profile/buying/buying-basket/' . $order->id;
+
+        if (!$message) return;
+
+        $this->notify(new AuctionRefoundCheckNotification($order, $title, $message, $url, 'buy'));
+    }
+
+    public function sendOrderUnSatisfiedNotification(Order $order)
+    {
+        $title = env('APP_NAME') . " - اعلام نارضایتی مشتری";
+        $message = setNotificationMessage(
+            'sms_on_unsatisfied_product_to_seller',
+            'sms_text_on_unsatisfied_product_to_seller',
+            []
+        );
+
+        $url = env('WEBSITE_URL') . '/profile/selling/selling-basket/' . $order->id;
+
+        if (!$message) return;
+
+        $this->notify(new OrderUnSatisfiedNotification($order, $title, $message, $url, 'sell'));
+    }
+
+    function panelNotifies($type)
+    {
+        if ($type == 'new_auctions_products') {
+            return Auction::where('status', AuctionStatusEnum::pending_approval)->count();
+        }
+
+        if ($type == 'new_auctions') {
+            return Auction::where('type', 'auction')->where('status', AuctionStatusEnum::pending_approval)->count();
+        }
+
+        if ($type == 'new_products') {
+            return Auction::where('type', 'product')->where('status', AuctionStatusEnum::pending_approval)->count();
+        }
+
+        if ($type == 'checkouts') {
+            return WalletCheckout::where('status', WalletCheckoutStatusEnum::pending_approval)->count();
+        }
+
+        if ($type == 'transactions') {
+            $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/admin/transactions' . '%')->orderBy('created_at', 'desc')->first();
+            return is_null($lastLogin) ? Transaction::count() : Transaction::where('created_at', '>', $lastLogin->created_at)->count();
+        }
+
+        if ($type == 'checkouts_transactions') {
+            $i = WalletCheckout::where('status', WalletCheckoutStatusEnum::pending_approval)->count();
+            $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/admin/transactions' . '%')->orderBy('created_at', 'desc')->first();
+            $i1 = is_null($lastLogin) ? Transaction::count() : Transaction::where('created_at', '>', $lastLogin->created_at)->count();
+
+            return ($i + $i1);
+        }
+
+        return 0;
+    }
+
 }

@@ -4,7 +4,9 @@ namespace App\Jobs;
 
 use App\Models\{User, Notice, Auction};
 use App\Notifications\FavoriteNotification;
+use Exception;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\{ShouldBeUnique, ShouldQueue};
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -23,6 +25,7 @@ class NoticeAuctionJob implements ShouldQueue
     public function __construct(Auction $auction)
     {
         $this->auction = $auction;
+        Log::error("in job notice");
     }
 
     /**
@@ -30,27 +33,48 @@ class NoticeAuctionJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Log::error("in job notice handle");
         $categories[] = $this->auction->category->id;
         $categories = array_unique(array_merge($categories, $this->auction->category->parents()->toArray(), $this->auction->category->allChildCategories()));
+        Log::error($categories);
 
-        $noticesUserIds = Notice::whereRaw("noticeable_type = 'App\Models\Category' AND noticeable_id IN (" . implode(',', $categories) . ")");
+        // $noticesUserIds = Notice::whereRaw("noticeable_type = 'App\Models\Category' AND noticeable_id IN (" . implode(',', $categories) . ")");
+        // if ($this->auction->tags->count() > 0) {
+        //     $noticesUserIds = $noticesUserIds->orWhereRaw("noticeable_type = 'App\Models\Tag' AND noticeable_id IN (" . implode(',', $this->auction->tags->pluck('id')->toArray()) . ")");
+        // }
+        $noticesUserIds = Notice::where(function ($query) use ($categories) {
+            $query->where('noticeable_type', 'App\Models\Category')
+                ->whereIn('noticeable_id', $categories);
+        });
+
         if ($this->auction->tags->count() > 0) {
-            $noticesUserIds = $noticesUserIds->orWhereRaw("noticeable_type = 'App\Models\Tag' AND noticeable_id IN (" . implode(',', $this->auction->tags->pluck('id')->toArray()) . ")");
+            $noticesUserIds = $noticesUserIds->orWere(function ($query) {
+                $query->where('noticeable_type', 'App\Models\Tag')
+                    ->whereIn('noticeable_id', $this->auction->tags->pluck('id')->toArray());
+            });
         }
+        Log::error('$noticesUserIds->count()');
 
         if ($noticesUserIds->count() == 0) return;
+        Log::error('$noticesUserIds->----()');
 
         $users = User::whereIn('id', $noticesUserIds->pluck('user_id'))->get();
+        Log::error($users->count());
 
-        $title = env('APP_NAME') . " - مزایده جدید";
+        $title = env('APP_NAME') . " - " . $this->auction->getType() . " جدید";
         $message = setNotificationMessage(
             'sms_on_notice_auction',
             'sms_text_on_notice_auction',
             ['auctionTitle' => $this->auction->title]
         );
         $url = env('WEBSITE_URL') . '/auction/' . $this->auction->slug;
+        Log::error($message);
 
-        if ($message)
-            Notification::send($users, new FavoriteNotification($this->auction, $title, $message, $url, 'buy'));
+        try {
+            if ($message)
+                Notification::send($users, new FavoriteNotification($this->auction, $title, $message, $url, 'buy'));
+        } catch (Exception $exception) {
+            Log::error("exception in gosh be zang because: {$exception->getMessage()}.");
+        }
     }
 }

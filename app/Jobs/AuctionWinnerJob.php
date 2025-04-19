@@ -17,7 +17,8 @@ class AuctionWinnerJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $auctionId;
-
+    public $auction;
+    
     /**
      * Create a new job instance.
      */
@@ -32,6 +33,7 @@ class AuctionWinnerJob implements ShouldQueue
     public function handle(): void
     {
         $auction = Auction::find($this->auctionId);
+        $this->auction = $auction;
         $winnerBidExists = $auction->bids()->where('is_winner', true)->exists();
         $winnerBid = $auction->bids()
             ->where('type', AuctionBidTypeEnum::bid)
@@ -42,12 +44,12 @@ class AuctionWinnerJob implements ShouldQueue
 
         if (Carbon::parse($auction->end_at)->isFuture()) return;
 
-        $auction->user->sendAuctionEndNotification($auction);
-
         if (!$winnerBid || $auction->minimum_sale_price > $winnerBid->amount) {
             $auction->update([
                 'is_ended' => true,
             ]);
+            
+            $auction->user->sendAuctionEndNotification($auction);
 
             if ($this->auction->guaranteed) $this->refundUsersGuarantee();
 
@@ -67,6 +69,7 @@ class AuctionWinnerJob implements ShouldQueue
                 'user_id' => $winner->id,
                 'seller_id' => $auction->user_id,
                 'quantity' => 1,
+                'status' => OrderStatusEnum::locked,
                 'price' => $winnerBid->amount,
                 'discount_price' => $winnerBid->amount,
                 'discount_amount' => 0,
@@ -77,8 +80,7 @@ class AuctionWinnerJob implements ShouldQueue
         } else {
             $order->update([
                 'price' => $order->price + $winnerBid->amount,
-                'discount_price' => $order->discount_price + $winnerBid->amount,
-                'status' => OrderStatusEnum::locked
+                'discount_price' => $order->discount_price + $winnerBid->amount
             ]);
         }
 

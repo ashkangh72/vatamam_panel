@@ -41,6 +41,7 @@ class Order extends JsonResource
             'shipping_status' => $this->shipping_status,
             'is_refunded' => $this->isRefunded(),
             'refund_status' => $this->isRefunded() ? $this->refund->status : null,
+            'refunded_payment' => $this->isRefunded() ? $this->refund->refunded_payment : null,
 
             'links' => [
                 'view' => route('admin.orders.show', ['order' => $this]),

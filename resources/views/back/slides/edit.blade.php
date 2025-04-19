@@ -118,7 +118,7 @@
                                                 <fieldset class="form-group">
                                                     <label>انتخاب</label>
                                                     <select name="linkable_id" id="linkable_id" class="form-control">
-                                                        @if($slide->linkable_type and $slide->linkable)
+                                                        @if($slide->linkable_type and $slide->linkable_id)
                                                             <option selected value="{{$slide->linkable->id}}">{{$slide->linkable->id . ' - ' . $slide->linkable->title}}</option>
                                                         @endif
                                                     </select>

@@ -37,7 +37,8 @@
                         <div class="card user-statistics-card">
                             <div class="card-header d-flex align-items-start pb-0">
                                 <div>
-                                    <h2 title="{{ convert_number($user->getWallet()->balance()) }}" class="text-bold-700 mb-0">{{ number_format($user->getWallet()->balance()) }}</h2>
+                                    <h2 title="{{ convert_number($user->getWallet()->balance()) }}"
+                                        class="text-bold-700 mb-0">{{ number_format($user->getWallet()->balance()) }}</h2>
                                     <p>موجودی کیف پول</p>
                                 </div>
                                 <div class="avatar bg-rgba-info p-50 m-0">
@@ -48,7 +49,8 @@
                             </div>
                             <div class="card-footer">
                                 <span>
-                                    <a href="{{ route('admin.wallets.show', ['wallet' => $user->getWallet()]) }}" class="card-link">تاریخچه کیف پول <i class="fa fa-angle-left"></i></a>
+                                    <a href="{{ route('admin.wallets.show', ['wallet' => $user->getWallet()]) }}"
+                                        class="card-link">تاریخچه کیف پول <i class="fa fa-angle-left"></i></a>
                                 </span>
                             </div>
                         </div>
@@ -68,7 +70,8 @@
                             </div>
                             <div class="card-footer">
                                 <span>
-                                    <a href="{{ route('admin.orders.index', ['username' => $user->username]) }}" class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
+                                    <a href="{{ route('admin.orders.index', ['username' => $user->username]) }}"
+                                        class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
                                 </span>
                             </div>
                         </div>
@@ -77,7 +80,8 @@
                         <div class="card user-statistics-card">
                             <div class="card-header d-flex align-items-start pb-0">
                                 <div>
-                                    <h2 class="text-bold-700 mb-0">{{ $user->comments()->whereNull('comment_id')->count() }}</h2>
+                                    <h2 class="text-bold-700 mb-0">{{ $user->comments()->whereNull('comment_id')->count() }}
+                                    </h2>
                                     <p>تعداد نظرات(غیرپاسخ)</p>
                                 </div>
                                 <div class="avatar bg-rgba-success p-50 m-0">
@@ -88,7 +92,8 @@
                             </div>
                             <div class="card-footer">
                                 <span>
-                                    <a href="{{ route('admin.comments.index', ['username' => $user->username]) }}" class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
+                                    <a href="{{ route('admin.comments.index', ['username' => $user->username]) }}"
+                                        class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
                                 </span>
                             </div>
                         </div>
@@ -97,7 +102,8 @@
                         <div class="card user-statistics-card">
                             <div class="card-header d-flex align-items-start pb-0">
                                 <div>
-                                    <h2 title="کل بازدید: {{ $user->views()->count() }}" class="text-bold-700 mb-0">{{ $user->views()->whereDate('created_at', now())->count() }}</h2>
+                                    <h2 title="کل بازدید: {{ $user->views()->count() }}" class="text-bold-700 mb-0">
+                                        {{ $user->views()->whereDate('created_at', now())->count() }}</h2>
                                     <p>بازدید امروز</p>
                                 </div>
                                 <div class="avatar bg-rgba-warning p-50 m-0">
@@ -108,21 +114,23 @@
                             </div>
                             <div class="card-footer">
                                 <span>
-                                    <a href="{{ route('admin.users.views', ['user' => $user]) }}" class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
+                                    <a href="{{ route('admin.users.views', ['user' => $user]) }}" class="card-link">مشاهده
+                                        همه <i class="fa fa-angle-left"></i></a>
                                 </span>
                             </div>
                         </div>
                     </div>
 
                     @php
-                        $orders_sum = $user->orders()->paid()->sum('price')
+                        $orders_sum = $user->orders()->paid()->sum('price');
                     @endphp
 
                     <div class="col-lg-3 col-sm-6 col-12">
                         <div class="card user-statistics-card">
                             <div class="card-header d-flex align-items-start pb-0">
                                 <div>
-                                    <h2 title="ارزش سفارشات: {{ number_format($orders_sum) }} تومان" class="text-bold-700 mb-0">{{ formatPriceUnits($orders_sum) }}</h2>
+                                    <h2 title="ارزش سفارشات: {{ number_format($orders_sum) }} تومان"
+                                        class="text-bold-700 mb-0">{{ formatPriceUnits($orders_sum) }}</h2>
                                     <p>ارزش سفارشات موفق</p>
                                 </div>
                                 <div class="avatar bg-rgba-primary p-50 m-0">
@@ -133,14 +141,15 @@
                             </div>
                             <div class="card-footer">
                                 <span>
-                                    <a href="{{ route('admin.orders.index', ['username' => $user->username]) }}" class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
+                                    <a href="{{ route('admin.orders.index', ['username' => $user->username]) }}"
+                                        class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <section  class="card">
+                <section class="card">
                     <div class="card-header">
                         <h4 class="card-title">مشخصات کاربر</h4>
                     </div>
@@ -175,7 +184,8 @@
                                                             <tr>
                                                                 <td class="font-weight-bold">تاریخ ثبت نام</td>
                                                                 <td>
-                                                                    <abbr title="{{ tverta($user->created_at) }}">{{ tverta($user->created_at) }}</abbr>
+                                                                    <abbr
+                                                                        title="{{ tverta($user->created_at) }}">{{ tverta($user->created_at) }}</abbr>
                                                                 </td>
                                                             </tr>
 
@@ -189,15 +199,18 @@
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">آدرس</td>
-                                                                <td>{{ $user->address ? $user->address->province->name . ' - ' . $user->address->city->name : '--' }}</td>
+                                                                <td>{{ $user->address ? $user->address->province->name . ' - ' . $user->address->city->name : '--' }}
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">کد پستی</td>
-                                                                <td>{{ $user->address ? $user->address->postal_code : '--' }}</td>
+                                                                <td>{{ $user->address ? $user->address->postal_code : '--' }}
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">آدرس کامل</td>
-                                                                <td>{{ $user->address ? $user->address->address : '--' }}</td>
+                                                                <td>{{ $user->address ? $user->address->address : '--' }}
+                                                                </td>
                                                             </tr>
 
 
@@ -205,7 +218,20 @@
                                                     </div>
                                                     <div class="col-md-10 offset-md-1 mt-2">
                                                         @can('users.update')
-                                                            <a href="{{ route('admin.users.edit', ['user' => $user]) }}" class="btn btn-warning mr-1"><i class="feather icon-edit-1"></i> ویرایش</a>
+                                                            <a href="{{ route('admin.users.edit', ['user' => $user]) }}"
+                                                                class="btn btn-warning mr-1"><i
+                                                                    class="feather icon-edit-1"></i> ویرایش</a>
+                                                        @endcan
+                                                    </div>
+                                                    <div class="col-md-10 offset-md-1 mt-2">
+                                                        @can('users.update')
+                                                            <div>
+                                                                <button id="btn-blacklist" data-toggle="modal"
+                                                                    data-target="#blacklist-modal" type="button"
+                                                                    class="btn btn-danger waves-effect waves-light">{{ $isBlacklist
+                                                                        ? 'انبلاک کردن کاربر'
+                                                                        : 'بلاک کردن کاربر' }}</button>
+                                                            </div>
                                                         @endcan
                                                     </div>
                                                 </div>
@@ -232,7 +258,8 @@
                                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
                                         <ul class="list-inline mb-0">
-                                            <li><a data-action="collapse"><i class="feather icon-chevron-down"></i></a></li>
+                                            <li><a data-action="collapse"><i class="feather icon-chevron-down"></i></a>
+                                            </li>
                                             <li><a data-action="expand"><i class="feather icon-maximize"></i></a></li>
                                         </ul>
                                     </div>
@@ -243,27 +270,30 @@
                                         <div class="table-responsive">
                                             <table class="table table-striped mb-0">
                                                 <thead>
-                                                <tr>
-                                                    <th>شماره سفارش</th>
-                                                    <th>تاریخ</th>
-                                                    <th>مبلغ</th>
-                                                    <th>وضعیت</th>
-                                                    <th class="text-center">عملیات</th>
-                                                </tr>
+                                                    <tr>
+                                                        <th>شماره سفارش</th>
+                                                        <th>تاریخ</th>
+                                                        <th>مبلغ</th>
+                                                        <th>وضعیت</th>
+                                                        <th class="text-center">عملیات</th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach ($user->orders()->latest()->take(5)->get() as $order)
-                                                    <tr>
-                                                        <td>{{ $order->id }}</td>
-                                                        <td title="{{ tverta($order->created_at) }}">{{ tverta($order->created_at) }}</td>
-                                                        <td title="{{ convert_number($order->price) }} تومان">{{ number_format($order->price) }}</td>
-                                                        <td>{{ $order->statusText() }}</td>
-                                                        <td class="text-center">
-                                                            <a href="{{ route('admin.orders.show', ['order' => $order]) }}" class="btn btn-warning waves-effect waves-light">مشاهده</a>
-                                                        </td>
+                                                    @foreach ($user->orders()->latest()->take(5)->get() as $order)
+                                                        <tr>
+                                                            <td>{{ $order->id }}</td>
+                                                            <td title="{{ tverta($order->created_at) }}">
+                                                                {{ tverta($order->created_at) }}</td>
+                                                            <td title="{{ convert_number($order->price) }} تومان">
+                                                                {{ number_format($order->price) }}</td>
+                                                            <td>{{ $order->statusText() }}</td>
+                                                            <td class="text-center">
+                                                                <a href="{{ route('admin.orders.show', ['order' => $order]) }}"
+                                                                    class="btn btn-warning waves-effect waves-light">مشاهده</a>
+                                                            </td>
 
-                                                    </tr>
-                                                @endforeach
+                                                        </tr>
+                                                    @endforeach
 
                                                 </tbody>
                                             </table>
@@ -286,26 +316,29 @@
                                         <div class="table-responsive">
                                             <table class="table table-striped mb-0">
                                                 <thead>
-                                                <tr>
-                                                    <th>دیدگاه</th>
-                                                    <th class="text-center">وضعیت</th>
-                                                </tr>
+                                                    <tr>
+                                                        <th>دیدگاه</th>
+                                                        <th class="text-center">وضعیت</th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach ($user->comments()->latest()->get() as $comment)
-                                                    <tr>
-                                                        <td style="max-width: 300px">{{ $comment->body }}</td>
-                                                        <td class="text-center">
-                                                            @if($comment->status == 'pending')
-                                                                <div class="badge badge-pill badge-warning badge-md">منتظر تایید</div>
-                                                            @elseif($comment->status == 'accepted')
-                                                                <div class="badge badge-pill badge-success badge-md">تایید شده</div>
-                                                            @else
-                                                                <div class="badge badge-pill badge-danger badge-md">تایید نشده</div>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
+                                                    @foreach ($user->comments()->latest()->get() as $comment)
+                                                        <tr>
+                                                            <td style="max-width: 300px">{{ $comment->body }}</td>
+                                                            <td class="text-center">
+                                                                @if ($comment->status == 'pending')
+                                                                    <div class="badge badge-pill badge-warning badge-md">
+                                                                        منتظر تایید</div>
+                                                                @elseif($comment->status == 'accepted')
+                                                                    <div class="badge badge-pill badge-success badge-md">
+                                                                        تایید شده</div>
+                                                                @else
+                                                                    <div class="badge badge-pill badge-danger badge-md">
+                                                                        تایید نشده</div>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
 
                                                 </tbody>
                                             </table>
@@ -313,7 +346,8 @@
                                     </div>
                                     <div class="card-footer text-muted text-right">
                                         <span>
-                                            <a href="#" class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
+                                            <a href="#" class="card-link">مشاهده همه <i
+                                                    class="fa fa-angle-left"></i></a>
                                         </span>
                                     </div>
                                 @else
@@ -338,29 +372,33 @@
                                         <div class="table-responsive">
                                             <table class="table table-striped mb-0">
                                                 <thead>
-                                                <tr>
-                                                    <th style="min-width: 200px;">تاریخ</th>
-                                                    <th>ip</th>
-                                                    <th>platform</th>
-                                                    <th class="text-center">آدرس</th>
-                                                </tr>
+                                                    <tr>
+                                                        <th style="min-width: 200px;">تاریخ</th>
+                                                        <th>ip</th>
+                                                        <th>platform</th>
+                                                        <th class="text-center">آدرس</th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach($user->views()->latest()->take(10)->get() as $view)
-                                                    <tr>
-                                                        <td class="ltr">{{ jdate($view->created_at) }}</td>
-                                                        <td>{{ $view->ip }}</td>
-                                                        <td>{{ get_option_property($view->options, 'platform') }}</td>
-                                                        <td class="ltr text-right"><a class="text-dark" target="_blank" href="{{ url(urldecode($view->path)) }}">{{ urldecode($view->path) }}</a></td>
-                                                    </tr>
-                                                @endforeach
+                                                    @foreach ($user->views()->latest()->take(10)->get() as $view)
+                                                        <tr>
+                                                            <td class="ltr">{{ jdate($view->created_at) }}</td>
+                                                            <td>{{ $view->ip }}</td>
+                                                            <td>{{ get_option_property($view->options, 'platform') }}</td>
+                                                            <td class="ltr text-right"><a class="text-dark"
+                                                                    target="_blank"
+                                                                    href="{{ url(urldecode($view->path)) }}">{{ urldecode($view->path) }}</a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                     <div class="card-footer text-muted text-right">
                                         <span>
-                                            <a href="{{ route('admin.users.views', ['user' => $user]) }}" class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
+                                            <a href="{{ route('admin.users.views', ['user' => $user]) }}"
+                                                class="card-link">مشاهده همه <i class="fa fa-angle-left"></i></a>
                                         </span>
                                     </div>
                                 @else
@@ -380,7 +418,8 @@
     </div>
 
     {{-- delete user modal --}}
-    <div class="modal fade text-left" id="user-delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel19" style="display: none;" aria-hidden="true">
+    <div class="modal fade text-left" id="user-delete-modal" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel19" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -396,7 +435,8 @@
                     <form action="#" id="user-delete-form">
                         @csrf
                         @method('delete')
-                        <button type="button" class="btn btn-success waves-effect waves-light" data-dismiss="modal">خیر</button>
+                        <button type="button" class="btn btn-success waves-effect waves-light"
+                            data-dismiss="modal">خیر</button>
                         <button type="submit" class="btn btn-danger waves-effect waves-light">بله حذف شود</button>
                     </form>
                 </div>
@@ -405,7 +445,7 @@
     </div>
 
     {{-- delete post modal --}}
-    <div class="modal fade text-left" id="delete-modal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal fade text-left" id="delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -415,13 +455,14 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    با حذف درخواست  دیگر قادر به بازیابی آن نخواهید بود
+                    با حذف درخواست دیگر قادر به بازیابی آن نخواهید بود
                 </div>
                 <div class="modal-footer">
                     <form action="#" id="agency-delete-form">
                         @csrf
                         @method('delete')
-                        <button type="button" class="btn btn-success waves-effect waves-light" data-dismiss="modal">خیر</button>
+                        <button type="button" class="btn btn-success waves-effect waves-light"
+                            data-dismiss="modal">خیر</button>
                         <button type="submit" class="btn btn-danger waves-effect waves-light">بله حذف شود</button>
                     </form>
                 </div>
@@ -429,8 +470,63 @@
         </div>
     </div>
 
+    <div class="modal fade text-left" id="blacklist-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel19">آیا مطمئن هستید؟</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="{{ route('admin.users.blacklist', ['user' => $user]) }}" id="blacklist-form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">
+                            خیر
+                        </button>
+                        <button type="submit" class="btn btn-success waves-effect waves-light">بله</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script src="{{ asset('public/back/assets/js/pages/users/show.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#blacklist-form').on('submit', function (e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+                $('#blacklist-modal').modal('hide');
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    success: function (data) {
+                        $('#btn-blacklist').text(data.button_text);
+                        toastr.success('تغییرات با موفقیت ثبت شد.');
+                    },
+                    beforeSend: function (xhr) {
+                        block('#main-card');
+                        xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
+                    },
+                    complete: function () {
+                        unblock('#main-card');
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                });
+            });
+        });
+    </script>
 @endpush

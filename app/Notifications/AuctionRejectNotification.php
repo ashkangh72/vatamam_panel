@@ -38,14 +38,14 @@ class AuctionRejectNotification extends Notification implements ShouldQueue
         return notificationChannels($notifiable, $channels, NotificationSettingKeyEnum::auction_reject);
     }
 
-    public function toMail($notifiable)
-    {
-        try {
-            return (new NotificationMail($notifiable, $this->title, $this->message, $this->url))->to($notifiable->email);
-        } catch (Exception $exception) {
-            Log::error("AuctionRejectNotification toMail failed for user_id {$notifiable->id} because: {$exception->getMessage()}.");
-        }
-    }
+    // public function toMail($notifiable)
+    // {
+    //     try {
+    //         return (new NotificationMail($notifiable, $this->title, $this->message, $this->url))->to($notifiable->email);
+    //     } catch (Exception $exception) {
+    //         Log::error("AuctionRejectNotification toMail failed for user_id {$notifiable->id} because: {$exception->getMessage()}.");
+    //     }
+    // }
 
     /**
      * @throws GuzzleException

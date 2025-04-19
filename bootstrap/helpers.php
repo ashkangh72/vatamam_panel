@@ -6,10 +6,11 @@ use Carbon\Carbon;
 use App\Jobs\LogSmsJob;
 use App\Enums\UserCountryEnum;
 use App\Channels\{PushChannel, SmsChannel};
+use App\Enums\NotificationSettingKeyEnum;
 use App\Models\{Tag, User, Option, UserOption, Viewer};
 use App\Services\{FarazSms, KaveNegar, NajvaService};
 use GuzzleHttp\Exception\GuzzleException;
-use Illuminate\Support\Facades\{Artisan, Cache, Route};
+use Illuminate\Support\Facades\{Artisan, Cache, Log, Route};
 use Illuminate\Support\{Str, Arr};
 
 /* add active class to li */
@@ -77,6 +78,12 @@ function user_option_update($option_name, $option_value, $user_id = null): void
 
     $option->option_value = $option_value;
     $option->save();
+}
+
+function convertPrice($price)
+{
+    $price = floor($price);
+    return number_format($price, 0, '.', '.');
 }
 
 function user_option($option_name, $default_value = '', $user_id = null)
@@ -334,15 +341,36 @@ function convert_number($number)
         "نونزده"
     );
     $tens = array(
-        "", "", "بیست", "سی", "چهل", "پنجاه", "شصت", "هفتاد", "هشتاد", "نود"
+        "",
+        "",
+        "بیست",
+        "سی",
+        "چهل",
+        "پنجاه",
+        "شصت",
+        "هفتاد",
+        "هشتاد",
+        "نود"
     );
     $tows = array(
-        "", "صد", "دویست", "سیصد", "چهار صد", "پانصد", "ششصد", "هفتصد", "هشت صد", "نه صد"
+        "",
+        "صد",
+        "دویست",
+        "سیصد",
+        "چهار صد",
+        "پانصد",
+        "ششصد",
+        "هفتصد",
+        "هشت صد",
+        "نه صد"
     );
 
-    if (($number < 0) || ($number > 999999999)) {
+    if (($number < 0) || ($number > 999999999999)) {
         throw new Exception("Number is out of range");
     }
+    $Tn = floor($number / 1000000000);
+    /* Millions (tra) */
+    $number -= $Tn * 1000000;
     $Gn = floor($number / 1000000);
     /* Millions (giga) */
     $number -= $Gn * 1000000;
@@ -357,6 +385,9 @@ function convert_number($number)
     $n = $number % 10;
     /* Ones */
     $res = "";
+    if ($Tn) {
+        $res .= convert_number($Tn) . " میلیارد و ";
+    }
     if ($Gn) {
         $res .= convert_number($Gn) . " میلیون و ";
     }
@@ -433,17 +464,17 @@ function get_option_property($obj, $property)
 function sendSms(string $message, User $user, string $type): void
 {
     $userCountry = ($user->country instanceof UserCountryEnum) ? $user->country : UserCountryEnum::from($user->country);
-    if ($userCountry == UserCountryEnum::iran) {
-        if ($user->smsBox->balance < 500) return;
+    // if ($userCountry == UserCountryEnum::iran) {
+    //     if ($user->smsBox->balance < 500) return;
 
-        $response = FarazSms::sendSms($message, [getCountryCode($userCountry) . $user->phone]);
-        $delay = 10;
-    } else {
-        if ($user->smsBox->balance < 15000) return;
+    //     $response = FarazSms::sendSms($message, [getCountryCode($userCountry) . $user->phone]);
+    //     $delay = 10;
+    // } else {
+    //     if ($user->smsBox->balance < 15000) return;
 
-        $response = KaveNegar::sendSms($message, [getCountryCode($userCountry) . $user->phone]);
-        $delay = 30;
-    }
+    $response = KaveNegar::sendSms($message, [getCountryCode($userCountry) . $user->phone]);
+    $delay = 30;
+    // }
 
     if (!$response) return;
 
@@ -489,11 +520,18 @@ function notificationChannels(User $user, array $channels, $key): array
         ->where('key', $key)
         ->first();
 
-    if (!$notifiableNotificationSetting) return $channels;
+    // if (!$notifiableNotificationSetting) return $channels;
 
-    if ($user->email && $notifiableNotificationSetting->email) $channels[] = 'mail';
-    if ($user->phone && $notifiableNotificationSetting->sms) $channels[] = SmsChannel::class;
-    if ($user->push_token && $notifiableNotificationSetting->push) $channels[] = PushChannel::class;
+    // if ($user->email && $notifiableNotificationSetting->email) $channels[] = 'mail';
+    if ($user->phone && $key == NotificationSettingKeyEnum::favorites) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::auction_accept) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::auction_reject) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::winning_auction) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::auction_refound_check) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::auction_end) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::order_unsatisfied) $channels[] = SmsChannel::class;
+    // else if ($user->phone && $notifiableNotificationSetting->sms) $channels[] = SmsChannel::class;
+    // if ($user->push_token && $notifiableNotificationSetting->push) $channels[] = PushChannel::class;
 
     return $channels;
 }
@@ -508,15 +546,32 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
 
     return str_replace(
         [
-            "{newLine}", "{siteTitle}", "{orderId}", "{userUsername}", "{auctionTitle}", "{transactionAmount}",
-            "{transactionAmount}", "{discountType}", "{discountAmount}"
+            "{newLine}",
+            "{siteTitle}",
+            "{auctionTitle}",
+            "{productTitle}",
+            "{reason}",
+            "{trackingCode}",
+            "{orderId}",
+            "{userUsername}",
+            "{transactionAmount}",
+            "{transactionAmount}",
+            "{discountType}",
+            "{discountAmount}"
         ],
         [
-            "\n", env('APP_NAME'),
-            Arr::get($parameters, 'orderId', ''), Arr::get($parameters, 'userUsername', ''),
-            Arr::get($parameters, 'auctionTitle', ''), Arr::get($parameters, 'transactionAmount', ''),
-            Arr::get($parameters, 'transactionDescription', ''), Arr::get($parameters, 'discountType', ''),
-            Arr::get($parameters, 'discountAmount', '')
+            "\n",
+            env('APP_NAME'),
+            Arr::get($parameters, 'auctionTitle', ''),
+            Arr::get($parameters, 'productTitle', ''),
+            Arr::get($parameters, 'reason', ''),
+            Arr::get($parameters, 'trackingCode', ''),
+            Arr::get($parameters, 'orderId', ''),
+            Arr::get($parameters, 'userUsername', ''),
+            Arr::get($parameters, 'transactionAmount', ''),
+            Arr::get($parameters, 'transactionDescription', ''),
+            Arr::get($parameters, 'discountType', ''),
+            Arr::get($parameters, 'discountAmount', ''),
         ],
         $message
     );

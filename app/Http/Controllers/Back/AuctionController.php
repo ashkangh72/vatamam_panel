@@ -32,6 +32,35 @@ class AuctionController extends Controller
         $this->authorize('auctions.index');
 
         $auctions = Auction::with(['user', 'category'])
+            ->where('type', 'auction')
+            ->orderBy('status')
+            ->orderByDesc('created_at')
+            ->filter($request);
+
+        $auctions = datatable($request, $auctions);
+
+        return new AuctionCollection($auctions);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function indexProducts()
+    {
+        $this->authorize('auctions.index');
+
+        return view('back.auctions.index_products');
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function apiIndexProducts(Request $request)
+    {
+        $this->authorize('auctions.index');
+        $auctions = Auction::with(['user', 'category'])
+            ->where('type', 'product')
+            ->orderBy('status')
             ->orderByDesc('created_at')
             ->filter($request);
 
@@ -49,16 +78,17 @@ class AuctionController extends Controller
 
         $request->validate([
             'ids' => 'required|array',
-            'ids.*' => [
-                Rule::exists('auctions', 'id')->where(function ($query) {
-                    $query->where('status', '!=', AuctionStatusEnum::approved)
-                        ->orWhere('is_ended', true);
-                })
-            ]
+            // 'ids.*' => [
+            //     Rule::exists('auctions', 'id')->where(function ($query) {
+            //         $query->where('status', '!=', AuctionStatusEnum::approved)
+            //             ->orWhere('is_ended', true);
+            //     })
+            // ]
         ]);
 
         foreach ($request->ids as $id) {
             $auction = Auction::find($id);
+            $auction->slug = $auction->slug . '_' . now() . '_deleted';
             $auction->delete();
         }
 
@@ -77,16 +107,23 @@ class AuctionController extends Controller
         ]);
 
         $auction = Auction::where('id', $validated['id'])->first();
-        $difference = Carbon::parse($auction->created_at)->diffInMinutes(Carbon::parse($auction->end_at));
-        $auction->status = AuctionStatusEnum::approved;
-        $auction->end_at = Carbon::now()->addMinutes($difference);
-        $auction->save();
+        if ($auction->type == 'auction') {
+            // $difference = Carbon::parse($auction->updated_at)->diffInMinutes(Carbon::parse($auction->end_at));
+            // $auction->end_at = Carbon::now()->addMinutes($difference);
+            $auction->status = AuctionStatusEnum::approved;
+            $auction->save();
 
-        dispatch(new AuctionWinnerJob($auction->id))->delay(Carbon::parse($auction->end_at)->addMinute());
-        dispatch(new FollowedAuctionJob($auction->id))->delay(Carbon::parse($auction->end_at)->subHours(3));
-        dispatch(new NoticeAuctionJob($auction))->delay(Carbon::now()->addMinutes(10));
+            // dispatch(new AuctionWinnerJob($auction->id))->delay(Carbon::parse($auction->end_at)->addMinute());
+            // dispatch(new FollowedAuctionJob($auction->id))->delay(Carbon::parse($auction->end_at)->subHours(3));
+            dispatch(new NoticeAuctionJob($auction))->delay(Carbon::now()->addMinutes(10));
 
-        $auction->user->sendAuctionBeforeEndNotification($auction);
+            $auction->user->sendAuctionBeforeEndNotification($auction);
+        } else {
+            $auction->status = AuctionStatusEnum::approved;
+            $auction->save();
+
+            dispatch(new NoticeAuctionJob($auction))->delay(Carbon::now()->addMinutes(10));
+        }
         $auction->user->sendAuctionAcceptNotification($auction);
 
         return response('success');
@@ -104,13 +141,13 @@ class AuctionController extends Controller
             'reason' => ['required', 'string'],
         ]);
 
-        $auction = Auction::where('id', $validated['id']);
+        $auction = Auction::where('id', $validated['id'])->first();
         $auction->update([
             'status' => AuctionStatusEnum::rejected,
             'reject_reason' => $validated['reason']
         ]);
 
-        $auction->user->sendAuctionRejectNotification($auction);
+        $auction->user->sendAuctionRejectNotification(Auction::find($auction->id));
 
         return response('success');
     }
@@ -137,5 +174,12 @@ class AuctionController extends Controller
         }
 
         return response()->json([]);
+    }
+
+    public function show(Auction $auction)
+    {
+        $this->authorize('auctions.index');
+
+        return view('back.auctions.show', compact('auction'));
     }
 }

@@ -26,6 +26,15 @@ class WidgetOption extends Model
         return $this->belongsToMany(Category::class, 'widget_option_categories');
     }
 
+    /**
+     * @return BelongsToMany
+     */
+    public function auctions(): BelongsToMany
+    {
+        return $this->belongsToMany(Auction::class, 'widget_option_auctions');
+    }
+
+
     public function hasCategory(): bool
     {
         return $this->value == 'on';

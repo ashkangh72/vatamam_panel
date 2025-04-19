@@ -4,6 +4,7 @@ use App\Http\Controllers\Back\{AuctionController,
     CategoryController,
     CityController,
     CommentController,
+    CommissionTariffController,
     DeveloperController,
     DiscountController,
     LinkController,
@@ -21,6 +22,7 @@ use App\Http\Controllers\Back\{AuctionController,
     SliderController,
     SmsController,
     StatisticsController,
+    TicketController,
     TransactionController,
     UserController,
     WalletCheckoutController,
@@ -58,6 +60,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('users/{user}/views', [UserController::class, 'views'])->name('users.views');
     Route::get('user/profile', [UserController::class, 'showProfile'])->name('user.profile.show');
     Route::put('user/profile', [UserController::class, 'updateProfile'])->name('user.profile.update');
+    Route::get('wallets', [UserController::class, 'indexWallet'])->name('users.wallets');
+    Route::post('wallets/api/index', [UserController::class, 'apiIndexWallet'])->name('users.wallets.apiIndex');
+    Route::post('user/blacklist', [UserController::class, 'blackList'])->name('users.blacklist');
 
     Route::get('partners', [PartnerController::class, 'index'])->name('user.partners.index');
     Route::post('partners/accept', [PartnerController::class, 'accept'])->name('user.partners.accept');
@@ -74,12 +79,15 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::post('wallet-checkouts/reject', [WalletCheckoutController::class, 'reject'])->name('wallets.checkouts.reject');
 
     // ------------------ auctions
+    Route::get('auctions/{auction}', [AuctionController::class, 'show'])->name('auctions.show');
     Route::get('auctions', [AuctionController::class, 'index'])->name('auctions.index');
     Route::post('auctions/api/index', [AuctionController::class, 'apiIndex'])->name('auctions.apiIndex');
     Route::post('auctions/accept', [AuctionController::class, 'accept'])->name('auctions.accept');
     Route::post('auctions/reject', [AuctionController::class, 'reject'])->name('auctions.reject');
     Route::delete('auctions/api/multipleDestroy', [AuctionController::class, 'multipleDestroy'])->name('auctions.multipleDestroy');
     Route::get('auctions/title', [AuctionController::class, 'getAuctionByTitle'])->name('auctions.search.title');
+    Route::get('products', [AuctionController::class, 'indexProducts'])->name('products.index');
+    Route::post('products/api/index', [AuctionController::class, 'apiIndexProducts'])->name('products.apiIndex');
 
     // ------------------ categories
     Route::resource('categories', CategoryController::class)->only(['index', 'update', 'destroy', 'store', 'edit']);
@@ -134,6 +142,14 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('comments/{comment}/replies', [CommentController::class, "replies"])->name('comments.replies');
     Route::resource('comments', CommentController::class)->only(['index', 'show', 'destroy', 'update']);
 
+    // ------------------ tickets
+    Route::get('tickets/{ticket}/replies', [TicketController::class, "replies"])->name('tickets.replies');
+    Route::get('tickets', [TicketController::class, "index"])->name('tickets.index');
+    Route::delete('tickets/{ticket}', [TicketController::class, "destroy"])->name('tickets.destroy');
+    Route::post('tickets/{ticket}/close', [TicketController::class, "close"])->name('tickets.close');
+    Route::post('tickets/{ticket}/reply', [TicketController::class, "reply"])->name('tickets.reply');
+    // Route::resource('tickets', TicketController::class)->only(['index', 'show', 'destroy', 'update']);
+
     // ------------------ transactions
     Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);
     Route::post('transactions/api/index', [TransactionController::class, 'apiIndex'])->name('transactions.apiIndex');
@@ -185,6 +201,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('file-manager', [MainController::class, 'fileManager'])->name('file-manager');
     Route::get('file-manager-iframe', [MainController::class, 'fileManagerIframe'])->name('file-manager-iframe');
 
+    // commission tariffs
+    Route::resource('commission_tariffs', CommissionTariffController::class)->except(['show']);
 });
 
 Route::middleware('auth')->group(function () {

@@ -291,11 +291,53 @@ class Auction extends Model
         return $value ? env('API_URL') . '/public' . $value : null;
     }
 
-    public function getUrl(): string
+    public function getVideoAttribute($value): ?string
     {
-        return env('WEBSITE_URL') . '/auction/' . $this->slug;
+        return $value ? env('API_URL') . '/public' . $value : null;
     }
 
+    public function getUrl(): string
+    {
+        if($this->type == 'product'){
+            return env('WEBSITE_URL') . '/product/' . $this->slug;
+        }else{
+            return env('WEBSITE_URL') . '/auction/' . $this->slug;
+        }
+    }
+
+    public function getType(): string
+    {
+        return match ($this->type) {
+            'product' => 'محصول',
+            'auction' => 'مزایده'
+        };
+    }
+
+    public function scopeApproved($query)
+    {
+        $query->where('status', AuctionStatusEnum::approved);
+
+        return $query;
+    }
+
+    public function scopeNotEnded($query)
+    {
+        if ($this->type == 'auction') {
+            $query->where('is_ended', false);//->orWhere('end_at', '<', now()->addMonths(-1));
+        } else {
+            $query->where('is_ended', false);
+        }
+
+        return $query;
+    }
+
+    public function scopeAuction($query)
+    {
+        $query->where('type', 'auction');
+
+        return $query;
+    }
+    
     public function scopeFilter($query, Request $request)
     {
         if ($title = $request->input('query.title')) {

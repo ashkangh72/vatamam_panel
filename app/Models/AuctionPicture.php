@@ -18,4 +18,8 @@ class AuctionPicture extends Model
         return $this->belongsTo(Auction::class);
     }
 
+    public function getPathAttribute($value): ?string
+    {
+        return $value ? env('API_URL') . '/public' . $value : null;
+    }
 }

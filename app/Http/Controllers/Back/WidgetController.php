@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Back;
 
 use App\Enums\WidgetKeyEnum;
 use App\Http\Controllers\Controller;
-use App\Models\{Category, HistoricalPeriod, Originality, Widget};
+use App\Models\{Auction, Category, HistoricalPeriod, Originality, Widget};
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\{Request, Response};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -58,7 +59,11 @@ class WidgetController extends Controller
         $keys = implode(',', WidgetKeyEnum::getNames());
 
         $request->validate([
-            'key' => "required|in:$keys",
+            'key' => [
+                'required',
+                "in:$keys",
+                'unique:widgets'
+            ],
             'options' => 'required|array',
             'is_active' => 'boolean'
         ]);
@@ -132,7 +137,6 @@ class WidgetController extends Controller
         $this->saveWidgetOptions($widget, $options);
 
         toastr()->success('ابزارک با موفقیت ویرایش شد');
-
         return response('success');
     }
 
@@ -192,10 +196,11 @@ class WidgetController extends Controller
         }
 
         $categories = Category::orderBy('ordering')->get();
+        $auctions = Auction::approved()->notEnded()->auction()->get();
         $historicalPeriods = HistoricalPeriod::get();
         $originality = Originality::get();
 
-        return view('back.widgets.template', compact('options', 'widget', 'categories', 'historicalPeriods', 'originality'));
+        return view('back.widgets.template', compact('options', 'widget', 'categories', 'historicalPeriods', 'originality', 'auctions'));
     }
 
     private function getRequestOptions($key, $request, Widget $widget): array
@@ -206,37 +211,36 @@ class WidgetController extends Controller
             switch ($option['input-type']) {
                 case 'select':
                 case 'categories':
+                case 'auctions':
                 case 'input':
                 case 'historical_period':
                 case 'originality':
                 case 'condition':
-                case 'timezone':
-                {
-                    $options[$key]['input-type'] = $option['input-type'];
-                    $options[$key]['key'] = $option['key'];
-                    $options[$key]['value'] = $request->input('options.' . $option['key']);
-                    break;
-                }
-                case 'file':
-                {
-                    $file = $request->file('options.' . $option['key']);
+                case 'timezone': {
+                        $options[$key]['input-type'] = $option['input-type'];
+                        $options[$key]['key'] = $option['key'];
+                        $options[$key]['value'] = $request->input('options.' . $option['key']);
+                        break;
+                    }
+                case 'file': {
+                        $file = $request->file('options.' . $option['key']);
 
-                    if ($file) {
-                        $oldFile = $widget->option($option['key']);
-                        if ($oldFile && Storage::disk('local')->exists($oldFile)) {
-                            Storage::disk('local')->delete($oldFile);
+                        if ($file) {
+                            $oldFile = $widget->option($option['key']);
+                            if ($oldFile && Storage::disk('local')->exists($oldFile)) {
+                                Storage::disk('local')->delete($oldFile);
+                            }
+
+                            $options[$key]['value'] = $this->uploadImage($file);
+                        } else {
+                            $options[$key]['value'] = $widget->option($option['key']);
                         }
 
-                        $options[$key]['value'] = $this->uploadImage($file);
-                    } else {
-                        $options[$key]['value'] = $widget->option($option['key']);
+                        $options[$key]['input-type'] = $option['input-type'];
+                        $options[$key]['key'] = $option['key'];
+
+                        break;
                     }
-
-                    $options[$key]['input-type'] = $option['input-type'];
-                    $options[$key]['key'] = $option['key'];
-
-                    break;
-                }
             }
         }
 
@@ -247,29 +251,40 @@ class WidgetController extends Controller
     {
         foreach ($options as $option) {
             switch ($option['input-type']) {
-                case 'categories':
-                {
-                    $value = is_array($option['value']) && !empty($option['value']) ? 'on' : 'off';
+                case 'categories': {
+                        $value = is_array($option['value']) && !empty($option['value']) ? 'on' : 'off';
 
-                    $inserted_option = $widget->options()->create([
-                        'key' => $option['key'],
-                        'value' => $value
-                    ]);
+                        $inserted_option = $widget->options()->create([
+                            'key' => $option['key'],
+                            'value' => $value
+                        ]);
 
-                    $inserted_option->categories()->sync($option['value']);
+                        $inserted_option->categories()->sync($option['value']);
 
-                    break;
-                }
+                        break;
+                    }
 
-                default:
-                {
-                    if (is_null($option['value'])) break;
+                case 'auctions': {
+                        $value = is_array($option['value']) && !empty($option['value']) ? 'on' : 'off';
 
-                    $widget->options()->create([
-                        'key' => $option['key'],
-                        'value' => $option['value']
-                    ]);
-                }
+                        $inserted_option = $widget->options()->create([
+                            'key' => $option['key'],
+                            'value' => $value
+                        ]);
+
+                        $inserted_option->auctions()->sync($option['value']);
+
+                        break;
+                    }
+
+                default: {
+                        if (is_null($option['value'])) break;
+
+                        $widget->options()->create([
+                            'key' => $option['key'],
+                            'value' => $option['value']
+                        ]);
+                    }
             }
         }
     }

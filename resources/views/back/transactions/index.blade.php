@@ -82,6 +82,16 @@
                                                 </select>
                                             </fieldset>
                                         </div>
+                                        <div class="col-md-2">
+                                            <label>نوع</label>
+                                            <fieldset class="form-group">
+                                                <select name="transaction_type" class="form-control datatable-filter">
+                                                    <option value="all" {{ request('transaction_type') == 'all' ? 'selected' : '' }}>همه</option>
+                                                    <option value="by_admin" {{ request('transaction_type') == '1' ? 'selected' : '' }}>تراکنش های دستی</option>
+                                                    <option value="others" {{ request('transaction_type') == '0' ? 'selected' : '' }}>سایر تراکنش ها</option>
+                                                </select>
+                                            </fieldset>
+                                        </div>
                                     </div>
 
                                 </form>

@@ -13,7 +13,12 @@
             <tr>
                 <th scope="row">نوع تراکنش</th>
                 <td>
-                    @if (in_array($history->type, [\App\Enums\WalletHistoryTypeEnum::deposit, \App\Enums\WalletHistoryTypeEnum::admin_deposit, \App\Enums\WalletHistoryTypeEnum::refund]))
+                    @if (in_array($history->type, [
+                            \App\Enums\WalletHistoryTypeEnum::deposit,
+                            \App\Enums\WalletHistoryTypeEnum::admin_deposit,
+                            \App\Enums\WalletHistoryTypeEnum::income,
+                            \App\Enums\WalletHistoryTypeEnum::refund
+                        ]))
                         افزایش اعتبار
                         <div class="badge badge-success ml-1">
                             <i class="feather icon-arrow-up"></i>
