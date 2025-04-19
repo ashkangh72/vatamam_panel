@@ -30,10 +30,10 @@ class Order extends JsonResource
             'user_profile' => route('admin.users.show', ['user' => $this->user_id]),
             'seller_profile' => route('admin.users.show', ['user' => $this->seller_id]),
             'user' => [
-                'name' => $this->user->name,
+                'name' => is_null($this->user) ? '-' : $this->user->name, 
             ],
             'seller' => [
-                'name' => $this->seller->name,
+                'name' => is_null($this->seller) ? '-' : $this->seller->name,
             ],
             'created_at' => $formattedCreatedAt,
             'price' => number_format($this->price) . ' تومان',

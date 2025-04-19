@@ -183,10 +183,10 @@
                                                     <span class="">اطلاع رسانی پایان مزایده به فروشنده</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_end_auction_to_seller"
-                                                    placeholder="کاربر گرامی وتمام!{newLine}زمان مزایده شما به اتمام رسید متاسفانه پیشنهادی به حداقل میزان مبلغ فروش نرسید لطفا جهت ثبت مجدد یا ویرایش مزایده خود به پنل کاربری خود مراجعه کنید"
+                                                    placeholder="کاربر گرامی وتمام!{newLine}زمان مزایده شما {auctionTilte} به اتمام رسید متاسفانه پیشنهادی به حداقل میزان مبلغ فروش نرسید لطفا جهت ثبت مجدد یا ویرایش مزایده خود به پنل کاربری خود مراجعه کنید"
                                                     rows="2">{{ option('sms_text_on_end_auction_to_seller') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید
+                                                    {newLine} : خط جدید, {auctionTitle}: عنوان مزایده
                                                 </small>
                                             </fieldset>
                                         </div>
