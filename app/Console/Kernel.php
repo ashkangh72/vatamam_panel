@@ -31,6 +31,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('call:winner_job')
             ->everyMinute();
 
+        $schedule->command('call:wallet_checkout_transaction')
+            ->everyMinute();
+
         $schedule->call(function () {
             option_update('schedule_run', now());
         })->everyMinute();
