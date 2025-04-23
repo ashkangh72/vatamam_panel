@@ -12,9 +12,13 @@ $('#checkout-accept-form').on('submit', function (event) {
         type: 'POST',
         data: formData,
         success: function (data) {
-            toastr.success('برداشت با موفقیت تایید شد.');
+            if(data.success == 400){
+                toastr.error(data.message);
+            }else{
+                toastr.success(data.message);
 
-            location.reload();
+                location.reload();
+            }
         },
         beforeSend: function (xhr) {
             block('#main-card');

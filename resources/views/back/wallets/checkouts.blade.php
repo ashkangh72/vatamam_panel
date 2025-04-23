@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="content-body">
-                @if($walletCheckouts->count())
+                @if ($walletCheckouts->count())
                     <section class="card">
                         <div class="card-header">
                             <h4 class="card-title">لیست برداشت ها</h4>
@@ -46,35 +46,44 @@
                                                     <td class="text-center">{{ $walletCheckout->id }}</td>
                                                     <td>
                                                         <a href="{{ Route::has('admin.users.show') ? route('admin.users.show', ['user' => $walletCheckout->user]) : '' }}"
-                                                           target="_blank"><i class="feather icon-external-link"></i>
+                                                            target="_blank"><i class="feather icon-external-link"></i>
                                                         </a>
                                                         {{ $walletCheckout->user->name ?? '--' }}
                                                     </td>
                                                     <td>{{ number_format($walletCheckout->user->wallet->balance) }}</td>
                                                     <td>{{ number_format($walletCheckout->amount) }}</td>
-                                                    <td>{{ jdate($walletCheckout->created_at)->format('%d %B %Y H:i:s') }}</td>
+                                                    <td>{{ jdate($walletCheckout->created_at)->format('%d %B %Y H:i:s') }}
+                                                    </td>
                                                     <td>
-                                                        @switch($walletCheckout->status)
-                                                            @case(\App\Enums\WalletCheckoutStatusEnum::pending_approval)
-                                                                <div class="badge badge-pill badge-info badge-md">در انتظار بررسی</div>
-                                                                @break
-                                                            @case(\App\Enums\WalletCheckoutStatusEnum::approved)
-                                                                <div class="badge badge-pill badge-success badge-md">تایید شده</div>
-                                                                @break
-                                                            @case(\App\Enums\WalletCheckoutStatusEnum::rejected)
-                                                                <div class="badge badge-pill badge-danger badge-md">رد شده</div>
-                                                                @break
-                                                        @endswitch
+                                                        @if ($walletCheckout->status == \App\Enums\WalletCheckoutStatusEnum::pending_approval)
+                                                            <div class="badge badge-pill badge-info badge-md">در انتظار
+                                                                بررسی</div>
+                                                        @elseif($walletCheckout->status == \App\Enums\WalletCheckoutStatusEnum::rejected)
+                                                            <div class="badge badge-pill badge-danger badge-md">رد شده</div>
+                                                        @elseif($walletCheckout->walletCheckoutTransaction && $walletCheckout->walletCheckoutTransaction->status == 'TRANSFERRED')
+                                                            <div class="badge badge-pill badge-success badge-md">انتقال وجه با موفقیت انجام شد</div>
+                                                        @elseif($walletCheckout->walletCheckoutTransaction && $walletCheckout->walletCheckoutTransaction->status == 'FAILED')
+                                                            <div class="badge badge-pill badge-danger badge-md">انتقال وجه ناموفق بود</div>
+                                                        @elseif($walletCheckout->walletCheckoutTransaction && $walletCheckout->walletCheckoutTransaction->status == 'TRANSFERRED_REVERTED')
+                                                            <div class="badge badge-pill badge-success badge-md">انتقال وجه برگشت داده شد</div>
+                                                        @elseif($walletCheckout->walletCheckoutTransaction && $walletCheckout->walletCheckoutTransaction->status == 'FAILED_WRONG')
+                                                            <div class="badge badge-pill badge-danger badge-md">انتقال وجه ناموفق بود</div>
+                                                        @else
+                                                            <div class="badge badge-pill badge-warning badge-md">در حال
+                                                                انجام تراکنش برداشت</div>
+                                                        @endif
                                                     </td>
 
                                                     <td class="text-center">
                                                         <div class="btn-group-vertical">
-                                                            @if($walletCheckout->status != \App\Enums\WalletCheckoutStatusEnum::approved)
-                                                                <a data-id="{{ $walletCheckout->id }}" id="accept-btn" href="#"
-                                                                   class="btn btn-outline-success waves-effect waves-light">تایید</a>
+                                                            @if ($walletCheckout->status != \App\Enums\WalletCheckoutStatusEnum::approved)
+                                                                <a data-id="{{ $walletCheckout->id }}" id="accept-btn"
+                                                                    href="#"
+                                                                    class="btn btn-outline-success waves-effect waves-light">تایید</a>
 
-                                                                <a data-id="{{ $walletCheckout->id }}" id="reject-btn" href="#"
-                                                                   class="btn btn-outline-danger waves-effect waves-light">رد</a>
+                                                                <a data-id="{{ $walletCheckout->id }}" id="reject-btn"
+                                                                    href="#"
+                                                                    class="btn btn-outline-danger waves-effect waves-light">رد</a>
                                                             @endif
                                                         </div>
                                                     </td>
@@ -106,7 +115,7 @@
         </div>
     </div>
 
-    <div class="modal fade text-left" id="checkout-accept-modal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal fade text-left" id="checkout-accept-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -121,14 +130,15 @@
                 <div class="modal-footer">
                     <form action="{{ route('admin.wallets.checkouts.accept') }}" id="checkout-accept-form">
                         @csrf
-                        <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">خیر</button>
+                        <button type="button" class="btn btn-danger waves-effect waves-light"
+                            data-dismiss="modal">خیر</button>
                         <button type="submit" class="btn btn-success waves-effect waves-light">بله تایید شود</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade text-left" id="checkout-reject-modal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal fade text-left" id="checkout-reject-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -143,7 +153,8 @@
                 <div class="modal-footer">
                     <form action="{{ route('admin.wallets.checkouts.reject') }}" id="checkout-reject-form">
                         @csrf
-                        <button type="button" class="btn btn-success waves-effect waves-light" data-dismiss="modal">خیر</button>
+                        <button type="button" class="btn btn-success waves-effect waves-light"
+                            data-dismiss="modal">خیر</button>
                         <button type="submit" class="btn btn-danger waves-effect waves-light">بله رد شود</button>
                     </form>
                 </div>

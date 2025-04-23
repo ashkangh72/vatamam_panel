@@ -18,8 +18,16 @@ class WalletCheckout extends Model
         return $this->belongsTo(Wallet::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function walletCheckoutTransaction()
+    {
+        return $this->hasOne(WalletCheckoutTransaction::class);
     }
 }

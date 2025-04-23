@@ -8,8 +8,11 @@ use App\Enums\{WalletCheckoutStatusEnum, WalletHistoryTypeEnum};
 use App\Models\WalletCheckout;
 use Illuminate\Auth\Access\AuthorizationException;
 use App\Http\Controllers\Controller;
+use App\Models\WalletCheckoutTransaction;
+use App\Services\JibitService;
 use Illuminate\Http\Response;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Log;
 
 class WalletCheckoutController extends Controller
 {
@@ -37,25 +40,50 @@ class WalletCheckoutController extends Controller
 
         $request->validate([
             'id' => [
-                'required', 'numeric', Rule::exists('wallet_checkouts', 'id')
+                'required',
+                'numeric',
+                Rule::exists('wallet_checkouts', 'id')
                     ->whereIn('status', [WalletCheckoutStatusEnum::pending_approval, WalletCheckoutStatusEnum::rejected])
             ]
         ]);
 
         $walletCheckout = WalletCheckout::find($request->id);
-        $wallet = $walletCheckout->user->wallet;
-        $wallet->histories()->create([
-            'type' => WalletHistoryTypeEnum::withdraw,
-            'amount' => $walletCheckout->amount,
-            'description' => 'برداشت از کیف پول',
-            'success' => true,
-            'balance' => $wallet->balance - $walletCheckout->amount
-        ]);
-        $wallet->refreshBalance();
 
-        $walletCheckout->update(['status' => WalletCheckoutStatusEnum::approved]);
 
-        return response('success');
+        //jibit
+        $jibit = new JibitService();
+        $jibitResult = $jibit->settlement($walletCheckout->amount, $walletCheckout->user);
+        if ($jibitResult) {
+            $state = 'DESTINATION_PROCESSING';
+            foreach ($jibitResult->records as $record) {
+                if($record->recordType == 'PRIME'){
+                    $state = $record->state;
+                }
+            }
+
+            WalletCheckoutTransaction::create([
+                'reference_number' => $jibitResult->referenceNumber,
+                'track_id' => $jibitResult->trackId,
+                'owner_code' => $jibitResult->ownerCode,
+                'request_channel' => $jibitResult->requestChannel,
+                'type' => $jibitResult->type,
+                'source_iban' => $jibitResult->sourceIban,
+                'destination_iban' => $jibitResult->destinationIban,
+                'total_amount' => $jibitResult->totalAmount,
+                'created_at_jibit' => $jibitResult->createdAt,
+                'updated_at_jibit' => $jibitResult->updatedAt,
+                'records' => $jibitResult->records,
+                'status' => $state,
+                'wallet_checkout_id' => $walletCheckout->id,
+            ]);
+    
+            $walletCheckout->update(['status' => WalletCheckoutStatusEnum::approved]);
+        } else {
+            return response(['success' => 400, 'message' => 'خطا در ارسال درخواست برداشت به سرویس جیبیت']);
+        }
+
+
+        return response(['success' => 200, 'message' => 'درخواست برداشت با موفقیت ارسال شد']);
     }
 
     /**
@@ -68,8 +96,11 @@ class WalletCheckoutController extends Controller
         $this->authorize('users.wallets.checkouts.reject');
 
         $request->validate([
-            'id' => ['required', 'numeric', Rule::exists('wallet_checkouts', 'id')
-                ->whereIn('status', [WalletCheckoutStatusEnum::pending_approval, WalletCheckoutStatusEnum::rejected])
+            'id' => [
+                'required',
+                'numeric',
+                Rule::exists('wallet_checkouts', 'id')
+                    ->whereIn('status', [WalletCheckoutStatusEnum::pending_approval, WalletCheckoutStatusEnum::rejected])
             ]
         ]);
 
