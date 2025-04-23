@@ -1227,6 +1227,12 @@ return [
                     'attributes' => 'required'
                 ],
                 [
+                    'title' => 'انتخاب محصول (اختیاری)',
+                    'key' => 'products',
+                    'input-type' => 'products',
+                    'class' => 'col-md-12',
+                ],
+                [
                     'title' => 'انتخاب دسته بندی ها (اختیاری)',
                     'key' => 'categories',
                     'input-type' => 'categories',

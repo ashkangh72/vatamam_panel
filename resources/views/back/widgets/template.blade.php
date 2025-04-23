@@ -16,6 +16,10 @@
             @include('back.widgets.partials.auctions')
         @break
 
+        @case('products')
+            @include('back.widgets.partials.products')
+        @break
+
         @case('categories')
             @include('back.widgets.partials.categories')
         @break

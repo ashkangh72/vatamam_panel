@@ -197,10 +197,11 @@ class WidgetController extends Controller
 
         $categories = Category::orderBy('ordering')->get();
         $auctions = Auction::approved()->notEnded()->auction()->get();
+        $products = Auction::approved()->notEnded()->product()->get();
         $historicalPeriods = HistoricalPeriod::get();
         $originality = Originality::get();
 
-        return view('back.widgets.template', compact('options', 'widget', 'categories', 'historicalPeriods', 'originality', 'auctions'));
+        return view('back.widgets.template', compact('options', 'widget', 'categories', 'historicalPeriods', 'originality', 'auctions', 'products'));
     }
 
     private function getRequestOptions($key, $request, Widget $widget): array
@@ -212,6 +213,7 @@ class WidgetController extends Controller
                 case 'select':
                 case 'categories':
                 case 'auctions':
+                case 'products':
                 case 'input':
                 case 'historical_period':
                 case 'originality':
@@ -263,7 +265,7 @@ class WidgetController extends Controller
 
                         break;
                     }
-
+                case 'products':
                 case 'auctions': {
                         $value = is_array($option['value']) && !empty($option['value']) ? 'on' : 'off';
 

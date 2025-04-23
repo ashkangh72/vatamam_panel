@@ -338,6 +338,13 @@ class Auction extends Model
         return $query;
     }
     
+    public function scopeProduct($query)
+    {
+        $query->where('type', 'product');
+
+        return $query;
+    }
+
     public function scopeFilter($query, Request $request)
     {
         if ($title = $request->input('query.title')) {
