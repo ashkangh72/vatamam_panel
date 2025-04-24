@@ -115,7 +115,7 @@
                                                         <td class="text-center">
                                                             {{ $ticket->id }}
                                                         </td>
-                                                        <td style="white-space: nowrap">{{ $ticket->user->name ?: '---' }}
+                                                        <td style="white-space: nowrap">{{ is_null($ticket->user) ? '---' : $ticket->user->name}}
                                                         </td>
                                                         <td style="max-width: 300px">
                                                             {{ short_content($ticket->title, 20, false) }}</td>
