@@ -26,10 +26,10 @@ class JibitService
      */
     public function __construct()
     {
-        $jibitOptions = Option::whereIn('name', ['jibit_access_token', 'jibit_refresh_token', 'jibit_options_last_update'])->get();
-        $jibitAccessToken = $jibitOptions->where('name', 'jibit_access_token')->first();
-        $jibitRefreshToken = $jibitOptions->where('name', 'jibit_refresh_token')->first();
-        $jibitOptionsLastUpdate = $jibitOptions->where('name', 'jibit_options_last_update')->first();
+        $jibitOptions = Option::whereIn('name', ['jibit_access_token_bank', 'jibit_refresh_token_bank', 'jibit_options_last_update_bank'])->get();
+        $jibitAccessToken = $jibitOptions->where('name', 'jibit_access_token_bank')->first();
+        $jibitRefreshToken = $jibitOptions->where('name', 'jibit_refresh_token_bank')->first();
+        $jibitOptionsLastUpdate = $jibitOptions->where('name', 'jibit_options_last_update_bank')->first();
 
         if ($jibitOptions->count() && Carbon::parse($jibitOptionsLastUpdate->value)->addHours(23) > Carbon::now()) {
             $this->accessToken = $jibitAccessToken->value;
@@ -37,9 +37,9 @@ class JibitService
             $tokens = $this->generateToken();
             $this->accessToken = $tokens->accessToken;
 
-            Option::updateOrCreate(['name' => 'jibit_access_token'], ['value' => $tokens->accessToken]);
-            Option::updateOrCreate(['name' => 'jibit_refresh_token'], ['value' => $tokens->refreshToken]);
-            Option::updateOrCreate(['name' => 'jibit_options_last_update'], ['value' => Carbon::now()->format('Y-m-d H:i:s')]);
+            Option::updateOrCreate(['name' => 'jibit_access_token_bank'], ['value' => $tokens->accessToken]);
+            Option::updateOrCreate(['name' => 'jibit_refresh_token_bank'], ['value' => $tokens->refreshToken]);
+            Option::updateOrCreate(['name' => 'jibit_options_last_update_bank'], ['value' => Carbon::now()->format('Y-m-d H:i:s')]);
         }
     }
 
