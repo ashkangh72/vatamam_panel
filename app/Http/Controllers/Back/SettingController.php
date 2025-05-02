@@ -169,6 +169,9 @@ class SettingController extends Controller
             
             'sms_on_notice_auction',
             'sms_on_transaction',
+
+            'sms_on_auction_higher_bid',
+            'sms_on_auction_bid',
         ];
 
         $texts = [
@@ -191,6 +194,9 @@ class SettingController extends Controller
 
             'sms_text_on_notice_auction',
             'sms_text_on_transaction',
+
+            'sms_text_on_auction_higher_bid',
+            'sms_text_on_auction_bid',
         ];
 
         $sms = $request->except($except);

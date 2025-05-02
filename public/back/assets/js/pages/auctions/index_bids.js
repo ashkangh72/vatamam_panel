@@ -89,7 +89,7 @@ let auction_datatable = function () {
         {
             field: 'base_price',
             title: 'قیمت پایه',
-            width: 100,
+            width: 150,
             template: function (row) {
                 return row.base_price;
             }
@@ -97,7 +97,7 @@ let auction_datatable = function () {
         {
             field: 'username',
             title: 'نام کاربر',
-            width: 100,
+            width: 150,
             template: function (row) {
                 return row.username;
             }
@@ -140,7 +140,7 @@ let auction_datatable = function () {
             title: 'عملیات',
             textAlign: 'center',
             sortable: false,
-            width: 300,
+            width: 150,
             overflow: 'visible',
             autoHide: false,
             template: function (row) {

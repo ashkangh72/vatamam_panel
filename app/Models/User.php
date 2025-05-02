@@ -435,6 +435,12 @@ class User extends Model implements AuthenticatableContract
         $this->notify(new AuctionRejectNotification($auction, $title, $message, $url, 'sell'));
     }
 
+    /**
+     * Send a notification to user when the unsatisfied product is sent to admin for checking
+     *
+     * @param Order $order
+     * @return void
+     */
     public function sendRefoundCheckNotification(Order $order)
     {
         $title = env('APP_NAME') . " - بررسی اعلام نارضایتی";

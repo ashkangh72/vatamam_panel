@@ -415,11 +415,62 @@
                                                     placeholder="{siteTitle} - تراکنش جدید {newLine} تراکنش جدیدی به مبلغ {transactionAmount} جزئیات: {transactionDescription} ایجاد شد"
                                                     rows="2">{{ option('sms_text_on_transaction') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {transactionAmount} : مقدار, {transactionDescription}: توضیحات
+                                                    {newLine} : خط جدید, {transactionAmount} : مقدار,
+                                                    {transactionDescription}: توضیحات
                                                 </small>
                                             </fieldset>
 
                                         </div>
+
+
+                                        <span class="">ثبت پیشنهاد برای مزایده</span>
+                                        <br />
+                                        <br />
+
+                                        <div class="form-group row">
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_auction_higher_bid" type="checkbox"
+                                                        name="sms_on_auction_higher_bid"
+                                                        {{ option('sms_on_auction_higher_bid') == 'on' ? 'checked' : '' }}>
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی پیشنهاد جدید به خریداران</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_auction_higher_bid"
+                                                    placeholder="{siteTitle} - پیشنهاد جدید {newLine} برای مزایده {auctionTitle} پیشنهادی جدید ثبت شده است. "
+                                                    rows="2">{{ option('sms_text_on_auction_higher_bid') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {auctionTitle} : عنوان مزایده
+                                                </small>
+                                            </fieldset>
+
+
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_auction_bid" type="checkbox"
+                                                        name="sms_on_auction_bid"
+                                                        {{ option('sms_on_auction_bid') == 'on' ? 'checked' : '' }}>
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی پیشنهاد جدید به فروشنده</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_auction_bid"
+                                                placeholder="{siteTitle} - پیشنهاد جدید {newLine} برای مزایده {auctionTitle} پیشنهادی جدید ثبت شده است. "
+                                                    rows="2">{{ option('sms_text_on_auction_bid') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {auctionTitle} : عنوان مزایده
+                                                </small>
+                                            </fieldset>
+
+                                        </div>
+
 
                                         <div class="row">
                                             <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">

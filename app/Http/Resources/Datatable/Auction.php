@@ -32,6 +32,7 @@ class Auction extends JsonResource
 
             'links' => [
                 'show' => route('admin.auctions.show', ['auction' => $this]),
+                'bids' => route('admin.auctions.bids.index', ['auction' => $this]),
                 'accept' => route('admin.auctions.accept', ['auction' => $this]),
                 'reject' => route('admin.auctions.reject', ['auction' => $this]),
             ]

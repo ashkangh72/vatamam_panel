@@ -88,6 +88,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('auctions/title', [AuctionController::class, 'getAuctionByTitle'])->name('auctions.search.title');
     Route::get('products', [AuctionController::class, 'indexProducts'])->name('products.index');
     Route::post('products/api/index', [AuctionController::class, 'apiIndexProducts'])->name('products.apiIndex');
+    Route::get('auctions/{auction}/bids', [AuctionController::class, 'indexAuctionBids'])->name('auctions.bids.index');
+    Route::post('auctions/{auction}/bids/api/index', [AuctionController::class, 'apiIndexAuctionBids'])->name('auctions.bids.apiIndex');
 
     // ------------------ categories
     Route::resource('categories', CategoryController::class)->only(['index', 'update', 'destroy', 'store', 'edit']);

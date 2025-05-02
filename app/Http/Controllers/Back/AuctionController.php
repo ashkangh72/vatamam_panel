@@ -6,8 +6,10 @@ use Carbon\Carbon;
 use App\Models\Auction;
 use App\Enums\AuctionStatusEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Datatable\AuctionBidCollection;
 use App\Http\Resources\Datatable\AuctionCollection;
 use App\Jobs\{AuctionWinnerJob, FollowedAuctionJob, NoticeAuctionJob};
+use App\Models\AuctionBid;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -40,6 +42,28 @@ class AuctionController extends Controller
         $auctions = datatable($request, $auctions);
 
         return new AuctionCollection($auctions);
+    }
+
+    public function indexAuctionBids(Auction $auction)
+    {
+        $this->authorize('auctions.index');
+
+        return view('back.auctions.index_bids', compact('auction'));
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function apiIndexAuctionBids(Auction $auction, Request $request)
+    {
+        $this->authorize('auctions.index');
+
+        $auctions = AuctionBid::where('auction_id', $auction->id)
+            ->filter($request);
+
+        $auctions = datatable($request, $auctions);
+
+        return new AuctionBidCollection($auctions);
     }
 
     /**

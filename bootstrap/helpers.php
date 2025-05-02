@@ -83,7 +83,7 @@ function user_option_update($option_name, $option_value, $user_id = null): void
 function convertPrice($price)
 {
     $price = floor($price);
-    return number_format($price, 0, '.', '.');
+    return number_format($price, 0, '.', ',');
 }
 
 function user_option($option_name, $default_value = '', $user_id = null)
