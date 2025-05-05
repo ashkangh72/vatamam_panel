@@ -95,6 +95,7 @@
                                                                 <td class="font-weight-bold">قیمت پایه</td>
                                                                 <td>{{ number_format($auction->base_price) }}</td>
                                                             </tr>
+                                                            @if($auction->type=='auction')
                                                             <tr>
                                                                 <td class="font-weight-bold">ضریب افزایش</td>
                                                                 <td>{{ number_format($auction->increase_step_price) }}</td>
@@ -107,6 +108,7 @@
                                                                 <td class="font-weight-bold">قیمت فروش سریع</td>
                                                                 <td>{{ number_format($auction->quick_sale_price) }}</td>
                                                             </tr>
+                                                            @endif
                                                         </table>
                                                     </div>
                                                     <div class="col-12 col-md-12 col-lg-5">
@@ -135,6 +137,7 @@
                                                                 <td class="font-weight-bold">شناسه مزایده/محصول</td>
                                                                 <td>{{ $auction->sku }}</td>
                                                             </tr>
+                                                            @if($auction->type=='auction')
                                                             <tr>
                                                                 <td class="font-weight-bold">تضمینی است؟</td>
                                                                 <td>
@@ -153,6 +156,8 @@
                                                                     --
                                                                 @endif
                                                             </tr>
+                                                            @endif
+
                                                             <tr>
                                                                 <td class="font-weight-bold">توضیحات</td>
                                                                 <td>{{ $auction->description }}</td>
