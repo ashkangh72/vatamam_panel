@@ -516,6 +516,7 @@ class User extends Model implements AuthenticatableContract
             $i = WalletCheckout::where('status', WalletCheckoutStatusEnum::pending_approval)->count();
             $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/admin/transactions' . '%')->orderBy('created_at', 'desc')->first();
             $i1 = is_null($lastLogin) ? Transaction::count() : Transaction::where('created_at', '>', $lastLogin->created_at)->count();
+            $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/admin/mali/details' . '%')->orderBy('created_at', 'desc')->first();
             $i2 = is_null($lastLogin) ? WalletHistory::count() : WalletHistory::where('created_at', '>', $lastLogin->created_at)->count();
 
             return ($i + $i1 + $i2);
