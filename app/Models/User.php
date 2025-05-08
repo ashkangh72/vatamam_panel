@@ -201,6 +201,18 @@ class User extends Model implements AuthenticatableContract
                         ])->orderBy('balance', $request->sort['sort']);
                         break;
                     }
+                case 'box': {
+                        $query->join('safe_boxes', 'users.id', '=', 'safe_boxes.user_id')->select([
+                            'users.id',
+                            'name',
+                            'username',
+                            'phone',
+                            'email',
+                            'national_id',
+                            'balance'
+                        ])->orderBy('balance', $request->sort['sort']);
+                        break;
+                    }
                 default: {
                         if ($this->getConnection()->getSchemaBuilder()->hasColumn($this->getTable(), $request->sort['field'])) {
                             $query->orderBy($request->sort['field'], $request->sort['sort']);
@@ -245,7 +257,7 @@ class User extends Model implements AuthenticatableContract
     }
 
     public function reports(): HasOne
-    {                                          
+    {
         return $this->hasOne(UserReport::class, 'user_id', 'id');
     }
 
@@ -495,15 +507,20 @@ class User extends Model implements AuthenticatableContract
             return is_null($lastLogin) ? Transaction::count() : Transaction::where('created_at', '>', $lastLogin->created_at)->count();
         }
 
+        if ($type == 'mali') {
+            $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/admin/mali/details' . '%')->orderBy('created_at', 'desc')->first();
+            return is_null($lastLogin) ? WalletHistory::count() : WalletHistory::where('created_at', '>', $lastLogin->created_at)->count();
+        }
+
         if ($type == 'checkouts_transactions') {
             $i = WalletCheckout::where('status', WalletCheckoutStatusEnum::pending_approval)->count();
             $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/admin/transactions' . '%')->orderBy('created_at', 'desc')->first();
             $i1 = is_null($lastLogin) ? Transaction::count() : Transaction::where('created_at', '>', $lastLogin->created_at)->count();
+            $i2 = is_null($lastLogin) ? WalletHistory::count() : WalletHistory::where('created_at', '>', $lastLogin->created_at)->count();
 
-            return ($i + $i1);
+            return ($i + $i1 + $i2);
         }
 
         return 0;
     }
-
 }

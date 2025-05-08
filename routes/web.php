@@ -9,6 +9,7 @@ use App\Http\Controllers\Back\{AuctionController,
     DiscountController,
     LinkController,
     MainController,
+    MaliController,
     MenuController,
     OrderController,
     PageController,
@@ -55,6 +56,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     // ------------------ users
     Route::resource('users', UserController::class);
     Route::post('users/api/index', [UserController::class, 'apiIndex'])->name('users.apiIndex');
+    Route::get('users-block/api/index', [UserController::class, 'indexBlock'])->name('users_block.index');
+    Route::post('users-block/api/index', [UserController::class, 'apiIndexBlock'])->name('users_block.apiIndex');
     Route::delete('users/api/multipleDestroy', [UserController::class, 'multipleDestroy'])->name('users.multipleDestroy');
     Route::get('users/export/excel', [UserController::class, 'export'])->name('users.export');
     Route::get('users/{user}/views', [UserController::class, 'views'])->name('users.views');
@@ -63,6 +66,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('wallets', [UserController::class, 'indexWallet'])->name('users.wallets');
     Route::post('wallets/api/index', [UserController::class, 'apiIndexWallet'])->name('users.wallets.apiIndex');
     Route::post('user/blacklist', [UserController::class, 'blackList'])->name('users.blacklist');
+    Route::post('user/unblock{user}', [UserController::class, 'blackList'])->name('users.unblock');
 
     Route::get('partners', [PartnerController::class, 'index'])->name('user.partners.index');
     Route::post('partners/accept', [PartnerController::class, 'accept'])->name('user.partners.accept');
@@ -156,6 +160,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::resource('transactions', TransactionController::class)->only(['index', 'show', 'destroy']);
     Route::post('transactions/api/index', [TransactionController::class, 'apiIndex'])->name('transactions.apiIndex');
     Route::delete('transactions/api/multipleDestroy', [TransactionController::class, 'multipleDestroy'])->name('transactions.multipleDestroy');
+
+    Route::get('mali', [MaliController::class, 'index'])->name('mali.index');
+    Route::post('mali/api/index', [MaliController::class, 'apiIndex'])->name('mali.apiIndex');
+    Route::get('mali/details', [MaliController::class, 'details'])->name('mali.detail.index');
+    Route::post('mali/details/api/index', [MaliController::class, 'detailsApiIndex'])->name('mali.detail.apiIndex');
 
     // ------------------ widgets
     Route::resource('widgets', WidgetController::class)->except(['show']);

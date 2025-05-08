@@ -35,6 +35,26 @@ class UserController extends Controller
         return new UserCollection($users);
     }
 
+    public function indexBlock()
+    {
+        $this->authorize('users.index');
+
+        return view('back.users.index_block_users');
+    }
+
+    public function apiIndexBlock(Request $request)
+    {
+        $this->authorize('users.index');
+
+        $users = User::join('admin_blacklists', 'users.id', '=', 'admin_blacklists.user_id')
+            ->select('users.*')
+            ->filter($request);
+
+        $users = datatable($request, $users);
+
+        return new UserCollection($users);
+    }
+
     public function indexWallet()
     {
         return view('back.users.wallets');
@@ -143,7 +163,7 @@ class UserController extends Controller
     public function blackList(Request $request)
     {
         $this->authorize('users.update');
-        
+
         if (BlackListAdmin::where('user_id', $request->user)->exists()) {
 
             BlackListAdmin::where('user_id', $request->user)->delete();
@@ -155,7 +175,20 @@ class UserController extends Controller
         }
 
         return response([
-            'button_text' => BlackListAdmin::where('user_id', $request->user)->exists()? 'آنبلاک کردن کاربر' : 'بلاک کردن کاربر',
+            'button_text' => BlackListAdmin::where('user_id', $request->user)->exists() ? 'آنبلاک کردن کاربر' : 'بلاک کردن کاربر',
+        ]);
+    }
+
+    public function unblockUser(User $user)
+    {
+        $this->authorize('users.update');
+dd();
+        if (BlackListAdmin::where('user_id', $user->id)->exists()) {
+
+            BlackListAdmin::where('user_id', $user->id)->delete();
+        } 
+
+        return response([
         ]);
     }
 

@@ -27,8 +27,15 @@ class User extends JsonResource
             'created_at' => tverta($this->created_at)->format('%d %B %Y'),
 
             'links' => [
+                'unblock' => route('admin.users.unblock', ['user' => $this]),
                 'edit' => route('admin.users.edit', ['user' => $this]),
                 'show' => route('admin.users.show', ['user' => $this]),
+                'details' => route('admin.mali.detail.index', [
+                    'fullname' => '',
+                    'username' => '',
+                    'phone' => '',
+                    'id' => $this->id
+                ]),
             ]
         ];
     }
