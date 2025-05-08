@@ -105,7 +105,7 @@
                             class="feather icon-briefcase"></i><span class="menu-title">مالی</span>
                         @if (auth()->user()->panelNotifies('checkouts_transactions') > 0)
                             <span class="badge badge badge-primary badge-pill float-right mr-2">
-                                {{ auth()->user()->panelNotifies('checkouts') }}</span>
+                                {{ auth()->user()->panelNotifies('checkouts_transactions') }}</span>
                         @endIf
                     </a>
                     <ul class="menu-content">
