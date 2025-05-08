@@ -182,14 +182,13 @@ class UserController extends Controller
     public function unblockUser(User $user)
     {
         $this->authorize('users.update');
-dd();
+
         if (BlackListAdmin::where('user_id', $user->id)->exists()) {
 
             BlackListAdmin::where('user_id', $user->id)->delete();
-        } 
+        }
 
-        return response([
-        ]);
+        return response([]);
     }
 
     public function show(User $user)
