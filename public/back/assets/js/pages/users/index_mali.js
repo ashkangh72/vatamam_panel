@@ -56,6 +56,7 @@ var user_datatable = function() {
             {
                 field: 'name',
                 title: 'نام',
+                sortable: false,
                 width: 180,
                 template: function(row) {
                     return row.name ? row.name : '---';
@@ -65,6 +66,7 @@ var user_datatable = function() {
                 field: 'username',
                 title: 'نام کاربری',
                 width: 120,
+                sortable: false,
                 template: function(row) {
                     return row.username;
                 }
@@ -73,6 +75,7 @@ var user_datatable = function() {
                 field: 'phone',
                 title: 'شماره کاربر',
                 width: 120,
+                sortable: false,
                 template: function(row) {
                     return row.phone ? row.phone : '---';
                 }
@@ -81,6 +84,7 @@ var user_datatable = function() {
                 field: 'money',
                 title: 'کیف پول',
                 width: 120,
+                sortable: 'desc',
                 template: function(row) {
                     return row.money;
                 }
@@ -89,6 +93,7 @@ var user_datatable = function() {
                 field: 'box',
                 title: 'صندوق امانات',
                 width: 120,
+                sortable: false,
                 template: function(row) {
                     return row.box;
                 }

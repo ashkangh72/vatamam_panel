@@ -24,14 +24,16 @@ class MaliController extends Controller
     {
         $this->authorize('users.index');
 
-        return view('back.transactions.mali_index');
+        $balance = User::join('wallets', 'users.id', '=', 'wallets.user_id')->select(['balance'])->sum('balance');
+        $box = User::join('safe_boxes', 'users.id', '=', 'safe_boxes.user_id')->select(['balance'])->sum('balance');
+        return view('back.transactions.mali_index', compact('balance', 'box'));
     }
 
     public function apiIndex(Request $request)
     {
         $this->authorize('users.index');
 
-        $users = User::excludeCreator()->filter($request);
+        $users = User::filter($request);
 
         $users = datatable($request, $users);
 

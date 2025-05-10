@@ -111,7 +111,7 @@
                     <ul class="menu-content">
                         @can('transactions')
                             <li class="{{ active_class('admin.mali.index') }}">
-                                <a href="{{ route('admin.mali.index') }}">
+                                <a href="{{ route('admin.mali.index', ['profile' => 'completed']) }}">
                                     <i class="feather icon-credit-card"></i>
                                     <span class="menu-title">اطلاعات مالی کاربران</span>
                                 </a>

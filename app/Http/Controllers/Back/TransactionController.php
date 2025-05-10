@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Enums\WalletHistoryTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Datatable\TransactionCollection;
 use App\Models\Transaction;
+use App\Models\WalletHistory;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -21,7 +23,9 @@ class TransactionController extends Controller
         $this->authorize('transactions.index');
 
 
-        $transactions = Transaction::filter($request);
+        $transactions = Transaction::whereHasMorph('transactionable', [WalletHistory::class], function ($q) {
+                $q->whereNotIn('type', WalletHistoryTypeEnum::getValues(['admin_withdraw', 'admin_deposit']));
+        })->filter($request);
 
         $transactions = datatable($request, $transactions);
 

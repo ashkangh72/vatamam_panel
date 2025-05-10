@@ -28,7 +28,7 @@ class UserController extends Controller
     {
         $this->authorize('users.index');
 
-        $users = User::excludeCreator()->filter($request);
+        $users = User::filter($request);
 
         $users = datatable($request, $users);
 

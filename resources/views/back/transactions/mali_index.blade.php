@@ -1,7 +1,6 @@
 @extends('back.layouts.master')
 
 @section('content')
-
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -31,10 +30,23 @@
                 <section id="main-card" class="card">
                     <div class="card-header">
                         <h4 class="card-title">لیست کاربران</h4>
+                        <h4 class="card-title"></h4>
+                        <h4 class="card-title"></h4>
+
+                        <button class="btn btn-outline-primary">مجموع کیف پول کل کاربران:‌
+                            {{ convertPrice($balance) }}</button>
+
+                        <button class="btn btn-outline-primary">مجموع صندوق امانات کل کاربران:‌
+                            {{ convertPrice($box) }}</button>
+                        <h4 class="card-title"></h4>
+                        <h4 class="card-title"></h4>
+                        <h4 class="card-title"></h4>
+
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <div class="datatable datatable-bordered datatable-head-custom" id="users_datatable" data-action="{{ route('admin.users.apiIndex') }}"></div>
+                            <div class="datatable datatable-bordered datatable-head-custom" id="users_datatable"
+                                data-action="{{ route('admin.users.apiIndex') }}"></div>
                         </div>
                     </div>
                 </section>
@@ -42,16 +54,12 @@
             </div>
         </div>
     </div>
-
-
 @endsection
 
 @include('back.partials.plugins', ['plugins' => ['datatable']])
 
 @php
-    $help_videos = [
-        config('general.video-helpes.users')
-    ];
+    $help_videos = [config('general.video-helpes.users')];
 @endphp
 
 

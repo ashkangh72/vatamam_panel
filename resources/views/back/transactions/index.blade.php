@@ -60,12 +60,12 @@
                                             </fieldset>
                                         </div>
 
-                                        <div class="col-md-2">
+                                        {{-- <div class="col-md-2">
                                             <label>شماره سفارش</label>
                                             <fieldset class="form-group">
                                                 <input type="text" class="form-control datatable-filter" name="order_id" value="{{ request('order_id') }}">
                                             </fieldset>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-md-2">
                                             <label>آیدی تراکنش</label>
                                             <fieldset class="form-group">
@@ -82,7 +82,7 @@
                                                 </select>
                                             </fieldset>
                                         </div>
-                                        <div class="col-md-2">
+                                        {{-- <div class="col-md-2">
                                             <label>نوع</label>
                                             <fieldset class="form-group">
                                                 <select name="transaction_type" class="form-control datatable-filter">
@@ -91,7 +91,7 @@
                                                     <option value="others" {{ request('transaction_type') == '0' ? 'selected' : '' }}>سایر تراکنش ها</option>
                                                 </select>
                                             </fieldset>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
                                 </form>
