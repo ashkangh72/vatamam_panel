@@ -197,6 +197,7 @@ class User extends Model implements AuthenticatableContract
                             'phone',
                             'email',
                             'national_id',
+                            'users.created',
                             'balance'
                         ])->orderBy('balance', $request->sort['sort']);
                         break;
@@ -209,6 +210,7 @@ class User extends Model implements AuthenticatableContract
                             'phone',
                             'email',
                             'national_id',
+                            'users.created',
                             'balance'
                         ])->orderBy('balance', $request->sort['sort']);
                         break;
@@ -221,6 +223,7 @@ class User extends Model implements AuthenticatableContract
                             'phone',
                             'email',
                             'national_id',
+                            'users.created',
                             'balance'
                         ])->orderBy('balance', $request->sort['sort']);
                         break;
