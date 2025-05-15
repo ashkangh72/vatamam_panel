@@ -431,19 +431,13 @@
                 </li>
             @endcan
             @can('orders')
-                <li class="nav-item has-sub {{ open_class(['admin.orders.*']) }}"><a href="#"><i
-                            class="feather icon-briefcase"></i><span class="menu-title"> سفارشات</span></a>
-                    <ul class="menu-content">
-                        @can('orders.index')
-                            <li class="{{ active_class('admin.orders.index') }}">
-                                <a href="{{ route('admin.orders.index') }}">
-                                    <i class="feather icon-circle"></i>
-                                    <span class="menu-item">همه سفارشات</span>
-                                    <span class="badge badge-transparent ml-1">{{ $ordersCount }}</span>
-                                </a>
-                            </li>
-                        @endcan
-                    </ul>
+                <li class="nav-item {{ active_class('admin.orders.index') }}">
+                    <a href="{{ route('admin.orders.index') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item">همه سفارشات</span>
+                    <span class="badge badge-transparent ml-1">{{ $ordersCount }}</span>
+                </a>
+                   
                 </li>
             @endcan
             @can('redirects')
