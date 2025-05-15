@@ -35,7 +35,7 @@ class AuctionController extends Controller
 
         $auctions = Auction::with(['user', 'category'])
             ->where('type', 'auction')
-            ->orderBy('status')
+            ->orderBy('status', 'asc')
             ->orderByDesc('created_at')
             ->filter($request);
 
@@ -84,7 +84,7 @@ class AuctionController extends Controller
         $this->authorize('auctions.index');
         $auctions = Auction::with(['user', 'category'])
             ->where('type', 'product')
-            ->orderBy('status')
+            ->orderBy('status', 'asc')
             ->orderByDesc('created_at')
             ->filter($request);
 
