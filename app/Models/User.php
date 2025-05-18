@@ -215,6 +215,10 @@ class User extends Model implements AuthenticatableContract
                         ])->orderBy('balance', $request->sort['sort']);
                         break;
                     }
+                case 'created_at': {
+                        $query->orderBy('created_at', $request->sort['sort']);
+                        break;
+                    }
                 default: {
                         $query->join('wallets', 'users.id', '=', 'wallets.user_id')->select([
                             'users.id',
