@@ -189,6 +189,7 @@
                                                     {newLine} : خط جدید, {auctionTitle}: عنوان مزایده
                                                 </small>
                                             </fieldset>
+
                                         </div>
 
                                         <span class="">خریدار</span>
@@ -277,7 +278,7 @@
                                                     placeholder="کاربر گرامی {newLine} کالای {productTitle} با موفقیت خریداری شد. با ارسال کالا توسط فروشنده به شما اطلاع رسانی خواهد شد."
                                                     rows="2">{{ option('sms_text_on_buy_product_to_buyer') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {productTitle} : عنوان کالا, {buyerName} : نام
+                                                    {newLine} : خط جدید, {productTitle} : عنوان کالا, 
                                                     کاربر
                                                 </small>
                                             </fieldset>
@@ -469,6 +470,25 @@
                                                 </small>
                                             </fieldset>
 
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_auction_first_bid" type="checkbox"
+                                                        name="sms_on_auction_first_bid"
+                                                        {{ option('sms_on_auction_first_bid') == 'on' ? 'checked' : '' }}>
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی پیشنهاد اول به فروشنده</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_auction_first_bid"
+                                                    placeholder="کاربر گرامی وتمام!{newLine}برای مزایده شما {auctionTilte} اولین پیشنهاد ثبت گردیده است. {newLine}با تشکر از همراهی شما{newLine}منتظر خریداران وتمام باشید!."
+                                                    rows="2">{{ option('sms_text_on_auction_first_bid') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {auctionTitle}: عنوان مزایده
+                                                </small>
+                                            </fieldset>
                                         </div>
 
 
