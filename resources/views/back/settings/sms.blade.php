@@ -94,7 +94,7 @@
                                                         </span>
                                                     </span>
                                                     <span class="">اطلاع رسانی ارسال کالا توسط خریدار به
-                                                       (مرحله اخر خرید ناموفق) فروشنده</span>
+                                                       فروشنده (مرحله اخر خرید ناموفق)</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_send_product_to_seller"
                                                     placeholder="کاربر گرامی وتمام {newLine} کالای شما با کد رهگیری {trackingCode} ارسال شد." rows="2">{{ option('sms_text_on_send_product_to_seller') }}</textarea>
@@ -169,6 +169,27 @@
                                                 </small>
                                             </fieldset>
 
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_win_auction_to_seller" type="checkbox"
+                                                        name="sms_on_win_auction_to_seller"
+                                                        {{ option('sms_on_win_auction_quick_sale_to_seller') == 'on' ? 'checked' : '' }}>
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی خرید فوری مزایده به فروشنده</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_win_auction_quick_sale_to_seller"
+                                                    placeholder="وتمام!{newLine}کالای شما {auctionTitle} در مزایده خریداری شد! لطفا جهت تکمیل مراحل فروش و ارسال کالا به پنل کاربری خود مراجعه کنید"
+                                                    rows="2">{{ option('sms_text_on_win_auction_to_seller') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {siteTitle} : عنوان وبسایت, {auctionTitle} : عنوان
+                                                    مزایده
+                                                </small>
+                                            </fieldset>
+
 
                                             <fieldset class="checkbox col-md-6 col-12">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
@@ -229,7 +250,7 @@
                                                         </span>
                                                     </span>
                                                     <span class="">اطلاع رسانی وضعیت اعلام نارضایتی به
-                                                        خریدار (تایید(</span>
+                                                        خریدار (تایید)</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_accept_unsatisfied_product_to_buyer"
                                                     placeholder="کاربر گرامی وتمام {newLine} اعلام نارضایتی شما توسط کارشناسان وتمام بررسی شد. جهت تکمیل مراحل خرید به پنل کاربری خود مراجعه کنید"
@@ -250,7 +271,7 @@
                                                         </span>
                                                     </span>
                                                     <span class="">اطلاع رسانی وضعیت اعلام نارضایتی به
-                                                        خریدار )رد(</span>
+                                                        خریدار (رد)</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_reject_unsatisfied_product_to_buyer"
                                                     placeholder="کاربر گرامی وتمام {newLine} اعلام نارضایتی شما توسط کارشناسان وتمام بررسی شد. جهت تکمیل مراحل خرید به پنل کاربری خود مراجعه کنید"
