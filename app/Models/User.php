@@ -470,12 +470,27 @@ class User extends Model implements AuthenticatableContract
      * @param Order $order
      * @return void
      */
-    public function sendRefoundCheckNotification(Order $order)
+    public function sendAcceptRefoundCheckNotification(Order $order)
     {
         $title = env('APP_NAME') . " - بررسی اعلام نارضایتی";
         $message = setNotificationMessage(
             'sms_on_accept_unsatisfied_product_to_buyer',
             'sms_text_on_accept_unsatisfied_product_to_buyer',
+            []
+        );
+        $url = env('WEBSITE_URL') . '/profile/buying/buying-basket/' . $order->id;
+
+        if (!$message) return;
+
+        $this->notify(new AuctionRefoundCheckNotification($order, $title, $message, $url, 'buy'));
+    }
+
+    public function sendRejectRefoundCheckNotification(Order $order)
+    {
+        $title = env('APP_NAME') . " - بررسی اعلام نارضایتی";
+        $message = setNotificationMessage(
+            'sms_on_reject_unsatisfied_product_to_buyer',
+            'sms_text_on_reject_unsatisfied_product_to_buyer',
             []
         );
         $url = env('WEBSITE_URL') . '/profile/buying/buying-basket/' . $order->id;

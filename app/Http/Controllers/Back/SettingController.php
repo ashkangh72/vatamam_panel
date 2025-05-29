@@ -158,6 +158,7 @@ class SettingController extends Controller
             
             'sms_on_send_product_to_buyer',
             'sms_on_accept_unsatisfied_product_to_buyer',
+            'sms_on_reject_unsatisfied_product_to_buyer',
             'sms_on_win_auction_to_buyer',
             'sms_on_buy_product_to_buyer',
             
@@ -184,6 +185,7 @@ class SettingController extends Controller
 
             'sms_text_on_send_product_to_buyer',
             'sms_text_on_accept_unsatisfied_product_to_buyer',
+            'sms_text_on_reject_unsatisfied_product_to_buyer',
             'sms_text_on_win_auction_to_buyer',
             'sms_text_on_buy_product_to_buyer',
 
