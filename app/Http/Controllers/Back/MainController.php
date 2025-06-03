@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
+use App\Models\VatamamWalletHistory;
 use App\Models\Wallet;
 
 class MainController extends Controller
@@ -10,7 +11,8 @@ class MainController extends Controller
     public function index()
     {
         $total_price = Wallet::sum('balance');
-        return view('back.index', compact('total_price'));
+        $total_commissions = VatamamWalletHistory::sum('amount');
+        return view('back.index', compact('total_price', 'total_commissions'));
     }
 
     public function login()

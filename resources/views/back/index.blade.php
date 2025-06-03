@@ -124,26 +124,51 @@
                             </div>
                         @endcan
                     </div>
+                    <div class="row">
 
-                    <div class="col-lg-3 col-sm-6 col-12">
-                        <div class="card user-statistics-card">
-                            <div class="card-header d-flex align-items-start pb-0">
-                                <div>
-                                    <h2 title="" class="text-bold-700 mb-0">{{ convertPrice($total_price) }}
-                                    </h2>
-                                    <p>کل پول موجود</p>
-                                </div>
-                                <div class="avatar bg-rgba-info p-50 m-0">
-                                    <div class="avatar-content">
-                                        <i class="fa fa-credit-card text-info font-medium-5"></i>
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card user-statistics-card">
+                                <div class="card-header d-flex align-items-start pb-0">
+                                    <div>
+                                        <h2 title="" class="text-bold-700 mb-0">{{ convertPrice($total_price) }}
+                                        </h2>
+                                        <p>کل پول موجود</p>
+                                    </div>
+                                    <div class="avatar bg-rgba-info p-50 m-0">
+                                        <div class="avatar-content">
+                                            <i class="fa fa-credit-card text-info font-medium-5"></i>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="card-footer">
+                                    <span>
+                                        <a href="{{ route('admin.users.wallets') }}" class="card-link">مشاهده جزئیات
+                                            <i class="fa fa-angle-left"></i></a>
+                                    </span>
+                                </div>
                             </div>
-                            <div class="card-footer">
-                                <span>
-                                    <a href="{{ route('admin.users.wallets') }}" class="card-link">مشاهده جزئیات
-                                        <i class="fa fa-angle-left"></i></a>
-                                </span>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card user-statistics-card">
+                                <div class="card-header d-flex align-items-start pb-0">
+                                    <div>
+                                        <h2 title="" class="text-bold-700 mb-0">{{ convertPrice($total_commissions) }}
+                                        </h2>
+                                        <p>کمیسیون های دریافتی وتمام</p>
+                                    </div>
+                                    <div class="avatar bg-rgba-info p-50 m-0">
+                                        <div class="avatar-content">
+                                            <i class="fa fa-credit-card text-info font-medium-5"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <span>
+                                        <a href="{{ route('admin.vatamam.wallets') }}" class="card-link">مشاهده جزئیات
+                                            <i class="fa fa-angle-left"></i></a>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>

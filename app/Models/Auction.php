@@ -244,7 +244,7 @@ class Auction extends Model
                 $wallet->histories()->create([
                     'type' => WalletHistoryTypeEnum::withdraw,
                     'amount' => $price,
-                    'description' => 'پرداخت هزینه گارانتی برای مزایده ' . $this->title,
+                    'description' => 'پرداخت هزینه تضمین برای مزایده ' . $this->title,
                     'success' => true,
                 ]);
                 $wallet->refreshBalance();
@@ -252,7 +252,7 @@ class Auction extends Model
                 $safeBox->histories()->create([
                     'type' => SafeBoxHistoryTypeEnum::auction_guarantee,
                     'amount' => $price,
-                    'description' => 'پرداخت هزینه گارانتی برای مزایده ' . $this->title,
+                    'description' => 'پرداخت هزینه تضمین برای مزایده ' . $this->title,
                     'success' => true,
                     'historiable_type' => Auction::class,
                     'historiable_id' => $this->id,

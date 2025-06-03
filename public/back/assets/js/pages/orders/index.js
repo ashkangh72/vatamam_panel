@@ -54,9 +54,9 @@ let order_datatable = (function () {
             title: '#',
             sortable: false,
             width: 20,
-            selector: {
-                class: '',
-            },
+            // selector: {
+            //     class: '',
+            // },
             textAlign: 'center',
         },
         {

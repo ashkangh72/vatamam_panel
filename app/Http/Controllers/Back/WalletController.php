@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Back;
 use App\Enums\WalletHistoryTypeEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
-use App\Models\{Transaction, Wallet, WalletHistory};
+use App\Models\{Transaction, VatamamWalletHistory, Wallet, WalletHistory};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,6 +18,17 @@ class WalletController extends Controller
         $histories = $wallet->histories()->latest()->paginate(20);
 
         return view('back.wallets.show', compact('wallet', 'histories'));
+    }
+
+    public function showVatamam()
+    {
+        $this->authorize('users.wallets.show');
+
+        $histories = VatamamWalletHistory::latest()->paginate(20);
+        
+        $total = VatamamWalletHistory::sum('amount');
+
+        return view('back.wallets.show_vatamam', compact('total', 'histories'));
     }
 
     public function create(Wallet $wallet)

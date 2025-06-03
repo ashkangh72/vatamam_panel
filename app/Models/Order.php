@@ -48,7 +48,7 @@ class Order extends Model
 
     public function auctions(): BelongsToMany
     {
-        return $this->belongsToMany(Auction::class, 'order_auction')->withPivot(['id', 'quantity', 'status', 'price']);
+        return $this->belongsToMany(Auction::class, 'order_auction')->withPivot(['id', 'quantity', 'status', 'price'])->withTrashed();
     }
 
     public function feedback(): HasOne

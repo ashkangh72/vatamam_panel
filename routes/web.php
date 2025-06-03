@@ -77,7 +77,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('wallets/histories/{history}', [WalletController::class, 'history'])->name('wallets.history');
     Route::get('wallets/{wallet}/create', [WalletController::class, 'create'])->name('wallets.create');
     Route::post('wallets/{wallet}', [WalletController::class, 'store'])->name('wallets.store');
-
+    Route::get('vatamam-wallets', [WalletController::class, 'showVatamam'])->name('vatamam.wallets');
+    
     Route::get('wallet-checkouts', [WalletCheckoutController::class, 'index'])->name('wallets.checkouts.index');
     Route::post('wallet-checkouts/accept', [WalletCheckoutController::class, 'accept'])->name('wallets.checkouts.accept');
     Route::post('wallet-checkouts/reject', [WalletCheckoutController::class, 'reject'])->name('wallets.checkouts.reject');
