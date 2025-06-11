@@ -380,4 +380,10 @@ class Auction extends Model
 
         return $query;
     }
+
+    public function getTitle()
+    {
+        $title = ' - ' . ($this->type == 'auction' ? 'مزایده: ' : 'گالری آنلاین: ') . $this->title;
+        return $title;
+    }
 }
