@@ -6,7 +6,8 @@ use App\Enums\OrderStatusEnum;
 use App\Enums\SafeBoxHistoryTypeEnum;
 use App\Enums\WalletHistoryTypeEnum;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\{Model,
+use Illuminate\Database\Eloquent\{
+    Model,
     Relations\BelongsTo,
     Relations\BelongsToMany,
     Relations\HasOne,
@@ -100,6 +101,14 @@ class Order extends Model
                 $q->Where('username', 'like', "%$username%");
             })->whereHas('seller', function ($q) use ($username) {
                 $q->Where('username', 'like', "%$username%");
+            });
+        }
+
+        if ($national_id = $request->input('query.national_id')) {
+            $query->whereHas('user', function ($q) use ($national_id) {
+                $q->Where('national_id', 'like', "%$national_id%");
+            })->whereHas('seller', function ($q) use ($national_id) {
+                $q->Where('national_id', 'like', "%$national_id%");
             });
         }
 

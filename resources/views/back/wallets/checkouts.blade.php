@@ -33,6 +33,7 @@
                                             <tr>
                                                 <th class="text-center">#</th>
                                                 <th>کاربر</th>
+                                                <th>کد ملی</th>
                                                 <th>موجودی (تومان)</th>
                                                 <th>مبلغ (تومان)</th>
                                                 <th>تاریخ</th>
@@ -50,6 +51,7 @@
                                                         </a>
                                                         {{ $walletCheckout->user->name ?? '--' }}
                                                     </td>
+                                                    <td>{{ $walletCheckout->user->national_id ?? '--' }}</td>
                                                     <td>{{ number_format($walletCheckout->user->wallet->balance) }}</td>
                                                     <td>{{ number_format($walletCheckout->amount) }}</td>
                                                     <td>{{ jdate($walletCheckout->created_at)->format('%d %B %Y H:i:s') }}

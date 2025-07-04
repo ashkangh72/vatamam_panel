@@ -21,9 +21,9 @@
                         </div>
 
                         <div class="col-md-3">
-                            <label>نام کاربری</label>
+                            <label>کد ملی</label>
                             <fieldset class="form-group">
-                                <input class="form-control datatable-filter" name="username" value="{{ request('username') }}">
+                                <input class="form-control datatable-filter" name="national_id" value="{{ request('national_id') }}">
                             </fieldset>
                         </div>
 

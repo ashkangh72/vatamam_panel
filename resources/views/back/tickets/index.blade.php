@@ -117,8 +117,8 @@
                                                         </td>
                                                         <td style="white-space: nowrap">{{ is_null($ticket->user) ? '---' : $ticket->user->name}}
                                                         </td>
-                                                        <td style="max-width: 300px">
-                                                            {{ short_content($ticket->title, 20, false) }}</td>
+                                                        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 300px;">
+                                                            {{ $ticket->title}}</td>
                                                         <td class="text-center">
                                                             @if ($ticket->status->value == 1)
                                                                 <div class="badge badge-pill badge-warning badge-md">جدید
