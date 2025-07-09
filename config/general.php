@@ -4,9 +4,6 @@ return [
 
     'permissions' => [
 
-        'wallets.checkouts' => 'مدیریت برداشت ها',
-        'wallets.checkouts.accept' => 'تایید برداشت',
-        'wallets.checkouts.reject' => 'رد برداشت',
 
         'users' => [
             'title' => 'مدیریت کاربران',
@@ -53,9 +50,11 @@ return [
                 'index' => 'لیست تراکنش ها',
                 'show' => 'مشاهده تراکنش',
                 'delete' => 'حذف تراکنش',
+                'checkouts' => 'مدیریت برداشت ها',
+
             ]
         ],
-        
+
         'discounts' => [
             'title' => 'مدیریت تخفیف ها',
             'values' => [
@@ -101,7 +100,7 @@ return [
                 'delete' => 'حذف تعرفه'
             ]
         ],
-       
+
         'pages' => [
             'title' => 'مدیریت صفحات',
             'values' => [

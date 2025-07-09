@@ -143,7 +143,7 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('users.wallets.checkouts')
+                        @can('transactions.checkouts')
                             <li class="{{ active_class('admin.wallets.checkouts.index') }}">
                                 <a href="{{ route('admin.wallets.checkouts.index') }}">
                                     <i class="feather icon-circle"></i>
