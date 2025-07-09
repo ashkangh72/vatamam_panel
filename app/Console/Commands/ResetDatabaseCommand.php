@@ -4,6 +4,9 @@ namespace App\Console\Commands;
 
 use App\Jobs\AuctionWinnerJob;
 use App\Models\Auction;
+use App\Models\SafeBox;
+use App\Models\SmsBox;
+use App\Models\Wallet;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -18,15 +21,16 @@ class ResetDatabaseCommand extends Command
         $tables = [
             'wallet_histories',
             'wallet_checkout_transactions',
+            // 'wallets',
             'wallet_checkouts',
             'vatamam_wallet_histories',
             'transactions',
             'tickets',
             'tickets_messages',
-            'sms_boxes',
+            // 'sms_boxes',
             'sms_logs',
             'safe_box_histories',
-            'safe_boxes',
+            // 'safe_boxes',
             'refunded_orders',
             'refunded_order_auction',
             'notifications',
@@ -40,6 +44,10 @@ class ResetDatabaseCommand extends Command
             'notification_settings',
         ];
 
+        SmsBox::update(['balance' => 0]);
+        SafeBox::update(['balance' => 0]);
+        Wallet::update(['balance' => 0]);
+        
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         foreach ($tables as $table) {
