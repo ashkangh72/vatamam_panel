@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
     {
         $permissions = Permission::pluck('id');
 
-        $role = Role::create([
+        $role = Role::firstOrCreate([
             'title' => 'مدیر کل',
             'description' => 'دسترسی به همه قسمت های وبسایت',
         ]);
