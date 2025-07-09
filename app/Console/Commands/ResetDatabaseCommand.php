@@ -44,10 +44,10 @@ class ResetDatabaseCommand extends Command
             'notification_settings',
         ];
 
-        SmsBox::update(['balance' => 0]);
-        SafeBox::update(['balance' => 0]);
-        Wallet::update(['balance' => 0]);
-        
+        SmsBox::where('id', '!=', 0)->update(['balance' => 0]);
+        SafeBox::where('id', '!=', 0)->update(['balance' => 0]);
+        Wallet::where('id', '!=', 0)->update(['balance' => 0]);
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         foreach ($tables as $table) {
