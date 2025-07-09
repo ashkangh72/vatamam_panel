@@ -1,7 +1,6 @@
 @extends('back.layouts.master')
 
 @section('content')
-
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -34,14 +33,19 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <div class="mb-2 collapse datatable-actions">
-                                <div class="d-flex align-items-center">
-                                    <div class="font-weight-bold text-danger mr-3"><span id="datatable-selected-rows">0</span> مورد انتخاب شده: </div>
+                            @can('auctions.delete')
+                                <div class="mb-2 collapse datatable-actions">
+                                    <div class="d-flex align-items-center">
+                                        <div class="font-weight-bold text-danger mr-3"><span
+                                                id="datatable-selected-rows">0</span> مورد انتخاب شده: </div>
 
-                                    <button class="btn btn-danger mr-2" type="button" data-toggle="modal" data-target="#multiple-delete-modal">حذف همه</button>
+                                        <button class="btn btn-danger mr-2" type="button" data-toggle="modal"
+                                            data-target="#multiple-delete-modal">حذف همه</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="datatable datatable-bordered datatable-head-custom" id="auctions_datatable" data-action="{{ route('admin.auctions.apiIndex') }}"></div>
+                            @endcan
+                            <div class="datatable datatable-bordered datatable-head-custom" id="auctions_datatable"
+                                data-action="{{ route('admin.auctions.apiIndex') }}"></div>
                         </div>
                     </div>
                 </section>
@@ -51,7 +55,7 @@
     </div>
 
     {{-- multiple delete modal --}}
-    <div class="modal fade text-left" id="multiple-delete-modal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal fade text-left" id="multiple-delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -67,14 +71,15 @@
                     <form action="{{ route('admin.auctions.multipleDestroy') }}" id="auction-multiple-delete-form">
                         @csrf
                         @method('delete')
-                        <button type="button" class="btn btn-success waves-effect waves-light" data-dismiss="modal">خیر</button>
+                        <button type="button" class="btn btn-success waves-effect waves-light"
+                            data-dismiss="modal">خیر</button>
                         <button type="submit" class="btn btn-danger waves-effect waves-light">بله حذف شود</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade text-left" id="auction-accept-modal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal fade text-left" id="auction-accept-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -89,14 +94,15 @@
                 <div class="modal-footer">
                     <form action="{{ route('admin.auctions.accept') }}" id="auction-accept-form">
                         @csrf
-                        <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">خیر</button>
+                        <button type="button" class="btn btn-danger waves-effect waves-light"
+                            data-dismiss="modal">خیر</button>
                         <button type="submit" class="btn btn-success waves-effect waves-light">بله تایید شود</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade text-left" id="auction-reject-modal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal fade text-left" id="auction-reject-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -111,14 +117,14 @@
                 <div class="modal-footer">
                     <form action="{{ route('admin.auctions.reject') }}" id="auction-reject-form">
                         @csrf
-                        <button type="button" class="btn btn-success waves-effect waves-light" data-dismiss="modal">خیر</button>
+                        <button type="button" class="btn btn-success waves-effect waves-light"
+                            data-dismiss="modal">خیر</button>
                         <button type="submit" class="btn btn-danger waves-effect waves-light">بله رد شود</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection
 
 @include('back.partials.plugins', ['plugins' => ['datatable']])

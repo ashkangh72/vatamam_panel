@@ -45,7 +45,7 @@
                             </li>
                         @endcan
 
-                        @can('users.index')
+                        @can('users.index.block')
                             <li class="{{ active_class('admin.users_block.index') }}">
                                 <a href="{{ route('admin.users_block.index') }}">
                                     <i class="feather icon-circle"></i>
@@ -78,6 +78,8 @@
                                     @endIf
                                 </a>
                             </li>
+                        @endcan
+                        @can('auctions.index.product')
                             <li class="{{ active_class('admin.products.index') }} nav-item">
                                 <a href="{{ route('admin.products.index') }}">
                                     <i class="feather icon-circle"></i>
@@ -433,11 +435,11 @@
             @can('orders')
                 <li class="nav-item {{ active_class('admin.orders.index') }}">
                     <a href="{{ route('admin.orders.index') }}">
-                    <i class="feather icon-circle"></i>
-                    <span class="menu-item">همه سفارشات</span>
-                    <span class="badge badge-transparent ml-1">{{ $ordersCount }}</span>
-                </a>
-                   
+                        <i class="feather icon-circle"></i>
+                        <span class="menu-item">همه سفارشات</span>
+                        <span class="badge badge-transparent ml-1">{{ $ordersCount }}</span>
+                    </a>
+
                 </li>
             @endcan
             @can('redirects')
@@ -476,6 +478,7 @@
                     </a>
                 </li>
             @endcan
+            
             @can('comments')
                 <li class="{{ active_class('admin.comments.*') }} nav-item"><a
                         href="{{ route('admin.comments.index') }}">
@@ -488,8 +491,10 @@
                     </a>
                 </li>
             @endcan
-            @can('comments')
-                <li class="{{ active_class('admin.tickets.*') }} nav-item"><a href="{{ route('admin.tickets.index') }}">
+
+            @can('tickets')
+                <li class="{{ active_class('admin.tickets.*') }} nav-item"><a
+                        href="{{ route('admin.tickets.index') }}">
                         <i class="feather icon-message-circle"></i>
                         <span class="menu-title"> تیکت ها</span>
                         @if ($ticketsCount)

@@ -33,28 +33,32 @@
             </div>
             <div class="content-body">
                 <div class="row">
-                    <div class="col-lg-3 col-sm-6 col-12">
-                        <div class="card user-statistics-card">
-                            <div class="card-header d-flex align-items-start pb-0">
-                                <div>
-                                    <h2 title="{{ convert_number($user->getWallet()->balance()) }}"
-                                        class="text-bold-700 mb-0">{{ number_format($user->getWallet()->balance()) }}</h2>
-                                    <p>موجودی کیف پول</p>
-                                </div>
-                                <div class="avatar bg-rgba-info p-50 m-0">
-                                    <div class="avatar-content">
-                                        <i class="fa fa-credit-card text-info font-medium-5"></i>
+                    @can('users.wallets.show')
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card user-statistics-card">
+                                <div class="card-header d-flex align-items-start pb-0">
+                                    <div>
+                                        <h2 title="{{ convert_number($user->getWallet()->balance()) }}"
+                                            class="text-bold-700 mb-0">{{ number_format($user->getWallet()->balance()) }}</h2>
+                                        <p>موجودی کیف پول</p>
+                                    </div>
+                                    <div class="avatar bg-rgba-info p-50 m-0">
+                                        <div class="avatar-content">
+                                            <i class="fa fa-credit-card text-info font-medium-5"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-footer">
-                                <span>
-                                    <a href="{{ route('admin.wallets.show', ['wallet' => $user->getWallet()]) }}"
-                                        class="card-link">تاریخچه کیف پول <i class="fa fa-angle-left"></i></a>
-                                </span>
+                                <div class="card-footer">
+                                    @can('users.wallets.history.show')
+                                        <span>
+                                            <a href="{{ route('admin.wallets.show', ['wallet' => $user->getWallet()]) }}"
+                                                class="card-link">تاریخچه کیف پول <i class="fa fa-angle-left"></i></a>
+                                        </span>
+                                    @endcan
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endcan
                     <div class="col-lg-3 col-sm-6 col-12">
                         <div class="card user-statistics-card">
                             <div class="card-header d-flex align-items-start pb-0">
@@ -228,9 +232,7 @@
                                                             <div>
                                                                 <button id="btn-blacklist" data-toggle="modal"
                                                                     data-target="#blacklist-modal" type="button"
-                                                                    class="btn btn-danger waves-effect waves-light">{{ $isBlacklist
-                                                                        ? 'انبلاک کردن کاربر'
-                                                                        : 'بلاک کردن کاربر' }}</button>
+                                                                    class="btn btn-danger waves-effect waves-light">{{ $isBlacklist ? 'انبلاک کردن کاربر' : 'بلاک کردن کاربر' }}</button>
                                                             </div>
                                                         @endcan
                                                     </div>
@@ -500,9 +502,9 @@
     <script src="{{ asset('public/back/assets/js/pages/users/show.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
 
-            $('#blacklist-form').on('submit', function (e) {
+            $('#blacklist-form').on('submit', function(e) {
                 e.preventDefault();
 
                 var formData = new FormData(this);
@@ -511,15 +513,16 @@
                     url: $(this).attr('action'),
                     type: 'POST',
                     data: formData,
-                    success: function (data) {
+                    success: function(data) {
                         $('#btn-blacklist').text(data.button_text);
                         toastr.success('تغییرات با موفقیت ثبت شد.');
                     },
-                    beforeSend: function (xhr) {
+                    beforeSend: function(xhr) {
                         block('#main-card');
-                        xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
+                        xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr(
+                            'content'));
                     },
-                    complete: function () {
+                    complete: function() {
                         unblock('#main-card');
                     },
                     cache: false,

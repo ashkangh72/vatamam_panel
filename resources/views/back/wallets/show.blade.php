@@ -16,7 +16,9 @@
                                     </li>
                                     <li class="breadcrumb-item">مدیریت کاربران
                                     </li>
-                                    <li class="breadcrumb-item"><a href="{{ route('admin.users.show', ['user' => $wallet->user]) }}">{{ $wallet->user->name }}</a></li>
+                                    <li class="breadcrumb-item"><a
+                                            href="{{ route('admin.users.show', ['user' => $wallet->user]) }}">{{ $wallet->user->name }}</a>
+                                    </li>
                                     <li class="breadcrumb-item active">تاریخچه کیف پول
                                     </li>
                                 </ol>
@@ -29,15 +31,20 @@
 
                 <section id="main-card" class="card">
                     <div class="card-header">
-                        <h4 class="card-title" title="{{ convert_number($wallet->balance()) . ' تومان' }}">تاریخچه کیف پول (موجودی: {{ number_format($wallet->balance()) }})</h4>
-                        <div>
-                            <a href="{{ route('admin.wallets.create', ['wallet' => $wallet]) }}" class="btn btn-info waves-effect waves-light"><i class="feather icon-plus"></i> ایجاد تراکنش</a>
-                        </div>
+                        <h4 class="card-title" title="{{ convert_number($wallet->balance()) . ' تومان' }}">تاریخچه کیف پول
+                            (موجودی: {{ number_format($wallet->balance()) }})</h4>
+                        @can('users.wallets.create')
+                            <div>
+                                <a href="{{ route('admin.wallets.create', ['wallet' => $wallet]) }}"
+                                    class="btn btn-info waves-effect waves-light"><i class="feather icon-plus"></i> ایجاد
+                                    تراکنش</a>
+                            </div>
+                        @endcan
                     </div>
                     <div class="card-content">
                         <div class="card-body table-responsive">
 
-                            @if($histories->count())
+                            @if ($histories->count())
                                 <table class="table table-striped mb-0">
                                     <thead>
                                         <tr>
@@ -52,12 +59,17 @@
                                     <tbody>
                                         @foreach ($histories as $history)
                                             @php
-                                                $is_deposit = in_array($history->type, [\App\Enums\WalletHistoryTypeEnum::deposit, \App\Enums\WalletHistoryTypeEnum::admin_deposit, \App\Enums\WalletHistoryTypeEnum::income]);
+                                                $is_deposit = in_array($history->type, [
+                                                    \App\Enums\WalletHistoryTypeEnum::deposit,
+                                                    \App\Enums\WalletHistoryTypeEnum::admin_deposit,
+                                                    \App\Enums\WalletHistoryTypeEnum::income,
+                                                ]);
                                             @endphp
 
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td class="{{ $is_deposit ? 'text-success' : 'text-danger' }}">{{ number_format($history->amount) }}</td>
+                                                <td class="{{ $is_deposit ? 'text-success' : 'text-danger' }}">
+                                                    {{ number_format($history->amount) }}</td>
                                                 <td>
                                                     @if ($is_deposit)
                                                         افزایش اعتبار
@@ -73,7 +85,7 @@
                                                 </td>
                                                 <td>{{ tverta($history->created_at) }}</td>
                                                 <td class="text-center">
-                                                    @if($history->success)
+                                                    @if ($history->success)
                                                         <div class="badge badge-pill badge-success badge-md">موفق</div>
                                                     @else
                                                         <div class="badge badge-pill badge-danger badge-md">ناموفق</div>
@@ -81,7 +93,9 @@
                                                 </td>
 
                                                 <td class="text-center">
-                                                    <button data-action="{{ route('admin.wallets.history', ['history' => $history]) }}" class="btn btn-info waves-effect waves-light show-history">مشاهده</button>
+                                                    <button
+                                                        data-action="{{ route('admin.wallets.history', ['history' => $history]) }}"
+                                                        class="btn btn-info waves-effect waves-light show-history">مشاهده</button>
                                                 </td>
                                             </tr>
                                         @endforeach

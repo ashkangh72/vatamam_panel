@@ -3,22 +3,23 @@
 @push('styles')
     <!-- Page JS Plugins CSS -->
     <link rel="stylesheet" href="{{ asset('public/back/app-assets/plugins/nestable2/jquery.nestable.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('public/back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
     <style>
         @media only screen and (max-width: 600px) {
-           .dd{
-               overflow-x: scroll;
-           }
-            .dd-list{
-                min-width: 400px!important;
+            .dd {
+                overflow-x: scroll;
+            }
+
+            .dd-list {
+                min-width: 400px !important;
             }
         }
     </style>
 @endpush
 
 @section('content')
-
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -64,25 +65,33 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-5 col-sm-10 col-10">
-                                                <input id="title" type="text" class="form-control" name="title" placeholder="افزودن دسته بندی جدید...">
+                                                <input id="title" type="text" class="form-control" name="title"
+                                                    placeholder="افزودن دسته بندی جدید...">
                                             </div>
-                                            <div class="col-2 px-0">
-                                                <button type="submit" class="btn btn-success waves-effect waves-light">افزودن</button>
-                                            </div>
+                                            @can('categories.create')
+                                                <div class="col-2 px-0">
+                                                    <button type="submit"
+                                                        class="btn btn-success waves-effect waves-light">افزودن</button>
+                                                </div>
+                                            @endcan
                                         </div>
                                     </div>
                                 </form>
 
                                 <!-- List categories -->
-                                <div class="dd mt-4" >
+                                <div class="dd mt-4">
                                     <ol class="dd-list">
                                         @foreach ($categories as $category)
-                                            @include('back.partials.child_category', ['child_category' => $category])
+                                            @include('back.partials.child_category', [
+                                                'child_category' => $category,
+                                            ])
                                         @endforeach
                                     </ol>
                                 </div>
                                 <!-- END List categories -->
-                                <p class="card-text mt-3"><i class="feather icon-info mr-1 align-middle"></i><span class="text-info">برای ایجاد زیر دسته، دسته بندی مورد نظر را به  سمت چپ بکشید.</span></p>
+                                <p class="card-text mt-3"><i class="feather icon-info mr-1 align-middle"></i><span
+                                        class="text-info">برای ایجاد زیر دسته، دسته بندی مورد نظر را به سمت چپ بکشید.</span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -93,7 +102,8 @@
     </div>
 
     <!-- Delete Modal -->
-    <div class="modal fade text-left" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel19" style="display: none;" aria-hidden="true">
+    <div class="modal fade text-left" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel19"
+        style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -104,11 +114,13 @@
                 </div>
                 <div class="modal-body">
                     با حذف این دسته بندی تمامی زیر دسته های آن حذف خواهند شد، آیا برای حذف
-                            مطمئن هستید؟
+                    مطمئن هستید؟
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success waves-effect waves-light" data-dismiss="modal">خیر</button>
-                    <button id="confirm-delete" type="button" class="btn btn-danger waves-effect waves-light">بله حذف شود</button>
+                    <button type="button" class="btn btn-success waves-effect waves-light"
+                        data-dismiss="modal">خیر</button>
+                    <button id="confirm-delete" type="button" class="btn btn-danger waves-effect waves-light">بله حذف
+                        شود</button>
                 </div>
             </div>
         </div>
@@ -132,7 +144,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">انصراف</button>
+                        <button type="button" class="btn btn-danger waves-effect waves-light"
+                            data-dismiss="modal">انصراف</button>
                         <button type="submit" class="btn btn-success waves-effect waves-light">ذخیره</button>
                     </div>
                 </form>
@@ -140,7 +153,6 @@
         </div>
     </div>
     <!-- END Edit Modal -->
-
 @endsection
 
 @push('scripts')

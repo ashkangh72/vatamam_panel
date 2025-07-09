@@ -153,10 +153,20 @@ let auction_datatable = function () {
             overflow: 'visible',
             autoHide: false,
             template: function (row) {
-                return `<a href="${row.links.show}" class="btn btn-info waves-effect waves-light">مشاهده</a>
-                <a href="${row.links.bids}" class="btn btn-info waves-effect waves-light">لیست پیشنهادات</a>
-                    <div class="btn-group-vertical"><a data-id="${row.id}" id="reject-btn" href ="${row.links.reject}"class="btn btn-outline-danger waves-effect waves-light">رد</a>
-                          <a data-id="${row.id}" id="accept-btn" href ="${row.links.accept}"class="btn btn-outline-success waves-effect waves-light">تایید</a></div>`;
+                str = `<a href="${row.links.show}" class="btn btn-info waves-effect waves-light">مشاهده</a>
+                <a href="${row.links.bids}" class="btn btn-info waves-effect waves-light">لیست پیشنهادات</a>`;
+                if (row.can_accept) {
+                    str += `<a data-id="${row.id}" id="accept-btn" href ="${row.links.accept}"class="btn btn-outline-success waves-effect waves-light">تایید</a></div>`;
+                }
+                if (row.can_reject) {
+                    str += `<div class="btn-group-vertical"><a data-id="${row.id}" id="reject-btn" href ="${row.links.reject}"class="btn btn-outline-danger waves-effect waves-light">رد</a>`;
+                }
+                return str;
+
+                // return `<a href="${row.links.show}" class="btn btn-info waves-effect waves-light">مشاهده</a>
+                // <a href="${row.links.bids}" class="btn btn-info waves-effect waves-light">لیست پیشنهادات</a>
+                //     <div class="btn-group-vertical"><a data-id="${row.id}" id="reject-btn" href ="${row.links.reject}"class="btn btn-outline-danger waves-effect waves-light">رد</a>
+                //           <a data-id="${row.id}" id="accept-btn" href ="${row.links.accept}"class="btn btn-outline-success waves-effect waves-light">تایید</a></div>`;
             },
         },
         ],

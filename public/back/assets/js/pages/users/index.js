@@ -119,9 +119,16 @@ var user_datatable = function() {
                 overflow: 'visible',
                 autoHide: false,
                 template: function(row) {
-                    return '<a href ="' + row.links.edit + '"class="btn btn-warning waves-effect waves-light">ویرایش</a>\
-                    <a href="' + row.links.show + '" class="btn btn-info waves-effect waves-light">مشاهده</a>';
-
+                    if (row.can_update && row.can_view) {
+                        return '<a href ="' + row.links.edit + '"class="btn btn-warning waves-effect waves-light">ویرایش</a>\
+                        <a href="' + row.links.show + '" class="btn btn-info waves-effect waves-light">مشاهده</a>';
+                    } else if (row.can_update) {
+                        return '<a href ="' + row.links.edit + '"class="btn btn-warning waves-effect waves-light">ویرایش</a>';
+                    } else if (row.can_view) {
+                        return '<a href="' + row.links.show + '" class="btn btn-info waves-effect waves-light">مشاهده</a>';
+                    } else {
+                        return '';
+                    }
                 },
             },
         ],

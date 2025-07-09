@@ -29,6 +29,8 @@ class Auction extends JsonResource
             'category' => $this->category->title,
             'created_at' => tverta($this->created_at)->format('%d %B %Y'),
             'updated_at' => tverta($this->updated_at)->format('%d %B %Y'),
+            'can_accept' => auth()->user()->can('auctions.approve'),
+            'can_reject' => auth()->user()->can('auctions.reject'),
 
             'links' => [
                 'show' => route('admin.auctions.show', ['auction' => $this]),

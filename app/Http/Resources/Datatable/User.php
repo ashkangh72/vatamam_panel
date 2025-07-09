@@ -25,6 +25,8 @@ class User extends JsonResource
             'money' => $this->getWallet()->balance,
             'box' => is_null($this->safeBox) ? 0 : $this->safeBox->balance,
             'created_at' => tverta($this->created_at)->format('%d %B %Y'),
+            'can_update' => auth()->user()->can('users.update'),
+            'can_view' => auth()->user()->can('users.view'),
 
             'links' => [
                 'unblock' => route('admin.users.unblock', ['user' => $this]),

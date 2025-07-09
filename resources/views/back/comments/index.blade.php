@@ -47,13 +47,16 @@
                                             <fieldset class="form-group">
                                                 <select class="form-control" name="status" id="filter-status">
                                                     <option value="">همه</option>
-                                                    <option value="{{ $pending }}" {{ (int)request('status') == $pending ? 'selected' : '' }}>
+                                                    <option value="{{ $pending }}"
+                                                        {{ (int) request('status') == $pending ? 'selected' : '' }}>
                                                         منتظر تایید
                                                     </option>
-                                                    <option value="{{ $approved }}" {{ (int)request('status') == $approved ? 'selected' : '' }}>
+                                                    <option value="{{ $approved }}"
+                                                        {{ (int) request('status') == $approved ? 'selected' : '' }}>
                                                         تایید شده
                                                     </option>
-                                                    <option value="{{ $rejected }}" {{ (int)request('status') == $rejected ? 'selected' : '' }}>
+                                                    <option value="{{ $rejected }}"
+                                                        {{ (int) request('status') == $rejected ? 'selected' : '' }}>
                                                         رد شده
                                                     </option>
                                                 </select>
@@ -63,10 +66,12 @@
                                             <label for="filter-ordering">مرتب سازی</label>
                                             <fieldset class="form-group">
                                                 <select class="form-control" name="ordering" id="filter-ordering">
-                                                    <option value="latest" {{ request('ordering') == 'latest' ? 'selected' : '' }}>
+                                                    <option value="latest"
+                                                        {{ request('ordering') == 'latest' ? 'selected' : '' }}>
                                                         جدیدترین
                                                     </option>
-                                                    <option value="oldest" {{ request('ordering') == 'oldest' ? 'selected' : '' }}>
+                                                    <option value="oldest"
+                                                        {{ request('ordering') == 'oldest' ? 'selected' : '' }}>
                                                         قدیمی ترین
                                                     </option>
                                                 </select>
@@ -81,7 +86,7 @@
                 <!-- filter end -->
 
                 <div class="list-comments">
-                    @if($comments->count())
+                    @if ($comments->count())
                         <section class="card">
                             <div class="card-header">
                                 <h4 class="card-title">مدیریت دیدگاه ها</h4>
@@ -91,57 +96,68 @@
                                     <div class="table-responsive">
                                         <table class="table table-striped mb-0">
                                             <thead>
-                                            <tr>
-                                                <th class="text-center">#</th>
-                                                <th>نام</th>
-                                                <th>دیدگاه</th>
-                                                <th class="text-center">وضعیت</th>
-                                                <th class="text-center">عملیات</th>
-                                            </tr>
+                                                <tr>
+                                                    <th class="text-center">#</th>
+                                                    <th>نام</th>
+                                                    <th>دیدگاه</th>
+                                                    <th class="text-center">وضعیت</th>
+                                                    <th class="text-center">عملیات</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach ($comments as $comment)
-                                                <tr id="comment-{{ $comment->id }}-tr">
-                                                    <td class="text-center">
-                                                        {{ $comment->id }}
-                                                    </td>
-                                                    <td style="white-space: nowrap">{{ $comment->user->name ?: '---' }}</td>
-                                                    <td style="max-width: 300px">{{ short_content($comment->body, 20, false) }}</td>
-                                                    <td class="text-center">
-                                                        @if((int)$comment->status == $pending)
-                                                            <div class="badge badge-pill badge-warning badge-md">منتظر تایید</div>
-                                                        @elseif((int)$comment->status == $approved)
-                                                            <div class="badge badge-pill badge-success badge-md">تایید شده</div>
-                                                        @else
-                                                            <div class="badge badge-pill badge-danger badge-md">رد شده</div>
-                                                        @endif
-                                                    </td>
+                                                @foreach ($comments as $comment)
+                                                    <tr id="comment-{{ $comment->id }}-tr">
+                                                        <td class="text-center">
+                                                            {{ $comment->id }}
+                                                        </td>
+                                                        <td style="white-space: nowrap">{{ $comment->user->name ?: '---' }}
+                                                        </td>
+                                                        <td style="max-width: 300px">
+                                                            {{ short_content($comment->body, 20, false) }}</td>
+                                                        <td class="text-center">
+                                                            @if ((int) $comment->status == $pending)
+                                                                <div class="badge badge-pill badge-warning badge-md">منتظر
+                                                                    تایید</div>
+                                                            @elseif((int) $comment->status == $approved)
+                                                                <div class="badge badge-pill badge-success badge-md">تایید
+                                                                    شده</div>
+                                                            @else
+                                                                <div class="badge badge-pill badge-danger badge-md">رد شده
+                                                                </div>
+                                                            @endif
+                                                        </td>
 
-                                                    <td class="text-center" style="white-space: nowrap">
-                                                        <button type="button" data-comment="{{ $comment->id }}"
-                                                                class="btn btn-success mr-1 waves-effect waves-light show-comment">
-                                                            مشاهده
-                                                        </button>
-                                                        <button data-comment="{{ $comment->id }}"
-                                                                data-action="{{ route('admin.comments.destroy', ['comment' => $comment]) }}"
-                                                                type="button"
-                                                                class="btn btn-danger mr-1 waves-effect waves-light btn-delete"
-                                                                data-toggle="modal" data-target="#delete-modal">حذف
-                                                        </button>
-                                                        @if($comment->comments->count() > 0)
-                                                            <div class="mt-1">
-                                                                <button data-comment="{{ $comment->id }}"
-                                                                        data-action="{{ route('admin.comments.replies', ['comment' => $comment]) }}"
-                                                                        data-toggle="collapse" data-target="#replies"
-                                                                        type="button"
-                                                                        class="btn btn-primary mr-1 waves-effect waves-light replies">
-                                                                    پاسخ ها
+                                                        <td class="text-center" style="white-space: nowrap">
+                                                            @can('comments.show')
+                                                                <button type="button" data-comment="{{ $comment->id }}"
+                                                                    class="btn btn-success mr-1 waves-effect waves-light show-comment">
+                                                                    مشاهده
                                                                 </button>
-                                                            </div>
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                            @endforeach
+                                                            @endcan
+                                                            @can('comments.delete')
+                                                                <button data-comment="{{ $comment->id }}"
+                                                                    data-action="{{ route('admin.comments.destroy', ['comment' => $comment]) }}"
+                                                                    type="button"
+                                                                    class="btn btn-danger mr-1 waves-effect waves-light btn-delete"
+                                                                    data-toggle="modal" data-target="#delete-modal">حذف
+                                                                </button>
+                                                            @endcan
+                                                            @can('comments.answers')
+                                                                @if ($comment->comments->count() > 0)
+                                                                    <div class="mt-1">
+                                                                        <button data-comment="{{ $comment->id }}"
+                                                                            data-action="{{ route('admin.comments.replies', ['comment' => $comment]) }}"
+                                                                            data-toggle="collapse" data-target="#replies"
+                                                                            type="button"
+                                                                            class="btn btn-primary mr-1 waves-effect waves-light replies">
+                                                                            پاسخ ها
+                                                                        </button>
+                                                                    </div>
+                                                                @endif
+                                                            @endcan
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -203,7 +219,7 @@
     <!-- show Modal -->
     <!-- Modal -->
     <div class="modal fade" id="show-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

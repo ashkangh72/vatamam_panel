@@ -115,10 +115,12 @@
                                                         <td class="text-center">
                                                             {{ $ticket->id }}
                                                         </td>
-                                                        <td style="white-space: nowrap">{{ is_null($ticket->user) ? '---' : $ticket->user->name}}
+                                                        <td style="white-space: nowrap">
+                                                            {{ is_null($ticket->user) ? '---' : $ticket->user->name }}
                                                         </td>
-                                                        <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 300px;">
-                                                            {{ $ticket->title}}</td>
+                                                        <td
+                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 200px;">
+                                                            {{ $ticket->title }}</td>
                                                         <td class="text-center">
                                                             @if ($ticket->status->value == 1)
                                                                 <div class="badge badge-pill badge-warning badge-md">جدید
@@ -136,23 +138,27 @@
                                                         </td>
 
                                                         <td class="text-center" style="white-space: nowrap">
-                                                            <button data-comment="{{ $ticket->id }}"
-                                                                data-action="{{ route('admin.tickets.destroy', ['ticket' => $ticket]) }}"
-                                                                type="button"
-                                                                class="btn btn-danger mr-1 waves-effect waves-light btn-delete"
-                                                                data-toggle="modal" data-target="#delete-modal">حذف
-                                                            </button>
-                                                            <button data-comment="{{ $ticket->id }}"
-                                                                data-action="{{ route('admin.tickets.close', ['ticket' => $ticket]) }}"
-                                                                type="button"
-                                                                class="btn btn-danger mr-1 waves-effect waves-light btn-close"
-                                                                data-toggle="modal" data-target="#close-modal">بستن تیکت
-                                                            </button>
+                                                            @can('tickets.delete')
+                                                                <button data-comment="{{ $ticket->id }}"
+                                                                    data-action="{{ route('admin.tickets.destroy', ['ticket' => $ticket]) }}"
+                                                                    type="button"
+                                                                    class="btn btn-danger mr-1 waves-effect waves-light btn-delete"
+                                                                    data-toggle="modal" data-target="#delete-modal">حذف
+                                                                </button>
+                                                            @endcan
+                                                            @can('tickets.close')
+                                                                <button data-comment="{{ $ticket->id }}"
+                                                                    data-action="{{ route('admin.tickets.close', ['ticket' => $ticket]) }}"
+                                                                    type="button"
+                                                                    class="btn btn-danger mr-1 waves-effect waves-light btn-close"
+                                                                    data-toggle="modal" data-target="#close-modal">بستن تیکت
+                                                                </button>
+                                                            @endcan
                                                             @if ($ticket->messages->count() > 0)
-                                                                    <a href="{{ route('admin.tickets.replies', ['ticket' => $ticket]) }}"
-                                                                        class="btn btn-primary mr-1 waves-effect waves-light replies">
-                                                                        مشاهده
-                                                                    </a>
+                                                                <a href="{{ route('admin.tickets.replies', ['ticket' => $ticket]) }}"
+                                                                    class="btn btn-primary mr-1 waves-effect waves-light replies">
+                                                                    مشاهده
+                                                                </a>
                                                             @endif
                                                         </td>
                                                     </tr>

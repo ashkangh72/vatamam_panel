@@ -4,6 +4,10 @@ return [
 
     'permissions' => [
 
+        'wallets.checkouts' => 'مدیریت برداشت ها',
+        'wallets.checkouts.accept' => 'تایید برداشت',
+        'wallets.checkouts.reject' => 'رد برداشت',
+
         'users' => [
             'title' => 'مدیریت کاربران',
             'values' => [
@@ -14,26 +18,22 @@ return [
                 'delete' => 'حذف کاربر',
                 'export.excel' => 'خروجی اکسل',
 
-                'partners' => 'مدیریت همکاران',
-                'partners.accept' => 'تایید همکار',
-                'partners.reject' => 'رد همکار',
-
                 'wallets.show' => 'مشاهده کیف پول',
                 'wallets.create' => 'افزایش/کاهش موجودی کیف پول',
                 'wallets.history.show' => 'مشاهده تراکنش های کیف پول',
-                'wallets.checkouts' => 'مدیریت برداشت ها',
-                'wallets.checkouts.accept' => 'تایید برداشت',
-                'wallets.checkouts.reject' => 'رد برداشت'
+
+                'index.block' => 'لیست کاربران بلاک شده'
             ]
         ],
 
         'auctions' => [
-            'title' => 'مدیریت مزایده ها',
+            'title' => 'مدیریت مزایده ها و محصولات',
             'values' => [
                 'index' => 'لیست مزایده ها',
-                'approve' => 'تایید مزایده',
-                'reject' => 'رد مزایده',
-                'delete' => 'حذف مزایده'
+                'index.product' => 'لیست محصولات',
+                'approve' => 'تایید مزایده یا محصول',
+                'reject' => 'رد مزایده یا محصول',
+                'delete' => 'حذف مزایده یا محصول'
             ]
         ],
 
@@ -113,52 +113,6 @@ return [
             ]
         ],
 
-        'redirects' => [
-            'title' => 'مدیریت تغییر مسیرها',
-            'values' => [
-                'index' => 'لیست تغییر مسیرها',
-                'create' => 'ایجاد تغییر مسیرها',
-                'delete' => 'حذف تغییر مسیرها',
-            ]
-        ],
-
-        'search-engine-rules' => [
-            'title' => 'robots.txt مدیریت',
-            'values' => [
-                'index' => 'لیست قوانین robots.txt',
-                'create' => 'robots.txt ایجاد قانون',
-                'delete' => 'robots.txt حذف قانون',
-            ]
-        ],
-
-        'menus' => [
-            'title' => 'مدیریت منو ها',
-            'values' => [
-                'index' => 'لیست منو ها',
-                'show' => 'نمایش منو',
-                'create' => 'ایجاد منو',
-                'update' => 'ویرایش منو',
-                'delete' => 'حذف منو',
-            ]
-        ],
-
-        'notifications' => [
-            'title' => 'مدیریت اعلان ها',
-            'values' => [
-                'index' => 'لیست اعلان ها'
-            ]
-        ],
-
-        'comments' => [
-            'title' => 'مدیریت نظرات',
-            'values' => [
-                'index' => 'لیست نظرات',
-                'show' => 'مشاهده نظر',
-                'update' => 'ویرایش نظر',
-                'delete' => 'حذف نظر',
-            ]
-        ],
-
         'transactions' => [
             'title' => 'مدیریت تراکنش ها',
             'values' => [
@@ -209,17 +163,71 @@ return [
             ]
         ],
 
+
+        'redirects' => [
+            'title' => 'مدیریت تغییر مسیرها',
+            'values' => [
+                'index' => 'لیست تغییر مسیرها',
+                'create' => 'ایجاد تغییر مسیرها',
+                'delete' => 'حذف تغییر مسیرها',
+            ]
+        ],
+
+        'search-engine-rules' => [
+            'title' => 'robots.txt مدیریت',
+            'values' => [
+                'index' => 'لیست قوانین robots.txt',
+                'create' => 'robots.txt ایجاد قانون',
+                'delete' => 'robots.txt حذف قانون',
+            ]
+        ],
+
+        'menus' => [
+            'title' => 'مدیریت منو ها',
+            'values' => [
+                'index' => 'لیست منو ها',
+                'create' => 'ایجاد منو',
+                'update' => 'ویرایش منو',
+                'delete' => 'حذف منو',
+            ]
+        ],
+
+        'notifications' => [
+            'title' => 'مدیریت اعلان ها',
+            'values' => [
+                'index' => 'لیست اعلان ها'
+            ]
+        ],
+
+        'comments' => [
+            'title' => 'مدیریت نظرات',
+            'values' => [
+                'index' => 'لیست نظرات',
+                'show' => 'مشاهده نظر',
+                'answers' => 'مشاهده پاسخ ها ',
+                'delete' => 'حذف نظر',
+            ]
+        ],
+
+        'tickets' => [
+            'title' => 'تیکت ها',
+            'values' => [
+                'index' => 'لیست تیکت ها',
+                'delete' => 'حذف تیکت ها',
+                'close' => 'بستن تیکت ها',
+            ]
+        ],
+
         'settings' => [
             'title' => 'تنظیمات',
             'values' => [
-                'information' => 'اطلاعات سایت',
+                'information' => 'اطلاعات کلی',
                 'socials' => 'شبکه های اجتماعی',
                 'sms' => 'تنظیمات پیامک',
             ]
         ],
-
-        'file-manager' => 'مدیریت فایل ها',
     ],
+    // 'file-manager' => 'مدیریت فایل ها',
 
     'linkGroups' => [
         [
