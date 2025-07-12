@@ -153,7 +153,7 @@ let auction_datatable = function () {
             overflow: 'visible',
             autoHide: false,
             template: function (row) {
-                str = `<a href="${row.links.show}" class="btn btn-info waves-effect waves-light">مشاهده</a>`;
+                var str = `<a href="${row.links.show}" class="btn btn-info waves-effect waves-light">مشاهده</a>`;
                 if (row.can_accept) {
                     str += `<a data-id="${row.id}" id="accept-btn" href ="${row.links.accept}"class="btn btn-outline-success waves-effect waves-light">تایید</a></div>`;
                 }
