@@ -23,79 +23,82 @@
             </div>
             <div class="content-body">
                 <!-- Add new redirect -->
-                <section class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">افزودن تغییر مسیر جدید</h4>
-                    </div>
+                @can('redirects.create')
+                    <section class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">افزودن تغییر مسیر جدید</h4>
+                        </div>
 
-                    <div class="card-content" id="form-card">
-                        <div class="card-body">
-                            <div class="col-12 col-md-10 offset-md-1">
-                                <form class="form" id="redirect-create-form"
-                                    action="{{ route('admin.redirects.store') }}" method="post">
-                                    @csrf
-                                    <div class="form-body">
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" name="old_url">
-                                                    <div class="input-group-append">
-                                                        <div class="input-group-text">
-                                                            نشانی قدیمی
+                        <div class="card-content" id="form-card">
+                            <div class="card-body">
+                                <div class="col-12 col-md-10 offset-md-1">
+                                    <form class="form" id="redirect-create-form" action="{{ route('admin.redirects.store') }}"
+                                        method="post">
+                                        @csrf
+                                        <div class="form-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="old_url">
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                نشانی قدیمی
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" name="new_url">
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                نشانی جدید
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-12">
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" name="new_url">
-                                                    <div class="input-group-append">
-                                                        <div class="input-group-text">
-                                                            نشانی جدید
+
+                                            <div class="row">
+                                                <div class="col-md-6 col-12">
+                                                    <div class="input-group">
+                                                        <select class="form-control" name="http_code">
+                                                            @foreach ([
+                301 => 'HTTP/1.0/Permanent',
+                302 => 'HTTP/1.0/Temporary',
+                303 => 'HTTP/1.1/Temporary',
+                307 => 'HTTP/1.1/Temporary',
+                308 => 'HTTP/1.1/Permanent',
+                410 => 'HTTP/Gone/Permanent',
+            ] as $httpRedirectCode => $type)
+                                                                <option value="{{ $httpRedirectCode }}">
+                                                                    {{ $httpRedirectCode . ' - ' . $type }}</option>
+                                                            @endforeach
+                                                        </select>
+
+                                                        <div class="input-group-append">
+                                                            <div class="input-group-text">
+                                                                HTTP Code
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="col-md-6 col-12">
-                                                <div class="input-group">
-                                                    <select class="form-control" name="http_code">
-                                                        @foreach([
-                                                            301 => "HTTP/1.0/Permanent",
-                                                            302 => "HTTP/1.0/Temporary",
-                                                            303 => "HTTP/1.1/Temporary",
-                                                            307 => "HTTP/1.1/Temporary",
-                                                            308 => "HTTP/1.1/Permanent",
-                                                            410 => "HTTP/Gone/Permanent"
-                                                            ] as $httpRedirectCode => $type)
-                                                            <option value="{{ $httpRedirectCode }}">{{ $httpRedirectCode .' - '. $type }}</option>
-                                                        @endforeach
-                                                    </select>
-
-                                                    <div class="input-group-append">
-                                                        <div class="input-group-text">
-                                                            HTTP Code
-                                                        </div>
-                                                    </div>
+                                            <div class="row">
+                                                <div class="col-12 text-right">
+                                                    <button type="submit"
+                                                        class="btn btn-primary mb-1 waves-effect waves-light">افزودن
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-12 text-right">
-                                                <button type="submit"
-                                                    class="btn btn-primary mb-1 waves-effect waves-light">افزودن
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                @endcan
                 <!--/ Add redirect -->
 
                 <div id="main-content-div">
@@ -124,9 +127,11 @@
                                                         <td class="text-center">{{ urldecode($redirect->old_url) }}</td>
                                                         <td class="text-center">{{ urldecode($redirect->new_url) }}</td>
                                                         <td class="text-center">
-                                                            <button type="button" data-id="{{ $redirect->id }}"
-                                                                class="btn btn-danger mr-1 waves-effect waves-light btn-delete"
-                                                                data-toggle="modal" data-target="#delete-modal">حذف</button>
+                                                            @can('redirects.delete')
+                                                                <button type="button" data-id="{{ $redirect->id }}"
+                                                                    class="btn btn-danger mr-1 waves-effect waves-light btn-delete"
+                                                                    data-toggle="modal" data-target="#delete-modal">حذف</button>
+                                                            @endcan
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -136,7 +141,6 @@
                                 </div>
                             </div>
                         </section>
-
                     @else
                         <section class="card">
                             <div class="card-header">

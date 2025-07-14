@@ -63,13 +63,19 @@
                                                         @elseif($walletCheckout->status == \App\Enums\WalletCheckoutStatusEnum::rejected)
                                                             <div class="badge badge-pill badge-danger badge-md">رد شده</div>
                                                         @elseif($walletCheckout->walletCheckoutTransaction && $walletCheckout->walletCheckoutTransaction->status == 'TRANSFERRED')
-                                                            <div class="badge badge-pill badge-success badge-md">انتقال وجه با موفقیت انجام شد</div>
+                                                            <div class="badge badge-pill badge-success badge-md">انتقال وجه
+                                                                با موفقیت انجام شد</div>
                                                         @elseif($walletCheckout->walletCheckoutTransaction && $walletCheckout->walletCheckoutTransaction->status == 'FAILED')
-                                                            <div class="badge badge-pill badge-danger badge-md">انتقال وجه ناموفق بود</div>
-                                                        @elseif($walletCheckout->walletCheckoutTransaction && $walletCheckout->walletCheckoutTransaction->status == 'TRANSFERRED_REVERTED')
-                                                            <div class="badge badge-pill badge-success badge-md">انتقال وجه برگشت داده شد</div>
+                                                            <div class="badge badge-pill badge-danger badge-md">انتقال وجه
+                                                                ناموفق بود</div>
+                                                        @elseif(
+                                                            $walletCheckout->walletCheckoutTransaction &&
+                                                                $walletCheckout->walletCheckoutTransaction->status == 'TRANSFERRED_REVERTED')
+                                                            <div class="badge badge-pill badge-success badge-md">انتقال وجه
+                                                                برگشت داده شد</div>
                                                         @elseif($walletCheckout->walletCheckoutTransaction && $walletCheckout->walletCheckoutTransaction->status == 'FAILED_WRONG')
-                                                            <div class="badge badge-pill badge-danger badge-md">انتقال وجه ناموفق بود</div>
+                                                            <div class="badge badge-pill badge-danger badge-md">انتقال وجه
+                                                                ناموفق بود</div>
                                                         @else
                                                             <div class="badge badge-pill badge-warning badge-md">در حال
                                                                 انجام تراکنش برداشت</div>
@@ -79,13 +85,16 @@
                                                     <td class="text-center">
                                                         <div class="btn-group-vertical">
                                                             @if ($walletCheckout->status != \App\Enums\WalletCheckoutStatusEnum::approved)
-                                                                <a data-id="{{ $walletCheckout->id }}" id="accept-btn"
-                                                                    href="#"
-                                                                    class="btn btn-outline-success waves-effect waves-light">تایید</a>
-
-                                                                <a data-id="{{ $walletCheckout->id }}" id="reject-btn"
-                                                                    href="#"
-                                                                    class="btn btn-outline-danger waves-effect waves-light">رد</a>
+                                                                @can('transactions.checkouts.accept')
+                                                                    <a data-id="{{ $walletCheckout->id }}" id="accept-btn"
+                                                                        href="#"
+                                                                        class="btn btn-outline-success waves-effect waves-light">تایید</a>
+                                                                @endcan
+                                                                @can('transactions.checkouts.reject')
+                                                                    <a data-id="{{ $walletCheckout->id }}" id="reject-btn"
+                                                                        href="#"
+                                                                        class="btn btn-outline-danger waves-effect waves-light">رد</a>
+                                                                @endcan
                                                             @endif
                                                         </div>
                                                     </td>

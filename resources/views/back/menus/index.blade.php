@@ -51,7 +51,9 @@
                 <section id="description" class="card">
                     <div class="card-header">
                         <h4 class="card-title">مدیریت منوها</h4>
+                        @can('menus.create')
                         <button class="btn btn-success" data-toggle="modal" data-target="#modal-add"><i class="fa fa-plus mr-1"></i> افزودن منوی جدید</button>
+                        @endcan
                     </div>
                     <div id="main-block" class="card-content">
                         <div class="card-body">

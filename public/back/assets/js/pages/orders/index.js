@@ -183,11 +183,14 @@ let order_datatable = (function () {
             template: function (row) {
                 let actions = '<div class="btn-group-vertical"><a href="' + row.links.view + '" class="btn btn-outline-info waves-effect waves-light">مشاهده</a>';
                 if (row.is_refunded && row.refund_status === 'pending') {
-                    actions += '<button data-action="' + row.links.accept + '" class="btn btn-outline-success btn-accept">تایید برگشت</button>';
-                    actions += '<button data-action="' + row.links.reject + '" class="btn btn-outline-danger btn-reject">رد برگشت</button>';
+                    if (row.can_refund_accept)
+                        actions += '<button data-action="' + row.links.accept + '" class="btn btn-outline-success btn-accept">تایید برگشت</button>';
+                    if (row.can_refund_reject)
+                        actions += '<button data-action="' + row.links.reject + '" class="btn btn-outline-danger btn-reject">رد برگشت</button>';
                 }
                 if (row.is_refunded && row.refund_status === 'accepted' && !row.refunded_payment) {
-                    actions += '<button data-action="' + row.links.refundPayment + '" class="btn btn-outline-success btn-refund">برگشت پرداختی</button>';
+                    if (row.can_refund_payment)
+                        actions += '<button data-action="' + row.links.refundPayment + '" class="btn btn-outline-success btn-refund">برگشت پرداختی</button>';
                 }
                 return actions + '</div>';
             },

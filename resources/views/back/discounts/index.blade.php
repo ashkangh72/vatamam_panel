@@ -24,7 +24,7 @@
             </div>
             <div class="content-body">
 
-                @if($discounts->count())
+                @if ($discounts->count())
                     <section class="card">
                         <div class="card-header">
                             <h4 class="card-title">لیست تخفیف ها</h4>
@@ -55,8 +55,17 @@
                                                     <td>{{ $discount->orders()->paid()->count() }}</td>
 
                                                     <td class="text-center">
-                                                        <a class="btn btn-warning waves-effect waves-light" href="{{ route('admin.discounts.edit', ['discount' => $discount]) }}">ویرایش</a>
-                                                        <button data-discount="{{ $discount->id }}" data-action="{{ route('admin.discounts.destroy', ['discount' => $discount]) }}" type="button" class="btn btn-danger waves-effect waves-light btn-delete"  data-toggle="modal" data-target="#delete-modal">حذف</button>
+                                                        @can('discounts.update')
+                                                            <a class="btn btn-warning waves-effect waves-light"
+                                                                href="{{ route('admin.discounts.edit', ['discount' => $discount]) }}">ویرایش</a>
+                                                        @endcan
+                                                        @can('discounts.delete')
+                                                            <button data-discount="{{ $discount->id }}"
+                                                                data-action="{{ route('admin.discounts.destroy', ['discount' => $discount]) }}"
+                                                                type="button"
+                                                                class="btn btn-danger waves-effect waves-light btn-delete"
+                                                                data-toggle="modal" data-target="#delete-modal">حذف</button>
+                                                        @endcan
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -67,7 +76,6 @@
                             </div>
                         </div>
                     </section>
-
                 @else
                     <section class="card">
                         <div class="card-header">
@@ -90,7 +98,7 @@
     </div>
 
     {{-- delete post modal --}}
-    <div class="modal fade text-left" id="delete-modal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal fade text-left" id="delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -106,7 +114,8 @@
                     <form action="#" id="discount-delete-form">
                         @csrf
                         @method('delete')
-                        <button type="button" class="btn btn-success waves-effect waves-light" data-dismiss="modal">خیر</button>
+                        <button type="button" class="btn btn-success waves-effect waves-light"
+                            data-dismiss="modal">خیر</button>
                         <button type="submit" class="btn btn-danger waves-effect waves-light">بله حذف شود</button>
                     </form>
                 </div>

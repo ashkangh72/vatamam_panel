@@ -21,15 +21,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="content-header-right text-md-right col-md-3 col-12">
-                    <div class="form-group breadcrum-right">
-                        <a href="{{ route('admin.widgets.create') }}" class="btn-icon btn btn-success">
-                            <i class="feather icon-plus mr-1"></i>ایجاد ابزارک</a>
+                @can('widgets.create')
+                    <div class="content-header-right text-md-right col-md-3 col-12">
+                        <div class="form-group breadcrum-right">
+                            <a href="{{ route('admin.widgets.create') }}" class="btn-icon btn btn-success">
+                                <i class="feather icon-plus mr-1"></i>ایجاد ابزارک</a>
+                        </div>
                     </div>
-                </div>
+                @endcan
             </div>
             <div class="content-body">
-                @if($widgets->count())
+                @if ($widgets->count())
                     <section class="card">
                         <div class="card-header">
                             <h4 class="card-title">مدیریت صفحه اصلی</h4>
@@ -39,41 +41,45 @@
                                 <div class="table-responsive">
                                     <table class="table table-striped mb-0">
                                         <thead>
-                                        <tr>
-                                            <th class="text-center">ردیف</th>
-                                            <th>عنوان</th>
-                                            <th>نوع ابزارک</th>
-                                            <th class="text-center">وضعیت</th>
-                                            <th class="text-center">عملیات</th>
-                                        </tr>
+                                            <tr>
+                                                <th class="text-center">ردیف</th>
+                                                <th>عنوان</th>
+                                                <th>نوع ابزارک</th>
+                                                <th class="text-center">وضعیت</th>
+                                                <th class="text-center">عملیات</th>
+                                            </tr>
                                         </thead>
                                         <tbody id="widgets-sortable" data-action="{{ route('admin.widgets.sort') }}">
-                                        @foreach ($widgets as $widget)
-                                            <tr id="widget-{{ $widget->id }}">
-                                                <td class="text-center draggable-handler">
-                                                    <div class="fonticon-wrap"><i class="feather icon-move"></i></div>
-                                                </td>
-                                                <td>{{ $widget->title }}</td>
-                                                <td>{{ $widget->type() }}</td>
-                                                <td class="text-center">
-                                                    @if($widget->is_active)
-                                                        <div class="badge badge-pill badge-success badge-md">فعال</div>
-                                                    @else
-                                                        <div class="badge badge-pill badge-danger badge-md">غیر فعال
-                                                        </div>
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">
-                                                    <a href="{{ route('admin.widgets.edit', ['widget' => $widget]) }}"
-                                                       class="btn btn-warning waves-effect waves-light">ویرایش</a>
-                                                    <button type="button"
-                                                            data-action="{{ route('admin.widgets.destroy', ['widget' => $widget]) }}"
-                                                            class="btn btn-danger waves-effect waves-light btn-delete"
-                                                            data-toggle="modal" data-target="#delete-modal">حذف
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                            @foreach ($widgets as $widget)
+                                                <tr id="widget-{{ $widget->id }}">
+                                                    <td class="text-center draggable-handler">
+                                                        <div class="fonticon-wrap"><i class="feather icon-move"></i></div>
+                                                    </td>
+                                                    <td>{{ $widget->title }}</td>
+                                                    <td>{{ $widget->type() }}</td>
+                                                    <td class="text-center">
+                                                        @if ($widget->is_active)
+                                                            <div class="badge badge-pill badge-success badge-md">فعال</div>
+                                                        @else
+                                                            <div class="badge badge-pill badge-danger badge-md">غیر فعال
+                                                            </div>
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @can('widgets.update')
+                                                            <a href="{{ route('admin.widgets.edit', ['widget' => $widget]) }}"
+                                                                class="btn btn-warning waves-effect waves-light">ویرایش</a>
+                                                        @endcan
+                                                        @can('widgets.delete')
+                                                            <button type="button"
+                                                                data-action="{{ route('admin.widgets.destroy', ['widget' => $widget]) }}"
+                                                                class="btn btn-danger waves-effect waves-light btn-delete"
+                                                                data-toggle="modal" data-target="#delete-modal">حذف
+                                                            </button>
+                                                        @endcan
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -100,7 +106,7 @@
 
     {{-- delete widget modal --}}
     <div class="modal fade text-left" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel19"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">

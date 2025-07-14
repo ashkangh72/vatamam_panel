@@ -4,7 +4,6 @@ return [
 
     'permissions' => [
 
-
         'users' => [
             'title' => 'مدیریت کاربران',
             'values' => [
@@ -45,12 +44,16 @@ return [
         ],
 
         'transactions' => [
-            'title' => 'مدیریت تراکنش ها',
+            'title' => 'مدیریت اطلاعات مالی',
             'values' => [
-                'index' => 'لیست تراکنش ها',
-                'show' => 'مشاهده تراکنش',
+                'mali.index' => 'مشاهده اطلاعات مالی کاربران',
+                'mali' => 'تراکنش های مالی',
+                'payment.index' => 'تراکنش های درگاه پرداخت',
+                'payment.delete' => 'حذف تراکنش درگاه پرداخت',
                 'delete' => 'حذف تراکنش',
                 'checkouts' => 'مدیریت برداشت ها',
+                'checkouts.accept' => 'تایید برداشت',
+                'checkouts.reject' => 'رد برداشت',
 
             ]
         ],
@@ -72,7 +75,6 @@ return [
                 'provinces.update' => 'ویرایش استان',
                 'provinces.delete' => 'حذف استان',
                 'provinces.create' => 'ایجاد استان',
-                'provinces.show' => 'مشاهده استان',
                 'cities.update' => 'ویرایش شهر',
                 'cities.delete' => 'حذف شهر',
                 'cities.create' => 'ایجاد شهر',
@@ -87,7 +89,6 @@ return [
                 'update' => 'ویرایش لینک',
                 'delete' => 'حذف لینک',
                 'groups' => 'مدیریت گروه ها',
-                'groups.update' => 'ویرایش گروه ها'
             ]
         ],
 
@@ -135,7 +136,6 @@ return [
             'title' => 'مدیریت ابزارک ها',
             'values' => [
                 'index' => 'لیست ابزارک ها',
-                'show' => 'مشاهده ابزارک',
                 'create' => 'ایجاد ابزارک',
                 'update' => 'ویرایش ابزارک',
                 'delete' => 'حذف ابزارک',

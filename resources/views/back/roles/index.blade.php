@@ -26,7 +26,7 @@
             </div>
             <div class="content-body">
 
-                @if($roles->count())
+                @if ($roles->count())
                     <section class="card">
                         <div class="card-header">
                             <h4 class="card-title">لیست نقش ها</h4>
@@ -50,8 +50,16 @@
                                                     <td>{{ $role->description }}</td>
 
                                                     <td class="text-center">
-                                                        <a href="{{ route('admin.roles.edit', ['role' => $role]) }}" class="btn btn-success mr-1 waves-effect waves-light">ویرایش</a>
-                                                        <button type="button" data-role="{{ $role->slug }}" data-id="{{ $role->id }}" class="btn btn-danger mr-1 waves-effect waves-light btn-delete"  data-toggle="modal" data-target="#delete-modal">حذف</button>
+                                                        @can('roles.update')
+                                                            <a href="{{ route('admin.roles.edit', ['role' => $role]) }}"
+                                                                class="btn btn-success mr-1 waves-effect waves-light">ویرایش</a>
+                                                        @endcan
+                                                        @can('roles.delete')
+                                                            <button type="button" data-role="{{ $role->slug }}"
+                                                                data-id="{{ $role->id }}"
+                                                                class="btn btn-danger mr-1 waves-effect waves-light btn-delete"
+                                                                data-toggle="modal" data-target="#delete-modal">حذف</button>
+                                                        @endcan
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -62,7 +70,6 @@
                             </div>
                         </div>
                     </section>
-
                 @else
                     <section class="card">
                         <div class="card-header">
@@ -84,7 +91,8 @@
     </div>
 
     {{-- delete role modal --}}
-    <div class="modal fade text-left" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel19" style="display: none;" aria-hidden="true">
+    <div class="modal fade text-left" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel19"
+        style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -100,7 +108,8 @@
                     <form action="#" id="role-delete-form">
                         @csrf
                         @method('delete')
-                        <button type="button" class="btn btn-success waves-effect waves-light" data-dismiss="modal">خیر</button>
+                        <button type="button" class="btn btn-success waves-effect waves-light"
+                            data-dismiss="modal">خیر</button>
                         <button type="submit" class="btn btn-danger waves-effect waves-light">بله حذف شود</button>
                     </form>
                 </div>

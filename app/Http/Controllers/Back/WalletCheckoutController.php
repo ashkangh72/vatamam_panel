@@ -22,7 +22,7 @@ class WalletCheckoutController extends Controller
      */
     public function index(): View
     {
-        $this->authorize('users.wallets.checkouts');
+        $this->authorize('transactions.checkouts');
 
         $walletCheckouts = WalletCheckout::latest()->paginate(15);
 
@@ -36,7 +36,7 @@ class WalletCheckoutController extends Controller
      */
     public function accept(Request $request): Response
     {
-        $this->authorize('users.wallets.checkouts.accept');
+        $this->authorize('transactions.checkouts.accept');
 
         $request->validate([
             'id' => [
@@ -93,7 +93,7 @@ class WalletCheckoutController extends Controller
      */
     public function reject(Request $request): Response
     {
-        $this->authorize('users.wallets.checkouts.reject');
+        $this->authorize('transactions.checkouts.reject');
 
         $request->validate([
             'id' => [
