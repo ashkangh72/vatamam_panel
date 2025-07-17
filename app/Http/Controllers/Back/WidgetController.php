@@ -187,8 +187,6 @@ class WidgetController extends Controller
      */
     public function template($key, $widget = null): View|string
     {
-        $this->authorize('widgets.show');
-
         $options = config('general.widgets.' . $key . '.options');
 
         if (!$options) {
