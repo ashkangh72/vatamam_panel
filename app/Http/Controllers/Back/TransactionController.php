@@ -13,14 +13,14 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $this->authorize('transactions.index');
+        $this->authorize('transactions.payment.index');
 
         return view('back.transactions.index');
     }
 
     public function apiIndex(Request $request)
     {
-        $this->authorize('transactions.index');
+        $this->authorize('transactions.payment.index');
 
 
         $transactions = Transaction::whereHasMorph('transactionable', [WalletHistory::class], function ($q) {
@@ -34,14 +34,12 @@ class TransactionController extends Controller
 
     public function show(Transaction $transaction)
     {
-        $this->authorize('transactions.show');
-
         return view('back.transactions.show', compact('transaction'))->render();
     }
 
     public function destroy(Transaction $transaction)
     {
-        $this->authorize('transactions.delete');
+        $this->authorize('transactions.payment.delete');
 
         $transaction->delete();
 
@@ -50,7 +48,7 @@ class TransactionController extends Controller
 
     public function multipleDestroy(Request $request)
     {
-        $this->authorize('transactions.delete');
+        $this->authorize('transactions.payment.delete');
 
         $request->validate([
             'ids'   => 'required|array',
