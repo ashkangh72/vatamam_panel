@@ -169,6 +169,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 
     // ------------------ widgets
     Route::resource('widgets', WidgetController::class)->except(['show']);
+    Route::get('widgets/{widget}/edit', [WidgetController::class, 'edit'])->name('widgets.edit');
     Route::get('widgets/{key}/template', [WidgetController::class, 'template'])->name('widgets.template');
     Route::post('widget/sort', [WidgetController::class, 'sort'])->name('widgets.sort');
 

@@ -41,6 +41,8 @@ class WidgetController extends Controller
      */
     public function create(): View
     {
+        $this->authorize('widgets.create');
+
         return view('back.widgets.create');
     }
 
@@ -52,6 +54,8 @@ class WidgetController extends Controller
      */
     public function store(Request $request): Response
     {
+        $this->authorize('widgets.create');
+
         $keys = implode(',', WidgetKeyEnum::getNames());
 
         $request->validate([
@@ -90,6 +94,7 @@ class WidgetController extends Controller
      */
     public function edit(Widget $widget): View
     {
+        $this->authorize('widgets.update');
 
         $template = $this->template($widget->key->name, $widget);
 
@@ -105,6 +110,7 @@ class WidgetController extends Controller
      */
     public function update(Widget $widget, Request $request): Response
     {
+        $this->authorize('widgets.update');
 
         $keys = implode(',', WidgetKeyEnum::getNames());
 
@@ -141,6 +147,7 @@ class WidgetController extends Controller
      */
     public function destroy(Widget $widget): Response
     {
+        $this->authorize('widgets.delete');
 
         $widget->delete();
 
