@@ -51,7 +51,7 @@ class MaliController extends Controller
     {
         $this->authorize('users.index');
 
-        $users = WalletHistory::filter($request);
+        $users = WalletHistory::where('type', '!=', 1)->filter($request);
 
         $users = datatable($request, $users);
 
