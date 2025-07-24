@@ -154,12 +154,10 @@
                                                                     data-toggle="modal" data-target="#close-modal">بستن تیکت
                                                                 </button>
                                                             @endcan
-                                                            @if ($ticket->messages->count() > 0)
                                                                 <a href="{{ route('admin.tickets.replies', ['ticket' => $ticket]) }}"
                                                                     class="btn btn-primary mr-1 waves-effect waves-light replies">
                                                                     مشاهده
                                                                 </a>
-                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endforeach
