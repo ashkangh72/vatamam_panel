@@ -58,7 +58,7 @@
 
                         <div class="col-12">
                             <div class="row">
-                                <div class="card col-6">
+                                <div class="card col-4">
                                     <div class="card-header">
                                         <div class="card-title">مشخصات فروشنده</div>
                                         <div class="heading-elements">
@@ -91,7 +91,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card col-6">
+                                <div class="card col-4">
+                                </div>
+                                <div class="card col-4">
                                     <div class="card-header">
                                         <div class="card-title">مشخصات خریدار</div>
                                         <div class="heading-elements">

@@ -74,7 +74,7 @@
             display: flex;
         }
 
-        .flex > * {
+        .flex>* {
             float: left;
         }
 
@@ -88,7 +88,8 @@
             height: 30px;
         }
 
-        .barcode-generate, .barcode-generate-followup {
+        .barcode-generate,
+        .barcode-generate-followup {
             display: inline-block
         }
 
@@ -173,7 +174,7 @@
             padding: 0 0 0 2px;
         }
 
-        @page  {
+        @page {
             size: A4 landscape;
             margin: 0;
             margin-bottom: 0.5cm;
@@ -197,212 +198,223 @@
         }
     </style>
 </head>
+
 <body>
-<div class="page">
-    <h1 style="text-align: center">
-        صورتحسـاب نیابتی فـروش كـالا و خـدمات
-    </h1>
-    <table class="header-table" style="width: 100%">
-        <tr>
-            <td style="width: 1.8cm; height: 2.5cm;vertical-align: middle;padding-bottom: 4px;">
-                <div class="header-item-wrapper">
-                    <div class="portait" style="margin: 5px;">
-                        فروشنده
+    <div class="page">
+        <h1 style="text-align: center">
+            صورتحسـاب نیابتی فـروش كـالا و خـدمات
+        </h1>
+        <table class="header-table" style="width: 100%">
+            <tr>
+                <td style="width: 1.8cm; height: 2.5cm;vertical-align: middle;padding-bottom: 4px;">
+                    <div class="header-item-wrapper">
+                        <div class="portait" style="margin: 5px;">
+                            فروشنده
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td style="padding: 0 4px 4px;height: 2cm;">
-                <div class="bordered grow header-item-data">
-                    <table class="grow centered">
-                        <tr>
-                            <td style="width: 7cm">
-                                <span class="label">فروشنده:</span> {{ option('info_site_title') }} {{ url('/') }}
-                            </td>
-                            @if (option('factor_registeration_id'))
+                </td>
+                <td style="padding: 0 4px 4px;height: 2cm;">
+                    <div class="bordered grow header-item-data">
+                        <table class="grow centered">
+                            <tr>
+                                <td style="width: 7cm">
+                                    <span class="label">فروشنده:</span> {{ $order->seller->name }}
+                                </td>
+                                {{-- @if (option('factor_registeration_id'))
                                 <td style="width: 5cm">
                                     <span class="label">شماره ثبت:</span> {{ option('factor_registeration_id') }}
                                 </td>
-                            @endif
-                            @if (option('factor_economical_number'))
+                            @endif --}}
                                 <td>
-                                    <span class="label">شماره اقتصادی:</span> {{ option('factor_economical_number') }}
+                                    <span class="label">نام کاربری:</span> {{ $order->seller->username }}
                                 </td>
-                            @endif
-                            @if (option('factor_national_code'))
+                                {{-- @if (option('factor_national_code'))
                                 <td>
                                     <span class="label">شناسه ملی:</span> {{ option('factor_national_code') }}
                                 </td>
-                            @endif
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <span class="label">نشانی:</span> {{ option('info_address') }}
-                            </td>
-                            <td>
-                                <span class="label">تلفن:</span> {{ option('info_phone') }}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-            <td style="width: 4.5cm;height: 2cm;padding: 0 0 4px;">
-                <div class="bordered grow" style="padding: 2mm 5mm;">
-                    <div class="flex">
-                        <div class="font-small">شماره فاکتور:</div>
-                        <div class="flex-grow" style="text-align: left">{{ $order->id }}</div>
+                            @endif --}}
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <span class="label">نشانی:</span>
+                                    {{ $order->seller->address ? $order->seller->address->province->name . ' - ' . $order->seller->address->city->name : '--' }}
+                                </td>
+                                <td>
+                                    <span class="label">تلفن:</span> {{ $order->seller->phone }}
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    <div class="barcode">
-                        <span class="barcode-generate">{{ $order->id }}</span>
-                        <input type="hidden" id="codeFactor" value="{{ $order->id }}">
+                </td>
+                <td style="width: 4.5cm;height: 2cm;padding: 0 0 4px;">
+                    <div class="bordered grow" style="padding: 2mm 5mm;">
+                        <div class="flex">
+                            <div class="font-small">شماره فاکتور:</div>
+                            <div class="flex-grow" style="text-align: left">{{ $order->id }}</div>
+                        </div>
+                        <br />
+                        <div class="barcode">
+                            <span class="barcode-generate">{{ $order->id }}</span>
+                            <input type="hidden" id="codeFactor" value="{{ $order->id }}">
+                        </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 1.8cm; height: 2cm;vertical-align: center; padding: 0 0 4px">
-                <div class="header-item-wrapper">
-                    <div class="portait" style="margin: 20px">خریدار</div>
-                </div>
-            </td>
-            <td style="height: 2cm;vertical-align: center; padding: 0 4px 4px">
-                <div class="bordered header-item-data">
-                    <table style="height: 100%" class="centered">
-                        <tr>
-                            <td style="width: 6.7cm">
-                                <span class="label">خریدار:</span> {{ $order->address ? $order->address->recipient_name : '--' }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                                <span class="label">نشانی:</span>
-                                ایران،
-                                استان
-                                {{ $order->address ? ($order->address->city ? $order->address->city->province->name : '--') : '--' }}
-                                ، ‌شهر
-                                {{ $order->address ? ($order->address->city ? $order->address->city->name : '--') : '--' }}
-                                ،
-                                {{ $order->address ? $order->address->address : '--' }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <span class="label">شماره تماس:</span>{{ $order->address ? $order->address->recipient_phone : '--' }}
-                            </td>
-                            <td colspan="2">
-                                <span class="label">کد پستی:</span> {{ $order->address ? $order->address->postal_code : '--' }}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-            <td style="padding: 0 0 4px">
-                <div class="grow bordered" style="padding: 2mm 5mm;">
-                    <div class="flex">
-                        <div>تاریخ:</div>
-                        <div class="flex-grow" style="text-align: left">{{ tverta($order->created_at)->format('Y-m-d') }}</div>
-                    </div>
-                    <div class="flex">
-                        <div>پیگیری:</div>
-                        <div class="flex-grow font-medium" style="text-align: left">{{ $order->id }}</div>
-                    </div>
-                    <div class="barcode">
-                        <span class="barcode-generate-followup">{{ $order->id }}</span>
-                        <input type="hidden" id="codeFollowUp" value="{{ $order->id }}">
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <table class="content-table">
-        <thead>
-        <tr>
-            <th style="width: 5%">ردیف</th>
-            <th style="width: 12%">کد کالا</th>
-            <th style="width: 40%">شرح کالا</th>
-            <th style="width: 5%">تعداد</th>
-            <th style="width: 15%">مبلغ واحد (تومان)</th>
-            <th style="width: 23%">مبلغ کل (تومان)</th>
-        </tr>
-        </thead>
-        @foreach($order->auctions as $auction)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $auction->sku }}</td>
-                <td><div class="title">{{ $auction->title }}</div></td>
-                <td><span class="ltr">{{ $auction->pivot->quantity }}</span></td>
-                <td><span class="ltr">{{ number_format($auction->price) }}</span></td>
-                <td><span class="ltr">{{ number_format($auction->pivot->quantity * $auction->pivot->price) }}</span></td>
+                </td>
             </tr>
-        @endforeach
-        <tfoot>
-        <tr>
-            <td colspan="4"></td>
-            <td colspan="1" class="font-small">
-                هزینه ارسال (تومان):
-            </td>
-            <td >
-                <span class="ltr">{{ number_format($order->shipping_cost) }}</span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="4"></td>
-            <td colspan="1" class="font-small">
-                جمع کل پس از تخفیف (تومان):
-            </td>
-            <td>
-                <span class="ltr">{{ number_format($order->price) }}</span>
-            </td>
-        </tr>
-        <tr style="background: #fff">
-            <td colspan="11" style="height: 2.5cm;vertical-align: top">
-                <div class="flex">
-                    <div class="flex-grow">مهر و امضای فروشنده:</div>
-                    <div class="flex-grow">مهر و امضای خریدار:</div>
-                </div>
-                <div class="flex">
-                    <div class="flex-grow"></div>
-                    <div class="flex-grow"></div>
-                </div>
-            </td>
-        </tr>
-        </tfoot>
-    </table>
-    <a class="btn-printPage">چاپ فاکتور</a>
+            <tr>
+                <td style="width: 1.8cm; height: 2cm;vertical-align: center; padding: 0 0 4px">
+                    <div class="header-item-wrapper">
+                        <div class="portait" style="margin: 20px">خریدار</div>
+                    </div>
+                </td>
+                <td style="height: 2cm;vertical-align: center; padding: 0 4px 4px">
+                    <div class="bordered header-item-data">
+                        <table style="height: 100%" class="centered">
+                            <tr>
+                                <td style="width: 6.7cm">
+                                    <span class="label">خریدار:</span>
+                                    {{ $order->user->name }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <span class="label">نشانی:</span>
+                                    ایران،
+                                    استان
+                                    {{ $order->address ? ($order->address->city ? $order->address->city->province->name : '--') : '--' }}
+                                    ، ‌شهر
+                                    {{ $order->address ? ($order->address->city ? $order->address->city->name : '--') : '--' }}
+                                    ،
+                                    {{ $order->address ? $order->address->address : '--' }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <span class="label">شماره
+                                        تماس:</span>{{ $order->address ? $order->address->recipient_phone : '--' }}
+                                </td>
+                                <td colspan="2">
+                                    <span class="label">کد پستی:</span>
+                                    {{ $order->address ? $order->address->postal_code : '--' }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td style="padding: 0 0 4px">
+                    <div class="grow bordered" style="padding: 2mm 5mm;">
+                        <div class="flex">
+                            <div>تاریخ:</div>
+                            <div class="flex-grow" style="text-align: left">
+                                {{ tverta($order->created_at)->format('Y-m-d') }}</div>
+                        </div>
+                        <br />
+                        <div class="flex">
+                            <div>پیگیری:</div>
+                            <div class="flex-grow font-medium" style="text-align: left">{{ $order->id }}</div>
+                        </div>
+                        <br />
+                        <div class="barcode">
+                            <span class="barcode-generate-followup">{{ $order->id }}</span>
+                            <input type="hidden" id="codeFollowUp" value="{{ $order->id }}">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th style="width: 5%">ردیف</th>
+                    <th style="width: 12%">کد کالا</th>
+                    <th style="width: 40%">شرح کالا</th>
+                    <th style="width: 5%">تعداد</th>
+                    <th style="width: 15%">مبلغ واحد (تومان)</th>
+                    <th style="width: 23%">مبلغ کل (تومان)</th>
+                </tr>
+            </thead>
+            @foreach ($order->auctions as $auction)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $auction->sku }}</td>
+                    <td>
+                        <div class="title">{{ $auction->title }}</div>
+                    </td>
+                    <td><span class="ltr">{{ $auction->pivot->quantity }}</span></td>
+                    <td><span class="ltr">{{ number_format($auction->price) }}</span></td>
+                    <td><span
+                            class="ltr">{{ number_format($auction->pivot->quantity * $auction->pivot->price) }}</span>
+                    </td>
+                </tr>
+            @endforeach
+            <tfoot>
+                <tr>
+                    <td colspan="4"></td>
+                    <td colspan="1" class="font-small">
+                        هزینه ارسال (تومان):
+                    </td>
+                    <td>
+                        <span class="ltr">{{ number_format($order->shipping_cost) }}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                    <td colspan="1" class="font-small">
+                        جمع کل پس از تخفیف (تومان):
+                    </td>
+                    <td>
+                        <span class="ltr">{{ number_format($order->price) }}</span>
+                    </td>
+                </tr>
+                <tr style="background: #fff">
+                    <td colspan="11" style="height: 2.5cm;vertical-align: top">
+                        <div class="flex">
+                            <div class="flex-grow">مهر و امضای فروشنده:</div>
+                            <div class="flex-grow">مهر و امضای خریدار:</div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-grow"></div>
+                            <div class="flex-grow"></div>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <a class="btn-printPage">چاپ فاکتور</a>
 
-</div>
+    </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="{{ asset('public/back/assets/js/jquery-barcode.min.js') }}"></script>
-<script>
-    $(document).ready(function () {
-        let valuecodeFactor = $("#codeFactor").val();
-        let btypecodeFactor = "codabar";
-        let settingscodeFactor = {
-            barWidth: 1,
-            barHeight: 25,
-            showHRI: false,
-        };
-        $(".barcode-generate").barcode(
-            valuecodeFactor, btypecodeFactor, settingscodeFactor
-        );
+    <script src="{{ asset('public/back/assets/js/jquery-barcode.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            let valuecodeFactor = $("#codeFactor").val();
+            let btypecodeFactor = "codabar";
+            let settingscodeFactor = {
+                barWidth: 1,
+                barHeight: 25,
+                showHRI: false,
+            };
+            $(".barcode-generate").barcode(
+                valuecodeFactor, btypecodeFactor, settingscodeFactor
+            );
 
-        let valueFollowUp = $("#codeFollowUp").val();
-        let btypeFollowUp = "codabar";
-        let settingsFollowUp = {
-            barWidth: 1,
-            barHeight: 25,
-            showHRI: false,
-        };
-        $(".barcode-generate-followup").barcode(
-            valueFollowUp, btypeFollowUp, settingsFollowUp
-        );
-        $('a.btn-printPage').click(function(){
-            window.print();
-            return false;
+            let valueFollowUp = $("#codeFollowUp").val();
+            let btypeFollowUp = "codabar";
+            let settingsFollowUp = {
+                barWidth: 1,
+                barHeight: 25,
+                showHRI: false,
+            };
+            $(".barcode-generate-followup").barcode(
+                valueFollowUp, btypeFollowUp, settingsFollowUp
+            );
+            $('a.btn-printPage').click(function() {
+                window.print();
+                return false;
+            });
         });
-    });
-</script>
+    </script>
 </body>
