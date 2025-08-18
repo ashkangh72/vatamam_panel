@@ -81,9 +81,11 @@
                         <h4 class="card-title">لیست تراکنش ها</h4>
                         <h4 class="card-title"></h4>
                         <h4 class="card-title"></h4>
-                        @foreach ($user->bankAccounts as $item)
-                            <h4 class="card-title">{{$item->bank_name}}: {{$item->iban}}</h4>
-                        @endforeach
+                        <div>
+                            @foreach ($user->bankAccounts as $item)
+                                <button class="btn btn-outline-primary">{{ $item->bank_name }}: {{ $item->iban }}</button> </br>
+                            @endforeach
+                        </div>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
