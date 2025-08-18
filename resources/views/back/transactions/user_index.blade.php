@@ -13,7 +13,7 @@
                                 <ol class="breadcrumb no-border">
                                     <li class="breadcrumb-item">مدیریت
                                     </li>
-                                    <li class="breadcrumb-item active">لیست تراکنش ها
+                                    <li class="breadcrumb-item active">لیست تراکنش های {{$user->name}}
                                     </li>
                                 </ol>
                             </div>

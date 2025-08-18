@@ -57,176 +57,194 @@
                         </div>
 
                         <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">مشخصات کاربر</div>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li>
-                                                <a href="{{ route('admin.users.show', ['user' => $order->user]) }}"
-                                                    target="_blank">
-                                                    <i class="feather icon-external-link"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
+                            <div class="row">
+                                <div class="card col-6">
+                                    <div class="card-header">
+                                        <div class="card-title">مشخصات فروشنده</div>
+                                        <div class="heading-elements">
+                                            <ul class="list-inline mb-0">
+                                                <li>
+                                                    <a href="{{ route('admin.users.show', ['user' => $order->seller]) }}"
+                                                        target="_blank">
+                                                        <i class="feather icon-external-link"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <dt class="col-6">نام :</dt>
+                                            <dd class="col-6">{{ $order->seller->name }}</dd>
+                                        </div>
+                                        <div class="row">
+                                            <dt class="col-6">کد ملی :</dt>
+                                            <dd class="col-6">{{ $order->seller->national_id }}</dd>
+                                        </div>
+                                        <div class="row">
+                                            <dt class="col-6">نام کاربری :</dt>
+                                            <dd class="col-6">{{ $order->seller->username }}</dd>
+                                        </div>
+                                        <div class="row">
+                                            <dt class="col-6">شماره تماس :</dt>
+                                            <dd class="col-6">{{ $order->seller->phone ?: '-' }}</dd>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="row">
-
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <dt class="col-6">نام :</dt>
-                                                        <dd class="col-6">{{ $order->user->name }}</dd>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <dt class="col-6">نام کاربری :</dt>
-                                                        <dd class="col-6">{{ $order->user->username }}</dd>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <dt class="col-6">شماره تماس :</dt>
-                                                        <dd class="col-6">{{ $order->user->phone ?: '-' }}</dd>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <dt class="col-6">ایمیل :</dt>
-                                                        <dd class="col-6">{{ $order->user->email ?: '-' }}</dd>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="card col-6">
+                                    <div class="card-header">
+                                        <div class="card-title">مشخصات خریدار</div>
+                                        <div class="heading-elements">
+                                            <ul class="list-inline mb-0">
+                                                <li>
+                                                    <a href="{{ route('admin.users.show', ['user' => $order->user]) }}"
+                                                        target="_blank">
+                                                        <i class="feather icon-external-link"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <dt class="col-6">نام :</dt>
+                                            <dd class="col-6">{{ $order->user->name }}</dd>
+                                        </div>
+                                        <div class="row">
+                                            <dt class="col-6">کد ملی :</dt>
+                                            <dd class="col-6">{{ $order->user->national_id }}</dd>
+                                        </div>
+                                        <div class="row">
+                                            <dt class="col-6">نام کاربری :</dt>
+                                            <dd class="col-6">{{ $order->user->username }}</dd>
+                                        </div>
+                                        <div class="row">
+                                            <dt class="col-6">شماره تماس :</dt>
+                                            <dd class="col-6">{{ $order->user->phone ?: '-' }}</dd>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- account end -->
-                        <!-- information start -->
-                        <div class="col-md-12 col-12 ">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">اطلاعات سفارش</div>
-                                </div>
-                                <div class="card-body row">
-                                    <div class="col-md-6 col-12 ">
-                                        <table class="details">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="font-weight-bold">استان :</td>
-                                                    <td>{{ $order->address ? ($order->address->city ? $order->address->city->province->name : '--') : '--' }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">شهر :</td>
-                                                    <td>{{ $order->address ? ($order->address->city ? $order->address->city->name : '--') : '--' }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">کد پستی :</td>
-                                                    <td>{{ $order->address ? $order->address->postal_code : '--' }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">آدرس کامل :</td>
-                                                    <td>{{ $order->address ? $order->address->address : '--' }}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="col-md-6 col-12 ">
-                                        <table class="details">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="font-weight-bold">تاریخ ثبت :</td>
-                                                    <td>{{ tverta($order->created_at) }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">هزینه ارسال:</td>
-                                                    <td>{{ number_format($order->shipping_cost) }} تومان</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">تخفیف:</td>
-                                                    <td>{{ number_format($order->discount_amount) }} تومان</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">جمع قیمت</td>
-                                                    <td>{{ number_format($order->price) }} تومان</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">توضیحات سفارش :</td>
-                                                    <td>
-                                                        {{ $order->description }}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 mt-3">
-                                    <div class="table-responsive">
-                                        <table class="table withdraw__table">
-                                            <thead>
-                                                <tr>
-                                                    <th>شناسه(sku)</th>
-                                                    <th>تصویر</th>
-                                                    <th style="width: 300px;">نام مزایده</th>
-                                                    <th>تعداد</th>
-                                                    <th>قیمت واحد</th>
-                                                    <th>قیمت کل</th>
-                                                    @if ($order->isRefunded())
-                                                        <th>دلیل مرجوعی</th>
-                                                    @endif
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($order->auctions as $auction)
-                                                    <tr>
-                                                        <td>{{ $auction->sku }}</td>
-                                                        <td>
-                                                            <a href="{{ env('WEBSITE_URL') . '/auction/' . $auction->slug }}"
-                                                                target="_blank">
-                                                                <img class="table-img" src="{{ $auction->picture }}">
-                                                            </a>
-                                                        </td>
-                                                        <td class="order-product-name">{{ $auction->title }}</td>
-                                                        <td>{{ $auction->pivot->quantity }}</td>
-                                                        <td>{{ number_format($auction->pivot->price) }} تومان</td>
-                                                        <td>{{ number_format($auction->pivot->quantity * $auction->pivot->price) }}
-                                                            تومان</td>
-                                                        @if (
-                                                            $order->refund &&
-                                                                $order->refund->auctions()->where('auction_id', $auction->id)->first())
-                                                            <td>
-                                                                {{ $order->feedback->description }}
-                                                                </br>
-                                                                @foreach ($order->feedback->files as $item)
-                                                                    <a href="{{ $item->path }}" target="_blank">
-                                                                        <img class="table-img" src="{{ $item->path }}">
-                                                                    </a>
-                                                                @endforeach
-                                                            </td>
-                                                        @endif
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- information start -->
-                        <!-- social links end -->
                     </div>
-                </section>
-                <!-- page users view end -->
             </div>
+            <!-- account end -->
+            <!-- information start -->
+            <div class="col-md-12 col-12 ">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">اطلاعات سفارش</div>
+                    </div>
+                    <div class="card-body row">
+                        <div class="col-md-6 col-12 ">
+                            <table class="details">
+                                <tbody>
+                                    <tr>
+                                        <td class="font-weight-bold">استان :</td>
+                                        <td>{{ $order->address ? ($order->address->city ? $order->address->city->province->name : '--') : '--' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">شهر :</td>
+                                        <td>{{ $order->address ? ($order->address->city ? $order->address->city->name : '--') : '--' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">کد پستی :</td>
+                                        <td>{{ $order->address ? $order->address->postal_code : '--' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">آدرس کامل :</td>
+                                        <td>{{ $order->address ? $order->address->address : '--' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6 col-12 ">
+                            <table class="details">
+                                <tbody>
+                                    <tr>
+                                        <td class="font-weight-bold">تاریخ ثبت :</td>
+                                        <td>{{ tverta($order->created_at) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">هزینه ارسال:</td>
+                                        <td>{{ number_format($order->shipping_cost) }} تومان</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">تخفیف:</td>
+                                        <td>{{ number_format($order->discount_amount) }} تومان</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">جمع قیمت</td>
+                                        <td>{{ number_format($order->price) }} تومان</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">توضیحات سفارش :</td>
+                                        <td>
+                                            {{ $order->description }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mt-3">
+                        <div class="table-responsive">
+                            <table class="table withdraw__table">
+                                <thead>
+                                    <tr>
+                                        <th>شناسه(sku)</th>
+                                        <th>تصویر</th>
+                                        <th style="width: 300px;">نام مزایده</th>
+                                        <th>تعداد</th>
+                                        <th>قیمت واحد</th>
+                                        <th>قیمت کل</th>
+                                        @if ($order->isRefunded())
+                                            <th>دلیل مرجوعی</th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($order->auctions as $auction)
+                                        <tr>
+                                            <td>{{ $auction->sku }}</td>
+                                            <td>
+                                                <a href="{{ env('WEBSITE_URL') . '/auction/' . $auction->slug }}"
+                                                    target="_blank">
+                                                    <img class="table-img" src="{{ $auction->picture }}">
+                                                </a>
+                                            </td>
+                                            <td class="order-product-name">{{ $auction->title }}</td>
+                                            <td>{{ $auction->pivot->quantity }}</td>
+                                            <td>{{ number_format($auction->pivot->price) }} تومان</td>
+                                            <td>{{ number_format($auction->pivot->quantity * $auction->pivot->price) }}
+                                                تومان</td>
+                                            @if ($order->refund && $order->refund->auctions()->where('auction_id', $auction->id)->first())
+                                                <td>
+                                                    {{ $order->feedback->description }}
+                                                    </br>
+                                                    @foreach ($order->feedback->files as $item)
+                                                        <a href="{{ $item->path }}" target="_blank">
+                                                            <img class="table-img" src="{{ $item->path }}">
+                                                        </a>
+                                                    @endforeach
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- information start -->
+            <!-- social links end -->
         </div>
+        </section>
+        <!-- page users view end -->
+    </div>
+    </div>
     </div>
 @endsection
