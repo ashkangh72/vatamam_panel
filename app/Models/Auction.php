@@ -191,6 +191,7 @@ class Auction extends Model
     {
         if (!auth()->user()) return false;
         if ($this->is_ended) return false;
+        if ($this->canceled_at) return false;
 
         if (auth()->user()->isVendor()) {
             if ($this->partner_quick_sale_price && $this->bids()->where('amount', '>=', $this->partner_quick_sale_price * 0.75)->exists()) {
@@ -207,7 +208,7 @@ class Auction extends Model
 
     public function canBeBidded(): bool
     {
-        if (auth()->check() || $this->is_ended || $this->isBlacklisted() || $this->user_id !== auth()->id() || !$this->guaranteePricePaid()) return false;
+        if (auth()->check() || $this->canceled_at || $this->is_ended || $this->isBlacklisted() || $this->user_id !== auth()->id() || !$this->guaranteePricePaid()) return false;
 
         $userParticipatedAuctionsCount = auth()->user()->auctionBids()->groupBy('auction_id')->count();
 
