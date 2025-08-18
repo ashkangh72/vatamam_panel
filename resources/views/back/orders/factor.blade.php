@@ -309,7 +309,7 @@
                         </div>
                         <br />
                         <div class="flex">
-                            <div>پیگیری:</div>
+                            <div>شماره پیگیری:</div>
                             <div class="flex-grow font-medium" style="text-align: left">{{ $order->id }}</div>
                         </div>
                         <br />
