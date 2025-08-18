@@ -40,11 +40,13 @@ class MaliController extends Controller
         return new UserCollection($users);
     }
 
-    public function details()
+    public function details(Request $request)
     {
         $this->authorize('users.index');
 
-        return view('back.transactions.user_index');
+        $user = User::find($request->id);
+
+        return view('back.transactions.user_index', compact('user'));
     }
 
     public function detailsApiIndex(Request $request)

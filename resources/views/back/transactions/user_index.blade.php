@@ -1,7 +1,6 @@
 @extends('back.layouts.master')
 
 @section('content')
-
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -42,27 +41,31 @@
                                         <div class="col-md-3">
                                             <label>نام و نام خانوادگی</label>
                                             <fieldset class="form-group">
-                                                <input type="text" class="form-control datatable-filter" name="fullname" value="{{ request('fullname') }}">
+                                                <input type="text" class="form-control datatable-filter" name="fullname"
+                                                    value="{{ request('fullname') }}">
                                             </fieldset>
                                         </div>
 
                                         <div class="col-md-2">
                                             <label>نام کاربری</label>
                                             <fieldset class="form-group">
-                                                <input class="form-control datatable-filter" name="username" value="{{ request('username') }}">
+                                                <input class="form-control datatable-filter" name="username"
+                                                    value="{{ request('username') }}">
                                             </fieldset>
                                         </div>
 
                                         <div class="col-md-2">
                                             <label>شماره کاربر</label>
                                             <fieldset class="form-group">
-                                                <input type="text" class="form-control datatable-filter" name="phone" value="{{ request('phone') }}">
+                                                <input type="text" class="form-control datatable-filter" name="phone"
+                                                    value="{{ request('phone') }}">
                                             </fieldset>
                                         </div>
                                         <div class="col-md-2">
                                             <label>آیدی کاربر</label>
                                             <fieldset class="form-group">
-                                                <input type="text" class="form-control datatable-filter" name="id" value="{{ request('id') }}">
+                                                <input type="text" class="form-control datatable-filter" name="id"
+                                                    value="{{ request('id') }}">
                                             </fieldset>
                                         </div>
                                     </div>
@@ -76,17 +79,25 @@
                 <section id="main-card" class="card">
                     <div class="card-header">
                         <h4 class="card-title">لیست تراکنش ها</h4>
+                        <h4 class="card-title"></h4>
+                        <h4 class="card-title"></h4>
+                        @foreach ($user->bankAccounts as $item)
+                            <h4 class="card-title">{{$item->bank_name}}: {{$item->iban}}</h4>
+                        @endforeach
                     </div>
                     <div class="card-content">
                         <div class="card-body">
                             <div class="mb-2 collapse datatable-actions">
                                 <div class="d-flex align-items-center">
-                                    <div class="font-weight-bold text-danger mr-3"><span id="datatable-selected-rows">0</span> مورد انتخاب شده: </div>
+                                    <div class="font-weight-bold text-danger mr-3"><span
+                                            id="datatable-selected-rows">0</span> مورد انتخاب شده: </div>
 
-                                    <button class="btn btn-danger mr-2" type="button" data-toggle="modal" data-target="#multiple-delete-modal">حذف همه</button>
+                                    <button class="btn btn-danger mr-2" type="button" data-toggle="modal"
+                                        data-target="#multiple-delete-modal">حذف همه</button>
                                 </div>
                             </div>
-                            <div class="datatable datatable-bordered datatable-head-custom" id="transactions_datatable" data-action="{{ route('admin.mali.detail.apiIndex') }}"></div>
+                            <div class="datatable datatable-bordered datatable-head-custom" id="transactions_datatable"
+                                data-action="{{ route('admin.mali.detail.apiIndex') }}"></div>
                         </div>
                     </div>
                 </section>
@@ -115,7 +126,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @include('back.partials.plugins', ['plugins' => ['datatable']])

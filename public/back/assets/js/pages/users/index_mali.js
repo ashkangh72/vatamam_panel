@@ -63,6 +63,15 @@ var user_datatable = function() {
                 }
             },
             {
+                field: 'national_id',
+                title: 'کد ملی',
+                width: 120,
+                sortable: false,
+                template: function(row) {
+                    return row.national_id;
+                }
+            },
+            {
                 field: 'username',
                 title: 'نام کاربری',
                 width: 120,

@@ -18,6 +18,7 @@ class WalletHistory extends JsonResource
         return [
             'id'                => $this->id,
             'name'              => $this->wallet->user ? htmlspecialchars($this->wallet->user->name) : '-',
+            'national_id'              => $this->wallet->user ? $this->wallet->user->national_id : '-',
             'created_at'        => tverta($this->created_at)->format('%d %B %Y'),
             'amount'            => number_format($this->amount) . ' تومان',
             'type'            => $this->getType(),
