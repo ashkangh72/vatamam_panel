@@ -29,7 +29,7 @@ class MenuController extends Controller
 
     public function show(Menu $menu)
     {
-        $this->authorize('menus.show');
+        $this->authorize('menus.index');
 
         return response()->json(['menu' => $menu->load('category'), 'title' => $menu->title]);
     }
@@ -88,7 +88,7 @@ class MenuController extends Controller
 
     public function update(Request $request, Menu $menu)
     {
-        // $this->authorize('menus.update');
+        $this->authorize('menus.update');
 
         $this->validate($request, [
             'type' => 'required',
