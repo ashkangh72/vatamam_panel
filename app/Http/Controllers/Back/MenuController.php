@@ -88,7 +88,7 @@ class MenuController extends Controller
 
     public function update(Request $request, Menu $menu)
     {
-        $this->authorize('menus.update');
+        // $this->authorize('menus.update');
 
         $this->validate($request, [
             'type' => 'required',
