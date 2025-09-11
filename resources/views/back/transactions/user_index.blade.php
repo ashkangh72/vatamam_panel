@@ -83,7 +83,7 @@
                         <h4 class="card-title"></h4>
                         <div>
                             <h4 class="card-title">اطلاعات حساب: </h4>
-                            @foreach ($user->bankAccounts as $item)
+                            @foreach ($user?->bankAccounts as $item)
                                 <button class="btn btn-outline-primary max-w-300">{{ $item->bank_name }}: {{ $item->iban }}</button> </br></br>
                             @endforeach
                         </div>
