@@ -532,6 +532,31 @@
                                             </fieldset>
                                         </div>
 
+                                        <span class="">سایر</span>
+                                        <br />
+                                        <br />
+
+                                        <div class="form-group row">
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_register_user" type="checkbox"
+                                                        name="sms_on_register_user"
+                                                        {{ option('sms_on_register_user') == 'on' ? 'checked' : '' }}>
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">ارسال اس ام اس ثبت نام کاربر</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_register_user"
+                                                    placeholder="{userName} عزیز {newLine} به وتمام خوش آمدید!{newLine} پلتفرم جامع خرید و فروش و مزایده اجناس آنتیک و لوکس."
+                                                    rows="2">{{ option('sms_text_on_register_user') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {userName} : نام کاربر
+                                                </small>
+                                            </fieldset>
+                                        </div>
 
                                         <div class="row">
                                             <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
