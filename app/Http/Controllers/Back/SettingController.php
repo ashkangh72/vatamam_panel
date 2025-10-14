@@ -203,7 +203,7 @@ class SettingController extends Controller
 
             'sms_text_on_auction_higher_bid',
             'sms_text_on_auction_bid',
-            'sms_text_on_auction_first_bid'
+            'sms_text_on_auction_first_bid',
 
             'sms_text_on_register_user',
         ];
