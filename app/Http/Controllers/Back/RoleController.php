@@ -1,0 +1,106 @@
+<?php
+
+namespace App\Http\Controllers\Back;
+
+use App\Http\Controllers\Controller;
+use Cviebrock\EloquentSluggable\Services\SlugService;
+use App\Models\{Permission, Role};
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
+class RoleController extends Controller
+{
+    public function index()
+    {
+        $this->authorize('roles.index');
+
+        $roles = Role::latest()->paginate(20);
+
+        return view('back.roles.index', compact('roles'));
+    }
+
+    public function create()
+    {
+        $this->authorize('roles.create');
+
+        $permissions = Permission::whereNull('permission_id')->where('active', true)->orderBy('ordering')->get();
+
+        return view('back.roles.create', compact('permissions'));
+    }
+
+    public function store(Request $request)
+    {
+        $this->authorize('roles.create');
+
+        $request->validate([
+            'permissions' => 'array',
+            'permissions.*' => [
+                Rule::exists('permissions', 'id')->where(function ($query) {
+                    $query->where('active', true);
+                }),
+            ],
+            'title' => 'required|unique:roles,title'
+        ]);
+
+        $role = Role::create([
+            'title' => $request->title,
+            'slug' => SlugService::createSlug(Role::class, 'slug', $request->title),
+            'description' => $request->description
+        ]);
+
+        $role->permissions()->attach($request->permissions);
+
+        toastr()->success('مقام با موفقیت ایجاد شد.');
+
+        return response('success');
+    }
+
+    public function edit(Role $role)
+    {
+        $this->authorize('roles.update');
+
+        $permissions = Permission::whereNull('permission_id')->where('active', true)->orderBy('ordering')->get();
+
+        return view('back.roles.edit', compact('permissions', 'role'));
+    }
+
+    public function update(Role $role, Request $request)
+    {
+        $this->authorize('roles.update');
+
+        $request->validate([
+            'permissions' => 'array',
+            'permissions.*' => [
+                Rule::exists('permissions', 'id')->where(function ($query) {
+                    $query->where('active', true);
+                }),
+            ],
+            'title' => [
+                'required',
+                Rule::unique('roles', 'title')->ignore($role->id),
+            ],
+        ]);
+
+        $role->update([
+            'title' => $request->title,
+            'slug' => SlugService::createSlug(Role::class, 'slug', $request->title),
+            'description' => $request->description
+        ]);
+
+        $role->permissions()->sync($request->permissions);
+
+        toastr()->success('مقام با موفقیت ویرایش شد.');
+
+        return response('success');
+    }
+
+    public function destroy(Role $role)
+    {
+        $this->authorize('roles.delete');
+
+        $role->permissions()->detach();
+        $role->delete();
+
+        return response('success');
+    }
+}

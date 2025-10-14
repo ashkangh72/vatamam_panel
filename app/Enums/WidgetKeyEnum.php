@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Enums;
+
+use App\Traits\EnumTrait;
+
+enum WidgetKeyEnum: int
+{
+    use EnumTrait;
+
+    case mobile_slider = 1;
+    case desktop_slider = 2;
+    case service_slider = 3;
+    case customer_slider = 4;
+    case statistics = 5;
+    case auction = 6;
+    case amazing_offer = 7;
+    case instant_offer = 8;
+    case blog_posts = 9;
+    case poster = 10;
+    case categories = 11;
+    case double_poster = 12;
+    case product = 13;
+    case suggested_auction = 14;
+}

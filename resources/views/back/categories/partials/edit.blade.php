@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>نام دسته بندی </label>
+            <input type="text" name="title" class="form-control" value="{{ $category->title }}">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <fieldset class="form-group">
+            <label>تصویر</label>
+            <div id="picture-{{ $category->id }}" class="custom-file">
+                <input type="file" accept="image/*" name="picture" class="custom-file-input">
+                <label class="custom-file-label" for="picture">{{ $category->picture }}</label>
+                <small>بهترین اندازه <span class="text-danger"> - </span> پیکسل می باشد.</small>
+            </div>
+        </fieldset>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>عنوان سئو </label>
+            <input type="text" name="meta_title" class="form-control" value="{{ $category->meta_title }}">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>url</label>
+            <input id="slug" type="text" class="form-control" name="slug" value="{{ $category->slug }}">
+            <p>
+                <small>
+                    <a id="generate-category-slug" href="#">ایجاد خودکار</a>
+                    <span id="slug-spinner" class="spinner-grow spinner-grow-sm text-success" role="status"
+                          style="display: none;">
+                        <span class="sr-only">Loading...</span>
+                    </span>
+                </small>
+            </p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>توضیحات سئو</label>
+            <textarea class="form-control" name="meta_description" rows="3">{{ $category->meta_description }}</textarea>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <fieldset class="form-group">
+            <label>کلمات کلیدی</label>
+            <input type="text" name="tags" class="form-control tags" value="{{ $category->getTags }}">
+        </fieldset>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>توضیحات </label>
+            <textarea id="category-description" class="form-control" name="description" rows="3">{{ $category->description }}</textarea>
+        </div>
+    </div>
+</div>

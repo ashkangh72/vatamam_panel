@@ -1,0 +1,10 @@
+.single-color {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.single-price > .col-md-2 {
+    display: inline-block;
+    vertical-align: top;
+}

@@ -1,0 +1,62 @@
+<?php
+
+namespace App\Http\Controllers\Back;
+
+use App\Http\Resources\Datatable\TransactionCollection;
+use App\Models\Transaction;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
+use App\Models\{BlackListAdmin, Role, User, WalletHistory};
+use App\Rules\{ValidaPhone, NotSpecialChar};
+use App\Exports\UsersExport;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\Datatable\UserCollection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Datatable\WalletHistoryCollection;
+
+class MaliController extends Controller
+{
+    public function index()
+    {
+        $this->authorize('users.index');
+
+        $balance = User::join('wallets', 'users.id', '=', 'wallets.user_id')->select(['balance'])->sum('balance');
+        $box = User::join('safe_boxes', 'users.id', '=', 'safe_boxes.user_id')->select(['balance'])->sum('balance');
+        return view('back.transactions.mali_index', compact('balance', 'box'));
+    }
+
+    public function apiIndex(Request $request)
+    {
+        $this->authorize('users.index');
+
+        $users = User::filter($request);
+
+        $users = datatable($request, $users);
+
+        return new UserCollection($users);
+    }
+
+    public function details(Request $request)
+    {
+        $this->authorize('users.index');
+
+        $user = User::find($request->id);
+
+        return view('back.transactions.user_index', compact('user'));
+    }
+
+    public function detailsApiIndex(Request $request)
+    {
+        $this->authorize('users.index');
+
+        $users = WalletHistory::where('type', '!=', 1)->filter($request);
+
+        $users = datatable($request, $users);
+
+        return new WalletHistoryCollection($users);
+    }
+}
