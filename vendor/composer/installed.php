@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '6ccb91b6df1759b4a8d81a865c5b104ef747f066',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '9beb63ff7d9790345c67cdee99d4febf92c8ae82',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -497,9 +497,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '6ccb91b6df1759b4a8d81a865c5b104ef747f066',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '9beb63ff7d9790345c67cdee99d4febf92c8ae82',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
