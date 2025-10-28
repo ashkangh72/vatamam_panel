@@ -46,7 +46,6 @@ $('#user-create-form, #user-edit-form').submit(function (e) {
             data: formData,
             success: function (data) {
                 form.data('disabled', true);
-                alert(BASE_URL + "/users");
                 window.location.href = BASE_URL + "/users";
             },
             beforeSend: function (xhr) {
