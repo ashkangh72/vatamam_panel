@@ -49,11 +49,11 @@ $('#user-create-form, #user-edit-form').submit(function (e) {
                 window.location.href = BASE_URL + "/users";
             },
             beforeSend: function (xhr) {
-                block('#main-card');
+                // block('#main-card');
                 xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
             },
             complete: function () {
-                unblock('#main-card');
+                // unblock('#main-card');
             },
             cache: false,
             contentType: false,
