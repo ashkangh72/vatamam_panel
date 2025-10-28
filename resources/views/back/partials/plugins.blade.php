@@ -34,8 +34,8 @@
 
         @case('datatable')
             @push('scripts')
-            <script src="{{ asset('public/back/app-assets/plugins/datatable/core.datatable.js') }}"></script>
             <script src="{{ asset('public/back/app-assets/plugins/datatable/scripts.bundle.js') }}"></script>
+            <script src="{{ asset('public/back/app-assets/plugins/datatable/core.datatable.js') }}"></script>
                 <script src="{{ asset('public/back/app-assets/plugins/datatable/datatable.checkbox.js') }}"></script>
             @endpush
 
