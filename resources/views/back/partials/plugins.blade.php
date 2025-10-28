@@ -1,13 +1,9 @@
-
-
 @foreach ($plugins as $plugin)
-
     @switch($plugin)
         @case('ckeditor')
             @push('scripts')
                 <script src="{{ asset('public/back/app-assets/plugins/ckeditor/ckeditor.js') }}"></script>
             @endpush
-
         @break
 
         @case('jquery-tagsinput')
@@ -16,9 +12,9 @@
             @endpush
 
             @push('styles')
-                <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.css') }}">
+                <link rel="stylesheet" type="text/css"
+                    href="{{ asset('public/back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.css') }}">
             @endpush
-
         @break
 
         @case('jquery-tagsinput')
@@ -27,22 +23,21 @@
             @endpush
 
             @push('styles')
-                <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.css') }}">
+                <link rel="stylesheet" type="text/css"
+                    href="{{ asset('public/back/app-assets/plugins/jquery-tagsinput/jquery.tagsinput.min.css') }}">
             @endpush
-
         @break
 
         @case('datatable')
             @push('scripts')
-            <script src="{{ asset('public/back/app-assets/plugins/datatable/scripts.bundle.js') }}"></script>
-            <script src="{{ asset('public/back/app-assets/plugins/datatable/core.datatable.js') }}"></script>
+                <script src="{{ asset('public/back/app-assets/plugins/datatable/scripts.bundle.js') }}"></script>
+                <script src="{{ asset('public/back/app-assets/plugins/datatable/core.datatable.js') }}"></script>
                 <script src="{{ asset('public/back/app-assets/plugins/datatable/datatable.checkbox.js') }}"></script>
             @endpush
 
             @push('styles')
                 <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/datatable/datatable.css') }}">
             @endpush
-
         @break
 
         @case('jquery-ui')
@@ -53,7 +48,6 @@
             @push('styles')
                 <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/jquery-ui/jquery-ui.css') }}">
             @endpush
-
         @break
 
         @case('dropzone')
@@ -62,17 +56,17 @@
             @endpush
 
             @push('styles')
-                <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/vendors/css/file-uploaders/dropzone.min.css') }}">
-                <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/css-rtl/plugins/file-uploaders/dropzone.css') }}">
+                <link rel="stylesheet" type="text/css"
+                    href="{{ asset('public/back/app-assets/vendors/css/file-uploaders/dropzone.min.css') }}">
+                <link rel="stylesheet" type="text/css"
+                    href="{{ asset('public/back/app-assets/css-rtl/plugins/file-uploaders/dropzone.css') }}">
             @endpush
-
         @break
 
         @case('jquery-ui-sortable')
             @push('scripts')
                 <script src="{{ asset('public/back/app-assets/plugins/jquery-ui-sortable/jquery-ui.min.js') }}"></script>
             @endpush
-
         @break
 
         @case('persian-datepicker')
@@ -82,9 +76,9 @@
             @endpush
 
             @push('styles')
-                <link rel="stylesheet" type="text/css" href="{{ asset('public/back/app-assets/plugins/persian-date/persian-datepicker.min.css') }}">
+                <link rel="stylesheet" type="text/css"
+                    href="{{ asset('public/back/app-assets/plugins/persian-date/persian-datepicker.min.css') }}">
             @endpush
-
         @break
 
         @case('mapp')
@@ -97,14 +91,12 @@
                 <link rel="stylesheet" href="{{ asset('public/back/app-assets/mapp/css/mapp.min.css') }}">
                 <link rel="stylesheet" href="{{ asset('public/back/app-assets/mapp/css/fa/style.css') }}">
             @endpush
-
         @break
 
         @case('google-map')
             @push('scripts')
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdbCAXvJIl7CKZwfpTswAIHvqJmZTUPwQ"></script>
             @endpush
-
         @break
 
         @case('jquery.validate')
@@ -112,7 +104,6 @@
                 <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
                 <script src="{{ asset('public/back/app-assets/plugins/jquery-validation/localization/messages_fa.min.js') }}"></script>
             @endpush
-
         @break
 
         @case('apexcharts')
@@ -134,7 +125,5 @@
                 <link rel="stylesheet" href="{{ asset('public/back/app-assets/plugins/combo-tree/combo-tree.css') }}?v=1">
             @endpush
         @break
-
     @endswitch
-
 @endforeach

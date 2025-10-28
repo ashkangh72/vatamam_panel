@@ -90,7 +90,7 @@
     </div>
 @endsection
 
-@include('back.partials.plugins', ['plugins' => ['datatable']])
+@include('back.partials.plugins', ['plugins' => ['jquery-ui', 'datatable']])
 
 @php
     $help_videos = [config('general.video-helpes.users')];
