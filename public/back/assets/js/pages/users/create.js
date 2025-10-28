@@ -46,7 +46,8 @@ $('#user-create-form, #user-edit-form').submit(function (e) {
             data: formData,
             success: function (data) {
                 form.data('disabled', true);
-                window.location.href = BASE_URL + "/users";
+                toastr.success('ویرایش کاربر با موفقیت انجام شد.');
+                // window.location.href = BASE_URL + "/users";
             },
             beforeSend: function (xhr) {
                 // block('#main-card');
