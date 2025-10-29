@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Log;
 
 class Admin
 {
@@ -18,7 +19,7 @@ class Admin
         if (auth()->check() && auth()->user()->isAdmin()) {
             return $next($request);
         }
-        
+        Log::error("Admin middleware 403");
         abort(403);
     }
 }
