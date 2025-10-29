@@ -137,6 +137,8 @@ class User extends Model implements AuthenticatableContract
 
     public function isAdmin()
     {
+        Log::error(auth()->user());
+        Log::error($this->level);
         return $this->level == 'admin' || $this->level == 'creator';
     }
 
