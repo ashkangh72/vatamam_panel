@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\VatamamWalletHistory;
 use App\Models\Wallet;
+use Illuminate\Support\Facades\Log;
 
 class MainController extends Controller
 {
     public function index()
     {
+        Log::error('inside MainController index');
         $total_price = Wallet::sum('balance');
         $total_commissions = VatamamWalletHistory::sum('amount');
         return view('back.index', compact('total_price', 'total_commissions'));
