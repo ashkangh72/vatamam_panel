@@ -20,16 +20,44 @@ class ResetDatabaseCommand extends Command
 
     public function handle()
     {
-        foreach ($this->getPermissions() as $permission) {
-            //dump($permission->name);
-            Gate::define($permission->name, function ($user) use ($permission) {
-                return $user->level == 'creator' or $user->hasRole($permission->roles);
-            });
-        }
-    }
+        $tables = [
+            'wallet_histories',
+            'wallet_checkout_transactions',
+            // 'wallets',
+            'wallet_checkouts',
+            'vatamam_wallet_histories',
+            'transactions',
+            'tickets',
+            'tickets_messages',
+            // 'sms_boxes',
+            'sms_logs',
+            'safe_box_histories',
+            // 'safe_boxes',
+            'refunded_orders',
+            'refunded_order_auction',
+            'notifications',
+            'notices',
+            'discount_user',
+            'discounts',
+            'orders',
+            'orders_feedbacks_files',
+            'orders_feedbacks',
+            'order_auction',
+            'notification_settings',
+        ];
 
-    protected function getPermissions()
-    {
-        return Permission::where('active', true)->with('roles')->get();
+        SmsBox::where('id', '!=', 0)->update(['balance' => 0]);
+        SafeBox::where('id', '!=', 0)->update(['balance' => 0]);
+        Wallet::where('id', '!=', 0)->update(['balance' => 0]);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        foreach ($tables as $table) {
+            DB::table($table)->truncate();
+            $this->info("Truncated: {$table}");
+        }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $this->info("✅ Done truncating all listed tables.");
     }
 }
