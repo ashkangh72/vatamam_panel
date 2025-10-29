@@ -25,8 +25,8 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if (!$this->app->runningInConsole()) {
-            Log::error($this->getPermissions());
             foreach ($this->getPermissions() as $permission) {
+                Log::error($permission->name);
                 //dump($permission->name);
                 Gate::define($permission->name, function ($user) use ($permission) {
                     return $user->level == 'creator' or $user->hasRole($permission->roles);

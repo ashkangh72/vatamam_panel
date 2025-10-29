@@ -17,16 +17,12 @@ class WalletCheckoutTransactionCommand extends Command
     // Execute the console command.
     public function handle()
     {
-        Log::error("message1");
-        
         $transactions = WalletCheckoutTransaction::whereNotIn('status', [
             'TRANSFERRED',
             'FAILED',
             'TRANSFERRED_REVERTED',
             'FAILED_WRONG'
         ])->get();
-        Log::error("message");
-        Log::error(count($transactions));
         if(count($transactions)){
             $jibitService = new JibitService();
             
