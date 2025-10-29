@@ -4,11 +4,13 @@ namespace App\Console\Commands;
 
 use App\Jobs\AuctionWinnerJob;
 use App\Models\Auction;
+use App\Models\Permission;
 use App\Models\SafeBox;
 use App\Models\SmsBox;
 use App\Models\Wallet;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class ResetDatabaseCommand extends Command
 {
@@ -18,44 +20,16 @@ class ResetDatabaseCommand extends Command
 
     public function handle()
     {
-        $tables = [
-            'wallet_histories',
-            'wallet_checkout_transactions',
-            // 'wallets',
-            'wallet_checkouts',
-            'vatamam_wallet_histories',
-            'transactions',
-            'tickets',
-            'tickets_messages',
-            // 'sms_boxes',
-            'sms_logs',
-            'safe_box_histories',
-            // 'safe_boxes',
-            'refunded_orders',
-            'refunded_order_auction',
-            'notifications',
-            'notices',
-            'discount_user',
-            'discounts',
-            'orders',
-            'orders_feedbacks_files',
-            'orders_feedbacks',
-            'order_auction',
-            'notification_settings',
-        ];
-
-        SmsBox::where('id', '!=', 0)->update(['balance' => 0]);
-        SafeBox::where('id', '!=', 0)->update(['balance' => 0]);
-        Wallet::where('id', '!=', 0)->update(['balance' => 0]);
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-        foreach ($tables as $table) {
-            DB::table($table)->truncate();
-            $this->info("Truncated: {$table}");
+        foreach ($this->getPermissions() as $permission) {
+            //dump($permission->name);
+            Gate::define($permission->name, function ($user) use ($permission) {
+                return $user->level == 'creator' or $user->hasRole($permission->roles);
+            });
         }
+    }
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        $this->info("✅ Done truncating all listed tables.");
+    protected function getPermissions()
+    {
+        return Permission::where('active', true)->with('roles')->get();
     }
 }

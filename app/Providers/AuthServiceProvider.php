@@ -26,7 +26,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         if (!$this->app->runningInConsole()) {
             foreach ($this->getPermissions() as $permission) {
-                Log::error($permission->name);
                 //dump($permission->name);
                 Gate::define($permission->name, function ($user) use ($permission) {
                     return $user->level == 'creator' or $user->hasRole($permission->roles);
