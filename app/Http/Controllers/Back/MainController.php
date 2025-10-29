@@ -12,7 +12,6 @@ class MainController extends Controller
     {
         $total_price = Wallet::sum('balance');
         $total_commissions = VatamamWalletHistory::sum('amount');
-        dd('a');
         return view('back.index', compact('total_price', 'total_commissions'));
     }
 
