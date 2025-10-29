@@ -12,6 +12,7 @@ class MainController extends Controller
     {
         $total_price = Wallet::sum('balance');
         $total_commissions = VatamamWalletHistory::sum('amount');
+        dd('a');
         return view('back.index', compact('total_price', 'total_commissions'));
     }
 
@@ -31,14 +32,14 @@ class MainController extends Controller
 
     public function fileManager()
     {
-        $this->authorize('file-manager');
+        // $this->authorize('file-manager');
 
         return view('back.file-manager');
     }
 
     public function fileManagerIframe()
     {
-        $this->authorize('file-manager');
+        // $this->authorize('file-manager');
 
         return view('back.file-manager-iframe');
     }
