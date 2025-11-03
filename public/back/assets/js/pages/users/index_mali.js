@@ -102,7 +102,7 @@ var user_datatable = function() {
                 field: 'box',
                 title: 'صندوق امانات',
                 width: 120,
-                sortable: false,
+                sortable: true,
                 template: function(row) {
                     return row.box;
                 }
