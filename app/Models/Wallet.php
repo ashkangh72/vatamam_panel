@@ -28,7 +28,7 @@ class Wallet extends Model
             ->sum('amount');
 
         $totalWithdraw = $this->histories()
-            ->whereIn('type', [WalletHistoryTypeEnum::withdraw, WalletHistoryTypeEnum::admin_withdraw])
+            ->whereIn('type', [WalletHistoryTypeEnum::withdraw, WalletHistoryTypeEnum::admin_withdraw, WalletHistoryTypeEnum::commission])
             ->success()
             ->sum('amount');
 

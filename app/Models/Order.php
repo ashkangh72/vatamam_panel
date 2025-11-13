@@ -209,7 +209,7 @@ class Order extends Model
         if (!is_null($this->is_satisfied)) {
             if (!$this->is_satisfied) {
                 if ($this->isRefunded()) {
-                    if ($this->refund->status == 'pending') return 'کالا مرجوع گردیده اما توسط کارشناسان وتمام بررسی نگردیده است';
+                    if ($this->refund->status == 'pending') return 'اعلام نارضایتی خریدار و در انتظار تایید کارشناسان';
                     if ($this->refund->status == 'rejected') return 'کاربر اعلام نارضایتی کرده است اما مورد تایید نیست';
                     if ($this->refund->status == 'accepted' && (!$this->refund->post_track_code && !$this->refund->path)) return 'اعلام نارضایتی کاربر تایید گردید';
                     if ($this->refund->status == 'accepted' && ($this->refund->post_track_code || $this->refund->path) && !$this->refund->delivered) return 'در انتظار برگشت دادن محصول توسط خریدار';
