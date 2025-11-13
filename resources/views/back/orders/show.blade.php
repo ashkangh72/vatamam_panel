@@ -256,10 +256,17 @@
                                         <tr>
                                             <td>{{ $auction->sku }}</td>
                                             <td>
-                                                <a href="{{ env('WEBSITE_URL') . '/auction/' . $auction->slug }}"
-                                                    target="_blank">
-                                                    <img class="table-img" src="{{ $auction->picture }}">
-                                                </a>
+                                                @if ($auction->type == 'auction')
+                                                    <a href="{{ env('WEBSITE_URL') . '/auction/' . $auction->slug }}"
+                                                        target="_blank">
+                                                        <img class="table-img" src="{{ $auction->picture }}">
+                                                    </a>
+                                                @else
+                                                    <a href="{{ env('WEBSITE_URL') . '/product/' . $auction->slug }}"
+                                                        target="_blank">
+                                                        <img class="table-img" src="{{ $auction->picture }}">
+                                                    </a>
+                                                @endif
                                             </td>
                                             <td class="order-product-name">{{ $auction->title }}</td>
                                             <td>{{ $auction->pivot->quantity }}</td>

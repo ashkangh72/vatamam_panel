@@ -42,9 +42,9 @@ class Order extends JsonResource
             'is_refunded' => $this->isRefunded(),
             'refund_status' => $this->isRefunded() ? $this->refund->status : null,
             'refunded_payment' => $this->isRefunded() ? $this->refund->refunded_payment : null,
-            'can_refund_payment' => auth()->user()->can('refund.payment'),
-            'can_refund_accept' => auth()->user()->can('refund.accept'),
-            'can_refund_reject' => auth()->user()->can('refund.reject'),
+            'can_refund_payment' => true, //auth()->user()->can('refund.payment'),
+            'can_refund_accept' => true, //auth()->user()->can('refund.accept'),
+            'can_refund_reject' => true, //auth()->user()->can('refund.reject'),
 
             'links' => [
                 'view' => route('admin.orders.show', ['order' => $this]),
