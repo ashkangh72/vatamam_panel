@@ -70,7 +70,7 @@ class Order extends Model
 
         return match ($this->shipping_status) {
             'pending' => 'در حال بررسی',
-            'shipping_request' => 'منتظر ارسال',
+            'shipping_request' => 'در انتظار ارسال کالا',
             'shipped' => 'ارسال شد',
             default => 'تعریف نشده',
         };
@@ -202,5 +202,29 @@ class Order extends Model
             ]);
             $userWallet->refreshBalance();
         });
+    }
+
+    public function getSatisfiedText(): ?string
+    {
+        if (!is_null($this->is_satisfied)) {
+            if (!$this->is_satisfied) {
+                if ($this->isRefunded()) {
+                    if ($this->refund->status == 'pending') return 'کالا مرجوع گردیده اما توسط کارشناسان وتمام بررسی نگردیده است';
+                    if ($this->refund->status == 'rejected') return 'کاربر اعلام نارضایتی کرده است اما مورد تایید نیست';
+                    if ($this->refund->status == 'accepted' && (!$this->refund->post_track_code && !$this->refund->path)) return 'اعلام نارضایتی کاربر تایید گردید';
+                    if ($this->refund->status == 'accepted' && ($this->refund->post_track_code || $this->refund->path) && !$this->refund->delivered) return 'در انتظار برگشت دادن محصول توسط خریدار';
+                    if ($this->refund->status == 'accepted' && ($this->refund->post_track_code || $this->refund->path) && $this->refund->delivered) return 'کالا مرجوع گردید';
+                }
+                if (!$this->isRefunded()) return 'هنوز کاربر اعلام رضایت نکرده است';
+            }
+            if ($this->is_satisfied) return 'اعلام رضایت کاربر';
+        }
+        if ($this->status == OrderStatusEnum::paid) {
+            if ($this->shipping_status == 'pending') return 'در حال بررسی ارسال کالا';
+            if ($this->shipping_status == 'shipping_request') return 'در انتظار ارسال کالا';
+            if ($this->shipping_status == 'shipped') return 'در انتظار اعلام رضایت کاربر';
+        }
+
+        return 'در انتظار پرداخت توسط کاربر';
     }
 }

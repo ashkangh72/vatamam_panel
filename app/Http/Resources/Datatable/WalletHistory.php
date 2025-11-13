@@ -31,8 +31,8 @@ class WalletHistory extends JsonResource
         if($this->type->value == 1){
             return 'واریز وجه';
         }else if($this->type->value == 2){
-            // return 'برداشت وجه';
-            return 'از کیف پول به صندوق';
+            return 'برداشت وجه';
+            // return 'از کیف پول به صندوق';
         }else if($this->type->value == 3){
             return 'واریز وجه توسط ادمین';
         }else if($this->type->value == 4){
@@ -40,11 +40,11 @@ class WalletHistory extends JsonResource
         }else if($this->type->value == 5){
             return 'از صندوق به کیف پول';
         }else if($this->type->value == 6){
-            // return 'بازگشت وجه';
-            return 'از صندوق به کیف پول';
+            return 'بازگشت وجه';
+            // return 'از صندوق به کیف پول';
         }else if($this->type->value == 7){
-            return 'از کیف پول به صندوق';
-            // return 'کمیسیون';
+            // return 'از کیف پول به صندوق';
+            return 'کمیسیون وتمام';
         }
     }
 }

@@ -55,80 +55,76 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="card col-4">
-                                    <div class="card-header">
-                                        <div class="card-title">مشخصات فروشنده</div>
-                                        <div class="heading-elements">
-                                            <ul class="list-inline mb-0">
-                                                <li>
-                                                    <a href="{{ route('admin.users.show', ['user' => $order->seller]) }}"
-                                                        target="_blank">
-                                                        <i class="feather icon-external-link"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <dt class="col-6">نام :</dt>
-                                            <dd class="col-6">{{ $order->seller->name }}</dd>
-                                        </div>
-                                        <div class="row">
-                                            <dt class="col-6">کد ملی :</dt>
-                                            <dd class="col-6">{{ $order->seller->national_id }}</dd>
-                                        </div>
-                                        <div class="row">
-                                            <dt class="col-6">نام کاربری :</dt>
-                                            <dd class="col-6">{{ $order->seller->username }}</dd>
-                                        </div>
-                                        <div class="row">
-                                            <dt class="col-6">شماره تماس :</dt>
-                                            <dd class="col-6">{{ $order->seller->phone ?: '-' }}</dd>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card col-4">
-                                </div>
-                                <div class="card col-4">
-                                    <div class="card-header">
-                                        <div class="card-title">مشخصات خریدار</div>
-                                        <div class="heading-elements">
-                                            <ul class="list-inline mb-0">
-                                                <li>
-                                                    <a href="{{ route('admin.users.show', ['user' => $order->user]) }}"
-                                                        target="_blank">
-                                                        <i class="feather icon-external-link"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <dt class="col-6">نام :</dt>
-                                            <dd class="col-6">{{ $order->user->name }}</dd>
-                                        </div>
-                                        <div class="row">
-                                            <dt class="col-6">کد ملی :</dt>
-                                            <dd class="col-6">{{ $order->user->national_id }}</dd>
-                                        </div>
-                                        <div class="row">
-                                            <dt class="col-6">نام کاربری :</dt>
-                                            <dd class="col-6">{{ $order->user->username }}</dd>
-                                        </div>
-                                        <div class="row">
-                                            <dt class="col-6">شماره تماس :</dt>
-                                            <dd class="col-6">{{ $order->user->phone ?: '-' }}</dd>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="card col-md-4">
+                    <div class="card-header">
+                        <div class="card-title">مشخصات فروشنده</div>
+                        <div class="heading-elements">
+                            <ul class="list-inline mb-0">
+                                <li>
+                                    <a href="{{ route('admin.users.show', ['user' => $order->seller]) }}" target="_blank">
+                                        <i class="feather icon-external-link"></i>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <dt class="col-6">نام :</dt>
+                            <dd class="col-6">{{ $order->seller->name }}</dd>
+                        </div>
+                        <div class="row">
+                            <dt class="col-6">کد ملی :</dt>
+                            <dd class="col-6">{{ $order->seller->national_id }}</dd>
+                        </div>
+                        <div class="row">
+                            <dt class="col-6">نام کاربری :</dt>
+                            <dd class="col-6">{{ $order->seller->username }}</dd>
+                        </div>
+                        <div class="row">
+                            <dt class="col-6">شماره تماس :</dt>
+                            <dd class="col-6">{{ $order->seller->phone ?: '-' }}</dd>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" style="margin-left: 2px:margin-right: 2px">
+                </div>
+
+                <div class="card col-md-4">
+                    <div class="card-header">
+                        <div class="card-title">مشخصات خریدار</div>
+                        <div class="heading-elements">
+                            <ul class="list-inline mb-0">
+                                <li>
+                                    <a href="{{ route('admin.users.show', ['user' => $order->user]) }}" target="_blank">
+                                        <i class="feather icon-external-link"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <dt class="col-6">نام :</dt>
+                            <dd class="col-6">{{ $order->user->name }}</dd>
+                        </div>
+                        <div class="row">
+                            <dt class="col-6">کد ملی :</dt>
+                            <dd class="col-6">{{ $order->user->national_id }}</dd>
+                        </div>
+                        <div class="row">
+                            <dt class="col-6">نام کاربری :</dt>
+                            <dd class="col-6">{{ $order->user->username }}</dd>
+                        </div>
+                        <div class="row">
+                            <dt class="col-6">شماره تماس :</dt>
+                            <dd class="col-6">{{ $order->user->phone ?: '-' }}</dd>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- account end -->
             <!-- information start -->
@@ -191,6 +187,54 @@
                             </table>
                         </div>
                     </div>
+
+                    <div class="row col-md-12">
+                        <div class="col-md-3">
+                            <p class="font-weight-bold">وضعیت پرداخت سفارش:</p>
+                            @php
+                                $status = [
+                                    'pending' => [
+                                        'title' => 'جدید',
+                                        'class' => 'badge-warning',
+                                    ],
+                                    'locked' => [
+                                        'title' => 'بسته شده',
+                                        'class' => 'badge-danger',
+                                    ],
+                                    'paid' => [
+                                        'title' => 'پرداخت شده',
+                                        'class' => 'badge-success',
+                                    ],
+                                    'canceled' => [
+                                        'title' => 'لغو شده',
+                                        'class' => 'badge-danger',
+                                    ],
+                                ];
+
+                                $current = $status[$order->status->name] ?? [
+                                    'title' => 'نامشخص',
+                                    'class' => 'badge-secondary',
+                                ];
+                            @endphp
+
+                            <div class="badge badge-pill {{ $current['class'] }} badge-md">
+                                {{ $current['title'] }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="font-weight-bold">وضعیت ارسال سفارش:</p>
+                            <div class="badge badge-pill badge-md">
+                                {{ $order->shippingStatusText() }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="font-weight-bold">وضعیت رضایت کاربر:</p>
+                            <div class="badge badge-pill badge-md">
+                                {{ $order->getSatisfiedText() }}
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-lg-12 mt-3">
                         <div class="table-responsive">
                             <table class="table withdraw__table">
