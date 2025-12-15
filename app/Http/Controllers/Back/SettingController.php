@@ -138,7 +138,6 @@ class SettingController extends Controller
         $except = [
             // 'sms_on_order_paid',
             // 'sms_on_auction_end',
-            // 'sms_on_auction_before_end',
             // 'sms_on_thanks_for_buy',
             // 'sms_on_winning_auction',
             // 'sms_on_auction_higher_bid',
@@ -174,6 +173,7 @@ class SettingController extends Controller
             'sms_on_auction_higher_bid',
             'sms_on_auction_bid',
             'sms_on_auction_first_bid',
+            'sms_on_auction_before_end',
 
             'sms_on_register_user',
         ];
@@ -204,6 +204,7 @@ class SettingController extends Controller
             'sms_text_on_auction_higher_bid',
             'sms_text_on_auction_bid',
             'sms_text_on_auction_first_bid',
+            'sms_text_on_auction_before_end',
 
             'sms_text_on_register_user',
         ];

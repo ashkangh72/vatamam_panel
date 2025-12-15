@@ -530,6 +530,7 @@ function notificationChannels(User $user, array $channels, $key): array
     if ($user->phone && $key == NotificationSettingKeyEnum::auction_refound_check) $channels[] = SmsChannel::class;
     if ($user->phone && $key == NotificationSettingKeyEnum::auction_end) $channels[] = SmsChannel::class;
     if ($user->phone && $key == NotificationSettingKeyEnum::order_unsatisfied) $channels[] = SmsChannel::class;
+    if ($user->phone && $key == NotificationSettingKeyEnum::auction_before_end) $channels[] = SmsChannel::class;
     // else if ($user->phone && $notifiableNotificationSetting->sms) $channels[] = SmsChannel::class;
     // if ($user->push_token && $notifiableNotificationSetting->push) $channels[] = PushChannel::class;
 

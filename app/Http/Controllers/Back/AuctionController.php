@@ -8,7 +8,7 @@ use App\Enums\AuctionStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Datatable\AuctionBidCollection;
 use App\Http\Resources\Datatable\AuctionCollection;
-use App\Jobs\{AuctionWinnerJob, FollowedAuctionJob, NoticeAuctionJob};
+use App\Jobs\{AuctionBeforEndJob, AuctionWinnerJob, FollowedAuctionJob, NoticeAuctionJob};
 use App\Models\AuctionBid;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
@@ -141,7 +141,10 @@ class AuctionController extends Controller
             // dispatch(new FollowedAuctionJob($auction->id))->delay(Carbon::parse($auction->end_at)->subHours(3));
             dispatch(new NoticeAuctionJob($auction))->delay(Carbon::now()->addMinutes(10));
 
-            $auction->user->sendAuctionBeforeEndNotification($auction);
+            $runAt = Carbon::parse($auction->end_at)->subHours(5);
+            if ($runAt->isFuture()) {
+                dispatch(new AuctionBeforEndJob($auction))->delay($runAt);
+            }
         } else {
             $auction->status = AuctionStatusEnum::approved;
             $auction->save();

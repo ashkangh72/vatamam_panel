@@ -55,17 +55,6 @@ class AuctionBeforeEndNotification extends Notification implements ShouldQueue
         sendSms($this->message, $notifiable, NotificationSettingKeyEnum::auction_before_end->name);
     }
 
-    /**
-     * @throws GuzzleException
-     */
-    public function toPush($notifiable)
-    {
-        sendPush([
-            'title' => $this->title,
-            'body' => $this->message,
-            'url' => $this->url
-        ], [$notifiable->push_token]);
-    }
 
     public function toDatabase($notifiable): array
     {

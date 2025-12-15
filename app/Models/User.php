@@ -382,7 +382,7 @@ class User extends Model implements AuthenticatableContract
 
     public function sendAuctionBeforeEndNotification(Auction $auction)
     {
-        $title = env('APP_NAME') . " - اتمام مزایده";
+        $title = env('APP_NAME') . " - مزایده در حال پایان";
         $message = setNotificationMessage(
             'sms_on_auction_before_end',
             'sms_text_on_auction_before_end',
@@ -392,10 +392,7 @@ class User extends Model implements AuthenticatableContract
 
         if (!$message) return;
 
-        $this->notify(
-            (new AuctionBeforeEndNotification($auction, $title, $message, $url, 'sell'))
-                ->delay(Carbon::now()->addMinutes(30))
-        );
+        $this->notify(new AuctionBeforeEndNotification($auction, $title, $message, $url, 'buy'));
     }
 
     public function sendWinningAuctionNotification(Auction $auction)

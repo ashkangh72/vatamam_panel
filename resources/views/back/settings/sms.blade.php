@@ -530,6 +530,26 @@
                                                     {newLine} : خط جدید, {auctionTitle}: عنوان مزایده
                                                 </small>
                                             </fieldset>
+
+                                            <fieldset class="checkbox col-md-6 col-12">
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input data-class="sms_on_auction_before_end" type="checkbox"
+                                                        name="sms_on_auction_before_end"
+                                                        {{ option('sms_on_auction_before_end') == 'on' ? 'checked' : '' }}>
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">اطلاع رسانی مزایده درحال اتمام به شرکت کنندگان</span>
+                                                </div>
+                                                <textarea class="form-control" name="sms_text_on_auction_before_end"
+                                                    placeholder="کاربر گرامی وتمام!{newLine}مزایده {auctionTilte} تا چند ساعت دیگر به پایان می رسد در صورت تمایل پیشنهاد جدید خود را ثبت نمایید."
+                                                    rows="2">{{ option('sms_text_on_auction_first_bid') }}</textarea>
+                                                <small class="form-text text-muted mb-2">
+                                                    {newLine} : خط جدید, {auctionTitle}: عنوان مزایده
+                                                </small>
+                                            </fieldset>
                                         </div>
 
                                         <span class="">سایر</span>
