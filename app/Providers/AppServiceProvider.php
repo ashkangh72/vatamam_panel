@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
             $notificationsCount = auth()->user()->unreadNotifications()->count();
             $commentsCount = Comment::where('status', CommentStatusEnum::pending)->count();
             $ticketsCount = Ticket::whereIn('status', [TicketStatusEnum::new, TicketStatusEnum::user_answer])->count();
-            $ordersCount = Order::count();
+            $ordersCount = Order::where('shipping_status', '!=', 'shipped')->count();
 
             $view->with(compact('notificationsCount', 'commentsCount', 'ordersCount', 'ticketsCount'));
         });
