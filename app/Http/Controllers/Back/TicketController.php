@@ -54,7 +54,7 @@ class TicketController extends Controller
 
     public function reply(Ticket $ticket, Request $request)
     {
-        $this->authorize('comments.delete');
+        // $this->authorize('comments.answers');
 
         $ticket->update([
             'status' => 2
@@ -71,7 +71,7 @@ class TicketController extends Controller
 
     public function update(Comment $comment, Request $request)
     {
-        $this->authorize('comments.update');
+        // $this->authorize('comments.update');
 
         $this->validate($request, [
             'status' => 'required',
