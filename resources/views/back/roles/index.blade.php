@@ -55,7 +55,7 @@
                                                                 class="btn btn-success mr-1 waves-effect waves-light">ویرایش</a>
                                                         @endcan
                                                         @can('roles.delete')
-                                                            <button type="button" data-role="{{ $role->slug }}"
+                                                            <button type="button" data-role="{{ $role->id }}"
                                                                 data-id="{{ $role->id }}"
                                                                 class="btn btn-danger mr-1 waves-effect waves-light btn-delete"
                                                                 data-toggle="modal" data-target="#delete-modal">حذف</button>

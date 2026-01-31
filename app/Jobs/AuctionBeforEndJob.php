@@ -39,7 +39,7 @@ class AuctionBeforEndJob implements ShouldQueue
             $this->auction->bids()->pluck('user_id')->unique()
         )->get();
         foreach ($users as $user) {
-            $this->auction->user->sendAuctionBeforeEndNotification($this->auction);
+            $user->sendAuctionBeforeEndNotification($this->auction);
         }
     }
 }
