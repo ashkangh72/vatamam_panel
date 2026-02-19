@@ -132,8 +132,8 @@ class AuctionController extends Controller
 
         $auction = Auction::where('id', $validated['id'])->first();
         if ($auction->type == 'auction') {
-            // $difference = Carbon::parse($auction->updated_at)->diffInMinutes(Carbon::parse($auction->end_at));
-            // $auction->end_at = Carbon::now()->addMinutes($difference);
+            $difference = Carbon::now()->diffInMinutes(Carbon::parse($auction->end_at));
+            $auction->end_at = Carbon::now()->addMinutes($difference);
             $auction->status = AuctionStatusEnum::approved;
             $auction->save();
 
