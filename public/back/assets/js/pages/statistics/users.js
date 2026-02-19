@@ -15,6 +15,12 @@ $(window).on('load', function () {
         let chartId = $(this).closest('.tab-pane').find('.chart-area').attr('id');
         prepareChart('#' + chartId);
     });
+    new PDatepicker('#to_date', {
+        onChange: function(newDate) {
+            console.log('Date changed to:', newDate);
+            // React to user navigating through dates
+        }
+    });
 
     $('#statistics-card a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         let href = $(this).attr('href');
@@ -169,8 +175,6 @@ function renderChart(chartId, series, categories) {
 
     $(chartId).data('rendered', chart);
 }
-
-$('.persian_date_picker').customPersianDate();
 
 const addAnnotations = (chart, config) => {
     const seriesTotals = config.globals.stackedSeriesTotals;

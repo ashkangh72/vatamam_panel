@@ -72,22 +72,20 @@
                                                         <div class="col-md-6">
                                                             <label>تاریخ شروع</label>
                                                             <div class="input-group form-group">
-                                                                <input autocomplete="off" type="text" class="form-control" id="start_date_picker" value="{{ $discount->start_date ? tverta($discount->start_date)->timestamp : '' }}">
-                                                                <input type="hidden" name="start_date" id="start_date" value="{{ $discount->start_date ? tverta($discount->start_date) : '' }}">
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text"><i class="feather icon-calendar"></i></span>
-
                                                                 </div>
+                                                                @pdatepicker('start_date', old('start_date'), ['format' => 'YYYY/MM/DD', 'initialValue' => PDatepicker::toJalali($discount->start_date)])
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <label>تاریخ پایان</label>
                                                             <div class="input-group form-group">
-                                                                <input autocomplete="off" type="text" class="form-control" id="end_date_picker" value="{{ $discount->end_date ? tverta($discount->end_date)->timestamp : '' }}">
-                                                                <input type="hidden" name="end_date" id="end_date" value="{{ $discount->end_date ? tverta($discount->end_date) : '' }}">
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text"><i class="feather icon-calendar"></i></span>
                                                                 </div>
+                                                                @pdatepicker('end_date', old('end_date'), ['format' => 'YYYY/MM/DD', 'initialValue' => PDatepicker::toJalali($discount->end_date)])
+
                                                             </div>
                                                         </div>
 

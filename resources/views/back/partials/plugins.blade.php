@@ -71,13 +71,11 @@
 
         @case('persian-datepicker')
             @push('scripts')
-                <script src="{{ asset('public/back/app-assets/plugins/persian-date/persian-date.min.js') }}"></script>
-                <script src="{{ asset('public/back/app-assets/plugins/persian-date/persian-datepicker.min.js') }}"></script>
+                <script src="{{ asset('vendor/pdatepicker/js/pdatepicker.js') }}"></script>
             @endpush
 
             @push('styles')
-                <link rel="stylesheet" type="text/css"
-                    href="{{ asset('public/back/app-assets/plugins/persian-date/persian-datepicker.min.css') }}">
+                <link rel="stylesheet" href="{{ asset('vendor/pdatepicker/css/pdatepicker.css') }}">
             @endpush
         @break
 

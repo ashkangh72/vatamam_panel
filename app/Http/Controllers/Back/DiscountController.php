@@ -9,6 +9,7 @@ use App\Models\{Discount, User};
 use Hekmatinasser\Verta\Facades\Verta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use PDatepicker\Facades\PDatepicker;
 
 class DiscountController extends Controller
 {
@@ -39,8 +40,8 @@ class DiscountController extends Controller
         $data = $request->validated();
 
         $data['amount'] = $data['type'] == 'amount' ? $data['price'] : $data['percent'];
-        $data['start_date'] = Verta::parse($data['start_date'])->datetime();
-        $data['end_date'] = Verta::parse($data['end_date'])->datetime();
+        $data['start_date'] = PDatepicker::toGregorian($data['start_date'], 'Y/m/d');
+        $data['end_date'] = PDatepicker::toGregorian($data['end_date'], 'Y/m/d');
 
         $discount = Discount::create($data);
 

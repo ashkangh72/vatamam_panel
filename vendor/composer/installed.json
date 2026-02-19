@@ -4385,6 +4385,83 @@
             "install-path": "../opis/closure"
         },
         {
+            "name": "pdatepicker/persian-datepicker",
+            "version": "v1.1.2",
+            "version_normalized": "1.1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ViraCodingPlus/persian-datepicker.git",
+                "reference": "454d5961253e52f3cd98dad766332eb82395c2b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ViraCodingPlus/persian-datepicker/zipball/454d5961253e52f3cd98dad766332eb82395c2b4",
+                "reference": "454d5961253e52f3cd98dad766332eb82395c2b4",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "*",
+                "morilog/jalali": "^3.4",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.23",
+                "laravel/pail": "^1.2.2",
+                "laravel/pint": "^1.13",
+                "laravel/sail": "^1.41",
+                "mockery/mockery": "^1.6",
+                "nunomaduro/collision": "^8.6",
+                "phpunit/phpunit": "^11.5.3"
+            },
+            "time": "2025-03-26T04:48:24+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "PDatepicker": "PDatepicker\\Facades\\PDatepicker"
+                    },
+                    "providers": [
+                        "PDatepicker\\PDatepickerServiceProvider",
+                        "PDatepicker\\Providers\\PDatepickerBladeServiceProvider"
+                    ]
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-4": {
+                    "PDatepicker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ViraCoding",
+                    "email": "viracodingplus@gmail.com"
+                }
+            ],
+            "description": "A modern Persian (Jalali) datepicker package for Laravel applications with customizable themes and extensive options",
+            "keywords": [
+                "Jalali",
+                "calendar",
+                "date-picker",
+                "datepicker",
+                "jalali-calendar",
+                "laravel",
+                "persian",
+                "persian-calendar",
+                "rtl",
+                "timepicker"
+            ],
+            "support": {
+                "issues": "https://github.com/ViraCodingPlus/persian-datepicker/issues",
+                "source": "https://github.com/ViraCodingPlus/persian-datepicker/tree/v1.1.2"
+            },
+            "install-path": "../pdatepicker/persian-datepicker"
+        },
+        {
             "name": "phar-io/manifest",
             "version": "2.0.3",
             "version_normalized": "2.0.3.0",
