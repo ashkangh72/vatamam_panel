@@ -558,7 +558,9 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
             "{transactionAmount}",
             "{transactionAmount}",
             "{discountType}",
-            "{discountAmount}"
+            "{discountAmount}",
+            "{auctionType}",  
+            "{link}",  
         ],
         [
             "\n",
@@ -573,6 +575,8 @@ function setNotificationMessage(string $messageSwitch, string $messageText, arra
             Arr::get($parameters, 'transactionDescription', ''),
             Arr::get($parameters, 'discountType', ''),
             Arr::get($parameters, 'discountAmount', ''),
+            Arr::get($parameters, 'auctionType', ''),
+            Arr::get($parameters, 'link', ''),
         ],
         $message
     );

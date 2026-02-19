@@ -433,10 +433,10 @@
                                                     <span class="">اطلاع رسانی سرویس گوش به زنگ</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_notice_auction"
-                                                    placeholder="{siteTitle} - کالای جدید {newLine} کالای {auctionTitle} در دسته بندی موردعلاقه شما ایجاد شده است"
+                                                    placeholder="{siteTitle} - {auctionType} {newLine} کالای {auctionTitle} در دسته بندی موردعلاقه شما ایجاد شده است"
                                                     rows="2">{{ option('sms_text_on_notice_auction') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {auctionTitle} : عنوان کالا
+                                                    {newLine} : خط جدید, {auctionTitle} : عنوان کالا, {auctionType}: مزایده / گالری انلاین
                                                 </small>
                                             </fieldset>
 
@@ -544,10 +544,10 @@
                                                     <span class="">اطلاع رسانی مزایده درحال اتمام به شرکت کنندگان</span>
                                                 </div>
                                                 <textarea class="form-control" name="sms_text_on_auction_before_end"
-                                                    placeholder="کاربر گرامی وتمام!{newLine}مزایده {auctionTilte} تا چند ساعت دیگر به پایان می رسد در صورت تمایل پیشنهاد جدید خود را ثبت نمایید."
+                                                    placeholder="کاربر گرامی وتمام!{newLine}مزایده {auctionTitle}  رو به اتمام است. لطفا جهت ثبت آخرین پیشنهادات و قیمت نهایی به لینک زیر مراجعه فرمایید.{newLine}{link}"
                                                     rows="2">{{ option('sms_text_on_auction_first_bid') }}</textarea>
                                                 <small class="form-text text-muted mb-2">
-                                                    {newLine} : خط جدید, {auctionTitle}: عنوان مزایده
+                                                    {newLine} : خط جدید, {auctionTitle}: عنوان مزایده, {link}: لینک مزایده
                                                 </small>
                                             </fieldset>
                                         </div>

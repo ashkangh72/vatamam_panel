@@ -383,12 +383,15 @@ class User extends Model implements AuthenticatableContract
     public function sendAuctionBeforeEndNotification(Auction $auction)
     {
         $title = env('APP_NAME') . " - مزایده در حال پایان";
+        $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
         $message = setNotificationMessage(
             'sms_on_auction_before_end',
             'sms_text_on_auction_before_end',
-            ['auctionTitle' => $auction->title]
+            [
+                'auctionTitle' => $auction->title,
+                'link' => $url
+            ]
         );
-        $url = env('WEBSITE_URL') . '/auction/' . $auction->slug;
 
         if (!$message) return;
 

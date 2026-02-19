@@ -65,7 +65,8 @@ class NoticeAuctionJob implements ShouldQueue
         $message = setNotificationMessage(
             'sms_on_notice_auction',
             'sms_text_on_notice_auction',
-            ['auctionTitle' => $this->auction->title]
+            ['auctionTitle' => $this->auction->title,
+            'auctionType' => $this->auction->type == 'product' ? 'گالری آنلاین' : 'مزایده جدید']
         );
         $url = env('WEBSITE_URL') . '/auction/' . $this->auction->slug;
         Log::error($message);
