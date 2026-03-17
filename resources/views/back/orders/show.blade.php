@@ -224,7 +224,7 @@
                         <div class="col-md-3">
                             <p class="font-weight-bold">وضعیت ارسال سفارش:</p>
                             <div class="badge badge-pill badge-md">
-                                {{ $order->shippingStatusText() }}
+                                {{ $order->shippingDate() . $order->shippingStatusText() }}
                             </div>
                         </div>
                         <div class="col-md-3">
