@@ -36,7 +36,7 @@ class AuctionController extends Controller
         $auctions = Auction::with(['user', 'category'])
             ->where('type', 'auction')
             ->orderBy('status', 'asc')
-            ->orderByDesc('created_at')
+            ->orderByDesc('updated_at')
             ->filter($request);
 
         $auctions = datatable($request, $auctions);
@@ -132,7 +132,12 @@ class AuctionController extends Controller
 
         $auction = Auction::where('id', $validated['id'])->first();
         if ($auction->type == 'auction') {
-            $difference = Carbon::now()->diffInMinutes(Carbon::parse($auction->end_at));
+            // $difference = Carbon::now()->diffInMinutes(Carbon::parse($auction->created_at));
+            // $auction->end_at = Carbon::parse($auction->end_at)->addMinutes($difference);
+            // $auction->status = AuctionStatusEnum::approved;
+            // $auction->save();
+
+            $difference = Carbon::parse($auction->end_at)->diffInMinutes(Carbon::parse($auction->created_at));
             $auction->end_at = Carbon::now()->addMinutes($difference);
             $auction->status = AuctionStatusEnum::approved;
             $auction->save();
