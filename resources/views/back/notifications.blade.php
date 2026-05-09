@@ -28,13 +28,14 @@
                             <div class="card">
                                 <div class="card-content">
                                     <div class="card-body">
-                                        @if($notifications->count())
+                                        @if ($notifications->count())
                                             <ul class="activity-timeline timeline-left list-unstyled">
                                                 @foreach ($notifications as $notification)
-                                                    @if($notification->type == 'App\Notifications\OrderPaid')
+                                                    @if ($notification->type == 'App\Notifications\OrderPaid')
                                                         <li class="{{ $notification->read_at ? 'text-muted' : '' }}">
                                                             <div class="timeline-icon bg-primary">
-                                                                <i class="feather icon-shopping-cart font-medium-2 align-middle"></i>
+                                                                <i
+                                                                    class="feather icon-shopping-cart font-medium-2 align-middle"></i>
                                                             </div>
                                                             <div class="timeline-info">
                                                                 <p class="font-weight-bold mb-0">سفارش پرداخت شد</p>
@@ -60,12 +61,30 @@
                                                     @elseif($notification->type == 'App\Notifications\OrderStatusChange')
                                                         <li class="{{ $notification->read_at ? 'text-muted' : '' }}">
                                                             <div class="timeline-icon bg-info">
-                                                                <i class="feather icon-shopping-bag font-medium-2 align-middle"></i>
+                                                                <i
+                                                                    class="feather icon-shopping-bag font-medium-2 align-middle"></i>
                                                             </div>
                                                             <div class="timeline-info">
                                                                 <p class="font-weight-bold mb-0">وضعیت سفارش تغییر کرد</p>
                                                                 <span
                                                                     class="font-small-3">{{ $notification->data['message'] }}</span>
+                                                            </div>
+                                                            <small
+                                                                class="text-muted">{{ tverta($notification->created_at)->formatDifference() }}</small>
+                                                        </li>
+                                                    @else
+                                                        @php
+                                                            $data = json_decode($notification->data);
+                                                        @endphp
+                                                        <li class="{{ $notification->read_at ? 'text-muted' : '' }}">
+                                                            <div class="timeline-icon bg-info">
+                                                                <i
+                                                                    class="feather icon-shopping-bag font-medium-2 align-middle"></i>
+                                                            </div>
+                                                            <div class="timeline-info">
+                                                                <p class="font-weight-bold mb-0">{{ $data->title }}</p>
+                                                                <span
+                                                                    class="font-small-3">{{ $data->message }}</span>
                                                             </div>
                                                             <small
                                                                 class="text-muted">{{ tverta($notification->created_at)->formatDifference() }}</small>

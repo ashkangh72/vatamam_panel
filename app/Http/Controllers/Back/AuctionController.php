@@ -138,6 +138,7 @@ class AuctionController extends Controller
             // $auction->save();
 
             $difference = Carbon::parse($auction->end_at)->diffInMinutes(Carbon::parse($auction->created_at));
+            $difference = $difference > 10080 ? 10080 : $difference;
             $auction->end_at = Carbon::now()->addMinutes($difference);
             $auction->status = AuctionStatusEnum::approved;
             $auction->save();

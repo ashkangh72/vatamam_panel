@@ -24,7 +24,14 @@ class MainController extends Controller
 
     public function notifications()
     {
-        $notifications = auth()->user()->notifications()->paginate(15);
+        // $notifications = auth()->user()->notifications()->paginate(15);
+        $types = [
+            'App\Notifications\OrderStatusChange',
+            'App\Notifications\AuctionWinner',
+            'App\Notifications\OrderPaid',
+            'App\Notifications\FavoriteNotification'
+        ];
+        $notifications = \DB::table('notifications')->whereIn('type', $types)->latest()->paginate(15);
 
         auth()->user()->unreadNotifications->markAsRead();
 

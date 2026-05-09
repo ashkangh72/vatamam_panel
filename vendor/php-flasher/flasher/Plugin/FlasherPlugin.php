@@ -109,7 +109,7 @@ final class FlasherPlugin extends Plugin
             'scripts' => array(),
             'styles' => $this->getStyles(),
             'options' => array(),
-            'use_cdn' => true,
+            'use_cdn' => false,
             'auto_translate' => true,
             'auto_render' => true,
             'flash_bag' => array(
