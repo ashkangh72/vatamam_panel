@@ -85,7 +85,7 @@ class AuctionController extends Controller
         $auctions = Auction::with(['user', 'category'])
             ->where('type', 'product')
             ->orderBy('status', 'asc')
-            ->orderByDesc('created_at')
+            ->orderByDesc('updated_at')
             ->filter($request);
 
         $auctions = datatable($request, $auctions);
