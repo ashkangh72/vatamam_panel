@@ -4,6 +4,7 @@ namespace Illuminate\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
