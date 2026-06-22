@@ -90,18 +90,6 @@ class Order extends Model
         };
     }
 
-    public function shippingDate()
-    {
-        if ($this->shipping_status == 'shipped') {
-            if ($this->post_track_code_at) {
-                return 'در تاریخ ' . tverta($this->post_track_code_at)->format('Y-m-d') . ' ';
-            } else {
-                return 'در تاریخ ' . tverta($this->updated_at)->format('Y-m-d') . ' ';
-            }
-        }
-        return '';
-    }
-
     public function statusText(): string
     {
         return match ($this->status) {
