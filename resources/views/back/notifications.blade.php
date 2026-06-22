@@ -70,6 +70,23 @@
                                                             <small
                                                                 class="text-muted">{{ tverta($notification->created_at)->formatDifference() }}</small>
                                                         </li>
+						    @else
+							@php
+                                                            $data = json_decode($notification->data);
+                                                        @endphp
+                                                        <li class="{{ $notification->read_at ? 'text-muted' : '' }}">
+                                                            <div class="timeline-icon bg-info">
+                                                                <i
+                                                                    class="feather icon-shopping-bag font-medium-2 align-middle"></i>
+                                                            </div>
+                                                            <div class="timeline-info">
+                                                                <p class="font-weight-bold mb-0">{{ $data->title }}</p>
+                                                                <span
+                                                                    class="font-small-3">{{ $data->message }}</span>
+                                                            </div>
+                                                            <small
+                                                                class="text-muted">{{ tverta($notification->created_at)->formatDifference() }}</small>
+                                                        </li>
                                                     @endif
                                                 @endforeach
                                             </ul>

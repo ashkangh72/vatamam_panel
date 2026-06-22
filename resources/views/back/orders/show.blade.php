@@ -86,6 +86,10 @@
                                 <dt class="col-6">شماره تماس :</dt>
                                 <dd class="col-6">{{ $order->seller->phone ?: '-' }}</dd>
                             </div>
+                            <div class="row">
+                                <dt class="col-6">آدرس :</dt>
+                                <dd class="col-6">{{ $order->seller->activeAddress() ? $order->seller->activeAddress()->address : '-' }}</dd>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -118,6 +122,10 @@
                             <div class="row">
                                 <dt class="col-6">شماره تماس :</dt>
                                 <dd class="col-6">{{ $order->user->phone ?: '-' }}</dd>
+                            </div>
+                            <div class="row">
+                                <dt class="col-6">آدرس :</dt>
+                                <dd class="col-6">{{ $order->user->activeAddress() ? $order->user->activeAddress()->address : '-' }}</dd>
                             </div>
                         </div>
                     </div>
@@ -224,7 +232,7 @@
                         <div class="col-md-3">
                             <p class="font-weight-bold">وضعیت ارسال سفارش:</p>
                             <div class="badge badge-pill badge-md">
-                                {{ $order->shippingStatusText() }}
+                                {{ $order->shippingDate() . $order->shippingStatusText() }}
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -242,7 +250,7 @@
                                     <tr>
                                         <th>شناسه(sku)</th>
                                         <th>تصویر</th>
-                                        <th style="width: 300px;">نام مزایده</th>
+                                        <th style="width: 300px;">{{$order->auctions()->first()->type == 'auction' ? 'نام مزایده' : 'گالری آنلاین'}}</th>
                                         <th>تعداد</th>
                                         <th>قیمت واحد</th>
                                         <th>قیمت کل</th>

@@ -52,6 +52,20 @@ class Order extends Model
         return $this->belongsToMany(Auction::class, 'order_auction')->withPivot(['id', 'quantity', 'status', 'price'])->withTrashed();
     }
 
+
+    public function shippingDate()
+    {
+        if ($this->shipping_status == 'shipped') {
+            if ($this->post_track_code_at) {
+                return 'در تاریخ ' . tverta($this->post_track_code_at)->format('d-m-Y') . ' ';
+            } else {
+                return 'در تاریخ ' . tverta($this->updated_at)->format('d-m-Y') . ' ';
+            }
+        }
+        return '';
+    }
+
+
     public function feedback(): HasOne
     {
         return $this->hasOne(OrderFeedback::class, 'order_id', 'id');

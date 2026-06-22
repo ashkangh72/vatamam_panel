@@ -99,6 +99,15 @@ class User extends Model implements AuthenticatableContract
         return $this->hasMany(Address::class);
     }
 
+    public function activeAddress()
+    {
+        $address = $this->addresses()->where('is_default', 1)->first();
+        if($address){
+            return $address;
+        }
+        return $this->addresses()->first();
+    }
+
     public function vendor(): HasOne
     {
         return $this->hasOne(Vendor::class);
