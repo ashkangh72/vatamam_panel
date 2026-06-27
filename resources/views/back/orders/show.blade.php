@@ -57,7 +57,7 @@
                         </div>
                     </div>
             </div>
-            
+
 
             <div class="row">
                 <!-- Seller Info -->
@@ -72,7 +72,11 @@
                         <div class="card-body">
                             <div class="row">
                                 <dt class="col-6">نام :</dt>
-                                <dd class="col-6">{{ $order->seller->name }}</dd>
+                                <dd class="col-6">
+                                    <a href="{{ route('admin.users.show', ['user' => $order->seller]) }}" target="_blank">
+                                        {{ $order->seller->name }}
+                                    </a>
+                                </dd>
                             </div>
                             <div class="row">
                                 <dt class="col-6">کد ملی :</dt>
@@ -88,15 +92,17 @@
                             </div>
                             <div class="row">
                                 <dt class="col-6">آدرس :</dt>
-                                <dd class="col-6">{{ $order->seller->activeAddress() ? $order->seller->activeAddress()->address : '-' }}</dd>
+                                <dd class="col-6">
+                                    {{ $order->seller->activeAddress() ? $order->seller->activeAddress()->address : '-' }}
+                                </dd>
                             </div>
                         </div>
                     </div>
                 </div>
-            
+
                 <!-- Spacer (optional if you want space between cards on desktop) -->
                 <div class="d-none d-md-block col-md-0"></div>
-            
+
                 <!-- Buyer Info -->
                 <div class="col-12 col-md-4 mb-2">
                     <div class="card h-100">
@@ -109,7 +115,11 @@
                         <div class="card-body">
                             <div class="row">
                                 <dt class="col-6">نام :</dt>
-                                <dd class="col-6">{{ $order->user->name }}</dd>
+                                <dd class="col-6">
+                                    <a href="{{ route('admin.users.show', ['user' => $order->user]) }}" target="_blank">
+                                        {{ $order->user->name }}
+                                    </a>
+                                </dd>
                             </div>
                             <div class="row">
                                 <dt class="col-6">کد ملی :</dt>
@@ -125,13 +135,14 @@
                             </div>
                             <div class="row">
                                 <dt class="col-6">آدرس :</dt>
-                                <dd class="col-6">{{ $order->user->activeAddress() ? $order->user->activeAddress()->address : '-' }}</dd>
+                                <dd class="col-6">
+                                    {{ $order->user->activeAddress() ? $order->user->activeAddress()->address : '-' }}</dd>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
 
 
             <!-- account end -->
@@ -250,7 +261,9 @@
                                     <tr>
                                         <th>شناسه(sku)</th>
                                         <th>تصویر</th>
-                                        <th style="width: 300px;">{{$order->auctions()->first()->type == 'auction' ? 'نام مزایده' : 'گالری آنلاین'}}</th>
+                                        <th style="width: 300px;">
+                                            {{ $order->auctions()->first()->type == 'auction' ? 'نام مزایده' : 'گالری آنلاین' }}
+                                        </th>
                                         <th>تعداد</th>
                                         <th>قیمت واحد</th>
                                         <th>قیمت کل</th>
