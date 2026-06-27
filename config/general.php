@@ -1378,5 +1378,20 @@ return [
             'key' => 'info_pinterest',
             'icon' => 'fa fa-pinterest',
         ],
+        [
+            'name' => 'روبیکا',
+            'key' => 'info_rubika',
+            'icon' => 'fa fa-mobile',
+        ],
+        [
+            'name' => 'بله',
+            'key' => 'info_bale',
+            'icon' => 'fa fa-paper-plane',
+        ],
+        [
+            'name' => 'ایتا',
+            'key' => 'info_eitaa',
+            'icon' => 'fa fa-fire',
+        ],
     ],
 ];
