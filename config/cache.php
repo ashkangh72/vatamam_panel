@@ -54,6 +54,11 @@ return [
             'path' => storage_path('framework/cache/data'),
         ],
 
+        'api' => [
+            'driver' => 'file',
+            'path' => env('API_CACHE_PATH', base_path('../vatamam_api/storage/framework/cache/data')),
+        ],
+
         'memcached' => [
             'driver' => 'memcached',
             'persistent_id' => env('MEMCACHED_PERSISTENT_ID'),

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\SlideGroupEnum;
+use App\Observers\SlideObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -13,6 +14,11 @@ class Slide extends Model
         'is_active' => 'boolean',
         'group' => SlideGroupEnum::class
     ];
+
+    protected static function booted(): void
+    {
+        static::observe(SlideObserver::class);
+    }
 
     /**
      * @return BelongsTo|null
