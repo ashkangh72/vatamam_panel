@@ -6,15 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Enums\ExpertCheckoutStatusEnum;
 use App\Models\ExpertCheckout;
-use App\Models\ExpertCheckoutTransaction;
 use App\Http\Controllers\Controller;
-use App\Services\JibitService;
+use App\Services\ExpertCheckoutService;
 use Illuminate\Http\Response;
 use Illuminate\Contracts\View\View;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class ExpertCheckoutController extends Controller
 {
+    public function __construct(private ExpertCheckoutService $service) {}
+
     /**
      * @throws AuthorizationException
      */
@@ -45,35 +46,7 @@ class ExpertCheckoutController extends Controller
 
         $expertCheckout = ExpertCheckout::find($request->id);
 
-        $jibit = new JibitService();
-        $jibitResult = $jibit->settlementToIban($expertCheckout->amount, $expertCheckout->iban);
-
-        if ($jibitResult) {
-            $state = 'DESTINATION_PROCESSING';
-            foreach ($jibitResult->records as $record) {
-                if ($record->recordType == 'PRIME') {
-                    $state = $record->state;
-                }
-            }
-
-            ExpertCheckoutTransaction::create([
-                'reference_number'   => $jibitResult->referenceNumber,
-                'track_id'           => $jibitResult->trackId,
-                'owner_code'         => $jibitResult->ownerCode,
-                'request_channel'    => $jibitResult->requestChannel,
-                'type'               => $jibitResult->type,
-                'source_iban'        => $jibitResult->sourceIban,
-                'destination_iban'   => $jibitResult->destinationIban,
-                'total_amount'       => $jibitResult->totalAmount,
-                'created_at_jibit'   => $jibitResult->createdAt,
-                'updated_at_jibit'   => $jibitResult->updatedAt,
-                'records'            => $jibitResult->records,
-                'status'             => $state,
-                'expert_checkout_id' => $expertCheckout->id,
-            ]);
-
-            $expertCheckout->update(['status' => ExpertCheckoutStatusEnum::approved]);
-        } else {
+        if (!$this->service->processAccept($expertCheckout)) {
             return response(['success' => 400, 'message' => 'خطا در ارسال درخواست برداشت به سرویس جیبیت']);
         }
 
