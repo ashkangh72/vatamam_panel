@@ -54,6 +54,9 @@ return [
                 'checkouts' => 'مدیریت برداشت ها',
                 'checkouts.accept' => 'تایید برداشت',
                 'checkouts.reject' => 'رد برداشت',
+                'expert_checkouts' => 'مدیریت برداشت کارشناسان',
+                'expert_checkouts.accept' => 'تایید برداشت کارشناس',
+                'expert_checkouts.reject' => 'رد برداشت کارشناس',
 
             ]
         ],
