@@ -190,6 +190,34 @@ class JibitService
         }
     }
 
+    public function settlementToIban($amount, string $destinationIban)
+    {
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->accessToken
+        ];
+        $body = [
+            'recordTrackId'   => (string) Str::uuid(),
+            'sourceIban'      => 'IR690540103447001694200606',
+            'destinationIban' => $destinationIban,
+            'amount'          => $amount * 10,
+        ];
+
+        Log::error($amount);
+        Log::error($destinationIban);
+
+        try {
+            return self::execute(
+                'post',
+                $headers,
+                $body,
+                config('jibit.base_url_bank') . config('jibit.endpoints.settlement')
+            );
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage() . json_encode($headers) . json_encode($body));
+        }
+    }
+
     public function checkSettlement($walletCheckoutTransaction)
     {
         $headers = [

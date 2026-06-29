@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('expert_checkouts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('name');
+            $table->string('phone');
             $table->decimal('amount', 15, 2);
             $table->string('iban')->nullable();
             $table->tinyInteger('status')->default(1);

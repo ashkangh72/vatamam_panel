@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\ExpertCheckoutStatusEnum;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ExpertCheckout extends Model
 {
@@ -14,8 +14,8 @@ class ExpertCheckout extends Model
         'status' => ExpertCheckoutStatusEnum::class,
     ];
 
-    public function user(): BelongsTo
+    public function expertCheckoutTransaction(): HasOne
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(ExpertCheckoutTransaction::class);
     }
 }

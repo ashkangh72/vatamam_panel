@@ -17,7 +17,8 @@ class ExpertCheckoutController extends Controller
         }
 
         $validated = $request->validate([
-            'user_id'     => 'required|integer|exists:users,id',
+            'name'        => 'required|string|max:255',
+            'phone'       => 'required|string|max:20',
             'amount'      => 'required|numeric|min:1',
             'iban'        => 'nullable|string|max:26',
             'description' => 'nullable|string|max:500',

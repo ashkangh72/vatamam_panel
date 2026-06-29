@@ -32,7 +32,8 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">#</th>
-                                                <th>کاربر</th>
+                                                <th>نام</th>
+                                                <th>شماره موبایل</th>
                                                 <th>شماره شبا</th>
                                                 <th>مبلغ (تومان)</th>
                                                 <th>توضیحات</th>
@@ -45,12 +46,8 @@
                                             @foreach ($expertCheckouts as $expertCheckout)
                                                 <tr id="expert-checkout-{{ $expertCheckout->id }}-tr">
                                                     <td class="text-center">{{ $expertCheckout->id }}</td>
-                                                    <td>
-                                                        <a href="{{ Route::has('admin.users.show') ? route('admin.users.show', ['user' => $expertCheckout->user]) : '' }}"
-                                                            target="_blank"><i class="feather icon-external-link"></i>
-                                                        </a>
-                                                        {{ $expertCheckout->user->name ?? '--' }}
-                                                    </td>
+                                                    <td>{{ $expertCheckout->name }}</td>
+                                                    <td>{{ $expertCheckout->phone }}</td>
                                                     <td>{{ $expertCheckout->iban ?? '--' }}</td>
                                                     <td>{{ number_format($expertCheckout->amount) }}</td>
                                                     <td>{{ $expertCheckout->description ?? '--' }}</td>

@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Enums\ExpertCheckoutStatusEnum;
 use App\Models\ExpertCheckout;
+use App\Models\ExpertCheckoutTransaction;
 use App\Http\Controllers\Controller;
+use App\Services\JibitService;
 use Illuminate\Http\Response;
 use Illuminate\Contracts\View\View;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -20,7 +22,7 @@ class ExpertCheckoutController extends Controller
     {
         $this->authorize('transactions.expert_checkouts');
 
-        $expertCheckouts = ExpertCheckout::with('user')->latest()->paginate(15);
+        $expertCheckouts = ExpertCheckout::latest()->paginate(15);
 
         return view('back.expert_checkouts.index', compact('expertCheckouts'));
     }
@@ -41,9 +43,41 @@ class ExpertCheckoutController extends Controller
             ],
         ]);
 
-        ExpertCheckout::find($request->id)->update(['status' => ExpertCheckoutStatusEnum::approved]);
+        $expertCheckout = ExpertCheckout::find($request->id);
 
-        return response(['success' => 200, 'message' => 'درخواست برداشت با موفقیت تایید شد']);
+        $jibit = new JibitService();
+        $jibitResult = $jibit->settlementToIban($expertCheckout->amount, $expertCheckout->iban);
+
+        if ($jibitResult) {
+            $state = 'DESTINATION_PROCESSING';
+            foreach ($jibitResult->records as $record) {
+                if ($record->recordType == 'PRIME') {
+                    $state = $record->state;
+                }
+            }
+
+            ExpertCheckoutTransaction::create([
+                'reference_number'   => $jibitResult->referenceNumber,
+                'track_id'           => $jibitResult->trackId,
+                'owner_code'         => $jibitResult->ownerCode,
+                'request_channel'    => $jibitResult->requestChannel,
+                'type'               => $jibitResult->type,
+                'source_iban'        => $jibitResult->sourceIban,
+                'destination_iban'   => $jibitResult->destinationIban,
+                'total_amount'       => $jibitResult->totalAmount,
+                'created_at_jibit'   => $jibitResult->createdAt,
+                'updated_at_jibit'   => $jibitResult->updatedAt,
+                'records'            => $jibitResult->records,
+                'status'             => $state,
+                'expert_checkout_id' => $expertCheckout->id,
+            ]);
+
+            $expertCheckout->update(['status' => ExpertCheckoutStatusEnum::approved]);
+        } else {
+            return response(['success' => 400, 'message' => 'خطا در ارسال درخواست برداشت به سرویس جیبیت']);
+        }
+
+        return response(['success' => 200, 'message' => 'درخواست برداشت با موفقیت ارسال شد']);
     }
 
     /**
