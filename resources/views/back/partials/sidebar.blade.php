@@ -155,6 +155,14 @@
                                 </a>
                             </li>
                         @endcan
+                        @can('transactions.expert_checkouts')
+                            <li class="{{ active_class('admin.expert_checkouts.index') }}">
+                                <a href="{{ route('admin.expert_checkouts.index') }}">
+                                    <i class="feather icon-circle"></i>
+                                    <span class="menu-item">برداشت کارشناسان</span>
+                                </a>
+                            </li>
+                        @endcan
                     </ul>
                 </li>
             @endcan

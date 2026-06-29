@@ -49,7 +49,6 @@ class WalletCheckoutController extends Controller
 
         $walletCheckout = WalletCheckout::find($request->id);
 
-
         //jibit
         $jibit = new JibitService();
         $jibitResult = $jibit->settlement($walletCheckout->amount, $walletCheckout->user);

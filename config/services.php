@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'expert_checkout' => [
+        'token' => env('EXPERT_CHECKOUT_TOKEN'),
+    ],
+
 ];

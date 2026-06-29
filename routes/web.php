@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Back\ExpertCheckoutController;
 use App\Http\Controllers\Back\{AuctionController,
     CategoryController,
     CityController,
@@ -82,6 +83,10 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
     Route::get('wallet-checkouts', [WalletCheckoutController::class, 'index'])->name('wallets.checkouts.index');
     Route::post('wallet-checkouts/accept', [WalletCheckoutController::class, 'accept'])->name('wallets.checkouts.accept');
     Route::post('wallet-checkouts/reject', [WalletCheckoutController::class, 'reject'])->name('wallets.checkouts.reject');
+
+    Route::get('expert-checkouts', [ExpertCheckoutController::class, 'index'])->name('expert_checkouts.index');
+    Route::post('expert-checkouts/accept', [ExpertCheckoutController::class, 'accept'])->name('expert_checkouts.accept');
+    Route::post('expert-checkouts/reject', [ExpertCheckoutController::class, 'reject'])->name('expert_checkouts.reject');
 
     // ------------------ auctions
     Route::get('auctions/{auction}', [AuctionController::class, 'show'])->name('auctions.show');
