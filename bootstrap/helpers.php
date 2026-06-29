@@ -12,6 +12,7 @@ use App\Services\{FarazSms, KaveNegar, NajvaService};
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\{Artisan, Cache, Log, Route};
 use Illuminate\Support\{Str, Arr};
+use Illuminate\Support\Facades\Redis;
 
 /* add active class to li */
 
