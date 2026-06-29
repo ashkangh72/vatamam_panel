@@ -19,6 +19,6 @@ class SlideObserver
 
     private function clearCache(Slide $slide): void
     {
-        Cache::store('api')->forget('home_widgets_sliders' . $slide->group->name);
+        Cache::store('api')->forget('home_widgets_sliders' . $slide->group->id);
     }
 }
