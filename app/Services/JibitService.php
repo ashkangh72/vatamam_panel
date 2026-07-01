@@ -31,7 +31,7 @@ class JibitService
         $jibitRefreshToken = $jibitOptions->where('name', 'jibit_refresh_token_bank')->first();
         $jibitOptionsLastUpdate = $jibitOptions->where('name', 'jibit_options_last_update_bank')->first();
 
-        if ($jibitOptions->count() && Carbon::parse($jibitOptionsLastUpdate->value)->addHours(23) > Carbon::now()) {
+        if ($jibitOptions->count() && Carbon::parse($jibitOptionsLastUpdate->value)->addHours(12) > Carbon::now()) {
             $this->accessToken = $jibitAccessToken->value;
         } else {
             $tokens = $this->generateToken();
@@ -213,6 +213,36 @@ class JibitService
                 $body,
                 config('jibit.base_url_bank') . config('jibit.endpoints.settlement')
             );
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage() . json_encode($headers) . json_encode($body));
+        }
+    }
+
+    public function checkExpertSettlement($expertCheckoutTransaction): void
+    {
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->accessToken
+        ];
+
+        $body = [];
+
+        try {
+            $body = self::execute(
+                'get',
+                $headers,
+                $body,
+                config('jibit.base_url_bank') . config('jibit.endpoints.check_settlement') . '/' . $expertCheckoutTransaction->track_id
+            );
+
+            $state = '';
+            foreach ($body->records as $record) {
+                if ($record->recordType == 'PRIME') {
+                    $state = $record->state;
+                }
+            }
+
+            $expertCheckoutTransaction->update(['status' => $state, 'records' => $body->records]);
         } catch (Exception $exception) {
             Log::error($exception->getMessage() . json_encode($headers) . json_encode($body));
         }

@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('expert-checkouts', [\App\Http\Controllers\Api\ExpertCheckoutController::class, 'store']);
+Route::get('expert-checkouts/results', [\App\Http\Controllers\Api\ExpertCheckoutController::class, 'results']);
