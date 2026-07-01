@@ -31,7 +31,7 @@ class JibitService
         $jibitRefreshToken = $jibitOptions->where('name', 'jibit_refresh_token_bank')->first();
         $jibitOptionsLastUpdate = $jibitOptions->where('name', 'jibit_options_last_update_bank')->first();
 
-        if ($jibitOptions->count() && Carbon::parse($jibitOptionsLastUpdate->value)->addHours(12) > Carbon::now()) {
+        if ($jibitOptions->count() && Carbon::parse($jibitOptionsLastUpdate->value)->addHours(6) > Carbon::now()) {
             $this->accessToken = $jibitAccessToken->value;
         } else {
             $tokens = $this->generateToken();

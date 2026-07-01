@@ -24,11 +24,12 @@ class ExpertCheckoutController extends Controller
         $validated = $request->validate([
             'phone'       => 'required|string|max:20',
             'amount'      => 'required|numeric|min:1',
-            'iban'        => 'nullable|string|max:26',
+            'iban'        => 'required|string|max:26',
             'description' => 'nullable|string|max:500',
         ]);
 
         $validated['name'] = $request->fullname;
+        $validated['iban'] = 'IR'. $request->iban;
         $validated['status'] = ExpertCheckoutStatusEnum::pending_approval->value;
 
         $expertCheckout = ExpertCheckout::create($validated);
