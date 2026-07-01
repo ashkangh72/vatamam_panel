@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Back;
 
+use App\Enums\OrderStatusEnum;
 use App\Enums\SafeBoxHistoryTypeEnum;
 use App\Enums\WalletHistoryTypeEnum;
 use Illuminate\Contracts\View\View;
@@ -199,5 +200,39 @@ class OrderController extends Controller
         $order->refund()->update(['refunded_payment' => true]);
 
         return response('success');
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ValidationException
+     */
+    public function cancelOrder(Order $order)
+    {
+        if ($order->status !== OrderStatusEnum::paid) {
+            return response(['success' => 400, 'message' => 'سفارشی که پرداخت نشده است امکان لغو ندارد']);
+        }
+
+        if ($order->shipping_status === 'shipped') {
+            return response(['success' => 400, 'message' => 'سفارشی که ارسال شده است امکان لغو ندارد']);
+        }
+
+        DB::transaction(function () use ($order) {
+            $auction = $order->auctions()->first();
+            $auction->update(['is_ended' => false]);
+
+            $order->refundPayment();
+
+            DB::table('order_auction')
+                ->where('order_id', $order->id)
+                ->update(['status' => 'canceled']);
+
+            $order->update([
+                'status' => OrderStatusEnum::canceled,
+                'shipping_status' => null,
+            ]);
+        });
+
+        return response(['success' => 200, 'message' => 'سفارش با موفقیت لغو شد و مبلغ به کیف پول خریدار بازگشت داده شد']);
     }
 }

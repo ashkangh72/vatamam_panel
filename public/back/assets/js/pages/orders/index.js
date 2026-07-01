@@ -192,6 +192,10 @@ let order_datatable = (function () {
                     if (row.can_refund_payment)
                         actions += '<button data-action="' + row.links.refundPayment + '" class="btn btn-outline-success btn-refund">برگشت پرداختی</button>';
                 }
+                if (row.status == 'paid' && row.shipping_status != 'shipped') {
+                    actions += '<button data-action="' + row.links.cancelOrder + '" class="btn btn-outline-success btn-cancel">لغو سفارش</button>';
+                }
+
                 return actions + '</div>';
             },
         },
@@ -376,6 +380,63 @@ $(document).on('click', '.btn-refund', function (e) {
 
     swalWithBootstrapButtons.fire({
         title: 'آیا میخواهید مبلغ پرداختی را بازگردانی کنید ؟',
+        text: "",
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'تایید شود',
+        cancelButtonText: 'خیر',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: 'POST',
+                url: $(this).data('action'),
+                data: {},
+                success: function (data) {
+                    $(".modal").modal('hide');
+                    toastr.success('با موفقیت تایید شد.');
+
+                    window.location.reload();
+                },
+                beforeSend: function (xhr) {
+                    block('#main-card');
+                    xhr.setRequestHeader("X-CSRF-TOKEN", $('meta[name="csrf-token"]').attr('content'));
+                },
+                complete: function () {
+                    unblock('#main-card');
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            swalWithBootstrapButtons.fire(
+                'مشکلی پیش آمد دوباره تلاش کنید !',
+                '',
+                'error'
+            )
+        }
+    })
+});
+
+$(document).on('click', '.btn-cancel', function (e) {
+    e.preventDefault();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+        title: 'آیا میخواهید سفارش را لغو کنید؟',
         text: "",
         type: 'question',
         showCancelButton: true,

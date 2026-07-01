@@ -193,6 +193,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin/', 'middleware' => ['auth', '
 
     // ------------------ orders
     Route::get('orders/factors', [OrderController::class, 'factors'])->name('orders.factors');
+    Route::post('orders/cancel/{order}', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
     Route::post('orders/refund/payment/{order}', [OrderController::class, 'refundPayment'])->name('orders.refund.payment');
     Route::post('orders/refund/accept/{order}', [OrderController::class, 'acceptRefund'])->name('orders.refund.accept');
     Route::post('orders/refund/reject/{order}', [OrderController::class, 'rejectRefund'])->name('orders.refund.reject');
