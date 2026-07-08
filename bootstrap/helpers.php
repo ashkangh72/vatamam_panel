@@ -39,6 +39,13 @@ function open_class($route_list, $class = 'open')
 
 function option_update($option_name, $option_value): void
 {
+    if (is_null($option_value)) {
+        Option::where('name', $option_name)->delete();
+        Cache::forget('options.' . $option_name);
+
+        return;
+    }
+
     $option = Option::firstOrNew(['name' => $option_name]);
 
     $option->value = $option_value;
