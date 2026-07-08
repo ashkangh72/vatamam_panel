@@ -108,8 +108,10 @@ class SettingController extends Controller
         $socials = $request->all();
 
         foreach ($socials as $social => $value) {
-            if (is_null($value)) continue;
-            option_update($social, $value);
+            if (is_null($value))             
+                option_update($social, null);
+            else
+                option_update($social, $value);
         }
 
         return response('success');
@@ -146,8 +148,8 @@ class SettingController extends Controller
             // 'sms_on_auction_accept',
             // 'sms_on_auction_reject',
             // 'sms_on_auction_create',
-            
-            
+
+
             'sms_on_buy_product_to_seller',
             'sms_on_send_product_to_seller',
             'sms_on_satisfied_product_to_seller',
@@ -155,21 +157,21 @@ class SettingController extends Controller
             'sms_on_win_auction_to_seller',
             'sms_on_win_auction_quick_sale_to_seller',
             'sms_on_end_auction_to_seller',
-            
+
             'sms_on_send_product_to_buyer',
             'sms_on_accept_unsatisfied_product_to_buyer',
             'sms_on_reject_unsatisfied_product_to_buyer',
             'sms_on_win_auction_to_buyer',
             'sms_on_buy_product_to_buyer',
-            
+
             'sms_on_accept_product_to_seller',
             'sms_on_accept_auction_to_seller',
             'sms_on_reject_product_to_seller',
             'sms_on_reject_auction_to_seller',
-            
+
             'sms_on_notice_auction',
             'sms_on_transaction',
-            
+
             'sms_on_auction_higher_bid',
             'sms_on_auction_bid',
             'sms_on_auction_first_bid',
