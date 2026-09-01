@@ -54,7 +54,7 @@ class SliderController extends Controller
             'linkable_type' => ['nullable', 'string', 'in:auction,category'],
             'linkable_id' => ['nullable', 'numeric'],
             'published' => ['nullable'],
-            'link' => ['nullable', 'string', 'max:255'],
+            'link' => ['nullable', 'string', 'max:2048'],
         ]);
 
         $slide = Slide::create([
@@ -103,7 +103,7 @@ class SliderController extends Controller
             'linkable_type' => ['nullable', 'string', 'in:auction,category'],
             'linkable_id' => ['nullable', 'numeric'],
             'published' => ['nullable'],
-            'link' => ['nullable', 'string', 'max:255'],
+            'link' => ['nullable', 'string', 'max:2048'],
         ]);
 
         if ($request->hasFile('image')) {
