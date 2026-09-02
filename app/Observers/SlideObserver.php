@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Enums\SlideGroupEnum;
 use App\Models\Slide;
 use Illuminate\Support\Facades\Cache;
 
@@ -19,6 +20,14 @@ class SlideObserver
 
     private function clearCache(Slide $slide): void
     {
-        Cache::store('api')->forget('home_widgets_sliders' . $slide->group->id);
+        $groups = [$slide->group];
+
+        if ($slide->wasChanged('group')) {
+            $groups[] = SlideGroupEnum::tryFrom((int) $slide->getRawOriginal('group'));
+        }
+
+        foreach (array_filter(array_unique($groups, SORT_REGULAR)) as $group) {
+            Cache::store('api')->forget('home_widgets_sliders' . $group->value);
+        }
     }
 }
