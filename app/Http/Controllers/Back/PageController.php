@@ -65,15 +65,25 @@ class PageController extends Controller
             'content' => 'required',
         ]);
 
-        $slug = SlugService::createSlug(Page::class, 'slug', $request->slug ?: $request->title);
+        // Determine if slug should change
+        $titleChanged = $page->title !== $request->title;
 
-        Menu::where('url', $page->link($page->slug))->update([
-            'url' => $page->link($slug),
-        ]);
+        if ($titleChanged) {
+            $slug = SlugService::createSlug(Page::class, 'slug', $request->title);
 
-        Link::where('url', $page->link($page->slug))->update([
-            'url' => $page->link($slug),
-        ]);
+            // Only update related records if slug actually changed
+            if ($slug !== $page->slug) {
+                Menu::where('url', $page->link($page->slug))->update([
+                    'url' => $page->link($slug),
+                ]);
+
+                Link::where('url', $page->link($page->slug))->update([
+                    'url' => $page->link($slug),
+                ]);
+            }
+        } else {
+            $slug = $page->slug;
+        }
 
         $page->update([
             'title' => $request->title,
@@ -81,7 +91,6 @@ class PageController extends Controller
             'slug' => $slug,
             'published' => (bool)$request->published,
         ]);
-
         toastr()->success('صفحه با موفقیت ویرایش شد.');
 
         return response("success", 200);
