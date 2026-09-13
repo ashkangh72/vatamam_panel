@@ -160,6 +160,10 @@
                                 <a href="{{ route('admin.expert_checkouts.index') }}">
                                     <i class="feather icon-circle"></i>
                                     <span class="menu-item">برداشت کارشناسان</span>
+                                    @if (auth()->user()->panelNotifies('expert_checkouts') > 0)
+                                        <span class="badge badge badge-primary badge-pill float-right mr-2">
+                                            {{ auth()->user()->panelNotifies('expert_checkouts') }}</span>
+                                    @endif
                                 </a>
                             </li>
                         @endcan

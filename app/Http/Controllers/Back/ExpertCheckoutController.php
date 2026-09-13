@@ -23,7 +23,7 @@ class ExpertCheckoutController extends Controller
     {
         $this->authorize('transactions.expert_checkouts');
 
-        $expertCheckouts = ExpertCheckout::latest()->paginate(15);
+        $expertCheckouts = ExpertCheckout::with('expertCheckoutTransaction')->latest()->paginate(15);
 
         return view('back.expert_checkouts.index', compact('expertCheckouts'));
     }
@@ -45,6 +45,8 @@ class ExpertCheckoutController extends Controller
         ]);
 
         $expertCheckout = ExpertCheckout::find($request->id);
+
+        ExpertCheckout::find($request->id)->update(['status' => ExpertCheckoutStatusEnum::approved]);
 
         if (!$this->service->processAccept($expertCheckout)) {
             return response(['success' => 400, 'message' => 'خطا در ارسال درخواست برداشت به سرویس جیبیت']);

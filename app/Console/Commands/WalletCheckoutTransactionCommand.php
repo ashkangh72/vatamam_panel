@@ -13,7 +13,7 @@ class WalletCheckoutTransactionCommand extends Command
 
     public function handle()
     {
-        $finalStatuses = ['TRANSFERRED', 'FAILED', 'TRANSFERRED_REVERTED', 'FAILED_WRONG'];
+        $finalStatuses = ['TRANSFERRED', 'FAILED', 'TRANSFERRED_REVERTED', 'FAILED_WRONG', 'CANCELLED'];
 
         $walletTransactions = WalletCheckoutTransaction::whereNotIn('status', $finalStatuses)->get();
         $expertTransactions = ExpertCheckoutTransaction::whereNotIn('status', $finalStatuses)->get();

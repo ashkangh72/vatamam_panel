@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AuctionStatusEnum;
+use App\Enums\ExpertCheckoutStatusEnum;
 use App\Enums\WalletCheckoutStatusEnum;
 use App\Notifications\{
     AuctionAcceptNotification,
@@ -546,6 +547,10 @@ class User extends Model implements AuthenticatableContract
             return WalletCheckout::where('status', WalletCheckoutStatusEnum::pending_approval)->count();
         }
 
+        if ($type == 'expert_checkouts') {
+            return ExpertCheckout::where('status', ExpertCheckoutStatusEnum::pending_approval)->count();
+        }
+
         if ($type == 'transactions') {
             $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/admin/transactions' . '%')->orderBy('created_at', 'desc')->first();
             return is_null($lastLogin) ? Transaction::count() : Transaction::where('created_at', '>', $lastLogin->created_at)->count();
@@ -558,12 +563,13 @@ class User extends Model implements AuthenticatableContract
 
         if ($type == 'checkouts_transactions') {
             $i = WalletCheckout::where('status', WalletCheckoutStatusEnum::pending_approval)->count();
+            $expertCheckoutsCount = ExpertCheckout::where('status', ExpertCheckoutStatusEnum::pending_approval)->count();
             $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/admin/transactions' . '%')->orderBy('created_at', 'desc')->first();
             $i1 = is_null($lastLogin) ? Transaction::count() : Transaction::where('created_at', '>', $lastLogin->created_at)->count();
             $lastLogin = Viewer::where('user_id', $this->id)->where('path', 'like', '%' . '/admin/mali/details' . '%')->orderBy('created_at', 'desc')->first();
             $i2 = is_null($lastLogin) ? WalletHistory::count() : WalletHistory::where('created_at', '>', $lastLogin->created_at)->count();
 
-            return ($i + $i1 + $i2);
+            return ($i + $expertCheckoutsCount + $i1 + $i2);
         }
 
         return 0;

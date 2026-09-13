@@ -39,6 +39,7 @@
                                                 <th>توضیحات</th>
                                                 <th>تاریخ</th>
                                                 <th>وضعیت</th>
+                                                <th>وضعیت جیبیت</th>
                                                 <th class="text-center">عملیات</th>
                                             </tr>
                                         </thead>
@@ -60,6 +61,28 @@
                                                         @elseif ($expertCheckout->status == \App\Enums\ExpertCheckoutStatusEnum::rejected)
                                                             <div class="badge badge-pill badge-danger badge-md">رد شده</div>
                                                         @endif
+                                                    </td>
+                                                    <td>
+                                                        @switch(optional($expertCheckout->expertCheckoutTransaction)->status)
+                                                            @case('TRANSFERRED')
+                                                                <div class="badge badge-pill badge-success badge-md">انتقال وجه با موفقیت انجام شد</div>
+                                                                @break
+                                                            @case('FAILED')
+                                                            @case('FAILED_WRONG')
+                                                                <div class="badge badge-pill badge-danger badge-md">انتقال وجه ناموفق بود</div>
+                                                                @break
+                                                            @case('TRANSFERRED_REVERTED')
+                                                                <div class="badge badge-pill badge-warning badge-md">انتقال وجه برگشت داده شد</div>
+                                                                @break
+                                                            @case('CANCELLED')
+                                                                <div class="badge badge-pill badge-secondary badge-md">لغو شده</div>
+                                                                @break
+                                                            @case(null)
+                                                                <span>--</span>
+                                                                @break
+                                                            @default
+                                                                <div class="badge badge-pill badge-info badge-md">در حال انجام تراکنش برداشت</div>
+                                                        @endswitch
                                                     </td>
                                                     <td class="text-center">
                                                         <div class="btn-group-vertical">
