@@ -192,6 +192,8 @@ class JibitService
 
     public function settlementToIban($amount, string $destinationIban)
     {
+        $destinationIban = 'IR' . preg_replace('/^(?:IR)+/i', '', trim($destinationIban));
+
         $headers = [
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->accessToken
